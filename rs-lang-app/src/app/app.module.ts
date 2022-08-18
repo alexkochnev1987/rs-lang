@@ -11,6 +11,8 @@ import { AboutPageComponent } from './components/about-page/about-page.component
 import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
 import { SprintComponent } from './components/sprint/sprint.component';
 import { AudioChallengeComponent } from './components/audio-challenge/audio-challenge.component';
+import { HeaderComponent } from './shared-components/header/header.component';
+import { FooterComponent } from './shared-components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { AudioChallengeComponent } from './components/audio-challenge/audio-chal
     StatisticsPageComponent,
     SprintComponent,
     AudioChallengeComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
