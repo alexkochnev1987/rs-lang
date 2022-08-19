@@ -7,5 +7,13 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   logo = '{RS-lang}';
+  blindTitle = 'EXERCISE BOOK';
+  isInvisible = true;
   constructor() {}
+  showMenu() {
+    this.isInvisible = !this.isInvisible;
+  }
+  hideMenu() {
+    this.isInvisible = true;
+  }
 }

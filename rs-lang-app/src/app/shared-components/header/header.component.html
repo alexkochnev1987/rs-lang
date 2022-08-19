@@ -1,10 +1,16 @@
 <div class="header">
-  <div class="/logo">{{ logo }}</div>
+  <div [ngClass]="{ logo: true }">{{ logo }}</div>
   <a routerLink="">MAIN PAGE</a>
-  <a routerLink="/exercise-book">EXERCISE BOOK</a>
+  <div [ngClass]="{ ebook: true }" (click)="showMenu()">EXERCISE BOOK</div>
   <a routerLink="/sprint">SPRINT</a>
   <a routerLink="/audio-challenge">AUDIO CHALLENGE</a>
   <a routerLink="/statistics">STATISTICS</a>
   <a routerLink="/about">ABOUT</a>
   <a routerLink="/authorization">AUTHORIZATION</a>
+</div>
+<div [ngClass]="{ menu: true, invisible: isInvisible }" (click)="showMenu()">
+  <div>
+    <app-units-menu></app-units-menu>
+  </div>
+  <div [ngClass]="{ blind: true }">{{ blindTitle }}</div>
 </div>

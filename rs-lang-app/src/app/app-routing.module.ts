@@ -10,7 +10,7 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
 const routes: Routes = [
   { path: 'about', component: AboutPageComponent },
   { path: 'authorization', component: AuthorizationPageComponent },
-  { path: 'exercise-book', component: ExerciseBookComponent },
+  { path: 'exercise-book/:id', component: ExerciseBookComponent },
   { path: 'sprint', component: SprintComponent },
   { path: 'audio-challenge', component: AudioChallengeComponent },
   { path: 'statistics', component: StatisticsPageComponent },
