@@ -13,6 +13,7 @@ import { SprintComponent } from './components/sprint/sprint.component';
 import { AudioChallengeComponent } from './components/audio-challenge/audio-challenge.component';
 import { HeaderComponent } from './shared-components/header/header.component';
 import { FooterComponent } from './shared-components/footer/footer.component';
+import { UnitsMenuComponent } from './shared-components/units-menu/units-menu.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FooterComponent } from './shared-components/footer/footer.component';
     AudioChallengeComponent,
     HeaderComponent,
     FooterComponent,
+    UnitsMenuComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
