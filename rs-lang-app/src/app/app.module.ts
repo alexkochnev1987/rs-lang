@@ -14,6 +14,8 @@ import { AudioChallengeComponent } from './components/audio-challenge/audio-chal
 import { HeaderComponent } from './shared-components/header/header.component';
 import { FooterComponent } from './shared-components/footer/footer.component';
 import { UnitsMenuComponent } from './shared-components/units-menu/units-menu.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,13 @@ import { UnitsMenuComponent } from './shared-components/units-menu/units-menu.co
     FooterComponent,
     UnitsMenuComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    CoreModule,
+    SharedModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
