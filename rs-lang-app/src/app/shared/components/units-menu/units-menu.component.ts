@@ -7,6 +7,7 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   selector: 'app-units-menu',
   templateUrl: './units-menu.component.html',
   styleUrls: ['./units-menu.component.scss'],
+  providers: [UnitsDataService, UserDataService],
 })
 export class UnitsMenuComponent implements OnInit {
   units: { id: number; name: string }[] = [];
