@@ -1,6 +1,13 @@
 <app-header></app-header>
 <h2>It's TextBook Page. LEVEL {{ group }}</h2>
 <div [ngClass]="{ 'cards-container': true }">
-  <p *ngFor="let card of cards">{{ card.word }} => {{ card.wordTranslate }}</p>
+  <div *ngFor="let card of cards">
+    <img
+      [ngClass]="{ 'word-image': true }"
+      src="{{ dataUrl }}{{ card.image }}"
+      alt="" />
+    <div>{{ card.word }} => {{ card.wordTranslate }}</div>
+    <div (click)="playAudio(card.audio)">PLAY</div>
+  </div>
   <app-footer></app-footer>
 </div>

@@ -30,9 +30,25 @@ class WordCard {
 })
 export class TextbookComponent implements OnInit {
   dataUrl = 'https://learnlangapp1.herokuapp.com/';
-  group: number | undefined;
+  group: number = 0;
   page = 0;
   cards: WordCard[] = [];
+  card: WordCard = {
+    id: '',
+    group: 0,
+    page: 0,
+    word: '',
+    image: '',
+    audio: '',
+    audioMeaning: '',
+    audioExample: '',
+    textMeaning: '',
+    textExample: '',
+    transcription: '',
+    wordTranslate: '',
+    textMeaningTranslate: '',
+    textExampleTranslate: '',
+  };
 
   private subscription: Subscription;
   constructor(
@@ -45,7 +61,11 @@ export class TextbookComponent implements OnInit {
   }
   ngOnInit() {
     this.httpService
-      .getData(this.dataUrl + `words?group=${this.group}&page=${this.page}`)
+      .getData(this.dataUrl + `words?group=${this.group - 1}&page=${this.page}`)
       .subscribe({ next: (data: any) => (this.cards = data) });
+  }
+  playAudio(url: string) {
+    const audio = new Audio(this.dataUrl + url);
+    audio.play();
   }
 }
