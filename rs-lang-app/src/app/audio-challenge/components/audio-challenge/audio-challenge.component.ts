@@ -3,13 +3,8 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-audio-challenge',
   templateUrl: './audio-challenge.component.html',
-  styleUrls: ['./audio-challenge.component.scss']
+  styleUrls: ['./audio-challenge.component.scss'],
 })
-export class AudioChallengeComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class AudioChallengeComponent {
+  constructor() {}
 }

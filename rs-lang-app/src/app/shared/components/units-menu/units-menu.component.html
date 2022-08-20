@@ -1,5 +1,7 @@
 <div [ngClass]="{ container: true }">
   <div [ngClass]="{ line: true }" *ngFor="let unit of units">
-    <a [routerLink]="['/exercise-book', unit.id]">{{ unit.name }}</a>
+    <p (click)="goOnLink(unit.id)" *ngIf="isRegisteredUser(unit.id)">
+      {{ unit.name }}
+    </p>
   </div>
 </div>

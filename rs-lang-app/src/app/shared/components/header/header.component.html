@@ -1,0 +1,16 @@
+<div class="header">
+  <div [ngClass]="{ logo: true }" (click)="goOnLink('')">{{ logo }}</div>
+  <p (click)="goOnLink('')">MAIN PAGE</p>
+  <p [ngClass]="{ ebook: true }" (click)="showMenu()">TEXTBOOK</p>
+  <p (click)="goOnLink('/sprint')">SPRINT</p>
+  <p (click)="goOnLink('/audio-challenge')">AUDIO CHALLENGE</p>
+  <p (click)="goOnLink('/statistics')">STATISTICS</p>
+  <p (click)="goOnLink('/about')">ABOUT</p>
+  <p (click)="goOnLink('/authorization')">AUTHORIZATION</p>
+</div>
+<div [ngClass]="{ menu: true, invisible: isInvisible }" (click)="showMenu()">
+  <div>
+    <app-units-menu></app-units-menu>
+  </div>
+  <div [ngClass]="{ blind: true }">{{ blindTitle }}</div>
+</div>

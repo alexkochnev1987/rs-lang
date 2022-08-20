@@ -1,3 +1,6 @@
+p {
+  cursor: pointer;
+}
 .header {
   display: flex;
   align-items: center;
@@ -10,29 +13,32 @@ a {
   margin-left: 30px;
   text-decoration: none;
 }
-.ebook{
+.ebook {
   cursor: pointer;
 }
-.invisible{
+.invisible {
   margin-left: -18vw;
   transition: 1s;
 }
-.menu{
+.menu {
   display: flex;
   position: absolute;
   top: 6vh;
-  width:20vw;
-  height:fit-content;
+  width: 20vw;
+  height: fit-content;
   background-color: #eeeeee;
   transition: 1s;
   opacity: 0.9;
 }
-.blind{
-  width:5vw;
-  writing-mode:vertical-rl;
+.blind {
+  width: 5vw;
+  writing-mode: vertical-rl;
   font-size: 1.5rem;
   display: flex;
   justify-content: center;
-  align-items:flex-end;
+  align-items: flex-end;
   transform: rotate(180deg);
+}
+.logo {
+  cursor: pointer;
 }

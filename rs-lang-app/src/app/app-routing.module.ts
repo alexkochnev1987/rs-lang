@@ -1,20 +1,44 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutPageComponent } from './components/about-page/about-page.component';
-import { AudioChallengeComponent } from './components/audio-challenge/audio-challenge.component';
-import { AuthorizationPageComponent } from './components/authorization-page/authorization-page.component';
-import { ExerciseBookComponent } from './components/exercise-book/exercise-book.component';
-import { MainPageComponent } from './components/main-page/main-page.component';
-import { SprintComponent } from './components/sprint/sprint.component';
-import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
+
 const routes: Routes = [
-  { path: 'about', component: AboutPageComponent },
-  { path: 'authorization', component: AuthorizationPageComponent },
-  { path: 'exercise-book/:id', component: ExerciseBookComponent },
-  { path: 'sprint', component: SprintComponent },
-  { path: 'audio-challenge', component: AudioChallengeComponent },
-  { path: 'statistics', component: StatisticsPageComponent },
-  { path: '', component: MainPageComponent },
+  {
+    path: 'about',
+    loadChildren: () => import('./about/about.module').then(m => m.AboutModule),
+  },
+  {
+    path: 'authorization',
+    loadChildren: () =>
+      import('./authorization/authorization.module').then(
+        m => m.AuthorizationModule
+      ),
+  },
+  {
+    path: 'textbook/:id',
+    loadChildren: () =>
+      import('./textbook/textbook.module').then(m => m.TextbookModule),
+  },
+  {
+    path: 'sprint',
+    loadChildren: () =>
+      import('./sprint/sprint.module').then(m => m.SprintModule),
+  },
+  {
+    path: 'audio-challenge',
+    loadChildren: () =>
+      import('./audio-challenge/audio-challenge.module').then(
+        m => m.AudioChallengeModule
+      ),
+  },
+  {
+    path: 'statistics',
+    loadChildren: () =>
+      import('./statistics/statistics.module').then(m => m.StatisticsModule),
+  },
+  {
+    path: '',
+    loadChildren: () => import('./main/main.module').then(m => m.MainModule),
+  },
 ];
 
 @NgModule({

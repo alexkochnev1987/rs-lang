@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,13 +8,13 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   logo = '{RS-lang}';
-  blindTitle = 'EXERCISE BOOK';
+  blindTitle = 'TEXTBOOK';
   isInvisible = true;
-  constructor() {}
+  constructor(private router: Router) {}
   showMenu() {
     this.isInvisible = !this.isInvisible;
   }
-  hideMenu() {
-    this.isInvisible = true;
+  goOnLink(link: string) {
+    this.router.navigate([link]);
   }
 }
