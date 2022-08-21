@@ -6,9 +6,17 @@ import { AuthorizationComponent } from './components/authorization/authorization
 import { SharedModule } from '../shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AuthorizationComponent, LoginComponent, RegistrationComponent],
-  imports: [CommonModule, AuthorizationRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    AuthorizationRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
 })
 export class AuthorizationModule {}
