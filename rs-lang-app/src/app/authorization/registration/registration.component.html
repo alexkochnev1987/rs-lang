@@ -1,8 +1,21 @@
 <app-header></app-header>
 <form [formGroup]="form" class="authorization">
-  <h3 *ngIf="!username">Log in</h3>
-  <h2 *ngIf="username">Hello {{ username }}</h2>
-  <div *ngIf="!username">
+  <h3>Registration</h3>
+  <div>
+    <input
+      placeholder="Name"
+      type="text"
+      class="input"
+      formControlName="name"
+      id="name"
+      [ngClass]="{
+        invalid: form.get('name')?.invalid && form.get('name')?.touched
+      }" />
+    <p
+      *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+      class="error">
+      Enter valid name(min length 8)
+    </p>
     <input
       placeholder="Email"
       formControlName="email"
@@ -34,18 +47,13 @@
       Min length 8
     </p>
   </div>
+  <button type="submit" class="login" (click)="goToLogin()">Login</button>
   <button
-    *ngIf="!username"
-    type="submit"
-    class="login"
-    (click)="onSubmit()"
+    class="register"
+    (click)="onRegistration()"
     [disabled]="form.invalid || form.disabled">
-    Login
-  </button>
-  <button *ngIf="!username" class="register" (click)="goToRegistration()">
     Register
   </button>
-  <button *ngIf="username" class="logout" (click)="logOut()">Logout</button>
   <div class="text-image">
     <div class="text-wrapper">
       <div class="text-done">

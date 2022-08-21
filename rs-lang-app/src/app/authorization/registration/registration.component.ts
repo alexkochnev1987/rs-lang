@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { RouterParams } from '../../constants';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  username = '';
+export class RegistrationComponent implements OnInit {
   form: FormGroup;
   constructor(private auth: AuthService, private router: Router) {
     this.form = new FormGroup({});
   }
 
   ngOnInit(): void {
-    this.validateFom();
-  }
-
-  validateFom() {
     this.form = new FormGroup({
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
         Validators.required,
@@ -30,12 +29,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onRegistration() {
     this.form.disable();
     console.log(this.form.value);
-    this.auth.login(this.form.value).subscribe({
+    this.auth.register(this.form.value).subscribe({
       next: r => {
-        this.username = r.name;
+        this.goToLogin();
         console.log(r);
       },
       error: error => {
@@ -44,13 +43,7 @@ export class LoginComponent implements OnInit {
       },
     });
   }
-
-  logOut() {
-    this.auth.logOut();
-    this.username = '';
-    this.validateFom();
-  }
-  goToRegistration() {
-    this.router.navigate([RouterParams.registration]);
+  goToLogin() {
+    this.router.navigate([RouterParams.login]);
   }
 }
