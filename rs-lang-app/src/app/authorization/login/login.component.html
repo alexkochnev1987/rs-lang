@@ -1,23 +1,7 @@
 <app-header></app-header>
-<a routerLink="/authorization/register">Registration</a>
-<p>login works!</p>
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="authorization">
+<form [formGroup]="form" class="authorization">
   <h3>Log in</h3>
   <div>
-    <input
-      placeholder="Name"
-      type="text"
-      class="input"
-      formControlName="name"
-      id="name"
-      [ngClass]="{
-        invalid: form.get('name')?.invalid && form.get('name')?.touched
-      }" />
-    <p
-      *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
-      class="error">
-      Enter valid name(min length 5)
-    </p>
     <input
       placeholder="Email"
       formControlName="email"
@@ -46,11 +30,19 @@
     <p
       *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
       class="error">
-      Min length 5
+      Min length 8
     </p>
   </div>
-  <button type="submit" class="login" [disabled]="form.invalid">Login</button>
-  <button class="register">Register</button>
+  <button
+    type="submit"
+    class="login"
+    (click)="onSubmit()"
+    [disabled]="form.invalid">
+    Login
+  </button>
+  <button class="register">
+    <a routerLink="/authorization/register">Register</a>
+  </button>
   <div class="text-image">
     <div class="text-wrapper">
       <div class="text-done">

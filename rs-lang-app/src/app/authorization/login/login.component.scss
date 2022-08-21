@@ -51,6 +51,10 @@ button{
   font-size: 14px;
   line-height: 18px;
   text-align: center;
+  a{
+    text-decoration: none;
+    color: #ffffff;
+  }
 }
 .login{
   background:linear-gradient(180deg, #88E564 0%, #6CD244 100%);
