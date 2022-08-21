@@ -1,3 +1,65 @@
-.cards-container{
-  margin-left: 40vw;
+.cards-container {
+  margin-left: 20vw;
+  margin-bottom: 100px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 270px;
+  height: 400px;
+  overflow: hidden;
+  border: 2px solid #eeeeee;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+  overflow: auto;
+  transition: 2s all;
+
+}
+.word-image {
+  width: 240px;
+  height: 180px;
+}
+.speaker {
+  background-image: url(../../../../assets/images/speaker.png);
+  background-size: cover;
+  width: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  cursor: pointer;
+}
+.page-number {
+  margin-left: 20px;
+  cursor: pointer;
+}
+.pagination {
+  height: 50px;
+  width: 90%;
+  margin-left: 50px;
+  margin-bottom: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  text-align: center;
+}
+.current-page {
+  color: red;
+  font-weight: 900;
+}
+.go-up {
+  position: fixed;
+  left: 20px;
+  bottom: 200px;
+  font-size: 1.5rem;
+}
+a {
+  text-decoration: none;
+  display: block;
 }

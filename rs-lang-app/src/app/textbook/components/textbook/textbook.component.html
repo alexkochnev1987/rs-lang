@@ -1,6 +1,58 @@
 <app-header></app-header>
-<h2>It's TextBook Page. LEVEL {{ group }}</h2>
-<div [ngClass]="{ 'cards-container': true }">
-  <p *ngFor="let card of cards">{{ card.word }} => {{ card.wordTranslate }}</p>
-  <app-footer></app-footer>
+<div class="title-container">
+  <h2 class="title" (change)="load()">
+    TEXTBOOK&nbsp;&nbsp; LEVEL {{ group }}&nbsp;&nbsp; PAGE {{ page + 1 }}
+  </h2>
+  <div class="pagination">
+    <span
+      [class.current-page]="i === page + 1"
+      class="page-number"
+      *ngFor="let i of pagination()"
+      (click)="changePage(i)"
+      >{{ i }}</span
+    >
+  </div>
 </div>
+<div class="cards-container">
+  <div
+    class="card"
+    *ngFor="let card of cards"
+    (mouseover)="onMouseOver(card.id)">
+    <img
+      class="word-image"
+      src="{{ source }}{{ card.image }}"
+      alt="word-image" />
+    <div>{{ card.word }}</div>
+    <div>{{ card.transcription }}</div>
+    <p class="speaker" (click)="playAudio(card.audio)"></p>
+    <p>{{ card.wordTranslate }}</p>
+    <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textMeaning"></p>
+    <div
+      *ngIf="checkIsMore(card.id)"
+      class="speaker"
+      (click)="playAudio(card.audioMeaning)"></div>
+    <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textExample"></p>
+    <div
+      *ngIf="checkIsMore(card.id)"
+      class="speaker"
+      (click)="playAudio(card.audioExample)"></div>
+    <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textMeaningTranslate"></p>
+    <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textExampleTranslate"></p>
+    <button [disabled]="!isUser()">DIFFICULT</button>
+  </div>
+</div>
+<div class="pagination">
+  <span
+    id="down"
+    [class.current-page]="i === page + 1"
+    class="page-number"
+    *ngFor="let i of pagination()"
+    (click)="changePage(i)"
+    >{{ i }}</span
+  >
+</div>
+<div class="go-up">
+  <a href="/textbook/{{ group }}#">UP</a>
+  <a href="/textbook/{{ group }}#down">DOWN</a>
+</div>
+<app-footer></app-footer>

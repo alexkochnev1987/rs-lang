@@ -21,8 +21,8 @@ a {
   transition: 1s;
 }
 .menu {
+  position: fixed;
   display: flex;
-  position: absolute;
   top: 60px;
   width: 20vw;
   height: fit-content;
