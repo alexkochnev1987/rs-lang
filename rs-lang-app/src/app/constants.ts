@@ -5,11 +5,11 @@ export enum QueryParams {
   words = '/words',
 }
 export interface LoginResponse {
-  message: 'string';
-  token: 'string';
-  refreshToken: 'string';
-  userId: 'string';
-  name: 'string';
+  message: string;
+  token: string;
+  refreshToken: string;
+  userId: string;
+  name: string;
 }
 export interface User {
   name?: string;
@@ -18,9 +18,9 @@ export interface User {
 }
 
 export interface RegisterResponse {
-  name: 'string';
-  email: 'string';
-  password: 'string';
+  name: string;
+  email: string;
+  password: string;
 }
 
 export enum RouterParams {

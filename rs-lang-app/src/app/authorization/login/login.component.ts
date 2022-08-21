@@ -34,9 +34,8 @@ export class LoginComponent implements OnInit {
     this.form.disable();
     console.log(this.form.value);
     this.auth.login(this.form.value).subscribe({
-      next: r => {
-        this.username = r.name;
-        console.log(r);
+      next: response => {
+        this.username = response.name;
       },
       error: error => {
         this.form.enable();

@@ -33,9 +33,8 @@ export class RegistrationComponent implements OnInit {
     this.form.disable();
     console.log(this.form.value);
     this.auth.register(this.form.value).subscribe({
-      next: r => {
+      next: response => {
         this.goToLogin();
-        console.log(r);
       },
       error: error => {
         this.form.enable();
