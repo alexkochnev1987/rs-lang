@@ -24,6 +24,6 @@ export class UnitsMenuComponent implements OnInit {
     this.router.navigate(['textbook', id]);
   }
   isRegisteredUser(i: number) {
-    return i < 7 || this.userDataService.isRegistred();
+    return i < 7 || this.userDataService.isRegistered();
   }
 }

@@ -1,0 +1,30 @@
+$loginFormBackground: #d698ec;
+$textInFormColor:#ffffff;
+$loginButtonBackground:linear-gradient(180deg, #88e564 0%, #6cd244 100%);
+$registrationButtonBackground: linear-gradient(180deg, #ff9100 0%, #ff7a00 100%);
+$formFontFamilyText: 'New Rubrik Edge';
+$formDataInvalid: #ff9100;
+$formErrorMessageColor:red;
+
+@mixin fontSize14 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+@mixin boldFontSize14 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+@mixin fontSize16{
+  font-family:$formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 20px;
+}
