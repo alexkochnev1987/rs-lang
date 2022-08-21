@@ -10,4 +10,10 @@ export class UserDataService {
   isRegistred() {
     return this.isUser;
   }
+  userLogIn() {
+    this.isUser = true;
+  }
+  userLogOut() {
+    this.isUser = false;
+  }
 }
