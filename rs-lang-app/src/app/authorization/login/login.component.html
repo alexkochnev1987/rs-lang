@@ -1,7 +1,19 @@
 <app-header></app-header>
 <form [formGroup]="form" class="authorization">
-  <h3>Log in</h3>
-  <div>
+  <h3 *ngIf="!username && login">Log in</h3>
+  <h3 *ngIf="!username && !login">Registration</h3>
+  <h2 *ngIf="username">Hello {{ username }}</h2>
+  <div *ngIf="!username">
+    <input
+      *ngIf="!login"
+      placeholder="Name"
+      type="text"
+      class="input"
+      formControlName="name"
+      id="name"
+      [ngClass]="{
+        invalid: form.get('name')?.invalid && form.get('name')?.touched
+      }" />
     <input
       placeholder="Email"
       formControlName="email"
@@ -34,15 +46,34 @@
     </p>
   </div>
   <button
+    *ngIf="!username && login"
     type="submit"
     class="login"
     (click)="onSubmit()"
-    [disabled]="form.invalid">
+    [disabled]="form.invalid || form.disabled">
     Login
   </button>
-  <button class="register">
-    <a routerLink="/authorization/register">Register</a>
+  <button
+    *ngIf="!username && login"
+    class="register"
+    (click)="switchRegister()">
+    Register
   </button>
+  <button
+    type="submit"
+    class="login"
+    *ngIf="!username && !login"
+    (click)="switchLogin()">
+    Login
+  </button>
+  <button
+    *ngIf="!username && !login"
+    class="register"
+    (click)="onRegistration()"
+    [disabled]="form.invalid || form.disabled">
+    Register
+  </button>
+  <button *ngIf="username" class="logout" (click)="logOut()">Logout</button>
   <div class="text-image">
     <div class="text-wrapper">
       <div class="text-done">

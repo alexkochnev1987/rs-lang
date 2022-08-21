@@ -4,6 +4,10 @@
   background-color: #D698EC;
   height: 100%;
   width: 378px;
+  h2{
+    color: #ffffff;
+    text-align: center;
+  }
 }
 .text-image{
   display: flex;
@@ -92,4 +96,11 @@ h3{
 }
 .invalid{
   background-color: #FF9100;
+}
+
+.logout{
+  margin: 0 auto;
+  width: 115px;
+  height: 34px;
+  background: linear-gradient(180deg, #FF9100 0%, #FF7A00 100%);
 }
