@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { SOURCE } from 'src/app/config';
+import { SOURCE } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 

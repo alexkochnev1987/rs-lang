@@ -55,6 +55,11 @@
 }
 .title {
   text-align: center;
+  position: relative;
+
+}
+.title-container{
+  z-index: -1;
 }
 .current-page {
   color: red;

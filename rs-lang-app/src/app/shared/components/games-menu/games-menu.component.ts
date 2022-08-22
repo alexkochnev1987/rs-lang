@@ -6,12 +6,10 @@ import { Router } from '@angular/router';
   templateUrl: './games-menu.component.html',
   styleUrls: ['./games-menu.component.scss'],
 })
-export class GamesMenuComponent implements OnInit {
-  game1 = 'SRPINTER';
-  game2 = 'AUDIO CHALLENGE';
+export class GamesMenuComponent {
+  game1 = 'AUDIO-CHALLENGE';
+  game2 = 'SPRINT';
   constructor(private router: Router) {}
-
-  ngOnInit(): void {}
 
   goOnLink(link: string) {
     this.router.navigate([link]);
