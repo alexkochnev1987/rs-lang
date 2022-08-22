@@ -11,14 +11,15 @@ export class HeaderComponent {
   logoPart2 = 'RS';
   logoPart3 = '}';
   logoPart4 = 'Lang';
-  isInvisible = true;
+  isMenuInvisible = true;
+  isGamesMenuInvisible = true;
   constructor(private router: Router) {}
 
   showMenu() {
-    this.isInvisible = !this.isInvisible;
+    this.isMenuInvisible = !this.isMenuInvisible;
   }
   showGamesMenu(){
-    
+    this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
   }
   goOnLink(link: string) {
     this.router.navigate([link]);

@@ -38,6 +38,18 @@ p {
   transition: 1s;
 
 }
+.game-menu {
+  position: fixed;
+  display: flex;
+  top: 70px;
+  right:450px;
+  width: 250px;
+  height: fit-content;
+  background-color: #eeeeee;
+  transition: 1s;
+
+
+}
 .logo {
   cursor: pointer;
   position: relative;

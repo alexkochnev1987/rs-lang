@@ -84,4 +84,7 @@ export class TextbookComponent implements OnInit {
   isUser() {
     return this.userDataService.isRegistred();
   }
+  f() {
+    alert();
+  }
 }

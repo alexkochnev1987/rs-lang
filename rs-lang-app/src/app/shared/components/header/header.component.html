@@ -13,8 +13,15 @@
     <p (click)="goOnLink('/authorization')">AUTHORIZATION</p>
   </div>
 </div>
-<div [ngClass]="{ menu: true, invisible: isInvisible }" (click)="showMenu()">
-  <div>
-    <app-units-menu></app-units-menu>
-  </div>
+<div
+  class="menu"
+  [ngClass]="{ invisible: isMenuInvisible }"
+  (click)="showMenu()">
+  <app-units-menu></app-units-menu>
+</div>
+<div
+  class="game-menu"
+  [ngClass]="{ invisible: isGamesMenuInvisible }"
+  (click)="showMenu()">
+  <app-games-menu></app-games-menu>
 </div>
