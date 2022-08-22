@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.form.value).subscribe({
       next: response => {
         this.username = response.name;
+        console.log(response);
       },
       error: error => {
         this.form.enable();

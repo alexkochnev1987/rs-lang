@@ -39,5 +39,7 @@ export enum PageRoutes {
 }
 
 export enum LocalStorageKeys {
-  token = 'auth-token',
+  token = 'token',
+  refreshToken = 'refreshToken',
+  userId = 'userId',
 }
