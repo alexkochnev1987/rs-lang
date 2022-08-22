@@ -33,6 +33,6 @@ export class UnitsMenuComponent implements OnInit {
   }
 
   isRegisteredUser(i: number) {
-    return i < 7 || this.userDataService.isRegistred();
+    return i < 7 || this.userDataService.isRegistered();
   }
 }
