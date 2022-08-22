@@ -17,18 +17,15 @@ export class LocalStorageService {
   }
 
   getItem(key: string): string | null {
-    return this.storage.getItem(key);
-  }
-
-  key(index: number): string | null {
-    return this.storage.key(index);
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
   }
 
   removeItem(key: string): void {
-    this.storage.removeItem(key);
+    localStorage.removeItem(key);
   }
 
-  setItem(key: string, value: string): void {
-    this.storage.setItem(key, value);
+  setItem(key: string, value: any): void {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 }
