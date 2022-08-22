@@ -9,6 +9,7 @@ import {
   url,
   User,
 } from '../../constants';
+import { LocalStorageService } from './localstorage.service';
 import { UserDataService } from './user-data.service';
 
 @Injectable({
@@ -17,6 +18,7 @@ import { UserDataService } from './user-data.service';
 export class AuthService {
   private token = '';
   constructor(
+    private localStorage: LocalStorageService,
     private http: HttpClient,
     private userDataService: UserDataService
   ) {}
@@ -26,7 +28,15 @@ export class AuthService {
       .pipe(
         tap(response => {
           this.setToken(response.token);
-          this.setLocalStorage(LocalStorageKeys.token, this.token);
+          Object.keys(response).forEach(key => {
+            if (
+              key === LocalStorageKeys.token ||
+              key === LocalStorageKeys.refreshToken ||
+              key === LocalStorageKeys.userId
+            ) {
+              this.setLocalStorage(key, response[key]);
+            }
+          });
           this.userDataService.setUserState(true);
         })
       );
@@ -54,5 +64,6 @@ export class AuthService {
   logOut() {
     this.setToken('');
     this.userDataService.setUserState(false);
+    this.localStorage.clear();
   }
 }

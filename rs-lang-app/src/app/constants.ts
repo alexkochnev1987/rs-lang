@@ -26,6 +26,7 @@ export interface RegisterResponse {
 export enum RouterParams {
   registration = '/authorization/registration',
   login = '/authorization',
+  about = '/about',
 }
 
 export enum PageRoutes {
@@ -39,5 +40,7 @@ export enum PageRoutes {
 }
 
 export enum LocalStorageKeys {
-  token = 'auth-token',
+  token = 'token',
+  refreshToken = 'refreshToken',
+  userId = 'userId',
 }
