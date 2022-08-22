@@ -4,11 +4,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserDataService {
-  isUser = false;
+  private isUser = false;
   constructor() {}
 
-  isRegistred() {
+  isRegistered() {
     return this.isUser;
   }
- 
+
+  setUserState(state: boolean) {
+    this.isUser = state;
+  }
 }
