@@ -12,5 +12,5 @@ export class HttpService {
   getData(url: string = '') {
     return this.http.get(SOURCE + url);
   }
-  
+
 }

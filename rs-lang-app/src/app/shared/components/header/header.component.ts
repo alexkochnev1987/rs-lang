@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+/* eslint-disable @angular-eslint/no-output-on-prefix */
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,14 +14,21 @@ export class HeaderComponent {
   logoPart4 = 'Lang';
   isMenuInvisible = true;
   isGamesMenuInvisible = true;
+  @Output() onLink = new EventEmitter<number>();
+  getLink(id: number) {
+    this.onLink.emit(id);
+  }
+
   constructor(private router: Router) {}
 
   showMenu() {
     this.isMenuInvisible = !this.isMenuInvisible;
   }
-  showGamesMenu(){
+
+  showGamesMenu() {
     this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
   }
+
   goOnLink(link: string) {
     this.router.navigate([link]);
   }

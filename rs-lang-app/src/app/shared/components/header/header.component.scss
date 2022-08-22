@@ -1,4 +1,4 @@
-
+@import '../../../app.component.scss';
 .header {
   position: fixed;
   top: 0px;
@@ -8,11 +8,9 @@
   justify-content: space-between;
   width: 100%;
   height: 70px;
-  background-color: #404354;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 800;
-  font-family: New Rubrik Edge;
+  background-color: $headerBackgrounColor;
+  color: $textInFormColor;
+  @include fontSize14;
   z-index: 10;
 }
 a {
@@ -31,54 +29,45 @@ p {
   position: fixed;
   display: flex;
   top: 70px;
-  right:330px;
+  right: 330px;
   width: 100px;
   height: fit-content;
-  background-color: #eeeeee;
+  background-color: $menuBackgroundColor;
   transition: 1s;
-
 }
 .game-menu {
   position: fixed;
   display: flex;
   top: 70px;
-  right:450px;
+  right: 450px;
   width: 250px;
   height: fit-content;
-  background-color: #eeeeee;
+  background-color: $menuBackgroundColor;
   transition: 1s;
-
-
 }
 .logo {
   cursor: pointer;
   position: relative;
-  left:50px;
+  left: 50px;
 }
 .logo-part1,
-.logo-part3{
-  font-size: 32px;
-  font-weight: 600;
-  font-family: New Rubrik Edge;
-  color:#ff9100;
+.logo-part3 {
+  @include fontSize32;
+  color: $formDataInvalid;
 }
-.logo-part2{
-  font-size: 20px;
-  font-weight: 800;
-  font-family: New Rubrik Edge;
-  color:#037db5
+.logo-part2 {
+  @include fontSize20;
+  color: $logoInnerElement;
 }
-.logo-part4{
-  font-size: 20px;
-  font-weight: 800;
-  font-family: New Rubrik Edge;
-  color:#ffffff
+.logo-part4 {
+  @include fontSize20;
+  color: $textInFormColor;
 }
-.button-container{
+.button-container {
   display: flex;
   position: relative;
   justify-content: space-between;
   align-items: center;
-  width:600px;
+  width: 600px;
   right: 50px;
 }

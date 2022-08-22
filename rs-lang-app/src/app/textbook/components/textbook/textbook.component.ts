@@ -38,6 +38,10 @@ export class TextbookComponent implements OnInit {
   idCard = '';
   isMore = false;
   private subscription: Subscription;
+  onLink(id: number) {
+    this.group = id;
+    this.load();
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,13 +52,16 @@ export class TextbookComponent implements OnInit {
       params => (this.group = params['id'])
     );
   }
+
   ngOnInit() {
     this.load();
   }
+
   playAudio(url: string) {
     const audio = new Audio(SOURCE + url);
     audio.play();
   }
+
   pagination() {
     let n = 0;
     return new Array(30).fill(0).map(i => {
@@ -62,29 +69,32 @@ export class TextbookComponent implements OnInit {
       return i + n;
     });
   }
+
   changePage(page: number) {
     this.page = page - 1;
     this.load();
   }
+
   load() {
     this.httpService
       .getData(`words?group=${this.group - 1}&page=${this.page}`)
       .subscribe({ next: (data: any) => (this.cards = data) });
   }
+
   onMouseOver(id: string) {
     this.isMore = true;
     this.idCard = id;
   }
+
   onMouseOut() {
     this.isMore = false;
   }
+
   checkIsMore(id: string) {
     return id === this.idCard && this.isMore;
   }
+
   isUser() {
     return this.userDataService.isRegistred();
-  }
-  f() {
-    alert();
   }
 }

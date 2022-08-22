@@ -1,6 +1,6 @@
-<app-header></app-header>
+<app-header (onLink)="onLink($event)"></app-header>
 <div class="title-container">
-  <h2 class="title" >
+  <h2 class="title">
     TEXTBOOK&nbsp;&nbsp; LEVEL {{ group }}&nbsp;&nbsp; PAGE {{ page + 1 }}
   </h2>
 </div>

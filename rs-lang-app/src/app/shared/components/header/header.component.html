@@ -17,11 +17,11 @@
   class="menu"
   [ngClass]="{ invisible: isMenuInvisible }"
   (click)="showMenu()">
-  <app-units-menu></app-units-menu>
+  <app-units-menu (onLink)="getLink($event)"></app-units-menu>
 </div>
 <div
   class="game-menu"
   [ngClass]="{ invisible: isGamesMenuInvisible }"
-  (click)="showMenu()">
+  (click)="showGamesMenu()">
   <app-games-menu></app-games-menu>
 </div>
