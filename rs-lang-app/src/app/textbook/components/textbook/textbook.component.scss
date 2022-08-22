@@ -1,9 +1,19 @@
+.textbook-container{
+  width: 100%;
+  height:150%;
+  background-image: url(/assets/img/pattern.png);
+  background-repeat: round;
+  background-attachment: fixed;
+}
+
 .cards-container {
   margin-left: 20vw;
   margin-bottom: 100px;
+  margin-top: 200px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
+
 }
 .card {
   display: flex;
@@ -18,15 +28,14 @@
   margin-bottom: 30px;
   padding: 10px;
   overflow: auto;
-  transition: 2s all;
-
+  background-color: #ffffff;
 }
 .word-image {
   width: 240px;
   height: 180px;
 }
 .speaker {
-  background-image: url(../../../../assets/images/speaker.png);
+  background-image: url(/assets/img/speaker.png);
   background-size: cover;
   width: 30px;
   min-height: 30px;
@@ -38,13 +47,16 @@
   cursor: pointer;
 }
 .pagination {
+  position: relative;
   height: 50px;
-  width: 90%;
-  margin-left: 50px;
-  margin-bottom: 100px;
+  width: fit-content;
+  left: 150px;
+  bottom: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #ffffff;
+
 }
 .title {
   text-align: center;
@@ -62,4 +74,8 @@
 a {
   text-decoration: none;
   display: block;
+}
+.title-container{
+  position: relative;
+  top:100px
 }

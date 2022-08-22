@@ -1,44 +1,72 @@
-p {
-  cursor: pointer;
-}
+
 .header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
-  height: 50px;
-  background-color: #cccccc;
+  height: 70px;
+  background-color: #404354;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  font-family: New Rubrik Edge;
+  z-index: 10;
 }
 a {
   margin-left: 30px;
   text-decoration: none;
 }
-.ebook {
+.ebook,
+p {
   cursor: pointer;
 }
 .invisible {
-  margin-left: -18vw;
+  margin-top: -100vh;
   transition: 1s;
 }
 .menu {
   position: fixed;
   display: flex;
-  top: 60px;
-  width: 20vw;
+  top: 70px;
+  right:330px;
+  width: 100px;
   height: fit-content;
   background-color: #eeeeee;
   transition: 1s;
-  opacity: 0.9;
-}
-.blind {
-  width: 5vw;
-  writing-mode: vertical-rl;
-  font-size: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  transform: rotate(180deg);
+
 }
 .logo {
   cursor: pointer;
+  position: relative;
+  left:50px;
+}
+.logo-part1,
+.logo-part3{
+  font-size: 32px;
+  font-weight: 600;
+  font-family: New Rubrik Edge;
+  color:#ff9100;
+}
+.logo-part2{
+  font-size: 20px;
+  font-weight: 800;
+  font-family: New Rubrik Edge;
+  color:#037db5
+}
+.logo-part4{
+  font-size: 20px;
+  font-weight: 800;
+  font-family: New Rubrik Edge;
+  color:#ffffff
+}
+.button-container{
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  width:600px;
+  right: 50px;
 }

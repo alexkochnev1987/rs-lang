@@ -1,16 +1,20 @@
 <div class="header">
-  <div [ngClass]="{ logo: true }" (click)="goOnLink('')">{{ logo }}</div>
-  <p (click)="goOnLink('')">MAIN PAGE</p>
-  <p [ngClass]="{ ebook: true }" (click)="showMenu()">TEXTBOOK</p>
-  <p (click)="goOnLink('/sprint')">SPRINT</p>
-  <p (click)="goOnLink('/audio-challenge')">AUDIO CHALLENGE</p>
-  <p (click)="goOnLink('/statistics')">STATISTICS</p>
-  <p (click)="goOnLink('/about')">ABOUT</p>
-  <p (click)="goOnLink('/authorization')">AUTHORIZATION</p>
+  <div class="logo" (click)="goOnLink('')">
+    <span class="logo-part1">{{ logoPart1 }}</span>
+    <span class="logo-part2">{{ logoPart2 }}</span>
+    <span class="logo-part3">{{ logoPart3 }}</span>
+    <span class="logo-part4">{{ logoPart4 }}</span>
+  </div>
+  <div class="button-container">
+    <p (click)="goOnLink('/about')">ABOUT</p>
+    <p (click)="showGamesMenu()">MINI-GAMES</p>
+    <p [ngClass]="{ ebook: true }" (click)="showMenu()">TEXTBOOK</p>
+    <p (click)="goOnLink('/statistics')">DASHBOARD</p>
+    <p (click)="goOnLink('/authorization')">AUTHORIZATION</p>
+  </div>
 </div>
 <div [ngClass]="{ menu: true, invisible: isInvisible }" (click)="showMenu()">
   <div>
     <app-units-menu></app-units-menu>
   </div>
-  <div [ngClass]="{ blind: true }">{{ blindTitle }}</div>
 </div>

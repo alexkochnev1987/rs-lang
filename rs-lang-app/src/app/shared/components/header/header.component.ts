@@ -7,12 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  logo = '{RS-lang}';
-  blindTitle = 'TEXTBOOK';
+  logoPart1 = '{';
+  logoPart2 = 'RS';
+  logoPart3 = '}';
+  logoPart4 = 'Lang';
   isInvisible = true;
   constructor(private router: Router) {}
+
   showMenu() {
     this.isInvisible = !this.isInvisible;
+  }
+  showGamesMenu(){
+    
   }
   goOnLink(link: string) {
     this.router.navigate([link]);

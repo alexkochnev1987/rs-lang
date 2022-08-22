@@ -3,7 +3,7 @@
     [ngClass]="{ line: true, current: unit.id === unitNumber }"
     *ngFor="let unit of units">
     <p (click)="goOnLink(unit.id)" *ngIf="isRegisteredUser(unit.id)">
-      {{ unit.name }}
+      {{ unit.id }}
     </p>
   </div>
 </div>
