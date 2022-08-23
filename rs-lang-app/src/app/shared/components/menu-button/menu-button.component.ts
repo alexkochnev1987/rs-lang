@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GAME_1 } from 'src/app/constants';
 
 @Component({
   selector: 'app-menu-button',
@@ -6,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu-button.component.scss'],
 })
 export class MenuButtonComponent {
-
-  game ="SPRINT"
+  game = GAME_1;
   constructor() {}
 }

@@ -1,8 +1,7 @@
 <div class="container">
   <div class="line" *ngFor="let unit of units">
     <p
-      (click)="goOnLink(unit.id)"
-      (click)="getLink(unit.id)"
+      [routerLink]="['../textbook', unit.id]"
       *ngIf="isRegisteredUser(unit.id)">
       {{ unit.id }}
     </p>

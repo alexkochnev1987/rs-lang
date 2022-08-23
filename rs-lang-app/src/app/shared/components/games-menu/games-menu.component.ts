@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { GAME_1, GAME_2, PageRoutes } from 'src/app/constants';
 
 @Component({
   selector: 'app-games-menu',
@@ -7,11 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./games-menu.component.scss'],
 })
 export class GamesMenuComponent {
-  game1 = 'AUDIO-CHALLENGE';
-  game2 = 'SPRINT';
-  constructor(private router: Router) {}
-
-  goOnLink(link: string) {
-    this.router.navigate([link]);
-  }
+  game1 = GAME_1;
+  game2 = GAME_2;
+  link1 = '../' + PageRoutes.sprint;
+  link2 = '../' + PageRoutes.audioChallenge;
+  constructor() {}
 }

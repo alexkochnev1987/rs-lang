@@ -1,6 +1,7 @@
 /* eslint-disable @angular-eslint/no-output-on-prefix */
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { PageRoutes } from 'src/app/constants';
 import { UnitsDataService } from 'src/app/core/services/units-data.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
@@ -13,10 +14,8 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 export class UnitsMenuComponent implements OnInit {
   units: { id: number; name: string }[] = [];
   unitNumber = 0;
-  @Output() onLink = new EventEmitter<number>();
-  getLink(id: number) {
-    this.onLink.emit(id);
-  }
+
+
   constructor(
     private unitsDataService: UnitsDataService,
     private router: Router,

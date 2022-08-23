@@ -8,10 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  logoPart1 = '{';
-  logoPart2 = 'RS';
-  logoPart3 = '}';
-  logoPart4 = 'Lang';
+  logoParts = ['{', 'RS', '}', 'Lang'];
   isMenuInvisible = true;
   isGamesMenuInvisible = true;
   @Output() onLink = new EventEmitter<number>();
