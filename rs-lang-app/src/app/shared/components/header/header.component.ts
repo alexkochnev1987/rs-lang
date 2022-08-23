@@ -11,7 +11,6 @@ export class HeaderComponent {
   logoParts = ['{', 'RS', '}', 'Lang'];
   isMenuInvisible = true;
   isGamesMenuInvisible = true;
- 
 
   constructor(private router: Router) {}
 
@@ -21,9 +20,5 @@ export class HeaderComponent {
 
   showGamesMenu() {
     this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
-  }
-
-  goOnLink(link: string) {
-    this.router.navigate([link]);
   }
 }

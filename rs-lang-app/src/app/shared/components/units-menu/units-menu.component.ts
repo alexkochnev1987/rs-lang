@@ -26,11 +26,6 @@ export class UnitsMenuComponent implements OnInit {
     this.units = this.unitsDataService.getUnitsForUser();
   }
 
-  goOnLink(id: number) {
-    this.router.navigate(['textbook', id]);
-    this.unitNumber = id;
-  }
-
   isRegisteredUser(i: number) {
     return i < 7 || this.userDataService.isRegistered();
   }
