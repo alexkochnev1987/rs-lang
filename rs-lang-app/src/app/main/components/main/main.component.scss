@@ -1,0 +1,33 @@
+.road-images-wrapper {
+  width: 750px;
+  height: 454px;
+  overflow: hidden;
+}
+.main-wrapper{
+  display: flex;
+}
+
+.learn{
+  transform: translate(0%, -141%);
+}
+.play{
+  transform: translate(46%, -206%);
+}
+.get{
+  transform: translate(17%, -223%);
+}
+.sun{
+  transform: translate(51%,-743%);
+}
+.road{
+  transform: translate(29%, 20%);
+  .ellipse1{
+    transform:translate(175%, -1866%);
+  }
+  .ellipse2{
+    transform: translate(1076%, -1276%);
+  }
+  .ellipse3{
+    transform: translate(-239.2%, 31%);
+  }
+}
