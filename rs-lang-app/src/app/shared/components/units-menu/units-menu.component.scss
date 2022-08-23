@@ -1,10 +1,10 @@
+@import '../../../app.component.scss';
 .container {
-  margin-top: 100px;
+  margin-top: 10px;
 }
 .line {
   height: 5vh;
-  width: 15vw;
-  border: 1px solid #ffffff;
+  width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,3 +13,5 @@
 a {
   text-decoration: none;
 }
+
+

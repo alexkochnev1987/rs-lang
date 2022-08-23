@@ -1,4 +1,20 @@
-<h2>It's TextBook Page. LEVEL {{ group }}</h2>
-<div [ngClass]="{ 'cards-container': true }">
-  <p *ngFor="let card of cards">{{ card.word }} => {{ card.wordTranslate }}</p>
+<div class="title-container">
+  <h2 class="title">
+    TEXTBOOK&nbsp;&nbsp; LEVEL {{ group }}&nbsp;&nbsp; PAGE {{ page + 1 }}
+  </h2>
+</div>
+<div class="cards-container">
+  <div *ngFor="let card of cards">
+    <app-card [card]="card"></app-card>
+  </div>
+</div>
+<div class="pagination">
+  <span
+    id="down"
+    [class.current-page]="i === page + 1"
+    class="page-number"
+    *ngFor="let i of pagination()"
+    (click)="changePage(i)"
+    >{{ i }}</span
+  >
 </div>

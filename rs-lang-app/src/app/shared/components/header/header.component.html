@@ -1,16 +1,28 @@
 <div class="header">
-  <div [ngClass]="{ logo: true }" (click)="goOnLink('')">{{ logo }}</div>
-  <p (click)="goOnLink('')">MAIN PAGE</p>
-  <p [ngClass]="{ ebook: true }" (click)="showMenu()">TEXTBOOK</p>
-  <p (click)="goOnLink('/sprint')">SPRINT</p>
-  <p (click)="goOnLink('/audio-challenge')">AUDIO CHALLENGE</p>
-  <p (click)="goOnLink('/statistics')">STATISTICS</p>
-  <p (click)="goOnLink('/about')">ABOUT</p>
-  <p (click)="goOnLink('/authorization')">AUTHORIZATION</p>
-</div>
-<div [ngClass]="{ menu: true, invisible: isInvisible }" (click)="showMenu()">
-  <div>
-    <app-units-menu></app-units-menu>
+  <div class="logo" routerLink="">
+    <span
+      class="logo-part{{ i + 1 }}"
+      *ngFor="let item of logoParts; let i = index"
+      >{{ item }}</span
+    >
   </div>
-  <div [ngClass]="{ blind: true }">{{ blindTitle }}</div>
+  <div class="button-container">
+    <p routerLink="/about">ABOUT</p>
+    <p (click)="showGamesMenu()">MINI-GAMES</p>
+    <p class="ebook" (click)="showMenu()">TEXTBOOK</p>
+    <p routerLink="/statistics">DASHBOARD</p>
+    <p routerLink="/authorization">AUTHORIZATION</p>
+  </div>
+</div>
+<div
+  class="menu"
+  [ngClass]="{ invisible: isMenuInvisible }"
+  (click)="showMenu()">
+  <app-units-menu></app-units-menu>
+</div>
+<div
+  class="game-menu"
+  [ngClass]="{ invisible: isGamesMenuInvisible }"
+  (click)="showGamesMenu()">
+  <app-games-menu></app-games-menu>
 </div>
