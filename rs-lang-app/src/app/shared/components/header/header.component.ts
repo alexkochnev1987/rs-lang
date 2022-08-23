@@ -11,10 +11,7 @@ export class HeaderComponent {
   logoParts = ['{', 'RS', '}', 'Lang'];
   isMenuInvisible = true;
   isGamesMenuInvisible = true;
-  @Output() onLink = new EventEmitter<number>();
-  getLink(id: number) {
-    this.onLink.emit(id);
-  }
+ 
 
   constructor(private router: Router) {}
 
