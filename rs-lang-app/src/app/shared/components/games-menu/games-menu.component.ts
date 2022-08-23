@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GAME_1, GAME_2, PageRoutes } from 'src/app/constants';
 
 @Component({

@@ -1,5 +1,4 @@
-/* eslint-disable @angular-eslint/no-output-on-prefix */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({

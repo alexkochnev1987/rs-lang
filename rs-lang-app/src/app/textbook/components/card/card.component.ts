@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 import { url } from 'src/app/constants';
 
