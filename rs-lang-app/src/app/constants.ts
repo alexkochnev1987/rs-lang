@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-export const SOURCE = 'https://learnlangapp1.herokuapp.com/';
-=======
 export const url = 'https://learnlangapp1.herokuapp.com';
 export enum QueryParams {
   logIn = '/signin',
@@ -47,4 +44,3 @@ export enum LocalStorageKeys {
   refreshToken = 'refreshToken',
   userId = 'userId',
 }
->>>>>>> 7ec176a3135d80b2edf7b20bcb918d3d07074218

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { SOURCE } from 'src/app/constants';
+import { url } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
@@ -31,7 +31,7 @@ class WordCard {
   providers: [],
 })
 export class TextbookComponent implements OnInit {
-  source = SOURCE;
+  source = url +'/';
   group: number = 0;
   page = 0;
   cards: WordCard[] = [];
@@ -57,8 +57,8 @@ export class TextbookComponent implements OnInit {
     this.load();
   }
 
-  playAudio(url: string) {
-    const audio = new Audio(SOURCE + url);
+  playAudio(urlocation: string) {
+    const audio = new Audio(url + urlocation);
     audio.play();
   }
 
@@ -77,7 +77,7 @@ export class TextbookComponent implements OnInit {
 
   load() {
     this.httpService
-      .getData(`words?group=${this.group - 1}&page=${this.page}`)
+      .getData(`/words?group=${this.group - 1}&page=${this.page}`)
       .subscribe({ next: (data: any) => (this.cards = data) });
   }
 
@@ -95,6 +95,6 @@ export class TextbookComponent implements OnInit {
   }
 
   isUser() {
-    return this.userDataService.isRegistred();
+    return this.userDataService.isRegistered();
   }
 }
