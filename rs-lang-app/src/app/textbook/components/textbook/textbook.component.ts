@@ -31,7 +31,7 @@ class WordCard {
   providers: [],
 })
 export class TextbookComponent implements OnInit {
-  source = url +'/';
+  source = url + '/';
   group: number = 0;
   page = 0;
   cards: WordCard[] = [];
@@ -55,11 +55,6 @@ export class TextbookComponent implements OnInit {
 
   ngOnInit() {
     this.load();
-  }
-
-  playAudio(urlocation: string) {
-    const audio = new Audio(url + urlocation);
-    audio.play();
   }
 
   pagination() {
@@ -96,5 +91,9 @@ export class TextbookComponent implements OnInit {
 
   isUser() {
     return this.userDataService.isRegistered();
+  }
+  playAudio(urlocation: string) {
+    const audio = new Audio(url + urlocation);
+    audio.play();
   }
 }

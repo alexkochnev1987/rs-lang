@@ -3,38 +3,11 @@
   margin-left: 100px;
   margin-bottom: 100px;
   margin-top: 200px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-
-}
-.card {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 270px;
-  height: 400px;
-  overflow: hidden;
-  border: 2px solid $cardBorderColor;
-  border-radius: 10px;
-  margin-bottom: 30px;
-  padding: 10px;
-  overflow: auto;
-  background-color: $cardBackgroundColor;
+  flex-wrap: wrap;
+  gap:10px
 }
-.word-image {
-  width: 240px;
-  height: 180px;
-}
-.speaker {
-  background-image: url(/assets/img/speaker.png);
-  background-size: cover;
-  width: 30px;
-  min-height: 30px;
-  max-height: 30px;
-  cursor: pointer;
-}
+
 .page-number {
   margin-left: 20px;
   cursor: pointer;
@@ -51,31 +24,24 @@
   margin-left: auto;
   margin-right: auto;
   font-size: 20px;
-
 }
 .title {
   text-align: center;
   position: relative;
-
 }
-.title-container{
+.title-container {
   z-index: -1;
 }
 .current-page {
-  color: red;
+  color: $currentPageColor;
   font-weight: 900;
 }
-.go-up {
-  position: fixed;
-  left: 20px;
-  bottom: 200px;
-  font-size: 1.5rem;
-}
+
 a {
   text-decoration: none;
   display: block;
 }
-.title-container{
+.title-container {
   position: relative;
-  top:100px
+  top: 100px;
 }

@@ -1,0 +1,20 @@
+<div class="card" (mouseover)="onMouseOver(card.id)">
+  <img class="word-image" src="{{ source }}{{ card.image }}" alt="word-image" />
+  <div>{{ card.word }}</div>
+  <div>{{ card.transcription }}</div>
+  <p class="speaker" (click)="playAudio(card.audio)"></p>
+  <p>{{ card.wordTranslate }}</p>
+  <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textMeaning"></p>
+  <div
+    *ngIf="checkIsMore(card.id)"
+    class="speaker"
+    (click)="playAudio(card.audioMeaning)"></div>
+  <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textExample"></p>
+  <div
+    *ngIf="checkIsMore(card.id)"
+    class="speaker"
+    (click)="playAudio(card.audioExample)"></div>
+  <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textMeaningTranslate"></p>
+  <p *ngIf="checkIsMore(card.id)" [innerHTML]="card.textExampleTranslate"></p>
+  <button [disabled]="!isUser()">DIFFICULT</button>
+</div>

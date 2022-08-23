@@ -1,0 +1,28 @@
+@import '../../../app.component.scss';
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 270px;
+  height: 400px;
+  overflow: hidden;
+  border: 2px solid $cardBorderColor;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+  overflow: auto;
+  background-color: $cardBackgroundColor;
+}
+.word-image {
+  width: 240px;
+  height: 180px;
+}
+.speaker {
+  background-image: url(/assets/img/speaker.png);
+  background-size: cover;
+  width: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  cursor: pointer;
+}
