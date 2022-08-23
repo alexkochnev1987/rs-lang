@@ -1,4 +1,7 @@
-<div class="card" (mouseover)="onMouseOver(card.id)">
+<div
+  class="card"
+  (mouseenter)="onMouseOver(card.id)"
+  (mouseleave)="onMouseOut()">
   <img class="word-image" src="{{ source }}{{ card.image }}" alt="word-image" />
   <div>{{ card.word }}</div>
   <div>{{ card.transcription }}</div>

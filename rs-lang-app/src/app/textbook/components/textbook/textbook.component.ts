@@ -1,28 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { url } from 'src/app/constants';
+import { IWordCard, url } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
-import { UserDataService } from 'src/app/core/services/user-data.service';
-
-class WordCard {
-  constructor(
-    public id: string,
-    public group: number,
-    public page: number,
-    public word: string,
-    public image: string,
-    public audio: string,
-    public audioMeaning: string,
-    public audioExample: string,
-    public textMeaning: string,
-    public textExample: string,
-    public transcription: string,
-    public wordTranslate: string,
-    public textMeaningTranslate: string,
-    public textExampleTranslate: string
-  ) {}
-}
 
 @Component({
   selector: 'app-textbook',
@@ -34,19 +14,12 @@ export class TextbookComponent implements OnInit {
   source = url + '/';
   group: number = 0;
   page = 0;
-  cards: WordCard[] = [];
-  idCard = '';
-  isMore = false;
+  cards: IWordCard[] = [];
   private subscription: Subscription;
-  onLink(id: number) {
-    this.group = id;
-    this.load();
-  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private httpService: HttpService,
-    private userDataService: UserDataService
+    private httpService: HttpService
   ) {
     this.subscription = this.activatedRoute.params.subscribe(
       params => (this.group = params['id'])
@@ -74,26 +47,5 @@ export class TextbookComponent implements OnInit {
     this.httpService
       .getData(`/words?group=${this.group - 1}&page=${this.page}`)
       .subscribe({ next: (data: any) => (this.cards = data) });
-  }
-
-  onMouseOver(id: string) {
-    this.isMore = true;
-    this.idCard = id;
-  }
-
-  onMouseOut() {
-    this.isMore = false;
-  }
-
-  checkIsMore(id: string) {
-    return id === this.idCard && this.isMore;
-  }
-
-  isUser() {
-    return this.userDataService.isRegistered();
-  }
-  playAudio(urlocation: string) {
-    const audio = new Audio(url + urlocation);
-    audio.play();
   }
 }

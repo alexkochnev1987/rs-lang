@@ -1,22 +1,20 @@
-<app-header (onLink)="onLink($event)"></app-header>
 <div class="title-container">
   <h2 class="title">
     TEXTBOOK&nbsp;&nbsp; LEVEL {{ group }}&nbsp;&nbsp; PAGE {{ page + 1 }}
   </h2>
-  <p routerLink="/sprint">SPRINT</p>
 </div>
 <div class="cards-container">
-  <div *ngFor="let card of cards" (mouseover)="onMouseOver(card.id)">
+  <div *ngFor="let card of cards">
     <app-card [card]="card"></app-card>
   </div>
-  <div class="pagination">
-    <span
-      id="down"
-      [class.current-page]="i === page + 1"
-      class="page-number"
-      *ngFor="let i of pagination()"
-      (click)="changePage(i)"
-      >{{ i }}</span
-    >
-  </div>
+</div>
+<div class="pagination">
+  <span
+    id="down"
+    [class.current-page]="i === page + 1"
+    class="page-number"
+    *ngFor="let i of pagination()"
+    (click)="changePage(i)"
+    >{{ i }}</span
+  >
 </div>
