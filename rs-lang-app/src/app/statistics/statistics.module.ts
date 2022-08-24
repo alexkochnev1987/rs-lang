@@ -7,6 +7,10 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [StatisticsComponent],
-  imports: [CommonModule, StatisticsRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    StatisticsRoutingModule,
+    // SharedModule
+  ],
 })
 export class StatisticsModule {}

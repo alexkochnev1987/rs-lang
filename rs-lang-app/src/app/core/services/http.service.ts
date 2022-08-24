@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { url } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class HttpService {
   constructor(private http: HttpClient) {}
 
-  getData(url: string) {
-    return this.http.get(url);
+  getData(endpoint: string = '') {
+    return this.http.get(url + endpoint);
   }
 }

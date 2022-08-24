@@ -1,4 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
 body{
   background-image: url('./assets/img/background.png');
+}
+html{
+  user-select: none;
+  scroll-behavior: smooth;
 }

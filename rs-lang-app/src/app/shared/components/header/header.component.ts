@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,14 +7,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  logo = '{RS-lang}';
-  blindTitle = 'TEXTBOOK';
-  isInvisible = true;
+  logoParts = ['{', 'RS', '}', 'Lang'];
+  isMenuInvisible = true;
+  isGamesMenuInvisible = true;
+
   constructor(private router: Router) {}
+
   showMenu() {
-    this.isInvisible = !this.isInvisible;
+    this.isMenuInvisible = !this.isMenuInvisible;
   }
-  goOnLink(link: string) {
-    this.router.navigate([link]);
+
+  showGamesMenu() {
+    this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
   }
 }
