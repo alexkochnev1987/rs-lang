@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GamesMenuComponent } from './components/games-menu/games-menu.component';
 import { MenuButtonComponent } from './components/menu-button/menu-button.component';
 import { RouterModule } from '@angular/router';
+import { RegistrationComponent } from '../authorization/registration/registration.component';
+import { AuthorizationComponent } from './components/authorization/authorization.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     GamesMenuComponent,
     MenuButtonComponent,
+    RegistrationComponent,
+    AuthorizationComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   exports: [
@@ -26,6 +30,8 @@ import { RouterModule } from '@angular/router';
     FooterComponent,
     UnitsMenuComponent,
     LoginComponent,
+    RegistrationComponent,
+    AuthorizationComponent,
   ],
 })
 export class SharedModule {}

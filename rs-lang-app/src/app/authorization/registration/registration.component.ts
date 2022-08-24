@@ -2,16 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { ShowRegistrationService } from 'src/app/core/services/show-registration.service';
 import { RouterParams } from '../../constants';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+  styleUrls: ['../login/login.component.scss'],
 })
 export class RegistrationComponent implements OnInit {
   form: FormGroup;
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(
+    private auth: AuthService,
+    // private router: Router,
+    private showRegistration: ShowRegistrationService
+  ) {
     this.form = new FormGroup({});
   }
 
@@ -43,6 +48,7 @@ export class RegistrationComponent implements OnInit {
     });
   }
   goToLogin() {
-    this.router.navigate([RouterParams.login]);
+    this.showRegistration.setState(false);
+    // this.router.navigate([RouterParams.login]);
   }
 }
