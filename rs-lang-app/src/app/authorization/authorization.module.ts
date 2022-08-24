@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
-  declarations: [LoginComponent, RegistrationComponent],
+  declarations: [RegistrationComponent],
   imports: [
     CommonModule,
     AuthorizationRoutingModule,
