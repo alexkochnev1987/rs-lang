@@ -1,3 +1,6 @@
+@import url('https://use.typekit.net/hyf0fpw.css');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 $loginFormBackground: #d698ec;
 $textInFormColor: #ffffff;
 $loginButtonBackground: linear-gradient(180deg, #88e564 0%, #6cd244 100%);
@@ -6,7 +9,8 @@ $registrationButtonBackground: linear-gradient(
   #ff9100 0%,
   #ff7a00 100%
 );
-$formFontFamilyText: 'New Rubrik Edge';
+$transcriptionFontFamilyText: 'Open Sans', sans-serif;
+$formFontFamilyText: 'New Rubrik Edge', sans-serif;
 $formDataInvalid: #ff9100;
 $formErrorMessageColor: red;
 $headerBackgrounColor: #404354;
@@ -16,6 +20,9 @@ $cardBackgroundColor:#ffffff;
 $cardBorderColor:#eeeeee;
 $menuTopBorder:#6CD244;
 $currentPageColor:red;
+$colorBlue: #42BEE5;
+$colorDarkPurple: #BA6BD6;
+$fontNormalColor: #404354;
 
 @mixin fontSize14 {
   font-family: $formFontFamilyText;
@@ -51,7 +58,92 @@ $currentPageColor:red;
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
-  line-height: 40.74px;
+  text-transform: uppercase;
+}
+@mixin heading1 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  text-transform: uppercase;
+}
+@mixin heading2 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+@mixin heading3 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+@mixin heading4 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+@mixin heading5 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: none;
+}
+@mixin font20 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  color: $fontNormalColor;
+}
+@mixin font14bold {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  color: $fontNormalColor;
+}
+@mixin font14 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $fontNormalColor;
+}
+@mixin font12 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $fontNormalColor;
+}
+@mixin fontTranscription {
+  font-family: $transcriptionFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $colorDarkPurple;
+}
+@mixin fontLink {
+  font-family: $transcriptionFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $colorBlue;
+}
+.router-wrapper{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  top: 130px;
+  width: 1230px;
+  margin: 0 auto;
 }
 .background {
   position: fixed;
