@@ -37,6 +37,7 @@ p {
   border-radius: 10px;
   background-color: $menuBackgroundColor;
   transition: 1s;
+  z-index: 10;
 }
 .game-menu {
   position: fixed;
@@ -48,6 +49,7 @@ p {
   background-color: $menuBackgroundColor;
   transition: 1s;
 }
+
 .logo {
   cursor: pointer;
   position: relative;

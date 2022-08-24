@@ -18,7 +18,9 @@
   class="menu"
   [ngClass]="{ invisible: isMenuInvisible }"
   (click)="showMenu()">
-  <app-units-menu></app-units-menu>
+  <div class="menu-container">
+    <app-units-menu></app-units-menu>
+  </div>
 </div>
 <div
   class="game-menu"

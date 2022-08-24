@@ -6,6 +6,7 @@ import { UnitsMenuComponent } from './components/units-menu/units-menu.component
 import { GamesMenuComponent } from './components/games-menu/games-menu.component';
 import { MenuButtonComponent } from './components/menu-button/menu-button.component';
 import { RouterModule } from '@angular/router';
+import { NavigateComponent } from './components/navigate/navigate.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { RouterModule } from '@angular/router';
     UnitsMenuComponent,
     GamesMenuComponent,
     MenuButtonComponent,
+    NavigateComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [

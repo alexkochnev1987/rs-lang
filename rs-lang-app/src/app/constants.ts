@@ -1,6 +1,7 @@
 export const url = 'https://learnlangapp1.herokuapp.com';
-export const GAME_1 = 'SPRINT';
-export const GAME_2 = 'AUDIO CHALLENGE';
+export const GAME_2 = 'SPRINT';
+export const GAME_1 = 'AUDIO CHALLENGE';
+export const PLAY_PREFIX = 'PLAY ';
 
 export enum QueryParams {
   logIn = '/signin',

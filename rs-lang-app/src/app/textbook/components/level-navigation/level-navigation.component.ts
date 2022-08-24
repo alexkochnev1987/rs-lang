@@ -3,12 +3,11 @@ import { UnitsDataService } from 'src/app/core/services/units-data.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
-  selector: 'app-units-menu',
-  templateUrl: './units-menu.component.html',
-  styleUrls: ['./units-menu.component.scss'],
-  providers: [],
+  selector: 'app-level-navigation',
+  templateUrl: './level-navigation.component.html',
+  styleUrls: ['./level-navigation.component.scss'],
 })
-export class UnitsMenuComponent implements OnInit {
+export class LevelNavigationComponent implements OnInit {
   units: { id: number; name: string }[] = [];
   @Input() currentLevel: number = 1;
 
@@ -25,4 +24,3 @@ export class UnitsMenuComponent implements OnInit {
     return i < 7 || this.userDataService.isRegistered();
   }
 }
-
