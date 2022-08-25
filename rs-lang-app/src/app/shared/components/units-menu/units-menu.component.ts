@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TextbookDataService } from 'src/app/core/services/textbook-data.service';
 import { UnitsDataService } from 'src/app/core/services/units-data.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
@@ -10,11 +11,12 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 })
 export class UnitsMenuComponent implements OnInit {
   units: { id: number; name: string }[] = [];
-  @Input() currentLevel: number = 1;
+  currentLevel: number = 1;
 
   constructor(
     private unitsDataService: UnitsDataService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private textbookDataService: TextbookDataService
   ) {}
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class UnitsMenuComponent implements OnInit {
   }
 
   isRegisteredUser(i: number) {
+    this.currentLevel = this.textbookDataService.getCurrentLevel();
     return i < 7 || this.userDataService.isRegistered();
   }
 }
-

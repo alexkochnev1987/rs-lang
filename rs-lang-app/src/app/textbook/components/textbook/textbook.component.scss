@@ -1,7 +1,7 @@
 @import '../../../app.component.scss';
 .cards-container {
   position: relative;
-  margin-bottom: 100px;
+  margin-bottom: 200px;
   margin-top: 260px;
   margin-left: auto;
   margin-right: auto;
@@ -10,6 +10,7 @@
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
+
 
 }
 
@@ -84,9 +85,10 @@ a {
 
   margin-left: -30px;
 }
-.button-1 {
-  width: 218px;
+
+::ng-deep .button-1 button{
+  width:218px;
 }
-.button-2 {
-  width: 137px;
+::ng-deep .button-2 button{
+  width:137px;
 }

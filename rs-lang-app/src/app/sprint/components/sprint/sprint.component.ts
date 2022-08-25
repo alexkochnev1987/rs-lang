@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AppPages } from 'src/app/constants';
+import { PagesDataService } from 'src/app/core/services/pages-data.service';
 
 @Component({
   selector: 'app-sprint',
@@ -6,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sprint.component.scss'],
 })
 export class SprintComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor(private pageDataService: PagesDataService) {}
+  ngOnInit(): void {
+    this.pageDataService.setPage(AppPages.MiniGames);
+  }
 }

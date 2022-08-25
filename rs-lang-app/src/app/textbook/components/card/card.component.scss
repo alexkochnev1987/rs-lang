@@ -1,28 +1,166 @@
 @import '../../../app.component.scss';
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 270px;
-  height: 400px;
-  overflow: hidden;
+  width: 285px;
+  height: 341px;
   border: 2px solid $cardBorderColor;
   border-radius: 10px;
   margin-bottom: 30px;
   padding: 10px;
-  overflow: auto;
   background-color: $cardBackgroundColor;
 }
-.word-image {
-  width: 240px;
-  height: 180px;
+.main-part {
+  width: 285px;
+  height: 300px;
+  background-color: $cardBackgroundColor;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-areas:
+    'a a a a a a'
+    'b . . . . c'
+    'd e . . .  .'
+    'f . . . . g';
 }
-.speaker {
+.additional-part {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-areas:
+    'x y . . . .'
+    'i j j j j j'
+    'k l l l l l'
+    'm m m m m m'
+    'n n n n n n';
+  opacity: 0;
+  visibility: hidden;
+  margin-top: -100px;
+  position: relative;
+  width: 285px;
+  min-height: 260px;
+  background-color: $cardBackgroundColor;
+  border-bottom: 2px solid $cardBorderColor;
+  border-left: 2px solid $cardBorderColor;
+  border-right: 2px solid $cardBorderColor;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+  transition: margin 0.5s, opacity 1s;
+}
+.word-image {
+  width: 219px;
+  height: 165px;
+  grid-area: a;
+}
+.speaker,
+.speaker-2,
+.speaker-3 {
   background-image: url(/assets/img/speaker.png);
   background-size: cover;
   width: 12px;
   min-height: 12px;
   max-height: 12px;
   cursor: pointer;
+}
+.speaker {
+  grid-area: d;
+}
+.word {
+  grid-area: b;
+}
+.transcription {
+  grid-area: e;
+  color: $transcriptionColor;
+}
+.translate {
+  grid-area: f;
+}
+.learn {
+  grid-area: c;
+  width: 37px;
+  height: 33px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: $headerBackgrounColor;
+}
+.rate {
+  grid-area: g;
+  width: 30px;
+  height: 33px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  color: $headerBackgrounColor;
+}
+
+.rate-title,
+.learn-title {
+  @include fontSize10;
+}
+.rate-value,
+.learn-value {
+  @include fontSize14;
+}
+.meaning {
+  grid-area: j;
+}
+.example {
+  grid-area: l;
+}
+.meaning-translate {
+  grid-area: m;
+}
+.example-translate {
+  grid-area: n;
+}
+.speaker-2 {
+  grid-area: i;
+}
+.speaker-3 {
+  grid-area: k;
+}
+.button-ok {
+  grid-area: x;
+  background: url(/assets/img/ok.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 29px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px dashed $activePageColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:5px;
+}
+
+.button-difficult {
+  grid-area: y;
+  background: url(/assets/img/difficult.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 29px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px dashed $currentPageColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+.visible {
+  opacity: 1;
+  visibility: visible;
+  margin-top: 0;
+  z-index: 10;
+
 }

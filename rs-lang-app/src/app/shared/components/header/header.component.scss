@@ -76,3 +76,9 @@ p {
   width: 600px;
   right: 50px;
 }
+
+.active{
+  color:$activePageColor;
+  border-bottom: 3px solid $activePageColor;
+  padding-bottom: 10px;
+}

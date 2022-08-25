@@ -47,6 +47,8 @@ $currentPageColor: red;
 $borderButtonColor: #ffffff;
 $paginationArrowDisabled: #b2b3b9;
 $borderTitleBlockColor: #64c6e5;
+$activePageColor:#6cd244;
+$transcriptionColor: #ba6bd6;
 
 @mixin fontSize14 {
   font-family: $formFontFamilyText;
@@ -54,6 +56,13 @@ $borderTitleBlockColor: #64c6e5;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+}
+@mixin fontSize10 {
+  font-family: 'New Rubrik Edge';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 13px;
 }
 @mixin boldFontSize14 {
   font-family: $formFontFamilyText;
