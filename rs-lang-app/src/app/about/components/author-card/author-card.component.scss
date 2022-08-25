@@ -1,0 +1,67 @@
+@import "../../../app.component.scss";
+
+.stroke-container {
+  @include stroke-container;
+  padding: 30px;
+  width: calc((100% - $desktopIndent - 12px) / 2);
+  height: fit-content;
+}
+
+.author {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-content: flex-start;
+}
+
+.heading-5 {
+  @include heading5;
+}
+
+.author-about {
+  @include font12;
+}
+
+.author-photo {
+  width: 115px;
+  height: 115px;
+  border-top: 4px solid;
+  border-left: 4px solid;
+  border-right: 11px solid;
+  border-bottom: 11px solid;
+  background-size: 115px;
+  border-radius: 50%;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.author-git {
+  @include fontLink;
+  background-image: url('../../../../assets/img/git_link_img.svg');
+  background-repeat: no-repeat;
+  background-size: 20px;
+  height: 20px;
+  padding-left: 30px;
+}
+
+.author-features-list {
+  @include font12;
+}
+
+.feature-item {
+  list-style: none;
+}
+
+.feature-item::before {
+  content: '';
+  background-image: url('../../../../assets/img/list_ok_marker.svg');
+  background-repeat: no-repeat;
+  background-size: 13px;
+  padding-right: 25px;
+  height: 10px;
+  width: 10px;
+}
