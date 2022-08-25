@@ -63,3 +63,12 @@ export interface IWordCard {
   textMeaningTranslate: string;
   textExampleTranslate: string;
 }
+export interface authorCard {
+  id: number;
+  firstName: string;
+  secondName: string;
+  photoURL: string;
+  git: string;
+  features: string[];
+  aboutAuthor: string;
+}
