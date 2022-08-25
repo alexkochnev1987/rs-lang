@@ -1,0 +1,16 @@
+@import "../../../app.component.scss";
+
+.stroke-container {
+  @include stroke-container;
+  padding: 30px;
+  width: calc((100% - $desktopIndent - 12px) / 2);
+}
+
+.author {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.heading-5 {
+  @include heading5;
+}

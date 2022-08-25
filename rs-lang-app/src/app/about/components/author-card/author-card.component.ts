@@ -6,6 +6,7 @@ interface authorCard {
   firstName: string;
   secondName: string;
   photoURL: string;
+  git: string;
   features: string[];
   aboutAuthor: string;
 }

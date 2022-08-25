@@ -1,7 +1,11 @@
-<div *ngFor="let author of authors" class="author id-{{ author.id }}">
-  <div>{{ author.firstName }}</div>
-  <div>{{ author.secondName }}</div>
-  <div>{{ author.photoURL }}</div>
-  <div>{{ author.features }}</div>
-  <div>{{ author.aboutAuthor }}</div>
+<div
+  *ngFor="let author of authors"
+  class="stroke-container author id-{{ author.id }}">
+  <div class="author-photo">{{ author.photoURL }}</div>
+  <div class="authors-info">
+    <h5 class="heading-5">{{ author.firstName + ' ' + author.secondName }}</h5>
+    <div>{{ author.git }}</div>
+    <div>{{ author.features }}</div>
+  </div>
+  <div class="authors-about">{{ author.aboutAuthor }}</div>
 </div>
