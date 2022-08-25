@@ -10,7 +10,7 @@ $registrationButtonBackground: linear-gradient(
   #ff7a00 100%
 );
 $transcriptionFontFamilyText: 'Open Sans', sans-serif;
-$formFontFamilyText: 'New Rubrik Edge', sans-serif;
+$formFontFamilyText: new-rubrik-edge, sans-serif;
 $formDataInvalid: #ff9100;
 $formErrorMessageColor: red;
 $headerBackgrounColor: #404354;
@@ -166,11 +166,17 @@ $desktopIndent: 30px;
   box-sizing: border-box;
   margin: 3px;
 }
-.router-wrapper{
-  position: relative;
+.router-wrapper {
   display: flex;
   flex-direction: column;
   top: 130px;
   width: 1230px;
+  margin: 100px auto 0;
+}
+.footer-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
+  height: 100px;
 }
