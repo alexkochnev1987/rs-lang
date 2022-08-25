@@ -1,5 +1,9 @@
 <div class="footer">
   <a class="logo" href="https://rs.school/js/" target="_blank"></a>
-  <h2>THIS IS FOOTER</h2>
-  <div>© 2022</div>
+  <div class="authors-links">
+    <a *ngFor="let author of authors" href="{{ author.git }}">
+      <div [style]="getGitIcon(author)" class="author-link"></div>
+    </a>
+  </div>
+  <div class="footer-year">© 2022</div>
 </div>
