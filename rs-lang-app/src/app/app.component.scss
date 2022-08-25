@@ -23,6 +23,8 @@ $currentPageColor:red;
 $colorBlue: #42BEE5;
 $colorDarkPurple: #BA6BD6;
 $fontNormalColor: #404354;
+$dashedStrokeGrey: #898C9C;
+$desktopIndent: 30px;
 
 @mixin fontSize14 {
   font-family: $formFontFamilyText;
@@ -136,6 +138,15 @@ $fontNormalColor: #404354;
   font-weight: 400;
   font-size: 14px;
   color: $colorBlue;
+}
+@mixin stroke-container {
+  border: 1px dashed $dashedStrokeGrey;
+  outline: 3px solid white;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 3px rgba($color: black, $alpha: 0.15);
+  background-color: white;
+  box-sizing: border-box;
+  margin: 3px;
 }
 .router-wrapper{
   position: relative;
