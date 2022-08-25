@@ -25,10 +25,12 @@
 .heading-1 {
   @include heading1;
   text-shadow: #fff 2px 2px 0;
+  line-height: 41px;
 }
 
 .common-text {
   @include font14;
+  line-height: 20px;
 }
 
 .top-auth{
