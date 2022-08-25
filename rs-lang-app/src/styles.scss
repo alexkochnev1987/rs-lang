@@ -1,6 +1,13 @@
+
 body{
   background-image: url('./assets/img/background.png');
 }
+/* You can add global styles to this file, and also import other style files */
+*{
+  margin: 0;
+  padding: 0;
+}
+
 html{
   user-select: none;
   scroll-behavior: smooth;
