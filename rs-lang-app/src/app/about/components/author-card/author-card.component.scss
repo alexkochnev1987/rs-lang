@@ -9,8 +9,24 @@
 .author {
   display: flex;
   flex-wrap: wrap;
+  gap: 30px;
 }
 
 .heading-5 {
   @include heading5;
+}
+
+.authors-about {
+  @include font12;
+}
+
+.author-photo {
+  width: 115px;
+  height: 115px;
+  border-top: 4px solid;
+  border-left: 4px solid;
+  border-right: 11px solid;
+  border-bottom: 11px solid;
+  background-size: 115px;
+  border-radius: 50%;
 }

@@ -1,7 +1,7 @@
 <div
   *ngFor="let author of authors"
   class="stroke-container author id-{{ author.id }}">
-  <div class="author-photo">{{ author.photoURL }}</div>
+  <div class="author-photo" [style]="setAuthorPhotoStyle(author)"></div>
   <div class="authors-info">
     <h5 class="heading-5">{{ author.firstName + ' ' + author.secondName }}</h5>
     <div>{{ author.git }}</div>
