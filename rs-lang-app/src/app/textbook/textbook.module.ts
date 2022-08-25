@@ -7,7 +7,11 @@ import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [TextbookComponent, CardComponent],
-  imports: [CommonModule, TextbookRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    TextbookRoutingModule,
+    // SharedModule
+  ],
   exports: [],
 })
 export class TextbookModule {}

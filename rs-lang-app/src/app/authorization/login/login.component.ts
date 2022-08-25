@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterParams } from '../../constants';
-import { LocalStorageService } from 'src/app/core/services/localstorage.service';
+import { ShowRegistrationService } from 'src/app/core/services/show-registration.service';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +14,9 @@ export class LoginComponent implements OnInit {
   username: string | null;
   form: FormGroup;
   constructor(
-    private localstorage: LocalStorageService,
     private auth: AuthService,
-    private router: Router
+    // private router: Router,
+    private showRegistration: ShowRegistrationService
   ) {
     this.username = null;
     this.form = new FormGroup({});
@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.form.value).subscribe({
       next: response => {
         this.username = response.name;
-        this.router.navigate([RouterParams.about]);
       },
       error: error => {
         this.form.enable();
@@ -58,6 +57,7 @@ export class LoginComponent implements OnInit {
   }
 
   goToRegistration() {
-    this.router.navigate([RouterParams.registration]);
+    this.showRegistration.setState(true);
+    // this.router.navigate([RouterParams.registration]);
   }
 }
