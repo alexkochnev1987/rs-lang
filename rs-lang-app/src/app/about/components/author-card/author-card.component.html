@@ -2,10 +2,16 @@
   *ngFor="let author of authors"
   class="stroke-container author id-{{ author.id }}">
   <div class="author-photo" [style]="setAuthorPhotoStyle(author)"></div>
-  <div class="authors-info">
+  <div class="author-info">
     <h5 class="heading-5">{{ author.firstName + ' ' + author.secondName }}</h5>
-    <div>{{ author.git }}</div>
-    <div>{{ author.features }}</div>
+    <div class="author-git">
+      <a href="{{ author.git }}">{{ getAuthorGitName(author) }}</a>
+    </div>
+    <ul class="author-features-list">
+      <li class="feature-item" *ngFor="let feature of author.features">
+        {{ feature }}
+      </li>
+    </ul>
   </div>
-  <div class="authors-about">{{ author.aboutAuthor }}</div>
+  <div class="author-about">{{ author.aboutAuthor }}</div>
 </div>

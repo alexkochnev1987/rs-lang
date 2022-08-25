@@ -31,4 +31,8 @@ export class AuthorCardComponent implements OnInit {
       'border-color': `${this.borderColors[author.id]}`,
     };
   }
+
+  getAuthorGitName(author: authorCard) {
+    return author.git.match(/\w+$/);
+  }
 }
