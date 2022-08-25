@@ -1,1 +1,7 @@
-<p>author-card works!</p>
+<div *ngFor="let author of authors" class="author id-{{ author.id }}">
+  <div>{{ author.firstName }}</div>
+  <div>{{ author.secondName }}</div>
+  <div>{{ author.photoURL }}</div>
+  <div>{{ author.features }}</div>
+  <div>{{ author.aboutAuthor }}</div>
+</div>
