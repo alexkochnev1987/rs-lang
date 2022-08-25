@@ -6,12 +6,9 @@ import { url } from 'src/app/constants';
   providedIn: 'root',
 })
 export class HttpService {
-
   constructor(private http: HttpClient) {}
 
   getData(endpoint: string = '') {
-    return this.http.get(url  + endpoint);
-
+    return this.http.get(url + endpoint);
   }
-
 }
