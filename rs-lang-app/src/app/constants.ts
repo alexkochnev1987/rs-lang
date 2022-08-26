@@ -1,6 +1,7 @@
 export const url = 'https://learnlangapp1.herokuapp.com';
 export const GAME_1 = 'SPRINT';
 export const GAME_2 = 'AUDIO CHALLENGE';
+export const LOCAL_KEY = 'userObject';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -42,11 +43,6 @@ export enum PageRoutes {
   textBook = 'textbook/:id',
 }
 
-export enum LocalStorageKeys {
-  token = 'token',
-  refreshToken = 'refreshToken',
-  userId = 'userId',
-}
 export interface IWordCard {
   id: string;
   group: number;

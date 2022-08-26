@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UserDataService {
   private isUser = false;
+  private userName = '';
   constructor() {}
 
   isRegistered() {
@@ -13,5 +14,13 @@ export class UserDataService {
 
   setUserState(state: boolean) {
     this.isUser = state;
+  }
+
+  setUserName(name: string) {
+    this.userName = name;
+  }
+
+  getUserName() {
+    return this.userName;
   }
 }

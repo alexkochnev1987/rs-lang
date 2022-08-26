@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoginResponse } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +18,16 @@ export class LocalStorageService {
   }
 
   getItem(key: string): string | null {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : null;
+    const user: string | null = localStorage.getItem(key);
+    return user ? JSON.parse(user) : null;
   }
 
   removeItem(key: string): void {
     localStorage.removeItem(key);
   }
 
-  setItem(key: string, value: any): void {
+  setItem(key: string, value: Partial<LoginResponse>): void {
+    console.log(key, JSON.stringify(value));
     localStorage.setItem(key, JSON.stringify(value));
   }
 }

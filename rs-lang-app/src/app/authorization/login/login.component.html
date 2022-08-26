@@ -1,8 +1,8 @@
 <form [formGroup]="form" class="authorization">
   <div class="border">
-    <h3 *ngIf="!username">Log in</h3>
-    <h2 *ngIf="username">Hello {{ username }}</h2>
-    <div *ngIf="!username">
+    <h3 *ngIf="!isUser">Log in</h3>
+    <h2 *ngIf="isUser">Hello {{ userName }}</h2>
+    <div *ngIf="!isUser">
       <input
         placeholder="Email"
         formControlName="email"
@@ -36,17 +36,17 @@
       </p>
     </div>
     <button
-      *ngIf="!username"
+      *ngIf="!isUser"
       type="submit"
       class="login"
       (click)="onSubmit()"
       [disabled]="form.invalid || form.disabled">
       Login
     </button>
-    <button *ngIf="!username" class="register" (click)="goToRegistration()">
+    <button *ngIf="!isUser" class="register" (click)="goToRegistration()">
       Register
     </button>
-    <button *ngIf="username" class="logout" (click)="logOut()">Logout</button>
+    <button *ngIf="isUser" class="logout" (click)="logOut()">Logout</button>
     <div class="text-image">
       <div class="text-wrapper">
         <div class="text-done">
