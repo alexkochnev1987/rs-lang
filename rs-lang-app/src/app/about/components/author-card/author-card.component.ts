@@ -1,15 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import authorData from '../../authors.json';
-
-interface authorCard {
-  id: number;
-  firstName: string;
-  secondName: string;
-  photoURL: string;
-  git: string;
-  features: string[];
-  aboutAuthor: string;
-}
+import authorData from '../../../authors.json';
+import { authorCard } from '../../../constants';
 @Component({
   selector: 'app-author-card',
   templateUrl: './author-card.component.html',

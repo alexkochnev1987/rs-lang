@@ -7,18 +7,39 @@
     >
   </div>
   <div class="button-container">
-    <p routerLink="/about">ABOUT</p>
-    <p (click)="showGamesMenu()">MINI-GAMES</p>
-    <p class="ebook" (click)="showMenu()">TEXTBOOK</p>
-    <p routerLink="/statistics">DASHBOARD</p>
-    <p routerLink="/authorization"></p>
+    <div routerLink="/about" [class.active]="currentPage === AppPages.About">
+      ABOUT
+    </div>
+    <div
+      (click)="showGamesMenu()"
+      [class.active]="currentPage === AppPages.MiniGames">
+      MINI-GAMES
+    </div>
+    <div
+      class="ebook"
+      (click)="showMenu()"
+      [class.active]="currentPage === AppPages.TextBook">
+      TEXTBOOK
+    </div>
+    <div
+      routerLink="/statistics"
+      [class.active]="currentPage === AppPages.DashBoard">
+      DASHBOARD
+    </div>
+    <div
+      routerLink="/authorization"
+      [class.active]="currentPage === AppPages.Authorization">
+      AUTHORIZATION
+    </div>
   </div>
 </div>
 <div
   class="menu"
   [ngClass]="{ invisible: isMenuInvisible }"
   (click)="showMenu()">
-  <app-units-menu></app-units-menu>
+  <div class="menu-container">
+    <app-units-menu></app-units-menu>
+  </div>
 </div>
 <div
   class="game-menu"

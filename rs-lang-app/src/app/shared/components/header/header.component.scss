@@ -37,6 +37,7 @@ p {
   border-radius: 10px;
   background-color: $menuBackgroundColor;
   transition: 1s;
+  z-index: 9;
 }
 .game-menu {
   position: fixed;
@@ -47,7 +48,9 @@ p {
   height: fit-content;
   background-color: $menuBackgroundColor;
   transition: 1s;
+  z-index: 9;
 }
+
 .logo {
   cursor: pointer;
   position: relative;
@@ -73,4 +76,10 @@ p {
   align-items: center;
   width: 600px;
   right: 50px;
+}
+
+.active{
+  color:$activePageColor;
+  border-bottom: 3px solid $activePageColor;
+  padding-bottom: 10px;
 }

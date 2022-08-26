@@ -20,6 +20,7 @@
 
 .author-about {
   @include font12;
+  line-height: 15px;
 }
 
 .author-photo {
@@ -54,14 +55,13 @@
 
 .feature-item {
   list-style: none;
+  line-height: 19px;
 }
 
 .feature-item::before {
   content: '';
   background-image: url('../../../../assets/img/list_ok_marker.svg');
   background-repeat: no-repeat;
-  background-size: 13px;
+  background-size: 10px;
   padding-right: 25px;
-  height: 10px;
-  width: 10px;
 }

@@ -9,12 +9,46 @@ $registrationButtonBackground: linear-gradient(
   #ff9100 0%,
   #ff7a00 100%
 );
+$gameMenuButtonBackground: linear-gradient(180deg, #ffb84d 0%, #ff9100 100%);
+$gameMenuButtonPressedBackground: linear-gradient(
+  180deg,
+  #ff9100 0%,
+  #ffb84d 100%
+);
+$levelNavigationOnPageBackground:linear-gradient(
+  90deg,
+  #88e564 2.8%,
+  #45dec2 18.41%,
+  #64c6e5 34.28%,
+  #508be4 49.89%,
+  #ac64e5 65.76%,
+  #e564b9 81.9%,
+  #de4848 97.52%
+);
+$levelNavigationMenuBackground:linear-gradient(
+  180deg,
+  #88e564 2.8%,
+  #45dec2 18.41%,
+  #64c6e5 34.28%,
+  #508be4 49.89%,
+  #ac64e5 65.76%,
+  #e564b9 81.9%,
+  #de4848 97.52%
+);
 $transcriptionFontFamilyText: 'Open Sans', sans-serif;
 $formFontFamilyText: new-rubrik-edge, sans-serif;
 $formDataInvalid: #ff9100;
+$currentPageColor: #ff9100;
 $formErrorMessageColor: red;
 $headerBackgrounColor: #404354;
+$paginationNumberColor: #404354;
 $logoInnerElement: #037db5;
+$menuTopBorder: #6cd244;
+$borderButtonColor: #ffffff;
+$paginationArrowDisabled: #b2b3b9;
+$borderTitleBlockColor: #64c6e5;
+$activePageColor:#6cd244;
+$transcriptionColor: #ba6bd6;
 $menuBackgroundColor:#ffffff;
 $cardBackgroundColor:#ffffff;
 $cardBorderColor:#eeeeee;
@@ -27,12 +61,20 @@ $fontNormalColor: #404354;
 $dashedStrokeGrey: #898C9C;
 $desktopIndent: 30px;
 
+
 @mixin fontSize14 {
   font-family: $formFontFamilyText;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
+}
+@mixin fontSize10 {
+  font-family: 'New Rubrik Edge';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 13px;
 }
 @mixin boldFontSize14 {
   font-family: $formFontFamilyText;
@@ -140,7 +182,7 @@ $desktopIndent: 30px;
   font-family: $formFontFamilyText;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   color: $fontNormalColor;
 }
 @mixin fontTranscription {
@@ -180,3 +222,4 @@ $desktopIndent: 30px;
   margin: 0 auto;
   height: 100px;
 }
+

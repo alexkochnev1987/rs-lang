@@ -1,14 +1,6 @@
 import authorsData from '../../../authors.json';
 import { Component, Input, OnInit } from '@angular/core';
-interface authorCard {
-  id: number;
-  firstName: string;
-  secondName: string;
-  photoURL: string;
-  git: string;
-  features: string[];
-  aboutAuthor: string;
-}
+import { authorCard } from '../../../constants';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
