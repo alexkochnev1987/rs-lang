@@ -9,7 +9,7 @@ import { GAME_1, GAME_2, PageRoutes } from 'src/app/constants';
 export class GamesMenuComponent {
   game1 = GAME_1;
   game2 = GAME_2;
-  link1 = '../' + PageRoutes.sprint;
-  link2 = '../' + PageRoutes.audioChallenge;
+  link2 = '../' + PageRoutes.sprint;
+  link1 = '../' + PageRoutes.audioChallenge;
   constructor() {}
 }
