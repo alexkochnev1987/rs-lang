@@ -1,0 +1,91 @@
+@import '../../../app.component.scss';
+
+.solid-stroke-container {
+  @include solid-stroke-container;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  padding: 30px;
+}
+
+.levels-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.levels {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  // border: 10px solid $containerBackground;
+  border-radius: 20px;
+}
+
+.heading-4 {
+  @include heading4;
+  flex-shrink: 0;
+}
+
+.levels-background {
+  position: absolute;
+  width: calc(100% - 20px);
+  height: 20%;
+  top: 40%;
+  left: 10px;
+  border-radius: 25px;
+  box-sizing: border-box;
+}
+
+.levels-selection-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 8px solid $containerBackground;
+  border-radius: 25px;
+  box-sizing: border-box;
+  transition: 0.2s;
+}
+.level-selector-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+}
+
+.level-selector {
+  @include heading3;
+  color: white;
+  padding-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 3px solid $containerBackground;
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: 0.2s;
+}
+
+.level-selector:hover {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
