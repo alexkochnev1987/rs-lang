@@ -9,7 +9,6 @@ export class TextbookDataService {
   constructor() {}
 
   getCurrentPageNumber() {
-    alert(this.currentPage)
     return this.currentPage;
   }
   getCurrentLevel() {
@@ -17,7 +16,6 @@ export class TextbookDataService {
   }
   setCurrentPageNumber(page: number) {
     this.currentPage = page;
-
   }
   setCurrentLevel(level: number) {
     this.currentLevel = level;
