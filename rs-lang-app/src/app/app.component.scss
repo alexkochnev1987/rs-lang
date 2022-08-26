@@ -1,3 +1,6 @@
+@import url('https://use.typekit.net/hyf0fpw.css');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 $loginFormBackground: #d698ec;
 $textInFormColor: #ffffff;
 $loginButtonBackground: linear-gradient(180deg, #88e564 0%, #6cd244 100%);
@@ -32,23 +35,32 @@ $levelNavigationMenuBackground:linear-gradient(
   #e564b9 81.9%,
   #de4848 97.52%
 );
-$formFontFamilyText: 'New Rubrik Edge';
+$transcriptionFontFamilyText: 'Open Sans', sans-serif;
+$formFontFamilyText: new-rubrik-edge, sans-serif;
 $formDataInvalid: #ff9100;
 $currentPageColor: #ff9100;
 $formErrorMessageColor: red;
 $headerBackgrounColor: #404354;
 $paginationNumberColor: #404354;
 $logoInnerElement: #037db5;
-$menuBackgroundColor: #ffffff;
-$cardBackgroundColor: #ffffff;
-$cardBorderColor: #eeeeee;
 $menuTopBorder: #6cd244;
-$currentPageColor: red;
 $borderButtonColor: #ffffff;
 $paginationArrowDisabled: #b2b3b9;
 $borderTitleBlockColor: #64c6e5;
 $activePageColor:#6cd244;
 $transcriptionColor: #ba6bd6;
+$menuBackgroundColor:#ffffff;
+$cardBackgroundColor:#ffffff;
+$cardBorderColor:#eeeeee;
+$menuTopBorder:#6CD244;
+$currentPageColor:red;
+$boxShadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+$colorBlue: #42BEE5;
+$colorDarkPurple: #BA6BD6;
+$fontNormalColor: #404354;
+$dashedStrokeGrey: #898C9C;
+$desktopIndent: 30px;
+
 
 @mixin fontSize14 {
   font-family: $formFontFamilyText;
@@ -71,6 +83,23 @@ $transcriptionColor: #ba6bd6;
   font-size: 14px;
   line-height: 18px;
 }
+@mixin button {
+  margin: 0;
+  padding: 2px;
+  background: linear-gradient(180deg, #FF9100 0%, #FF7A00 100%);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  height: 34px;
+  border: none;
+}
+@mixin border {
+  margin: auto;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  border: 1px dashed $cardBorderColor;
+
+}
 
 @mixin fontSize16 {
   font-family: $formFontFamilyText;
@@ -91,5 +120,106 @@ $transcriptionColor: #ba6bd6;
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
-  line-height: 40.74px;
+  text-transform: uppercase;
 }
+@mixin heading1 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  text-transform: uppercase;
+}
+@mixin heading2 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+@mixin heading3 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+@mixin heading4 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+@mixin heading5 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: none;
+}
+@mixin font20 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  color: $fontNormalColor;
+}
+@mixin font14bold {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  color: $fontNormalColor;
+}
+@mixin font14 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $fontNormalColor;
+}
+@mixin font12 {
+  font-family: $formFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  color: $fontNormalColor;
+}
+@mixin fontTranscription {
+  font-family: $transcriptionFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $colorDarkPurple;
+}
+@mixin fontLink {
+  font-family: $transcriptionFontFamilyText;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: $colorBlue;
+}
+@mixin stroke-container {
+  border: 1px dashed $dashedStrokeGrey;
+  outline: 3px solid white;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 3px rgba($color: black, $alpha: 0.15);
+  background-color: white;
+  box-sizing: border-box;
+  margin: 3px;
+}
+.router-wrapper {
+  display: flex;
+  flex-direction: column;
+  top: 130px;
+  width: 1230px;
+  margin: 100px auto 0;
+}
+.footer-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  height: 100px;
+}
+

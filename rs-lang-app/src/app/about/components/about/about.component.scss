@@ -1,0 +1,55 @@
+@import '../../../app.component.scss';
+
+.about-top {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+}
+
+.top-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  width: 310px;
+  height: 400px;
+  padding-left: 440px;
+  padding-right: 60px;
+  background-image: url('../../../../assets/img/about_main_img.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.heading-1 {
+  @include heading1;
+  text-shadow: #fff 2px 2px 0;
+  line-height: 41px;
+}
+
+.common-text {
+  @include font14;
+  line-height: 20px;
+}
+
+.top-auth{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 390px;
+  height: 330px;
+  background-color: $loginFormBackground;
+  border: 6px solid white;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba($color: #000000, $alpha: 0.15);
+}
+
+.about-authors {
+  position: relative;
+  display: flex;
+  width: 100%;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}

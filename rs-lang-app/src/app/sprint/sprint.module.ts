@@ -7,6 +7,10 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [SprintComponent],
-  imports: [CommonModule, SprintRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    SprintRoutingModule,
+    // SharedModule
+  ],
 })
 export class SprintModule {}

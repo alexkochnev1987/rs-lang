@@ -1,67 +1,70 @@
 <form [formGroup]="form" class="authorization">
-  <h3 *ngIf="!username">Log in</h3>
-  <h2 *ngIf="username">Hello {{ username }}</h2>
-  <div *ngIf="!username">
-    <input
-      placeholder="Email"
-      formControlName="email"
-      type="email"
-      name="email"
-      class="input"
-      id="email"
-      [ngClass]="{
-        invalid: form.get('email')?.invalid && form.get('email')?.touched
-      }" />
-    <p
-      *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
-      class="error">
-      Enter valid email
-    </p>
-    <input
-      placeholder="Password"
-      formControlName="password"
-      type="password"
-      name="password"
-      class="input"
-      id="password"
-      [ngClass]="{
-        invalid: form.get('password')?.invalid && form.get('password')?.touched
-      }" />
-    <p
-      *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
-      class="error">
-      Min length 8
-    </p>
-  </div>
-  <button
-    *ngIf="!username"
-    type="submit"
-    class="login"
-    (click)="onSubmit()"
-    [disabled]="form.invalid || form.disabled">
-    Login
-  </button>
-  <button *ngIf="!username" class="register" (click)="goToRegistration()">
-    Register
-  </button>
-  <button *ngIf="username" class="logout" (click)="logOut()">Logout</button>
-  <div class="text-image">
-    <div class="text-wrapper">
-      <div class="text-done">
-        <img src="assets/img/Vector 11.svg" alt="done" />
-        <p>Save hard words</p>
-      </div>
-      <div class="text-done">
-        <img src="assets/img/Vector 11.svg" alt="done" />
-        <p>Save your progress</p>
-      </div>
-      <div class="text-done">
-        <img src="assets/img/Vector 11.svg" alt="done" />
-        <p>Save your statistics</p>
-      </div>
+  <div class="border">
+    <h3 *ngIf="!username">Log in</h3>
+    <h2 *ngIf="username">Hello {{ username }}</h2>
+    <div *ngIf="!username">
+      <input
+        placeholder="Email"
+        formControlName="email"
+        type="email"
+        name="email"
+        class="input"
+        id="email"
+        [ngClass]="{
+          invalid: form.get('email')?.invalid && form.get('email')?.touched
+        }" />
+      <p
+        *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+        class="error">
+        Enter valid email
+      </p>
+      <input
+        placeholder="Password"
+        formControlName="password"
+        type="password"
+        name="password"
+        class="input"
+        id="password"
+        [ngClass]="{
+          invalid:
+            form.get('password')?.invalid && form.get('password')?.touched
+        }" />
+      <p
+        *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+        class="error">
+        Min length 8
+      </p>
     </div>
-    <div class="wrapper-image">
-      <img src="assets/img/006 1.png" alt="book" />
+    <button
+      *ngIf="!username"
+      type="submit"
+      class="login"
+      (click)="onSubmit()"
+      [disabled]="form.invalid || form.disabled">
+      Login
+    </button>
+    <button *ngIf="!username" class="register" (click)="goToRegistration()">
+      Register
+    </button>
+    <button *ngIf="username" class="logout" (click)="logOut()">Logout</button>
+    <div class="text-image">
+      <div class="text-wrapper">
+        <div class="text-done">
+          <img src="assets/img/Vector 11.svg" alt="done" />
+          <p>Save hard words</p>
+        </div>
+        <div class="text-done">
+          <img src="assets/img/Vector 11.svg" alt="done" />
+          <p>Save your progress</p>
+        </div>
+        <div class="text-done">
+          <img src="assets/img/Vector 11.svg" alt="done" />
+          <p>Save your statistics</p>
+        </div>
+      </div>
+      <div class="wrapper-image">
+        <img src="assets/img/006 1.png" alt="book" />
+      </div>
     </div>
   </div>
 </form>

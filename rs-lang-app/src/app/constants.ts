@@ -64,10 +64,21 @@ export interface IWordCard {
   textMeaningTranslate: string;
   textExampleTranslate: string;
 }
+
 export enum AppPages {
   About,
   MiniGames,
   TextBook,
   DashBoard,
   Authorization,
+}
+
+export interface authorCard {
+  id: number;
+  firstName: string;
+  secondName: string;
+  photoURL: string;
+  git: string;
+  features: string[];
+  aboutAuthor: string;
 }

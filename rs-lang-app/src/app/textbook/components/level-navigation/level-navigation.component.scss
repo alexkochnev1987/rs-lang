@@ -15,6 +15,7 @@
   border-radius: 50px;
   @include fontSize20;
   color: $textInFormColor;
+
 }
 .unregistered-user {
   display: none !important;
@@ -26,6 +27,7 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
+  cursor: pointer;
   gap: 10px;
 }
 .big-element {
@@ -41,6 +43,7 @@
   border-radius: 20px;
   flex: none;
   z-index: 7;
+
 }
 .unit-2 {
   width: 40px;

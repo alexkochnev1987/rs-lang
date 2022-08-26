@@ -53,6 +53,7 @@ a {
   display: block;
 }
 .title-container {
+  position: relative;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -64,11 +65,11 @@ a {
   height: 110px;
   top: 120px;
   left: 7vw;
-  z-index: -1;
   background: $cardBackgroundColor;
   border: 5px solid $borderTitleBlockColor;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
+  z-index: 1;
 }
 .back,
 .forward {
