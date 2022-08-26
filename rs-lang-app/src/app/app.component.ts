@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
     ) {
       this.auth.setUser(potentialToken);
       this.auth.setUserState(true);
-      console.log(this.auth.getUser());
     }
   }
 }

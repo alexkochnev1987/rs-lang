@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
     this.getUserName();
     this.isUser = this.userDataService.isRegistered();
     this.userName = this.userDataService.getUserName();
-    console.log(this.userName);
   }
 
   validateFom() {
@@ -71,7 +70,6 @@ export class LoginComponent implements OnInit {
   getUserName() {
     this.auth.getUserName().subscribe({
       next: response => {
-        console.log(response);
         const user = response as User;
         if (user.name) this.userDataService.setUserName(user.name);
       },
