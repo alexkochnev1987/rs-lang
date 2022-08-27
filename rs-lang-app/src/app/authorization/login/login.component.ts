@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { RouterParams } from '../../constants';
+import { User } from '../../constants';
 import { ShowRegistrationService } from 'src/app/core/services/show-registration.service';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-login',
@@ -11,19 +11,22 @@ import { ShowRegistrationService } from 'src/app/core/services/show-registration
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  username: string | null;
+  isUser = false;
   form: FormGroup;
+  userName = '';
   constructor(
     private auth: AuthService,
-    // private router: Router,
-    private showRegistration: ShowRegistrationService
+    private showRegistration: ShowRegistrationService,
+    private userDataService: UserDataService
   ) {
-    this.username = null;
     this.form = new FormGroup({});
   }
 
   ngOnInit(): void {
     this.validateFom();
+    this.getUserName();
+    this.isUser = this.userDataService.isRegistered();
+    this.userName = this.userDataService.getUserName();
   }
 
   validateFom() {
@@ -41,7 +44,8 @@ export class LoginComponent implements OnInit {
     console.log(this.form.value);
     this.auth.login(this.form.value).subscribe({
       next: response => {
-        this.username = response.name;
+        this.getUserName();
+        this.isUser = this.userDataService.isRegistered();
       },
       error: error => {
         this.form.enable();
@@ -51,13 +55,24 @@ export class LoginComponent implements OnInit {
   }
 
   logOut() {
+    this.getUserName();
     this.auth.logOut();
-    this.username = '';
+    this.userDataService.setUserState(false);
+    this.isUser = false;
     this.validateFom();
+    this.userName = '';
+    this.userDataService.setUserName('');
   }
 
   goToRegistration() {
     this.showRegistration.setState(true);
-    // this.router.navigate([RouterParams.registration]);
+  }
+  getUserName() {
+    this.auth.getUserName().subscribe({
+      next: response => {
+        const user = response as User;
+        if (user.name) this.userDataService.setUserName(user.name);
+      },
+    });
   }
 }

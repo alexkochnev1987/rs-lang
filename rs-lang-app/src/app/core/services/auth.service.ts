@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import {
-  LocalStorageKeys,
   LoginResponse,
+  LOCAL_KEY,
   QueryParams,
   RegisterResponse,
   url,
@@ -16,7 +16,7 @@ import { UserDataService } from './user-data.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private token = '';
+  private user: Partial<LoginResponse> = {};
   constructor(
     private localStorage: LocalStorageService,
     private http: HttpClient,
@@ -27,31 +27,32 @@ export class AuthService {
       .post<LoginResponse>(`${url + QueryParams.logIn}`, user)
       .pipe(
         tap(response => {
-          this.setToken(response.token);
-          Object.keys(response).forEach(key => {
-            if (
-              key === LocalStorageKeys.token ||
-              key === LocalStorageKeys.refreshToken ||
-              key === LocalStorageKeys.userId
-            ) {
-              this.setLocalStorage(key, response[key]);
-            }
-          });
-          this.userDataService.setUserState(true);
+          this.setUser(response);
+          this.setLocalStorage(LOCAL_KEY, this.user);
+          this.setUserState(true);
         })
       );
   }
-
-  setToken(token: string) {
-    this.token = token;
+  refreshToken(userId: string) {
+    return this.http.get(`${url}/${userId}/tokens`);
   }
 
-  getToken() {
-    return this.token;
+  setUserState(state: boolean) {
+    this.userDataService.setUserState(state);
   }
 
-  setLocalStorage(key: string, value: string) {
-    localStorage.setItem(key, value);
+  setUser(user: Partial<LoginResponse>) {
+    this.user.token = user.token;
+    this.user.userId = user.userId;
+    this.user.refreshToken = user.refreshToken;
+  }
+
+  getUser() {
+    return this.user;
+  }
+
+  setLocalStorage(key: string, value: any) {
+    this.localStorage.setItem(key, value);
   }
 
   register(user: User): Observable<User> {
@@ -61,9 +62,17 @@ export class AuthService {
     );
   }
 
+  clearUser() {
+    this.user = {};
+  }
+
   logOut() {
-    this.setToken('');
-    this.userDataService.setUserState(false);
+    this.clearUser();
+    this.setUserState(false);
     this.localStorage.clear();
+  }
+
+  getUserName() {
+    return this.http.get(`${url}/users/${this.user.userId}`);
   }
 }
