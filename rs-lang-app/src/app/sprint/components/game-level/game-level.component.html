@@ -4,18 +4,20 @@
     <div class="levels" (mouseleave)="hoverActions(levelSelected)">
       <div class="levels-selection-background" #levelsContainer></div>
       <div class="levels-background" #levelsBackground></div>
-      <div
-        class="level-selector-box"
-        *ngFor="let level of levels"
-        (mouseenter)="hoverActions(level.id)"
-        (click)="setSelectedLevel(level.id); levelSelected = level.id">
+      <ng-container *ngFor="let level of levels">
         <div
-          class="level-selector"
-          [style]="getLevelBackgroundColor(level.color)"
-          #levelsSelector>
-          {{ level.id }}
+          class="level-selector-box"
+          *ngIf="level.id <= levelsAmount"
+          (mouseenter)="hoverActions(level.id)"
+          (click)="setSelectedLevel(level.id); levelSelected = level.id">
+          <div
+            class="level-selector"
+            [style]="getLevelBackgroundColor(level.color)"
+            #levelsSelector>
+            {{ level.id }}
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
   <div class="buttons">

@@ -6,7 +6,8 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { gameLevelsAmount } from 'src/app/constants';
+import { gameLevelsAmount, LevelColor, LEVELS_COLORS } from 'src/app/constants';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-game-level',
@@ -14,28 +15,20 @@ import { gameLevelsAmount } from 'src/app/constants';
   styleUrls: ['./game-level.component.scss'],
 })
 export class GameLevelComponent implements AfterViewInit {
-  levels: { id: number; color: string }[] = [
-    { id: 1, color: '#88E564' },
-    { id: 2, color: '#45DEC3' },
-    { id: 3, color: '#64C6E5' },
-    { id: 4, color: '#508BE4' },
-    { id: 5, color: '#AC64E5' },
-    { id: 6, color: '#E564B9' },
-    { id: 7, color: '#EB4949' },
-  ];
+  levels: LevelColor[] = LEVELS_COLORS;
 
   mousePosX?: [MouseEvent, number];
   levelSelected: number = 1;
   levelsContainerWidth = 0;
   levelsSelectorWidth = 0;
-  levelsAmount: number = 7;
+  levelsAmount: number;
 
-  // constructor(@Inject('isLoggedIn') isLoggedIn: boolean) {
-  //   this.levelsAmount = isLoggedIn
-  //     ? gameLevelsAmount.userIsLogged
-  //     : gameLevelsAmount.userNotLogged;
-  // }
-  constructor() {}
+  constructor(private userService: UserDataService = new UserDataService()) {
+    console.log(this.userService.isRegistered());
+    this.levelsAmount = this.userService.isRegistered()
+      ? gameLevelsAmount.userIsLogged
+      : gameLevelsAmount.userNotLogged;
+  }
 
   ngAfterViewInit(): void {
     this.levelsContainerWidth = this.levelsContainer.nativeElement.offsetWidth;
