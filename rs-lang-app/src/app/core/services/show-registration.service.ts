@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
+import { ShowUserStatus } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShowRegistrationService {
-  private state = false;
+  private userStatus: ShowUserStatus = ShowUserStatus.login;
 
-  getState() {
-    return this.state;
+  getUserStatus() {
+    return this.userStatus;
   }
-
-  setState(state: boolean) {
-    this.state = state;
+  setUserStatus(status: ShowUserStatus) {
+    this.userStatus = status;
   }
 }

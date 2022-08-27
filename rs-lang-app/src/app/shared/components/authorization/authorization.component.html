@@ -1,2 +1,3 @@
-<app-login *ngIf="!getRegistrationState()"></app-login>
-<app-registration *ngIf="getRegistrationState()"></app-registration>
+<app-login *ngIf="isLogin()"></app-login>
+<app-registration *ngIf="isRegistration()"></app-registration>
+<app-user-statistics *ngIf="isStatistics()"></app-user-statistics>

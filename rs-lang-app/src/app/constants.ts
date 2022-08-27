@@ -3,11 +3,13 @@ export const GAME_1 = 'AUDIO CHALLENGE';
 export const GAME_2 = 'SPRINT';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
+export const SLASH = '/';
 
 export enum QueryParams {
   logIn = '/signin',
   register = '/users',
   words = '/words',
+  token = '/token',
 }
 export interface LoginResponse {
   message: string;
@@ -77,4 +79,15 @@ export interface authorCard {
   git: string;
   features: string[];
   aboutAuthor: string;
+}
+
+export interface LoginUserResponse {
+  id: string;
+  name: string;
+  email: string;
+}
+export enum ShowUserStatus {
+  login = 'login',
+  registration = 'registration',
+  statistics = 'statistics',
 }

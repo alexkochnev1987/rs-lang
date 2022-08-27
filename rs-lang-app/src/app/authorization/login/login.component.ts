@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
-import { User } from '../../constants';
+import { ShowUserStatus, User } from '../../constants';
 import { ShowRegistrationService } from 'src/app/core/services/show-registration.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.validateFom();
-    this.getUserName();
+    this.auth.refreshToken();
     this.isUser = this.userDataService.isRegistered();
     this.userName = this.userDataService.getUserName();
   }
@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit {
     console.log(this.form.value);
     this.auth.login(this.form.value).subscribe({
       next: response => {
-        this.getUserName();
         this.isUser = this.userDataService.isRegistered();
+        this.showRegistration.setUserStatus(ShowUserStatus.statistics);
       },
       error: error => {
         this.form.enable();
@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
   }
 
   logOut() {
-    this.getUserName();
     this.auth.logOut();
     this.userDataService.setUserState(false);
     this.isUser = false;
@@ -65,14 +64,6 @@ export class LoginComponent implements OnInit {
   }
 
   goToRegistration() {
-    this.showRegistration.setState(true);
-  }
-  getUserName() {
-    this.auth.getUserName().subscribe({
-      next: response => {
-        const user = response as User;
-        if (user.name) this.userDataService.setUserName(user.name);
-      },
-    });
+    this.showRegistration.setUserStatus(ShowUserStatus.registration);
   }
 }
