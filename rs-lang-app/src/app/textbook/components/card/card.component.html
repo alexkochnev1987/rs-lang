@@ -1,5 +1,7 @@
 <div
   class="card"
+  [class.difficult-word]="isDifficultWord(card.id)"
+  [class.learned-word]="isLearnedWord(card.id)"
   (mouseenter)="onMouseOver(card.id)"
   (mouseleave)="onMouseOut()">
   <div class="main-part">
@@ -13,16 +15,23 @@
     <div class="translate">{{ card.wordTranslate }}</div>
     <div class="learn">
       <div class="learn-title">LEARN:</div>
-      <div class="learn-value">1/3</div>
+      <div class="learn-value">{{ getLearnProgress(card.id) }}</div>
     </div>
     <div class="rate">
       <div class="rate-title">RATE</div>
-      <div class="rate-value">85%</div>
+      <div class="rate-value">{{ getRateValue(card.id) }}</div>
     </div>
   </div>
-  <div class="additional-part" [class.visible]="checkIsMore(card.id)">
-    <div class="button-ok"></div>
-    <div class="button-difficult"></div>
+  <div
+    class="additional-part"
+    [class.visible]="checkIsMore(card.id)"
+    [class.difficult-word-additional]="isDifficultWord(card.id)"
+    [class.learned-word-additional]="isLearnedWord(card.id)">
+    <div class="button-ok" *ngif="group === 7" (click)="setLearnedWord()"></div>
+    <div
+      class="button-difficult"
+      *ngIf="isUser()"
+      (click)="setDifficultWord()"></div>
     <div class="meaning" [innerHTML]="card.textMeaning"></div>
     <div class="speaker-2" (click)="playAudio(card.audioMeaning)"></div>
     <div class="example" [innerHTML]="card.textExample"></div>

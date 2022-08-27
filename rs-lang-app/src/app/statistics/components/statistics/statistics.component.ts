@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AppPages } from 'src/app/constants';
+import { PagesDataService } from 'src/app/core/services/pages-data.service';
 
 @Component({
   selector: 'app-statistics',
@@ -6,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./statistics.component.scss'],
 })
 export class StatisticsComponent implements OnInit {
-  constructor() {}
+  constructor(private pagesDataService: PagesDataService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.pagesDataService.setPage(AppPages.DashBoard);
+  }
 }

@@ -6,11 +6,13 @@ import {
   GAME_1,
   GAME_2,
   IWordCard,
+  LocalStorageKeys,
   PageRoutes,
   PLAY_PREFIX,
   url,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
+import { LocalStorageService } from 'src/app/core/services/localstorage.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { TextbookDataService } from 'src/app/core/services/textbook-data.service';
 
@@ -29,16 +31,22 @@ export class TextbookComponent implements OnInit, OnDestroy {
   game2 = PLAY_PREFIX + GAME_2;
   link2 = '../../' + PageRoutes.sprint;
   link1 = '../../' + PageRoutes.audioChallenge;
+  userId: string | null = null;
   private subscription: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private httpService: HttpService,
     private textbookDataService: TextbookDataService,
-    private pagesDataService: PagesDataService
+    private pagesDataService: PagesDataService,
+    private localStorageService: LocalStorageService
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
+      alert(this.userId)
+      if (this.group === 7) {
+        this.loadDifficultWords();
+      }
       this.load();
       this.textbookDataService.setCurrentLevel(this.group);
     });
@@ -47,6 +55,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.load();
     this.pagesDataService.setPage(AppPages.TextBook);
+    this.userId = this.localStorageService.getItem(LocalStorageKeys.token);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -77,4 +86,6 @@ export class TextbookComponent implements OnInit, OnDestroy {
   pageUp() {
     if (this.page < 29) this.changePage(this.page + 2);
   }
+
+  loadDifficultWords() {}
 }

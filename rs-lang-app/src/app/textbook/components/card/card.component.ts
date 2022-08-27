@@ -29,6 +29,7 @@ export class CardComponent {
   source = url + '/';
   idCard = '';
   isMore = false;
+
   @Input() card!: WordCard;
 
   constructor(private userDataService: UserDataService) {}
@@ -52,5 +53,24 @@ export class CardComponent {
   playAudio(urlocation: string) {
     const audio = new Audio(this.source + urlocation);
     audio.play();
+  }
+  isDifficultWord(wordId: string): boolean {
+    return false;
+  }
+  isLearnedWord(wordId: string): boolean {
+    return true;
+  }
+  setDifficultWord(): void {}
+
+  setLearnedWord(): void {}
+
+  getLearnProgress(wordId: string): string {
+    const attempts: number = 0;
+    const maxAttempts: number = 3;
+    return `${attempts}/${maxAttempts}`;
+  }
+  getRateValue(wordId: string): string {
+    const rate = 0;
+    return `${rate}%`;
   }
 }

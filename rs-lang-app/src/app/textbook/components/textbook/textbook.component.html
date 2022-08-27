@@ -16,7 +16,7 @@
     <app-card [card]="card"></app-card>
   </div>
 </div>
-<div class="pagination">
+<div class="pagination" *ngIf="group < 7">
   <span class="back" [class.disabled]="page < 1" (click)="pageDown()"
     >&lt;</span
   >
