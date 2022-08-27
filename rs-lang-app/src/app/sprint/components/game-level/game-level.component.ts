@@ -17,8 +17,7 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 export class GameLevelComponent implements AfterViewInit {
   levels: LevelColor[] = LEVELS_COLORS;
 
-  mousePosX?: [MouseEvent, number];
-  levelSelected: number = 1;
+  levelSelected = 1;
   levelsContainerWidth = 0;
   levelsSelectorWidth = 0;
   levelsAmount: number;
@@ -30,17 +29,10 @@ export class GameLevelComponent implements AfterViewInit {
       : gameLevelsAmount.userNotLogged;
   }
 
-  ngAfterViewInit(): void {
-    this.levelsContainerWidth = this.levelsContainer.nativeElement.offsetWidth;
-    this.levelsSelectorWidth =
-      this.levelsSelector.get(0)?.nativeElement.offsetWidth;
-    this.hoverActions(1);
-  }
-
   @ViewChild('levelsContainer')
   levelsContainer!: ElementRef;
 
-  @ViewChildren('levelsSelector', { read: ElementRef })
+  @ViewChildren('levelsSelector')
   levelsSelector!: QueryList<ElementRef>;
 
   @ViewChild('outerContainer')
@@ -49,12 +41,27 @@ export class GameLevelComponent implements AfterViewInit {
   @ViewChild('levelsBackground')
   levelsBackground!: ElementRef;
 
+  ngAfterViewInit(): void {
+    this.levelsContainerWidth = this.levelsContainer.nativeElement.offsetWidth;
+    this.levelsSelectorWidth =
+      this.levelsSelector.get(0)?.nativeElement.offsetWidth;
+    this.hoverActions(1);
+  }
+
   getLevelBackgroundColor(color: string) {
     return `background-color: ${color}`;
   }
 
   hoverActions(selectedLevel: number) {
+    this.setOuterContainer(selectedLevel);
+    this.setLevelsSelectBar(selectedLevel);
+    this.setLevelsBackground();
+    this.setSelectedLevel(this.levelSelected);
+  }
+
+  setLevelsSelectBar(selectedLevel: number) {
     this.levelsContainer.nativeElement.style = `background: linear-gradient(0.25turn, ${this.levels
+      .filter((el, index) => index < this.levelsAmount)
       .map(el => el.color)
       .join(', ')});
       box-shadow: inset ${
@@ -66,16 +73,19 @@ export class GameLevelComponent implements AfterViewInit {
             this.levelsContainerWidth
           : this.levelsSelectorWidth - this.levelsContainerWidth
       }px 0 0 white`;
+  }
 
+  setLevelsBackground() {
+    this.levelsBackground.nativeElement.style = `background: linear-gradient(0.25turn, ${this.levels
+      .filter((el, index) => index < this.levelsAmount)
+      .map(el => el.color)
+      .join(', ')});`;
+  }
+
+  setOuterContainer(selectedLevel: number) {
     this.outerContainer.nativeElement.style = `border-color: ${
       this.levels[selectedLevel - 1].color
     }`;
-
-    this.levelsBackground.nativeElement.style = `background: linear-gradient(0.25turn, ${this.levels
-      .map(el => el.color)
-      .join(', ')});`;
-
-    this.setSelectedLevel(this.levelSelected);
   }
 
   setSelectedLevel(id: number) {
