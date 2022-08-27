@@ -1,11 +1,15 @@
 export const url = 'https://learnlangapp1.herokuapp.com';
 export const GAME_1 = 'SPRINT';
 export const GAME_2 = 'AUDIO CHALLENGE';
+export const LOCAL_KEY = 'userObject';
+export const PLAY_PREFIX = 'PLAY ';
+export const SLASH = '/';
 
 export enum QueryParams {
   logIn = '/signin',
   register = '/users',
   words = '/words',
+  token = '/token',
 }
 export interface LoginResponse {
   message: string;
@@ -42,11 +46,6 @@ export enum PageRoutes {
   textBook = 'textbook/:id',
 }
 
-export enum LocalStorageKeys {
-  token = 'token',
-  refreshToken = 'refreshToken',
-  userId = 'userId',
-}
 export interface IWordCard {
   id: string;
   group: number;
@@ -63,6 +62,15 @@ export interface IWordCard {
   textMeaningTranslate: string;
   textExampleTranslate: string;
 }
+
+export enum AppPages {
+  About,
+  MiniGames,
+  TextBook,
+  DashBoard,
+  Authorization,
+}
+
 export interface authorCard {
   id: number;
   firstName: string;
@@ -75,4 +83,14 @@ export interface authorCard {
 export enum gameLevelsAmount {
   userNotLogged = 6,
   userIsLogged,
+}
+export interface LoginUserResponse {
+  id: string;
+  name: string;
+  email: string;
+}
+export enum ShowUserStatus {
+  login = 'login',
+  registration = 'registration',
+  statistics = 'statistics',
 }

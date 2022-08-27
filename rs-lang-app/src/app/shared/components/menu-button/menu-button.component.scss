@@ -4,8 +4,16 @@ button {
   border-radius: 10px;
   background-image: $registrationButtonBackground;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-  width:194px;
-  height:29px;
-  color:$textInFormColor;
-
+  border: 1px solid $borderButtonColor;
+  width: 200px;
+  height: 35px;
+  color: $textInFormColor;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+button:hover {
+  background: $gameMenuButtonBackground;
+}
+button:active{
+  background: $gameMenuButtonPressedBackground;
 }

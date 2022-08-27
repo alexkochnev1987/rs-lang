@@ -2,18 +2,36 @@
   class="card"
   (mouseenter)="onMouseOver(card.id)"
   (mouseleave)="onMouseOut()">
-  <img class="word-image" src="{{ source }}{{ card.image }}" alt="word-image" />
-  <div>{{ card.word }}</div>
-  <div>{{ card.transcription }}</div>
-  <p class="speaker" (click)="playAudio(card.audio)"></p>
-  <p>{{ card.wordTranslate }}</p>
-  <ng-container *ngIf="checkIsMore(card.id)">
-    <p [innerHTML]="card.textMeaning"></p>
-    <div class="speaker" (click)="playAudio(card.audioMeaning)"></div>
-    <p [innerHTML]="card.textExample"></p>
-    <div class="speaker" (click)="playAudio(card.audioExample)"></div>
-    <p [textContent]="card.textMeaningTranslate"></p>
-    <p [textContent]="card.textExampleTranslate"></p>
-  </ng-container>
-  <button [disabled]="!isUser()">DIFFICULT</button>
+  <div class="main-part">
+    <img
+      class="word-image"
+      src="{{ source }}{{ card.image }}"
+      alt="word-image" />
+    <div class="word">{{ card.word }}</div>
+    <div class="transcription">{{ card.transcription }}</div>
+    <div class="speaker" (click)="playAudio(card.audio)"></div>
+    <div class="translate">{{ card.wordTranslate }}</div>
+    <div class="learn">
+      <div class="learn-title">LEARN:</div>
+      <div class="learn-value">1/3</div>
+    </div>
+    <div class="rate">
+      <div class="rate-title">RATE</div>
+      <div class="rate-value">85%</div>
+    </div>
+  </div>
+  <div class="additional-part" [class.visible]="checkIsMore(card.id)">
+    <div class="button-ok"></div>
+    <div class="button-difficult"></div>
+    <div class="meaning" [innerHTML]="card.textMeaning"></div>
+    <div class="speaker-2" (click)="playAudio(card.audioMeaning)"></div>
+    <div class="example" [innerHTML]="card.textExample"></div>
+    <div class="speaker-3" (click)="playAudio(card.audioExample)"></div>
+    <div
+      class="meaning-translate"
+      [textContent]="card.textMeaningTranslate"></div>
+    <div
+      class="example-translate"
+      [textContent]="card.textExampleTranslate"></div>
+  </div>
 </div>

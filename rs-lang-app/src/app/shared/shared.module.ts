@@ -10,6 +10,7 @@ import { MenuButtonComponent } from './components/menu-button/menu-button.compon
 import { RouterModule } from '@angular/router';
 import { RegistrationComponent } from '../authorization/registration/registration.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
+import { UserStatisticsComponent } from './components/user-statistics/user-statistics.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { AuthorizationComponent } from './components/authorization/authorization
     MenuButtonComponent,
     RegistrationComponent,
     AuthorizationComponent,
+    UserStatisticsComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   exports: [

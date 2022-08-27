@@ -1,7 +1,15 @@
 <div class="title-container">
-  <h2 class="title">
-    TEXTBOOK&nbsp;&nbsp; LEVEL {{ group }}&nbsp;&nbsp; PAGE {{ page + 1 }}
-  </h2>
+  <div class="title-1">TEXTBOOK LEVEL:</div>
+  <app-level-navigation [currentLevel]="group"></app-level-navigation>
+  <div class="title-1">PLAY THIS LEVEL:</div>
+  <app-menu-button
+    class="button-1"
+    [gameName]="game1"
+    [routerLink]="link1"></app-menu-button>
+  <app-menu-button
+    class="button-2"
+    [gameName]="game2"
+    [routerLink]="link2"></app-menu-button>
 </div>
 <div class="cards-container">
   <div *ngFor="let card of cards">
@@ -9,12 +17,18 @@
   </div>
 </div>
 <div class="pagination">
-  <span
+  <span class="back" [class.disabled]="page < 1" (click)="pageDown()"
+    >&lt;</span
+  >
+  <div
     id="down"
     [class.current-page]="i === page + 1"
     class="page-number"
     *ngFor="let i of pagination()"
-    (click)="changePage(i)"
-    >{{ i }}</span
+    (click)="changePage(i)">
+    {{ i }}
+  </div>
+  <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
+    >&gt;</span
   >
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { GAME_1 } from 'src/app/constants';
 
 @Component({
@@ -7,6 +7,6 @@ import { GAME_1 } from 'src/app/constants';
   styleUrls: ['./menu-button.component.scss'],
 })
 export class MenuButtonComponent {
-  game = GAME_1;
+  @Input() gameName: string = '';
   constructor() {}
 }
