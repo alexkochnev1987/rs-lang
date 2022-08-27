@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoginResponse } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -6,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class UserDataService {
   private isUser = false;
   private userName = '';
+  private user: Partial<LoginResponse> = {};
   constructor() {}
 
   isRegistered() {
@@ -22,5 +24,20 @@ export class UserDataService {
 
   getUserName() {
     return this.userName;
+  }
+
+  setUser(user: Partial<LoginResponse>) {
+    this.user.token = user.token;
+    this.user.userId = user.userId;
+    this.user.refreshToken = user.refreshToken;
+  }
+
+  getUser() {
+    return this.user;
+  }
+
+  clearUser() {
+    this.user = {};
+    this.userName = '';
   }
 }
