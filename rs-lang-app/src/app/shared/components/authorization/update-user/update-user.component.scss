@@ -1,4 +1,4 @@
-@import '../../../app.component.scss';
+@import '../../../../app.component.scss';
 .authorization {
   border-radius: 10px;
   border: 6px solid $textInFormColor;
@@ -59,13 +59,20 @@ button {
   }
 }
 
-.edit {
+.login {
   background: $loginButtonBackground;
   width: 91px;
   height: 35px;
   &:hover{
-    background: $loginHoverButtonBackground
+    background-color: $loginHoverButtonBackground;
   }
+}
+
+.register {
+  margin-left: 10px;
+  width: 115px;
+  height: 34px;
+  background: $registrationButtonBackground;
 }
 
 h3 {
@@ -90,37 +97,15 @@ h3 {
 
 .logout {
   margin: 0 auto;
-  width: 90px;
+  width: 115px;
   height: 34px;
   background: $registrationButtonBackground;
   &:hover{
-    background: $gameMenuButtonBackground
+    background: $gameMenuButtonBackground;
   }
 }
 .border{
   @include border;
   padding: 20px;
   border-radius: 10px;
-}
-p{
-  padding-top: 10px;
-  @include fontSize14;
-  color: $textInFormColor;
-  span{
-    @include font14bold;
-    color: $textInFormColor;
-  }
-}
-.button-image-wrapper{
-  display: flex;
-  gap: 20px;
-}
-.image-border{
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: $textInFormColor;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

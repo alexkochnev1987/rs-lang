@@ -63,6 +63,9 @@ button {
   background: $loginButtonBackground;
   width: 91px;
   height: 35px;
+  &:hover{
+    background-color: $loginHoverButtonBackground;
+  }
 }
 
 .register {
@@ -97,6 +100,9 @@ h3 {
   width: 115px;
   height: 34px;
   background: $registrationButtonBackground;
+  &:hover{
+    background: $gameMenuButtonBackground;
+  }
 }
 .border{
   @include border;

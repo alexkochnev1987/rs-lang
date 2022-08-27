@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { RegistrationComponent } from '../authorization/registration/registration.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
 import { UserStatisticsComponent } from './components/user-statistics/user-statistics.component';
+import { UpdateUserComponent } from './components/authorization/update-user/update-user.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { UserStatisticsComponent } from './components/user-statistics/user-stati
     RegistrationComponent,
     AuthorizationComponent,
     UserStatisticsComponent,
+    UpdateUserComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   exports: [
