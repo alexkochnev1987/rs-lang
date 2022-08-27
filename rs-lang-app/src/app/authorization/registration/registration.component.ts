@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ShowUserStatus } from 'src/app/constants';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ShowRegistrationService } from 'src/app/core/services/show-registration.service';
 
@@ -44,7 +45,8 @@ export class RegistrationComponent implements OnInit {
       },
     });
   }
+
   goToLogin() {
-    this.showRegistration.setState(false);
+    this.showRegistration.setUserStatus(ShowUserStatus.login);
   }
 }

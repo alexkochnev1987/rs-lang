@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, retry, tap, map, catchError, throwError } from 'rxjs';
 import {
   LoginResponse,
   LOCAL_KEY,
@@ -8,8 +8,12 @@ import {
   RegisterResponse,
   url,
   User,
+  SLASH,
+  LoginUserResponse,
+  ShowUserStatus,
 } from '../../constants';
 import { LocalStorageService } from './localstorage.service';
+import { ShowRegistrationService } from './show-registration.service';
 import { UserDataService } from './user-data.service';
 
 @Injectable({
@@ -20,7 +24,8 @@ export class AuthService {
   constructor(
     private localStorage: LocalStorageService,
     private http: HttpClient,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private showRegistrationService: ShowRegistrationService
   ) {}
   login(user: User): Observable<LoginResponse> {
     return this.http
@@ -32,9 +37,6 @@ export class AuthService {
           this.setUserState(true);
         })
       );
-  }
-  refreshToken(userId: string) {
-    return this.http.get(`${url}/${userId}/tokens`);
   }
 
   setUserState(state: boolean) {
@@ -51,6 +53,10 @@ export class AuthService {
     return this.user;
   }
 
+  clearUser() {
+    this.user = {};
+  }
+
   setLocalStorage(key: string, value: any) {
     this.localStorage.setItem(key, value);
   }
@@ -62,17 +68,28 @@ export class AuthService {
     );
   }
 
-  clearUser() {
-    this.user = {};
-  }
-
   logOut() {
     this.clearUser();
     this.setUserState(false);
     this.localStorage.clear();
   }
 
+  refreshToken() {
+    console.log('Start refresh');
+    return this.http
+      .get(`${url + QueryParams.register + SLASH}${this.user.userId}/tokens`)
+      .pipe(
+        tap(response => {
+          this.setUser(response);
+          this.setLocalStorage(LOCAL_KEY, this.user);
+          this.setUserState(true);
+        })
+      );
+  }
+
   getUserName() {
-    return this.http.get(`${url}/users/${this.user.userId}`);
+    return this.http.get(
+      `${url + QueryParams.register + SLASH}${this.user.userId}`
+    );
   }
 }
