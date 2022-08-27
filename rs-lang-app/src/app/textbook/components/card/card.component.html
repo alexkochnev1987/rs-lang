@@ -27,11 +27,14 @@
     [class.visible]="checkIsMore(card.id)"
     [class.difficult-word-additional]="isDifficultWord(card.id)"
     [class.learned-word-additional]="isLearnedWord(card.id)">
-    <div class="button-ok" *ngif="group === 7" (click)="setLearnedWord()"></div>
+    <div
+      class="button-ok"
+      *ngIf="group === 7"
+      (click)="setLearnedWord(card.id)"></div>
     <div
       class="button-difficult"
       *ngIf="isUser()"
-      (click)="setDifficultWord()"></div>
+      (click)="setDifficultWord(card.id)"></div>
     <div class="meaning" [innerHTML]="card.textMeaning"></div>
     <div class="speaker-2" (click)="playAudio(card.audioMeaning)"></div>
     <div class="example" [innerHTML]="card.textExample"></div>
