@@ -8,7 +8,7 @@
         class="level-selector-box"
         *ngFor="let level of levels"
         (mouseenter)="hoverActions(level.id)"
-        (click)="levelSelected = level.id">
+        (click)="setSelectedLevel(level.id); levelSelected = level.id">
         <div
           class="level-selector"
           [style]="getLevelBackgroundColor(level.color)"

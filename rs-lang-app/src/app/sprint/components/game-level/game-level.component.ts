@@ -2,11 +2,9 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { gameLevelsAmount } from 'src/app/constants';
 
@@ -38,17 +36,19 @@ export class GameLevelComponent implements AfterViewInit {
   //     : gameLevelsAmount.userNotLogged;
   // }
   constructor() {}
+
   ngAfterViewInit(): void {
     this.levelsContainerWidth = this.levelsContainer.nativeElement.offsetWidth;
-    this.levelsSelectorWidth = this.levelsSelector.nativeElement.offsetWidth;
+    this.levelsSelectorWidth =
+      this.levelsSelector.get(0)?.nativeElement.offsetWidth;
     this.hoverActions(1);
   }
 
   @ViewChild('levelsContainer')
   levelsContainer!: ElementRef;
 
-  @ViewChild('levelsSelector')
-  levelsSelector!: ElementRef;
+  @ViewChildren('levelsSelector', { read: ElementRef })
+  levelsSelector!: QueryList<ElementRef>;
 
   @ViewChild('outerContainer')
   outerContainer!: ElementRef;
@@ -81,6 +81,17 @@ export class GameLevelComponent implements AfterViewInit {
     this.levelsBackground.nativeElement.style = `background: linear-gradient(0.25turn, ${this.levels
       .map(el => el.color)
       .join(', ')});`;
+
+    this.setSelectedLevel(this.levelSelected);
+  }
+
+  setSelectedLevel(id: number) {
+    this.levelSelected = id;
+    this.levelsSelector.forEach((el, index) => {
+      if (id > index) el.nativeElement.classList.add('selected');
+      else el.nativeElement.classList.remove('selected');
+    });
+    return id;
   }
 
   getBorderColor(selectedLevel?: number) {
