@@ -20,7 +20,7 @@ import { UserDataService } from './user-data.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private user: Partial<LoginResponse> = {};
+  // private user: Partial<LoginResponse> = {};
   constructor(
     private localStorage: LocalStorageService,
     private http: HttpClient,
@@ -32,29 +32,11 @@ export class AuthService {
       .post<LoginResponse>(`${url + QueryParams.logIn}`, user)
       .pipe(
         tap(response => {
-          this.setUser(response);
-          this.setLocalStorage(LOCAL_KEY, this.user);
-          this.setUserState(true);
+          this.userDataService.setUser(response);
+          this.setLocalStorage(LOCAL_KEY, this.userDataService.getUser());
+          this.userDataService.setUserState(true);
         })
       );
-  }
-
-  setUserState(state: boolean) {
-    this.userDataService.setUserState(state);
-  }
-
-  setUser(user: Partial<LoginResponse>) {
-    this.user.token = user.token;
-    this.user.userId = user.userId;
-    this.user.refreshToken = user.refreshToken;
-  }
-
-  getUser() {
-    return this.user;
-  }
-
-  clearUser() {
-    this.user = {};
   }
 
   setLocalStorage(key: string, value: any) {
@@ -69,27 +51,33 @@ export class AuthService {
   }
 
   logOut() {
-    this.clearUser();
-    this.setUserState(false);
+    this.userDataService.clearUser();
+    this.userDataService.setUserState(false);
     this.localStorage.clear();
   }
 
   refreshToken() {
     console.log('Start refresh');
     return this.http
-      .get(`${url + QueryParams.register + SLASH}${this.user.userId}/tokens`)
+      .get(
+        `${url + QueryParams.register + SLASH}${
+          this.userDataService.getUser().userId
+        }/tokens`
+      )
       .pipe(
         tap(response => {
-          this.setUser(response);
-          this.setLocalStorage(LOCAL_KEY, this.user);
-          this.setUserState(true);
+          this.userDataService.setUser(response);
+          this.setLocalStorage(LOCAL_KEY, this.userDataService.getUser());
+          this.userDataService.setUserState(true);
         })
       );
   }
 
   getUserName() {
     return this.http.get(
-      `${url + QueryParams.register + SLASH}${this.user.userId}`
+      `${url + QueryParams.register + SLASH}${
+        this.userDataService.getUser().userId
+      }`
     );
   }
 }
