@@ -72,3 +72,7 @@ export interface authorCard {
   features: string[];
   aboutAuthor: string;
 }
+export enum gameLevelsAmount {
+  userNotLogged = 6,
+  userIsLogged,
+}

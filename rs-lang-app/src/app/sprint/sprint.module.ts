@@ -6,12 +6,14 @@ import { SprintComponent } from './components/sprint/sprint.component';
 import { SharedModule } from '../shared/shared.module';
 import { GameStatisticsComponent } from './components/game-statistics/game-statistics.component';
 import { GameLevelComponent } from './components/game-level/game-level.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SprintComponent, GameStatisticsComponent, GameLevelComponent],
   imports: [
     CommonModule,
     SprintRoutingModule,
+    FormsModule,
     // SharedModule
   ],
 })

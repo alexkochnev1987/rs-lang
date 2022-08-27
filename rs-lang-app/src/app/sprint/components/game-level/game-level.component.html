@@ -1,27 +1,25 @@
-<div class="solid-stroke-container" [style]="getBorderColor(mousePosX)">
+<div class="solid-stroke-container" #outerContainer>
   <div class="levels-container">
     <h4 class="heading-4">choose game level:</h4>
-    <div class="levels">
-      <div
-        class="levels-selection-background"
-        [style]="getLevelsGradientBackground(mousePosX)"></div>
-      <div
-        class="levels-background"
-        [style]="getLevelsGradientBackground()"></div>
+    <div class="levels" (mouseleave)="hoverActions(levelSelected)">
+      <div class="levels-selection-background" #levelsContainer></div>
+      <div class="levels-background" #levelsBackground></div>
       <div
         class="level-selector-box"
         *ngFor="let level of levels"
-        (mouseenter)="mousePosX = getMousePosition($event, level.id)">
+        (mouseenter)="hoverActions(level.id)"
+        (click)="levelSelected = level.id">
         <div
           class="level-selector"
-          [style]="getLevelBackgroundColor(level.color)">
+          [style]="getLevelBackgroundColor(level.color)"
+          #levelsSelector>
           {{ level.id }}
         </div>
       </div>
     </div>
   </div>
   <div class="buttons">
-    <button class="small-green">START GAME</button>
-    <button class="small-orange">CANCEL</button>
+    <button class="button-green">START GAME</button>
+    <button class="button-orange">CANCEL</button>
   </div>
 </div>
