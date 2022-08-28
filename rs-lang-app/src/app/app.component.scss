@@ -4,6 +4,8 @@
 $loginFormBackground: #d698ec;
 $textInFormColor: #ffffff;
 $loginButtonBackground: linear-gradient(180deg, #88e564 0%, #6cd244 100%);
+$loginHoverButtonBackground: linear-gradient(180deg, #B8FA9F 0%, #88E564 100%);
+$pressedLoginButton:linear-gradient(180deg, #88E564 0%, #B8FA9F 100%);
 $registrationButtonBackground: linear-gradient(
   180deg,
   #ff9100 0%,
@@ -93,6 +95,16 @@ $desktopIndent: 30px;
   border-radius: 10px;
   height: 34px;
   border: none;
+}
+@mixin border-button{
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  border: 1px dashed $cardBorderColor;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @mixin border {
   margin: auto;

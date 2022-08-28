@@ -65,8 +65,14 @@
 }
 .text{
   padding: 30px 30px 30px 210px;
-  button{
-    @include button;
+}
+button{
+  @include button;
+  &:hover{
+    background: $gameMenuButtonBackground;
+  }
+  &:active{
+    background: $gameMenuButtonPressedBackground;
   }
 }
 .border{
@@ -76,6 +82,8 @@
   margin:auto;
   display: flex;
   align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .black-border{
   @include border;

@@ -11,6 +11,9 @@ export enum QueryParams {
   register = '/users',
   words = '/words',
   token = '/token',
+  statistics = '/statistics',
+  settings = '/settings',
+  aggregatedWords = '/aggregatedWords',
 }
 export interface LoginResponse {
   message: string;
@@ -92,6 +95,31 @@ export enum ShowUserStatus {
   login = 'login',
   registration = 'registration',
   statistics = 'statistics',
+  update = 'update',
+}
+
+export interface UserStatistics {
+  id: string;
+  learnedWords: number;
+}
+
+export interface UserSettings {
+  wordsPerDay: number;
+  optional: {};
+}
+
+export interface UserWords {
+  difficulty: 'string';
+  optional: {};
+}
+
+export interface IWordsData {
+  difficulty: string;
+  optional: {
+    attempts: number;
+    success: number;
+    rightGuessesInRow: number;
+  };
 }
 export enum Difficulty {
   Hard = 'hard',

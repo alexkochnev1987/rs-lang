@@ -1,0 +1,26 @@
+<div class="authorization">
+  <div class="border">
+    <div class="button-image-wrapper">
+      <div class="image-border">
+        <img src="../../../../assets/img/face.png" alt="face" />
+      </div>
+      <div class="text-wrapper">
+        <h2>Hello {{ userName }}!</h2>
+        <div class="button-wrapper">
+          <button class="edit" (click)="updateUser()">
+            <div class="border-button">Edit</div>
+          </button>
+          <button class="logout" (click)="logOut()">
+            <div class="border-button">Logout</div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p>
+      Words per day <span>{{ wordsPerDay }}</span>
+    </p>
+    <p>
+      Learned words <span>{{ learnedWord }} / 3600</span>
+    </p>
+  </div>
+</div>

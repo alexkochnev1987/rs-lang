@@ -39,4 +39,8 @@ export class AuthorizationComponent implements OnInit {
   isStatistics() {
     return this.getState() === ShowUserStatus.statistics ? true : false;
   }
+
+  isUpdate() {
+    return this.getState() === ShowUserStatus.update ? true : false;
+  }
 }
