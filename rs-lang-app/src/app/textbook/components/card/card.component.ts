@@ -106,11 +106,14 @@ export class CardComponent implements OnInit {
   }
 
   setLearnedWord(wordId: string): void {
-    const put = true;
-    this.setKindOfWord(Difficulty.Easy, wordId, put);
+    if (!this.isWordInUserWords(wordId)) {
+      this.setKindOfWord(Difficulty.Easy, wordId);
+    } else {
+      const put = true;
+      this.setKindOfWord(Difficulty.Easy, wordId, put);
+    }
     this.getUserWords();
   }
-
   isWordInUserWords(wordId: string): boolean {
     this.getUserWords();
     return !!this.userWords.find(item => item.wordId === wordId);
