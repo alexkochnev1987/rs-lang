@@ -8,7 +8,7 @@ import { ShowRegistrationService } from 'src/app/core/services/show-registration
 @Component({
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
-  styleUrls: ['./update-user.component.scss'],
+  styleUrls: ['../authorization.component.scss'],
 })
 export class UpdateUserComponent implements OnInit {
   form: FormGroup;

@@ -46,7 +46,9 @@
     <button *ngIf="!isUser" class="register" (click)="goToRegistration()">
       <div class="border-button">Register</div>
     </button>
-    <button *ngIf="isUser" class="logout" (click)="logOut()">Logout</button>
+    <button *ngIf="isUser" class="logout" (click)="logOut()">
+      <div class="border-button">Logout</div>
+    </button>
     <div class="text-image">
       <div class="text-wrapper">
         <div class="text-done">

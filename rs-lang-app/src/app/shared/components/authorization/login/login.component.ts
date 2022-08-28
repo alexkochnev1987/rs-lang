@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../core/services/auth.service';
-import { ShowUserStatus, User } from '../../constants';
+import { AuthService } from '../../../../core/services/auth.service';
+import { ShowUserStatus, User } from '../../../../constants';
 import { ShowRegistrationService } from 'src/app/core/services/show-registration.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['../authorization.component.scss'],
 })
 export class LoginComponent implements OnInit {
   isUser = false;
@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
     this.validateFom();
     this.userName = '';
     this.userDataService.setUserName('');
+    this.showRegistration.setUserStatus(ShowUserStatus.login);
   }
 
   goToRegistration() {

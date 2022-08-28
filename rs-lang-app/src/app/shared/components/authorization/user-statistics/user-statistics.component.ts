@@ -9,7 +9,7 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 @Component({
   selector: 'app-user-statistics',
   templateUrl: './user-statistics.component.html',
-  styleUrls: ['./user-statistics.component.scss'],
+  styleUrls: ['../authorization.component.scss'],
 })
 export class UserStatisticsComponent implements OnInit {
   userName = '';
