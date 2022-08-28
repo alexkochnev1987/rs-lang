@@ -4,13 +4,10 @@ import { CommonModule } from '@angular/common';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { SharedModule } from '../shared/shared.module';
+import { AuthorizationComponent } from '../shared/components/authorization/authorization.component';
 
 @NgModule({
   declarations: [StatisticsComponent],
-  imports: [
-    CommonModule,
-    StatisticsRoutingModule,
-    // SharedModule
-  ],
+  imports: [CommonModule, StatisticsRoutingModule, SharedModule],
 })
 export class StatisticsModule {}

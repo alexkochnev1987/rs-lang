@@ -107,7 +107,7 @@ export interface UserSettings {
 }
 
 export interface UserWords {
-  difficulty: 'string';
+  difficulty: string;
   optional: {};
 }
 

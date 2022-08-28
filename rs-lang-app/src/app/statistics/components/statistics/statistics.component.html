@@ -1,2 +1,35 @@
+<div class="wrapper">
+  <div class="game-wrapper">
+    <div class="black-border">
+      <img src="assets/img/sprint.png" alt="Sprint" />
+      <div class="text-wrapper">
+        <div class="text">
+          <h3>SPRINT MINI-GAME</h3>
+          <button [routerLink]="link2">
+            <div class="border">Play Game</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="game-wrapper">
+    <div class="black-border">
+      <img src="assets/img/audio.png" alt="Audio Challenge" />
+      <div class="text-wrapper">
+        <div class="text">
+          <h3>AUDIO CHALLENGE</h3>
+          <button [routerLink]="link1">
+            <div class="border">Play Game</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-authorization class="width"></app-authorization>
+</div>
+
 <h2>It's Statistics Page</h2>
 <button (click)="getWords()">Get words</button>
+<button (click)="postWord()">Post word</button>
+<button (click)="getStatistics()">Get statistics</button>
+<button (click)="getSettings()">Get settings</button>
