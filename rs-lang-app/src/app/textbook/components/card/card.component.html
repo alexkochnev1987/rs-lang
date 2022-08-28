@@ -30,7 +30,7 @@
     [class.learned-word-additional]="isLearnedWord(card.id)">
     <div
       class="button-ok"
-      *ngIf="isUser() && isDifficultWord(card.id)"
+      *ngIf="isUser() && (isDifficultWord(card.id) || isNotMarkedWord(card.id))"
       (click)="setLearnedWord(card.id)"></div>
     <div
       class="button-difficult"

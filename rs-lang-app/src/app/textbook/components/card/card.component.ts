@@ -88,6 +88,12 @@ export class CardComponent implements OnInit {
       Difficulty.Easy
     );
   }
+  isNotMarkedWord(wordId: string) {
+    const difficulty = this.userWords.find(
+      item => item.wordId === wordId
+    )?.difficulty;
+    return difficulty !== Difficulty.Hard && difficulty !== Difficulty.Easy;
+  }
 
   setDifficultWord(wordId: string): void {
     if (!this.isWordInUserWords(wordId)) {
