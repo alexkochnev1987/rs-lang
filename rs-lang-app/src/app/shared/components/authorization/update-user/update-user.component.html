@@ -50,12 +50,14 @@
     </div>
     <button
       type="submit"
-      class="login"
+      class="edit"
       (click)="editUser()"
       [disabled]="form.invalid || form.disabled">
-      Edit
+      <div class="border-button">Edit</div>
     </button>
-    <button class="register" (click)="goToStatistics()">Cancel</button>
+    <button class="cancel" (click)="goToStatistics()">
+      <div class="border-button">Cancel</div>
+    </button>
     <div class="text-image">
       <div class="text-wrapper">
         <div class="text-done">

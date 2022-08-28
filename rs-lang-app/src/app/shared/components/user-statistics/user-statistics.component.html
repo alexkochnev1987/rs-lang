@@ -7,8 +7,12 @@
       <div class="text-wrapper">
         <h2>Hello {{ userName }}!</h2>
         <div class="button-wrapper">
-          <button class="edit" (click)="updateUser()">Edit</button>
-          <button class="logout" (click)="logOut()">Logout</button>
+          <button class="edit" (click)="updateUser()">
+            <div class="border-button">Edit</div>
+          </button>
+          <button class="logout" (click)="logOut()">
+            <div class="border-button">Logout</div>
+          </button>
         </div>
       </div>
     </div>

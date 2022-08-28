@@ -41,10 +41,10 @@
       class="login"
       (click)="onSubmit()"
       [disabled]="form.invalid || form.disabled">
-      Login
+      <div class="border-button">Login</div>
     </button>
     <button *ngIf="!isUser" class="register" (click)="goToRegistration()">
-      Register
+      <div class="border-button">Register</div>
     </button>
     <button *ngIf="isUser" class="logout" (click)="logOut()">Logout</button>
     <div class="text-image">
