@@ -1,5 +1,7 @@
 @import '../../../app.component.scss';
 .authorization {
+  box-sizing: border-box;
+  height: 100%;
   border-radius: 10px;
   border: 6px solid $textInFormColor;
   padding: 3px;
