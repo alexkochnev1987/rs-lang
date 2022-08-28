@@ -27,9 +27,18 @@
   </div>
   <app-authorization class="width"></app-authorization>
 </div>
+<div>
+  <h2>Your statistics</h2>
+  <div class="table">
+    <div class="header">
+      <div>DATE</div>
+      <div>NEW WORDS LEARNED</div>
+      <div>TOTAL WORDS LEARNED</div>
+    </div>
+    <div class="row1"></div>
+  </div>
+</div>
 
-<h2>It's Statistics Page</h2>
 <button (click)="getWords()">Get words</button>
-<button (click)="postWord()">Post word</button>
 <button (click)="getStatistics()">Get statistics</button>
 <button (click)="getSettings()">Get settings</button>

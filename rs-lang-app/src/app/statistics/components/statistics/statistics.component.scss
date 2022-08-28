@@ -82,3 +82,25 @@ button{
   color: $textInFormColor;
 }
 
+.table{
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  // overflow: hidden;
+}
+
+.header{
+
+  background: $statisticsTableHeader;
+  height: 45px;
+  width: 100%;
+  color: $textInFormColor;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.row1{
+  height: 100px;
+  background: whitesmoke;
+}

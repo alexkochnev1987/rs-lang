@@ -130,3 +130,15 @@ export interface IWord {
   difficulty?: string;
   wordId: string;
 }
+export interface UserWordsResponse {
+  id: string;
+  difficulty: string;
+  optional?: {};
+  wordId: string;
+}
+
+export interface DayMonthYear {
+  day: number;
+  month: number;
+  year: number;
+}
