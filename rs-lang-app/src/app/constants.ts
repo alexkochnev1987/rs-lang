@@ -5,6 +5,7 @@ export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
 export const PAGE_KEY = 'currentTextbookPage';
+export const LEVEL_KEY = 'currentLevel';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -124,6 +125,7 @@ export interface IWordsData {
 export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
+  Learned = 'learned',
 }
 export interface IWord {
   id: string;

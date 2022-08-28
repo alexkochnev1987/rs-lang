@@ -9,6 +9,7 @@ import {
   GAME_2,
   IWord,
   IWordCard,
+  LEVEL_KEY,
   PageRoutes,
   PAGE_KEY,
   PLAY_PREFIX,
@@ -53,6 +54,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
+      this.storage.setItem(LEVEL_KEY, this.group);
       this.userId = this.userdataService.getUser().userId;
       if (this.group == 7) {
         this.loadDifficultWords();
