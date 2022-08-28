@@ -2,7 +2,8 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Injectable,
+  EventEmitter,
+  Output,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -15,8 +16,8 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   styleUrls: ['./game-level.component.scss'],
 })
 export class GameLevelComponent implements AfterViewInit {
+  isGameStart: boolean = false;
   levels: LevelColor[] = LEVELS_COLORS;
-
   levelSelected = 1;
   levelsContainerWidth = 0;
   levelsSelectorWidth = 0;
@@ -104,4 +105,7 @@ export class GameLevelComponent implements AfterViewInit {
   get getGameLevel() {
     return this.levelSelected;
   }
+
+  @Output()
+  buttonsActions = new EventEmitter<number>();
 }

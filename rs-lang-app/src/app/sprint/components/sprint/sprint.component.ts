@@ -1,11 +1,12 @@
 import {
   Component,
   ElementRef,
+  Input,
   OnChanges,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { AppPages } from 'src/app/constants';
+import { AppPages, GAME_1 } from 'src/app/constants';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { GameLevelComponent } from '../../../shared/components/game-level/game-level.component';
 
@@ -15,6 +16,8 @@ import { GameLevelComponent } from '../../../shared/components/game-level/game-l
   styleUrls: ['./sprint.component.scss'],
 })
 export class SprintComponent implements OnInit {
+  isGameStart = false;
+  currentGame = GAME_1;
   currentLevel!: number;
 
   constructor(
@@ -25,15 +28,12 @@ export class SprintComponent implements OnInit {
     this.currentLevel = this.gameLevel.getGameLevel;
   }
 
-  @ViewChild('gameLevelSetter')
-  gameLevelSetter!: ElementRef;
-
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
   }
 
-  get getGameLevel() {
-    console.log(JSON.stringify(this.gameLevelSetter));
-    return this.currentLevel;
+  gameActions(level: number) {
+    this.currentLevel = level;
+    console.log(level);
   }
 }

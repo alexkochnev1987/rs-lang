@@ -21,7 +21,15 @@
     </div>
   </div>
   <div class="buttons">
-    <button class="button-green" (click)="(getGameLevel)">START GAME</button>
-    <button class="button-orange">CANCEL</button>
+    <button
+      class="button-green"
+      (click)="buttonsActions.emit(getGameLevel); isGameStart = true">
+      START GAME
+    </button>
+    <button
+      class="button-orange"
+      (click)="buttonsActions.emit(0); isGameStart = false">
+      CANCEL
+    </button>
   </div>
 </div>
