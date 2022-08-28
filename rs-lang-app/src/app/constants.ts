@@ -1,9 +1,10 @@
 export const url = 'https://learnlangapp1.herokuapp.com';
-export const GAME_1 = 'SPRINT';
-export const GAME_2 = 'AUDIO CHALLENGE';
+export const GAME_1 = 'AUDIO CHALLENGE';
+export const GAME_2 = 'SPRINT';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
+export const PAGE_KEY = 'currentTextbookPage';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -67,6 +68,7 @@ export interface IWordCard {
 }
 
 export enum AppPages {
+  Main,
   About,
   MiniGames,
   TextBook,
@@ -118,4 +120,13 @@ export interface IWordsData {
     success: number;
     rightGuessesInRow: number;
   };
+}
+export enum Difficulty {
+  Hard = 'hard',
+  Easy = 'easy',
+}
+export interface IWord {
+  id: string;
+  difficulty?: string;
+  wordId: string;
 }

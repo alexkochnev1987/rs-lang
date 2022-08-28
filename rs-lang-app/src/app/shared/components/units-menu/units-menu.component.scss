@@ -9,7 +9,7 @@
   gap: 10px;
   isolation: isolate;
   width: 50px;
-  height: 372px;
+  height: 430px;
   background: $levelNavigationMenuBackground;
   border: 20px solid $cardBackgroundColor;
   border-radius: 50px;
@@ -26,6 +26,11 @@
   align-items: center;
   padding: 10px;
   gap: 10px;
+  cursor: pointer;
+
+}
+.navigation-element:hover{
+  transform: scale(1.05);
 }
 .big-element {
   width: 50px !important;
