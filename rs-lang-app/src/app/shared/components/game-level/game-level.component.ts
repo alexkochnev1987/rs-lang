@@ -2,13 +2,13 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Injectable,
   QueryList,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { gameLevelsAmount, LevelColor, LEVELS_COLORS } from 'src/app/constants';
 import { UserDataService } from 'src/app/core/services/user-data.service';
-
 @Component({
   selector: 'app-game-level',
   templateUrl: './game-level.component.html',
@@ -23,7 +23,6 @@ export class GameLevelComponent implements AfterViewInit {
   levelsAmount: number;
 
   constructor(private userService: UserDataService = new UserDataService()) {
-    console.log(this.userService.isRegistered());
     this.levelsAmount = this.userService.isRegistered()
       ? gameLevelsAmount.userIsLogged
       : gameLevelsAmount.userNotLogged;
@@ -94,12 +93,15 @@ export class GameLevelComponent implements AfterViewInit {
       if (id > index) el.nativeElement.classList.add('selected');
       else el.nativeElement.classList.remove('selected');
     });
-    return id;
   }
 
   getBorderColor(selectedLevel?: number) {
     return selectedLevel
       ? `border-color: ${this.levels[selectedLevel - 1].color}`
       : `border-color: ${this.levels[0].color}`;
+  }
+
+  get getGameLevel() {
+    return this.levelSelected;
   }
 }
