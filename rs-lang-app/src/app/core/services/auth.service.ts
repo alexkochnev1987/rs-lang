@@ -42,6 +42,18 @@ export class AuthService {
     );
   }
 
+  editUser(user: User): Observable<User> {
+    return this.http.put<RegisterResponse>(
+      `${
+        url +
+        QueryParams.register +
+        SLASH +
+        this.userDataService.getUser().userId
+      }`,
+      user
+    );
+  }
+
   logOut() {
     this.userDataService.clearUser();
     this.userDataService.setUserState(false);

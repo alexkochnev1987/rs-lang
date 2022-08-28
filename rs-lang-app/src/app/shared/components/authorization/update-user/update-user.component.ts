@@ -33,19 +33,30 @@ export class UpdateUserComponent implements OnInit {
     });
     this.auth.getUserName().subscribe({
       next: response => {
-        console.log(response);
-        this.form.value.name = response.name;
-        this.form.value.email = response.email;
-        console.log(this.form.value);
+        this.form = new FormGroup({
+          name: new FormControl(response.name, [
+            Validators.required,
+            Validators.minLength(5),
+          ]),
+          email: new FormControl(response.email, [
+            Validators.required,
+            Validators.email,
+          ]),
+          password: new FormControl(null, [
+            Validators.required,
+            Validators.minLength(8),
+          ]),
+        });
       },
     });
   }
 
   editUser() {
     this.form.disable();
-    this.auth.register(this.form.value).subscribe({
+    this.auth.editUser(this.form.value).subscribe({
       next: response => {
         this.goToStatistics();
+        console.log(response);
       },
       error: error => {
         this.form.enable();
