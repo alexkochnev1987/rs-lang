@@ -9,9 +9,10 @@ import {
   url,
   User,
   SLASH,
-  LoginUserResponse,
+  ShowUserStatus,
 } from '../../constants';
 import { LocalStorageService } from './localstorage.service';
+import { ShowRegistrationService } from './show-registration.service';
 import { UserDataService } from './user-data.service';
 
 @Injectable({
@@ -21,7 +22,8 @@ export class AuthService {
   constructor(
     private localStorage: LocalStorageService,
     private http: HttpClient,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private showRegistrationService: ShowRegistrationService
   ) {}
   login(user: User): Observable<LoginResponse> {
     return this.http
@@ -58,6 +60,7 @@ export class AuthService {
     this.userDataService.clearUser();
     this.userDataService.setUserState(false);
     this.localStorage.clear();
+    this.showRegistrationService.setUserStatus(ShowUserStatus.login);
   }
 
   refreshToken() {

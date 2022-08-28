@@ -60,8 +60,6 @@ export class LoginComponent implements OnInit {
     this.isUser = false;
     this.validateFom();
     this.userName = '';
-    this.userDataService.setUserName('');
-    this.showRegistration.setUserStatus(ShowUserStatus.login);
   }
 
   goToRegistration() {

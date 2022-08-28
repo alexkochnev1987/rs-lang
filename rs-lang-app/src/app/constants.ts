@@ -110,3 +110,12 @@ export interface UserWords {
   difficulty: 'string';
   optional: {};
 }
+
+export interface IWordsData {
+  difficulty: string;
+  optional: {
+    attempts: number;
+    success: number;
+    rightGuessesInRow: number;
+  };
+}
