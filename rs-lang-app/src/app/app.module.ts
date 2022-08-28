@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { AuthService } from './core/services/auth.service';
+import { QueryService } from './core/service/query.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +22,7 @@ import { AuthService } from './core/services/auth.service';
   ],
   providers: [
     AuthService,
+    QueryService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
