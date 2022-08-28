@@ -6,6 +6,7 @@ export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
+export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -131,4 +132,5 @@ export interface IWord {
   id: string;
   difficulty?: string;
   wordId: string;
+  optional?: {};
 }

@@ -5,10 +5,12 @@ import { Subscription } from 'rxjs';
 import { AuthInterceptor } from 'src/app/auth.interceptor';
 import {
   AppPages,
+  Difficulty,
   GAME_1,
   GAME_2,
   IWord,
   IWordCard,
+  LEARNED_PAGE,
   LEVEL_KEY,
   PageRoutes,
   PAGE_KEY,
@@ -37,10 +39,13 @@ export class TextbookComponent implements OnInit, OnDestroy {
   cards: IWordCard[] = [];
   game1 = PLAY_PREFIX + GAME_1;
   game2 = PLAY_PREFIX + GAME_2;
+  learnedPage = LEARNED_PAGE;
   link2 = '../../' + PageRoutes.sprint;
   link1 = '../../' + PageRoutes.audioChallenge;
   userId: string | undefined = undefined;
   userWords: IWord[] = [];
+  pageWords: IWord[] = [];
+
   learnedPages: number[] = [];
   private subscription: Subscription;
 
@@ -117,11 +122,38 @@ export class TextbookComponent implements OnInit, OnDestroy {
       });
   }
 
-  isLearnedPage(page: number) {
-    let count = 0;
+  getPageWords(page: number) {
     let wordsFromPage: IWordCard[] = [];
     this.httpService
       .getData(`/words?group=${this.group - 1}&page=${page}`)
-      .subscribe({ next: (data: any) => (wordsFromPage = data) });
+      .subscribe({
+        next: (data: any) => {
+          wordsFromPage = data;
+          wordsFromPage.forEach(item =>
+            this.httpService
+              .getData(
+                QueryParams.register +
+                  SLASH +
+                  this.userId +
+                  QueryParams.words +
+                  SLASH +
+                  item.id
+              )
+              .subscribe({
+                next: (data: any) => {
+                  this.pageWords.push(data);
+                },
+              })
+          );
+        },
+      });
+  }
+
+  isLearnedPage(page: number) {
+    this.getPageWords(page);
+    const filteredWordsFromPage = this.pageWords.filter(
+      item => item.difficulty === Difficulty.Easy
+    );
+    return filteredWordsFromPage.length === 20;
   }
 }
