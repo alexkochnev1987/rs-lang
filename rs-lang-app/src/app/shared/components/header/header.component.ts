@@ -24,6 +24,9 @@ export class HeaderComponent implements OnInit {
     this.closeMenu();
     this.closeGamesMenu();
   }
+  @HostListener('window: mousemove') onEvent() {
+    this.currentPage = this.pagesDataService.getPage();
+  }
   constructor(
     private router: Router,
     private pagesDataService: PagesDataService
@@ -36,7 +39,6 @@ export class HeaderComponent implements OnInit {
   showMenu() {
     this.isMenuInvisible = !this.isMenuInvisible;
     this.skip = true;
-    this.currentPage = this.pagesDataService.getPage();
   }
   closeMenu() {
     this.isMenuInvisible = true;

@@ -83,10 +83,8 @@ a {
 .title-1,
 .title-2 {
   @include fontSize16;
-
-  margin-left: -30px;
+  margin-left: -20px;
 }
-
 ::ng-deep .button-1 button{
   width:218px;
 }

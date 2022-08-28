@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/core/services/user-data.service';
-import { url } from 'src/app/constants';
+import { Difficulty, IWord, QueryParams, SLASH, url } from 'src/app/constants';
+import { HttpService } from 'src/app/core/services/http.service';
+import { HttpClient } from '@angular/common/http';
 
 class WordCard {
   constructor(
@@ -25,13 +27,25 @@ class WordCard {
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
 })
-export class CardComponent {
+export class CardComponent implements OnInit {
   source = url + '/';
   idCard = '';
   isMore = false;
-  @Input() card!: WordCard;
+  userWord: IWord = { id: '', wordId: '' };
+  userWords: IWord[] = [];
 
-  constructor(private userDataService: UserDataService) {}
+  @Input() card!: WordCard;
+  @Input() group: number = 0;
+  @Input() userId: string | undefined;
+
+  constructor(
+    private userDataService: UserDataService,
+    private httpService: HttpService,
+    private http: HttpClient
+  ) {}
+  ngOnInit(): void {
+    if (this.userId) this.getUserWords();
+  }
 
   onMouseOver(id: string) {
     this.isMore = true;
@@ -49,8 +63,87 @@ export class CardComponent {
   isUser() {
     return this.userDataService.isRegistered();
   }
+
   playAudio(urlocation: string) {
     const audio = new Audio(this.source + urlocation);
     audio.play();
+  }
+
+  isDifficultWord(wordId: string): any {
+    if (!this.isUser()) {
+      return false;
+    }
+    return (
+      this.userWords.find(item => item.wordId === wordId)?.difficulty ===
+      Difficulty.Hard
+    );
+  }
+
+  isLearnedWord(wordId: string): boolean {
+    if (!this.isUser()) {
+      return false;
+    }
+    return (
+      this.userWords.find(item => item.wordId === wordId)?.difficulty ===
+      Difficulty.Easy
+    );
+  }
+
+  setDifficultWord(wordId: string): void {
+    if (!this.isWordInUserWords(wordId)) {
+      this.setKindOfWord(Difficulty.Hard, wordId);
+    } else {
+      const put = true;
+      this.setKindOfWord(Difficulty.Hard, wordId, put);
+    }
+    this.getUserWords();
+  }
+
+  setLearnedWord(wordId: string): void {
+    const put = true;
+    this.setKindOfWord(Difficulty.Easy, wordId, put);
+    this.getUserWords();
+  }
+
+  isWordInUserWords(wordId: string): boolean {
+    this.getUserWords();
+    return !!this.userWords.find(item => item.wordId === wordId);
+  }
+
+  setKindOfWord(kind: string, wordId: string, put: boolean = false) {
+    let response: any;
+    const body = { difficulty: kind };
+    const location =
+      QueryParams.register +
+      SLASH +
+      this.userId +
+      QueryParams.words +
+      SLASH +
+      wordId;
+    if (put) {
+      response = this.httpService.putData(location, body);
+    } else {
+      response = this.httpService.postData(location, body);
+    }
+    response.subscribe({ next: (data: any) => console.log(data) });
+  }
+
+  getLearnProgress(wordId: string): string {
+    const attempts: number = 0;
+    const maxAttempts: number = 3;
+    return `${attempts}/${maxAttempts}`;
+  }
+  getRateValue(wordId: string): string {
+    const rate = 0;
+    return `${rate}%`;
+  }
+  getUserWords() {
+    this.http
+      .get(url + QueryParams.register + SLASH + this.userId + QueryParams.words)
+      .subscribe({
+        next: (data: any) => {
+          this.userWords = data;
+        },
+      });
   }
 }
