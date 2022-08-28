@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url } from 'src/app/constants';
 
@@ -11,6 +11,7 @@ export class HttpService {
   getData(endpoint: string = '', options: any = {}) {
     return this.http.get(url + endpoint, options);
   }
+
   postData(endpoint: string = '', options: any = {}) {
     return this.http.post(url + endpoint, options);
   }

@@ -4,6 +4,7 @@ export const GAME_2 = 'SPRINT';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
+export const PAGE_KEY = 'currentTextbookPage';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -64,6 +65,7 @@ export interface IWordCard {
 }
 
 export enum AppPages {
+  Main,
   About,
   MiniGames,
   TextBook,
@@ -90,4 +92,13 @@ export enum ShowUserStatus {
   login = 'login',
   registration = 'registration',
   statistics = 'statistics',
+}
+export enum Difficulty {
+  Hard = 'hard',
+  Easy = 'easy',
+}
+export interface IWord {
+  id: string;
+  difficulty?: string;
+  wordId: string;
 }

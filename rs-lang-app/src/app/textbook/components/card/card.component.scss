@@ -46,7 +46,7 @@
   border-bottom: 2px solid $cardBorderColor;
   border-left: 2px solid $cardBorderColor;
   border-right: 2px solid $cardBorderColor;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   margin-bottom: 30px;
   padding: 10px;
   transition: margin 0.5s, opacity 1s;

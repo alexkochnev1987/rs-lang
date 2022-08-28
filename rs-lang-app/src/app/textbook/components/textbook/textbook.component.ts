@@ -1,25 +1,33 @@
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthInterceptor } from 'src/app/auth.interceptor';
 import {
   AppPages,
   GAME_1,
   GAME_2,
+  IWord,
   IWordCard,
   PageRoutes,
+  PAGE_KEY,
   PLAY_PREFIX,
+  QueryParams,
+  SLASH,
   url,
 } from 'src/app/constants';
-import { AuthService } from 'src/app/core/services/auth.service';
+
 import { HttpService } from 'src/app/core/services/http.service';
+import { LocalStorageService } from 'src/app/core/services/localstorage.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { TextbookDataService } from 'src/app/core/services/textbook-data.service';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-textbook',
   templateUrl: './textbook.component.html',
   styleUrls: ['./textbook.component.scss'],
-  providers: [],
+  providers: [AuthInterceptor],
 })
 export class TextbookComponent implements OnInit, OnDestroy {
   source = url + '/';
@@ -31,6 +39,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   link2 = '../../' + PageRoutes.sprint;
   link1 = '../../' + PageRoutes.audioChallenge;
   userId: string | undefined = undefined;
+  userWords: IWord[] = [];
   private subscription: Subscription;
 
   constructor(
@@ -38,12 +47,14 @@ export class TextbookComponent implements OnInit, OnDestroy {
     private httpService: HttpService,
     private textbookDataService: TextbookDataService,
     private pagesDataService: PagesDataService,
-    private auth: AuthService
+    private userdataService: UserDataService,
+    private http: HttpClient,
+    private storage: LocalStorageService
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
-
-      if (this.group === 7) {
+      this.userId = this.userdataService.getUser().userId;
+      if (this.group == 7) {
         this.loadDifficultWords();
       }
       this.load();
@@ -54,7 +65,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.load();
     this.pagesDataService.setPage(AppPages.TextBook);
-    this.userId = this.auth.getUser().userId;
+    this.page = Number(this.storage.getItem(PAGE_KEY)) || 0;
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -69,7 +80,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: number) {
-    this.textbookDataService.setCurrentPageNumber(page - 1);
+    this.storage.setItem(PAGE_KEY, page - 1);
     this.page = page - 1;
     this.load();
   }
@@ -87,8 +98,19 @@ export class TextbookComponent implements OnInit, OnDestroy {
   }
 
   loadDifficultWords() {
-    this.httpService
-      .getData(`/users/${this.userId}/aggregatedWords`)
-      .subscribe({ next: (data: any) => (this.cards = data) });
+    this.http
+      .get(url + QueryParams.register + SLASH + this.userId + QueryParams.words)
+      .subscribe({
+        next: (data: any) => {
+          this.userWords = data;
+          this.userWords.forEach(item => {
+            this.httpService.getData(`/words/${item.wordId}`).subscribe({
+              next: (data: any) => {
+                this.cards.push(data);
+              },
+            });
+          });
+        },
+      });
   }
 }

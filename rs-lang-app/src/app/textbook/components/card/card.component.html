@@ -3,7 +3,8 @@
   [class.difficult-word]="isDifficultWord(card.id)"
   [class.learned-word]="isLearnedWord(card.id)"
   (mouseenter)="onMouseOver(card.id)"
-  (mouseleave)="onMouseOut()">
+  (mouseleave)="onMouseOut()"
+  *ngIf="!(group > 6 && isLearnedWord(card.id))">
   <div class="main-part">
     <img
       class="word-image"
@@ -29,11 +30,11 @@
     [class.learned-word-additional]="isLearnedWord(card.id)">
     <div
       class="button-ok"
-      *ngIf="group === 7"
+      *ngIf="isUser() && isDifficultWord(card.id)"
       (click)="setLearnedWord(card.id)"></div>
     <div
       class="button-difficult"
-      *ngIf="isUser()"
+      *ngIf="isUser() && !isDifficultWord(card.id)"
       (click)="setDifficultWord(card.id)"></div>
     <div class="meaning" [innerHTML]="card.textMeaning"></div>
     <div class="speaker-2" (click)="playAudio(card.audioMeaning)"></div>
