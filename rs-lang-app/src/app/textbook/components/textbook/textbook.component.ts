@@ -122,38 +122,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
       });
   }
 
-  getPageWords(page: number) {
-    let wordsFromPage: IWordCard[] = [];
-    this.httpService
-      .getData(`/words?group=${this.group - 1}&page=${page}`)
-      .subscribe({
-        next: (data: any) => {
-          wordsFromPage = data;
-          wordsFromPage.forEach(item =>
-            this.httpService
-              .getData(
-                QueryParams.register +
-                  SLASH +
-                  this.userId +
-                  QueryParams.words +
-                  SLASH +
-                  item.id
-              )
-              .subscribe({
-                next: (data: any) => {
-                  this.pageWords.push(data);
-                },
-              })
-          );
-        },
-      });
-  }
-
   isLearnedPage(page: number) {
-    this.getPageWords(page);
-    const filteredWordsFromPage = this.pageWords.filter(
-      item => item.difficulty === Difficulty.Easy
-    );
-    return filteredWordsFromPage.length === 20;
+    return false;
   }
 }
