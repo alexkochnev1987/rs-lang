@@ -41,6 +41,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   link1 = '../../' + PageRoutes.audioChallenge;
   userId: string | undefined = undefined;
   userWords: IWord[] = [];
+  learnedPages: number[] = [];
   private subscription: Subscription;
 
   constructor(
@@ -114,5 +115,13 @@ export class TextbookComponent implements OnInit, OnDestroy {
           });
         },
       });
+  }
+
+  isLearnedPage(page: number) {
+    let count = 0;
+    let wordsFromPage: IWordCard[] = [];
+    this.httpService
+      .getData(`/words?group=${this.group - 1}&page=${page}`)
+      .subscribe({ next: (data: any) => (wordsFromPage = data) });
   }
 }

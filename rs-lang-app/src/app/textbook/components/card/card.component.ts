@@ -96,12 +96,12 @@ export class CardComponent implements OnInit {
   }
 
   setDifficultWord(wordId: string): void {
-    this.setKindOfWord(Difficulty.Hard, wordId);
+    this.setStateOfOfWord(Difficulty.Hard, wordId);
     this.getUserWords();
   }
 
-  setLearnedWord(wordId: string): void {
-    this.setKindOfWord(Difficulty.Easy, wordId);
+  setEasyWord(wordId: string): void {
+    this.setStateOfOfWord(Difficulty.Easy, wordId);
     this.getUserWords();
   }
   isWordInUserWords(wordId: string): boolean {
@@ -109,10 +109,10 @@ export class CardComponent implements OnInit {
     return !!this.userWords.find(item => item.wordId === wordId);
   }
 
-  setKindOfWord(kind: string, wordId: string) {
+  setStateOfOfWord(state: string, wordId: string) {
     let response: any;
     let put = false;
-    const body = { difficulty: kind };
+    const body = { difficulty: state };
     const location =
       QueryParams.register +
       SLASH +
