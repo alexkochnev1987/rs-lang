@@ -77,6 +77,9 @@ p {
   width: 600px;
   right: 50px;
 }
+.button-container > div{
+  cursor: pointer;
+}
 
 .active{
   color:$activePageColor;

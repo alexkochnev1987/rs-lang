@@ -1,21 +1,8 @@
 <form [formGroup]="form" class="authorization">
   <div class="border">
-    <h3>Registration</h3>
-    <div>
-      <input
-        placeholder="Name"
-        type="text"
-        class="input"
-        formControlName="name"
-        id="name"
-        [ngClass]="{
-          invalid: form.get('name')?.invalid && form.get('name')?.touched
-        }" />
-      <p
-        *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
-        class="error">
-        Enter valid name(min length 8)
-      </p>
+    <h3 *ngIf="!isUser">Log in</h3>
+    <h2 *ngIf="isUser">Hello {{ userName }}</h2>
+    <div *ngIf="!isUser">
       <input
         placeholder="Email"
         formControlName="email"
@@ -48,12 +35,19 @@
         Min length 8
       </p>
     </div>
-    <button type="submit" class="login" (click)="goToLogin()">Login</button>
     <button
-      class="register"
-      (click)="onRegistration()"
+      *ngIf="!isUser"
+      type="submit"
+      class="login"
+      (click)="onSubmit()"
       [disabled]="form.invalid || form.disabled">
-      Register
+      <div class="border-button">Login</div>
+    </button>
+    <button *ngIf="!isUser" class="register" (click)="goToRegistration()">
+      <div class="border-button">Register</div>
+    </button>
+    <button *ngIf="isUser" class="logout" (click)="logOut()">
+      <div class="border-button">Logout</div>
     </button>
     <div class="text-image">
       <div class="text-wrapper">

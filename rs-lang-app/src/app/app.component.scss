@@ -4,6 +4,8 @@
 $loginFormBackground: #d698ec;
 $textInFormColor: #ffffff;
 $loginButtonBackground: linear-gradient(180deg, #88e564 0%, #6cd244 100%);
+$loginHoverButtonBackground: linear-gradient(180deg, #B8FA9F 0%, #88E564 100%);
+$pressedLoginButton:linear-gradient(180deg, #88E564 0%, #B8FA9F 100%);
 $registrationButtonBackground: linear-gradient(
   180deg,
   #ff9100 0%,
@@ -15,7 +17,7 @@ $gameMenuButtonPressedBackground: linear-gradient(
   #ff9100 0%,
   #ffb84d 100%
 );
-$levelNavigationOnPageBackground:linear-gradient(
+$levelNavigationOnPageBackground: linear-gradient(
   90deg,
   #88e564 2.8%,
   #45dec2 18.41%,
@@ -25,7 +27,7 @@ $levelNavigationOnPageBackground:linear-gradient(
   #e564b9 81.9%,
   #de4848 97.52%
 );
-$levelNavigationMenuBackground:linear-gradient(
+$levelNavigationMenuBackground: linear-gradient(
   180deg,
   #88e564 2.8%,
   #45dec2 18.41%,
@@ -52,21 +54,23 @@ $menuTopBorder: #6cd244;
 $borderButtonColor: #ffffff;
 $paginationArrowDisabled: #b2b3b9;
 $borderTitleBlockColor: #64c6e5;
-$activePageColor:#6cd244;
+$activePageColor: #6cd244;
 $transcriptionColor: #ba6bd6;
-$menuBackgroundColor:#ffffff;
-$cardBackgroundColor:#ffffff;
-$cardBorderColor:#eeeeee;
-$menuTopBorder:#6CD244;
-$currentPageColor:red;
+$menuBackgroundColor: #ffffff;
+$cardBackgroundColor: #ffffff;
+$cardBorderColor: #eeeeee;
+$menuTopBorder: #6cd244;
+$currentPageColor: red;
 $boxShadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 $colorBlue: #42bee5;
 $colorDarkPurple: #ba6bd6;
 $fontNormalColor: #404354;
 $dashedStrokeGrey: #898c9c;
 $containerBackground: #ffffff;
+$exampleTextColor: #757575;
+$borderDifficultColor: #eb4949;
+$borderLearnedColor: #6cd244;
 $desktopIndent: 30px;
-
 
 @mixin fontSize14 {
   font-family: $formFontFamilyText;
@@ -97,6 +101,16 @@ $desktopIndent: 30px;
   border-radius: 10px;
   height: 34px;
   border: none;
+}
+@mixin border-button{
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  border: 1px dashed $cardBorderColor;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @mixin border {
   margin: auto;

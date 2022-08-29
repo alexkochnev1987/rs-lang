@@ -8,7 +8,7 @@
   padding: 0px;
   gap: 10px;
   isolation: isolate;
-  width: 372px;
+  width: 472px;
   height: 50px;
   background: $levelNavigationOnPageBackground;
   border: 20px solid $cardBackgroundColor;
@@ -29,6 +29,9 @@
   padding: 10px;
   cursor: pointer;
   gap: 10px;
+}
+.navigation-element:hover{
+  transform: scale(1.05);
 }
 .big-element {
   width: 50px !important;

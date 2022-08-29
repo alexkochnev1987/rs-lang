@@ -10,8 +10,6 @@
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
-
-
 }
 
 .page-number {
@@ -83,13 +81,39 @@ a {
 .title-1,
 .title-2 {
   @include fontSize16;
-
-  margin-left: -30px;
+  margin-left: -20px;
 }
-
-::ng-deep .button-1 button{
-  width:218px;
+::ng-deep .button-1 button {
+  width: 218px;
 }
-::ng-deep .button-2 button{
-  width:137px;
+::ng-deep .button-2 button {
+  width: 137px;
+}
+.learned-page {
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: -25px;
+  left: 10px;
+  background-image: url(/assets/img/learned-page.png);
+}
+.learned-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 10px;
+  width: 516px;
+  height: 50px;
+  background: $borderLearnedColor;
+  border-radius: 10px;
+  align-self: stretch;
+  color:$cardBackgroundColor;
+  @include font14bold;
+}
+.check-mark {
+  background-image: url(/assets/img/check-mark.png);
+  width: 24px;
+  height: 21px;
 }
