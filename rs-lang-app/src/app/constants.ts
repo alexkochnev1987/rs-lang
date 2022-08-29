@@ -1,4 +1,4 @@
-export const url = 'https://learnlangaapp1.herokuapp.com';
+export const url = 'https://learnlangapp1.herokuapp.com';
 export const GAME_1 = 'AUDIO CHALLENGE';
 export const GAME_2 = 'SPRINT';
 export const LOCAL_KEY = 'userObject';
