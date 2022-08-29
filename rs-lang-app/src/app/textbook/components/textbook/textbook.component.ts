@@ -5,10 +5,13 @@ import { Subscription } from 'rxjs';
 import { AuthInterceptor } from 'src/app/auth.interceptor';
 import {
   AppPages,
+  Difficulty,
   GAME_1,
   GAME_2,
   IWord,
   IWordCard,
+  LEARNED_PAGE,
+  LEVEL_KEY,
   PageRoutes,
   PAGE_KEY,
   PLAY_PREFIX,
@@ -36,10 +39,14 @@ export class TextbookComponent implements OnInit, OnDestroy {
   cards: IWordCard[] = [];
   game1 = PLAY_PREFIX + GAME_1;
   game2 = PLAY_PREFIX + GAME_2;
+  learnedPage = LEARNED_PAGE;
   link2 = '../../' + PageRoutes.sprint;
   link1 = '../../' + PageRoutes.audioChallenge;
   userId: string | undefined = undefined;
   userWords: IWord[] = [];
+  pageWords: IWord[] = [];
+
+  learnedPages: number[] = [];
   private subscription: Subscription;
 
   constructor(
@@ -53,6 +60,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
+      this.storage.setItem(LEVEL_KEY, this.group);
       this.userId = this.userdataService.getUser().userId;
       if (this.group == 7) {
         this.loadDifficultWords();
@@ -112,5 +120,9 @@ export class TextbookComponent implements OnInit, OnDestroy {
           });
         },
       });
+  }
+
+  isLearnedPage(page: number) {
+    return false;
   }
 }

@@ -45,6 +45,11 @@ $formErrorMessageColor: red;
 $headerBackgrounColor: #404354;
 $paginationNumberColor: #404354;
 $logoInnerElement: #037db5;
+$menuBackgroundColor: #ffffff;
+$cardBackgroundColor: #ffffff;
+$cardBorderColor: #eeeeee;
+$menuTopBorder: #6cd244;
+$currentPageColor: red;
 $menuTopBorder: #6cd244;
 $borderButtonColor: #ffffff;
 $paginationArrowDisabled: #b2b3b9;
@@ -61,6 +66,7 @@ $colorBlue: #42bee5;
 $colorDarkPurple: #ba6bd6;
 $fontNormalColor: #404354;
 $dashedStrokeGrey: #898c9c;
+$containerBackground: #ffffff;
 $exampleTextColor: #757575;
 $borderDifficultColor: #eb4949;
 $borderLearnedColor: #6cd244;
@@ -215,12 +221,19 @@ $statisticsTableHeader:#42BEE5;
 }
 @mixin stroke-container {
   border: 1px dashed $dashedStrokeGrey;
-  outline: 3px solid white;
+  outline: 3px solid $containerBackground;
   border-radius: 10px;
   box-shadow: 0 4px 4px 3px rgba($color: black, $alpha: 0.15);
-  background-color: white;
+  background-color: $containerBackground;
   box-sizing: border-box;
   margin: 3px;
+}
+@mixin solid-stroke-container {
+  border: 5px solid;
+  box-shadow: 0 2px 2px rgba($color: black, $alpha: 0.15);
+  background-color: $containerBackground;
+  border-radius: 10px;
+  box-sizing: border-box;
 }
 .router-wrapper {
   display: flex;
@@ -235,4 +248,54 @@ $statisticsTableHeader:#42BEE5;
   align-items: center;
   margin: 0 auto;
   height: 100px;
+}
+.button-orange {
+  position: relative;
+  @include font14bold;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 rgba($color: #000000, $alpha: 0.15);
+  color: white;
+  border: 3px solid #FF7A00;
+  border-radius: 10px;
+  outline: 1px dashed white;
+  outline-offset: -4px;
+  padding: 9px 14px 7px;
+  background-image: linear-gradient(#FF9100, #FF7A00);
+  box-shadow: 0 2px 2px rgba($color: #000000, $alpha: 0.15);
+  cursor: pointer;
+}
+.button-orange:hover {
+  border: 3px solid #FF9100;
+  background-image: linear-gradient(#FFB84D, #FF9100);
+}
+.button-orange:active {
+  border: 3px solid #FF9100;
+  background-image: linear-gradient(#FF9100, #FFB84D);
+  box-shadow: 0 0 0 rgba($color: #000000, $alpha: 0.15);
+  top: 2px;
+}
+.button-green {
+  position: relative;
+  @include font14bold;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 rgba($color: #000000, $alpha: 0.15);
+  color: white;
+  border: 3px solid #6CD244;
+  border-radius: 10px;
+  outline: 1px dashed white;
+  outline-offset: -4px;
+  padding: 9px 14px 7px;
+  background-image: linear-gradient(#88E564, #6CD244);
+  box-shadow: 0 2px 2px rgba($color: #000000, $alpha: 0.15);
+  cursor: pointer;
+}
+.button-green:hover {
+  border: 3px solid #88E564;
+  background-image: linear-gradient(#B8FA9F, #88E564);
+}
+.button-green:active {
+  border: 3px solid #88E564;
+  background-image: linear-gradient(#88E564, #B8FA9F);
+  box-shadow: 0 0 0 rgba($color: #000000, $alpha: 0.15);
+  top: 2px;
 }

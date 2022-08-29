@@ -6,8 +6,12 @@ import { DayMonthYear } from 'src/app/constants';
 })
 export class DateService {
   constructor() {}
-  getDate(): DayMonthYear {
-    const date = new Date();
+  getDate(): number {
+    return new Date().getTime();
+  }
+
+  numberToDate(numberDate: number): DayMonthYear {
+    const date = new Date(numberDate);
     return {
       day: date.getDate(),
       month: date.getMonth(),

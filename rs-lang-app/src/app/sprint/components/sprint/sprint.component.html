@@ -1,1 +1,7 @@
-<h2>It's Sprint Game</h2>
+<h1>{{ currentGame }}</h1>
+<app-game-level
+  (buttonsActions)="
+    currentLevel = $event; isGameStart = !isGameStart; loadWords()
+  "
+  *ngIf="!isGameStart"></app-game-level>
+<h2>{{ currentLevel }}</h2>

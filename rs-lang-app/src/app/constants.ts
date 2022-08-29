@@ -4,7 +4,20 @@ export const GAME_2 = 'SPRINT';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
+export const LEVELS_COLORS: LevelColor[] = [
+  { id: 1, color: '#88E564' },
+  { id: 2, color: '#45DEC3' },
+  { id: 3, color: '#64C6E5' },
+  { id: 4, color: '#508BE4' },
+  { id: 5, color: '#AC64E5' },
+  { id: 6, color: '#E564B9' },
+  { id: 7, color: '#EB4949' },
+];
+export const WORDS_ON_PAGE = 20;
+export const PAGES_ON_LEVEL = 30;
 export const PAGE_KEY = 'currentTextbookPage';
+export const LEVEL_KEY = 'currentLevel';
+export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -85,7 +98,10 @@ export interface authorCard {
   features: string[];
   aboutAuthor: string;
 }
-
+export enum gameLevelsAmount {
+  userNotLogged = 6,
+  userIsLogged,
+}
 export interface LoginUserResponse {
   id: string;
   name: string;
@@ -114,11 +130,12 @@ export interface UserWords {
 }
 
 export interface IWordsData {
-  difficulty: string;
+  difficulty: Difficulty;
   optional: {
     attempts: number;
     success: number;
     rightGuessesInRow: number;
+    date: number;
   };
 }
 export enum Difficulty {
@@ -129,6 +146,7 @@ export interface IWord {
   id: string;
   difficulty?: string;
   wordId: string;
+  optional?: {};
 }
 export interface UserWordsResponse {
   id: string;
@@ -141,4 +159,22 @@ export interface DayMonthYear {
   day: number;
   month: number;
   year: number;
+}
+export type LevelColor = {
+  id: number;
+  color: string;
+};
+
+export interface GameOptions {
+  attempts: number;
+  success: number;
+  rightGuessesInRow: number;
+}
+
+export interface GameStatistics {
+  learnedWords: 0;
+  optional: {
+    sprint: GameOptions;
+    audioChallenge: GameOptions;
+  };
 }
