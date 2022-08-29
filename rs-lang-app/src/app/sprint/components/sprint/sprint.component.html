@@ -2,11 +2,12 @@
   <h1>{{ currentGame }}</h1>
   <app-game-level
     (buttonsActions)="
-      currentLevel = $event; isGameStart = !isGameStart; loadWords()
+      currentLevel = $event; isLevelSelected = !isLevelSelected; loadWords()
     "
-    *ngIf="!isGameStart"></app-game-level>
-  <div *ngIf="isGameStart && !renderGame">{{ progress }}</div>
-  <div *ngIf="renderGame">
+    *ngIf="!isLevelSelected"></app-game-level>
+  <div *ngIf="isLevelSelected && !isGameStarted">{{ progress }}</div>
+  <div *ngIf="isGameStarted && !isGameEnded">
+    <div class="game-timer">{{ (timer / 10).toFixed(1) }}</div>
     <div class="game-container">
       <div class="progress-picture"></div>
       <div class="game-elements">
@@ -28,4 +29,5 @@
       </div>
     </div>
   </div>
+  <div *ngIf="isGameEnded">THE END</div>
 </section>

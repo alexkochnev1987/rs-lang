@@ -18,6 +18,7 @@ export const PAGES_ON_LEVEL = 30;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
+export const SPRINT_TIMER = 5;
 
 export enum QueryParams {
   logIn = '/signin',

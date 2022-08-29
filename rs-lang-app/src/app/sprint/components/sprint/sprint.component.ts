@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin, map, pipe, tap } from 'rxjs';
-import { AppPages, GAME_2, IWord, IWordCard } from 'src/app/constants';
+import {
+  AppPages,
+  GAME_2,
+  IWord,
+  IWordCard,
+  SPRINT_TIMER,
+} from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
@@ -15,18 +21,21 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 })
 export class SprintComponent implements OnInit {
   wordsArray: IWordCard[] = [];
-  isGameStart = false;
+  timerID!: ReturnType<typeof setInterval>;
   currentGame = GAME_2;
+  timer = SPRINT_TIMER * 10;
+  isLevelSelected = false;
+  isGameStarted = false;
+  isGameEnded = false;
+  isAuth = false;
+  isCorrect = false;
   currentLevel = 1;
   loadingProgress = 0;
-  progress = '';
-  renderGame = false;
-  isAuth = false;
   wordsCounter = 0;
   gameScore = 0;
+  progress = '';
   currentWord = '';
   wordTranslation = '';
-  isCorrect = false;
 
   constructor(
     private userService: UserDataService = new UserDataService(),
@@ -108,9 +117,20 @@ export class SprintComponent implements OnInit {
 
   startGame(data: IWordCard[]) {
     this.wordsArray = data;
-    this.renderGame = true;
+    this.isGameStarted = true;
     console.log(this.wordsArray);
     this.getWord();
+    this.getTimer();
+  }
+
+  getTimer() {
+    this.timerID = setInterval(() => {
+      this.timer--;
+      if (this.timer <= 0) {
+        this.isGameEnded = true;
+        clearInterval(this.timerID);
+      }
+    }, 100);
   }
 
   getWord() {
@@ -127,6 +147,11 @@ export class SprintComponent implements OnInit {
 
   checkAnswer(answer: boolean) {
     console.log(`Answer: ${answer}; isCorrect: ${this.isCorrect}`);
-    if (answer === this.isCorrect) this.gameScore += 50;
+    if (answer === this.isCorrect) {
+      this.gameScore += 50;
+      console.log(`CORRECT: ${this.wordsArray[this.wordsCounter].word}`);
+    } else {
+      console.log(`WRONG: ${this.wordsArray[this.wordsCounter].word}`);
+    }
   }
 }
