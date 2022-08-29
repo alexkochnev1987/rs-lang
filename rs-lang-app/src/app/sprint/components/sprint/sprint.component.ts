@@ -6,7 +6,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { AppPages, GAME_1 } from 'src/app/constants';
+import { AppPages, GAME_1, IWordCard } from 'src/app/constants';
+import { HttpService } from 'src/app/core/services/http.service';
+import { LoadWordsService } from 'src/app/core/services/load-words.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { GameLevelComponent } from '../../../shared/components/game-level/game-level.component';
 
@@ -18,22 +20,24 @@ import { GameLevelComponent } from '../../../shared/components/game-level/game-l
 export class SprintComponent implements OnInit {
   isGameStart = false;
   currentGame = GAME_1;
-  currentLevel!: number;
+  currentLevel: number = 1;
+  wordsArray: IWordCard[] = [];
 
   constructor(
     private pageDataService: PagesDataService,
-    private gameLevel: GameLevelComponent
-  ) {
-    this.gameLevel = new GameLevelComponent();
-    this.currentLevel = this.gameLevel.getGameLevel;
-  }
+    private httpService: HttpService
+  ) {}
 
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
   }
 
-  gameActions(level: number) {
-    this.currentLevel = level;
-    console.log(level);
+  loadGame(page?: number) {
+    const loadWordsService = new LoadWordsService(
+      this.httpService,
+      this.currentLevel
+    );
+    this.wordsArray = loadWordsService.loadWords();
+    console.log(this.wordsArray);
   }
 }
