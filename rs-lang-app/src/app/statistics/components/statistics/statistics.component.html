@@ -42,3 +42,35 @@
 <button (click)="getWords()">Get words</button>
 <button (click)="getStatistics()">Get statistics</button>
 <button (click)="getSettings()">Get settings</button>
+
+<div class="wrapper-words">
+  <div class="table">
+    <h2>Words learned</h2>
+    <div class="header">
+      <div>WORD</div>
+      <div>TRANSCRIPTION</div>
+      <div>TRANSLATE</div>
+      <div></div>
+    </div>
+    <div class="row1"></div>
+  </div>
+  <div class="table">
+    <h2>Hard words</h2>
+    <div class="header">
+      <div>WORD</div>
+      <div>TRANSCRIPTION</div>
+      <div>TRANSLATE</div>
+      <div></div>
+    </div>
+    <div class="rows" *ngFor="let word of hardWords">
+      <div class="word">{{ word.word }}</div>
+      <div class="transcription">
+        <div class="speaker" (click)="playSound(word.audio)"></div>
+        <div>{{ word.transcription }}</div>
+      </div>
+      <div class="translate">{{ word.wordTranslate }}</div>
+      <div class="button-difficult"></div>
+    </div>
+    <div class="row1"></div>
+  </div>
+</div>

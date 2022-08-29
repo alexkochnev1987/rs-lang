@@ -10,6 +10,8 @@ import {
   User,
   SLASH,
   ShowUserStatus,
+  UserWords,
+  IWordCard,
 } from '../../constants';
 import { LocalStorageService } from './localstorage.service';
 import { ShowRegistrationService } from './show-registration.service';
@@ -89,5 +91,9 @@ export class AuthService {
         this.userDataService.getUser().userId
       }`
     );
+  }
+
+  getWordById(id: string) {
+    return this.http.get<IWordCard>(url + QueryParams.words + SLASH + id);
   }
 }

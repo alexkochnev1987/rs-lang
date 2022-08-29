@@ -87,11 +87,10 @@ button{
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  // overflow: hidden;
+  overflow: hidden;
 }
 
 .header{
-
   background: $statisticsTableHeader;
   height: 45px;
   width: 100%;
@@ -103,4 +102,72 @@ button{
 .row1{
   height: 100px;
   background: whitesmoke;
+}
+
+.speaker{
+  background-image: url(/assets/img/speaker.png);
+  background-size: cover;
+  width: 12px;
+  min-height: 12px;
+  max-height: 12px;
+  cursor: pointer;
+}
+.button-ok {
+  grid-area: x;
+  background: url(/assets/img/ok.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 29px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px dashed $activePageColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:5px;
+  cursor: pointer;
+}
+.button-difficult {
+  grid-area: y;
+  background: url(/assets/img/difficult.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 29px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px dashed $currentPageColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.rows{
+  height: 35px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word {
+  width: 150px;
+  padding-left: 20px;
+}
+
+.transcription{
+  width: 150px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.wrapper-words{
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  gap:30px;
+  width: 100%;
+  // flex-wrap: wrap;
 }
