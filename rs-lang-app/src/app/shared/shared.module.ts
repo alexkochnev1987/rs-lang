@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { RegistrationComponent } from '../authorization/registration/registration.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
 import { UserStatisticsComponent } from './components/user-statistics/user-statistics.component';
+import { GameLevelComponent } from './components/game-level/game-level.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { UserStatisticsComponent } from './components/user-statistics/user-stati
     RegistrationComponent,
     AuthorizationComponent,
     UserStatisticsComponent,
+    GameLevelComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   exports: [
@@ -34,6 +36,7 @@ import { UserStatisticsComponent } from './components/user-statistics/user-stati
     LoginComponent,
     RegistrationComponent,
     AuthorizationComponent,
+    GameLevelComponent,
   ],
 })
 export class SharedModule {}

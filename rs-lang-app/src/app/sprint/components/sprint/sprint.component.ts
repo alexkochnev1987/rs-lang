@@ -1,14 +1,8 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { forkJoin, map } from 'rxjs';
 import { AppPages, GAME_1, IWordCard } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
-import { LoadWordsService } from 'src/app/core/services/load-words.service';
+import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { GameLevelComponent } from '../../../shared/components/game-level/game-level.component';
 
@@ -16,6 +10,7 @@ import { GameLevelComponent } from '../../../shared/components/game-level/game-l
   selector: 'app-sprint',
   templateUrl: './sprint.component.html',
   styleUrls: ['./sprint.component.scss'],
+  providers: [GameLevelComponent],
 })
 export class SprintComponent implements OnInit {
   isGameStart = false;
@@ -32,12 +27,21 @@ export class SprintComponent implements OnInit {
     this.pageDataService.setPage(AppPages.MiniGames);
   }
 
-  loadGame(page?: number) {
-    const loadWordsService = new LoadWordsService(
+  loadWords(page?: number) {
+    const wordsResponse = new CreateWordsResponseService(
       this.httpService,
       this.currentLevel
     );
-    this.wordsArray = loadWordsService.loadWords();
+    const observable = forkJoin(wordsResponse.createWordsResponse());
+    observable.subscribe({
+      next: (data: any) => {
+        this.startGame(data);
+      },
+    });
+  }
+
+  startGame(data: any) {
+    this.wordsArray = data;
     console.log(this.wordsArray);
   }
 }

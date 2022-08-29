@@ -9,13 +9,8 @@ import { GameLevelComponent } from '../shared/components/game-level/game-level.c
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [SprintComponent, GameStatisticsComponent, GameLevelComponent],
-  imports: [
-    CommonModule,
-    SprintRoutingModule,
-    FormsModule,
-    // SharedModule
-  ],
+  declarations: [SprintComponent, GameStatisticsComponent],
+  imports: [CommonModule, SprintRoutingModule, FormsModule, SharedModule],
   providers: [GameLevelComponent],
 })
 export class SprintModule {}
