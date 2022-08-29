@@ -12,6 +12,7 @@ import { RegistrationComponent } from './components/authorization/registration/r
 import { AuthorizationComponent } from './components/authorization/authorization.component';
 import { UserStatisticsComponent } from './components/authorization/user-statistics/user-statistics.component';
 import { UpdateUserComponent } from './components/authorization/update-user/update-user.component';
+import { GameLevelComponent } from './components/game-level/game-level.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UpdateUserComponent } from './components/authorization/update-user/upda
     AuthorizationComponent,
     UserStatisticsComponent,
     UpdateUserComponent,
+    GameLevelComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   exports: [
@@ -36,6 +38,7 @@ import { UpdateUserComponent } from './components/authorization/update-user/upda
     LoginComponent,
     RegistrationComponent,
     AuthorizationComponent,
+    GameLevelComponent,
   ],
 })
 export class SharedModule {}

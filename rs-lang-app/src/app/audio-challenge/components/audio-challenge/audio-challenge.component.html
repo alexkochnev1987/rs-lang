@@ -1,1 +1,7 @@
-<h2>It's Audio Challenge Game</h2>
+<h1>{{ currentGame }}</h1>
+<app-game-level
+  (buttonsActions)="
+    currentLevel = $event; loadGame(); isGameStart = !isGameStart
+  "
+  *ngIf="!isGameStart"></app-game-level>
+<h2>{{ currentLevel }}</h2>

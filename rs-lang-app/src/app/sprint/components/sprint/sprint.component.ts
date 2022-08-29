@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { AppPages, GAME_1, IWordCard } from 'src/app/constants';
+import { AppPages, GAME_1, GAME_2, IWordCard } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { LoadWordsService } from 'src/app/core/services/load-words.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
@@ -19,7 +19,7 @@ import { GameLevelComponent } from '../../../shared/components/game-level/game-l
 })
 export class SprintComponent implements OnInit {
   isGameStart = false;
-  currentGame = GAME_1;
+  currentGame = GAME_2;
   currentLevel: number = 1;
   wordsArray: IWordCard[] = [];
 
