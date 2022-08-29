@@ -1,5 +1,4 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { AppPages } from 'src/app/constants';
 import { UserDataService } from 'src/app/core/services/user-data.service';

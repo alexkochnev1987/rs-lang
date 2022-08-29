@@ -22,7 +22,11 @@ p {
   cursor: pointer;
 }
 .invisible {
-  margin-top: -100vh;
+  margin-top: -440px;
+  transition: 1s;
+}
+.notvisible {
+  margin-top: -150px;
   transition: 1s;
 }
 .menu {

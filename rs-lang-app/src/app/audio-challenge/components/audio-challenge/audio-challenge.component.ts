@@ -28,7 +28,7 @@ export class AudioChallengeComponent implements OnInit {
   mainPageLink = '../';
   guessButtons: IGuessButton[] = [{ id: '', word: 'we' }, { id: '', word: 'can' }, { id: '', word: 'do' }, { id: '', word: 'it' }]
   guessInRow: number[] = [1, 1, 0, 0, 0];
-  attemptsInRow: number[]=[1,1,1,2,0,0,0,0,0,0]
+  attemptsInRow: number[]=[1,1,1,0,-1,-1,-1,-1,-1,-1]
   constructor(
     private pageDataService: PagesDataService,
     private httpService: HttpService

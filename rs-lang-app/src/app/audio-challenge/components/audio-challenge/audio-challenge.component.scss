@@ -26,14 +26,20 @@ h1 {
 
 .attempts-block {
   display: flex;
-  flex-direction: row;
+  flex-direction: colmn;
   align-items: flex-end;
   padding: 20px 0px 0px;
-  gap: 30px;
+  gap: 5px;
   width: 238px;
   height: 41px;
-  background-color: antiquewhite;
+}
 
+.attempts-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 238px;
+  height: 21px;
 }
 
 .main-block {
@@ -92,6 +98,9 @@ h1 {
   background-repeat: no-repeat;
   cursor: pointer;
 }
+.speaker:hover{
+  transform: scale(0.98);
+}
 
 .guess-button-container {
   display: flex;
@@ -103,6 +112,7 @@ h1 {
   width: 499px;
   height: 34px;
 }
+
 .guess-button {
   display: flex;
   flex-direction: row;
@@ -116,23 +126,40 @@ h1 {
   border-radius: 10px;
   cursor: pointer;
 }
-.heart{
+.guess-button:hover{
+  background-image: linear-gradient(#ffffff,#eeeeee);
+  transform: scale(.98);
+}
+
+.heart {
   width: 30px;
   height: 22px;
   background-image: url(/assets/img/white-heart.png);
   background-repeat: no-repeat;
 }
-.red-heart{
+
+.red-heart {
   background-image: url(/assets/img/red-heart.png);
   background-repeat: no-repeat;
 }
-.attempt{
+
+.attempt {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   background-image: url(/assets/img/small-grey-circle.png);
   background-repeat: no-repeat;
+}
+.attempt-success{
+  width: 25px;
+  height: 25px;
+  background-image: url(/assets/img/green-check-mark.png);
+}
+.attempt-failed{
+  width: 25px;
+  height: 25px;
+  background-image: url(/assets/img/red-cross.png);
 }

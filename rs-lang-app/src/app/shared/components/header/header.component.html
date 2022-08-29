@@ -43,7 +43,7 @@
 </div>
 <div
   class="game-menu"
-  [ngClass]="{ invisible: isGamesMenuInvisible }"
+  [ngClass]="{notvisible: isGamesMenuInvisible }"
   (click)="showGamesMenu()">
   <app-games-menu></app-games-menu>
 </div>

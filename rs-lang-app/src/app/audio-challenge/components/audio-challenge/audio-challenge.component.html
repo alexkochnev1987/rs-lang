@@ -8,7 +8,10 @@
   <div class="game-container" *ngIf="isGameStart && !isGameEnded">
     <div class="title">{{ currentGame }}</div>
     <div class="attempts-block">
-      <div class="attempt" *ngFor="let attempt of attemptsInRow"></div>
+      <div class="attempts-wrapper">
+        <div class="attempt" [class.attempt-success]='attempt===1' [class.attempt-failed]='attempt===0'
+          *ngFor="let attempt of attemptsInRow"></div>
+      </div>
     </div>
     <div class="main-block">
       <div class="hearts-block">
