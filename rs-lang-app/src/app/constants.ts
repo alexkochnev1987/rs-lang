@@ -1,6 +1,6 @@
 export const url = 'https://learnlangapp1.herokuapp.com';
-export const GAME_1 = 'SPRINT';
-export const GAME_2 = 'AUDIO CHALLENGE';
+export const GAME_1 = 'AUDIO CHALLENGE';
+export const GAME_2 = 'SPRINT';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
@@ -15,12 +15,18 @@ export const LEVELS_COLORS: LevelColor[] = [
 ];
 export const WORDS_ON_PAGE = 20;
 export const PAGES_ON_LEVEL = 30;
+export const PAGE_KEY = 'currentTextbookPage';
+export const LEVEL_KEY = 'currentLevel';
+export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
 
 export enum QueryParams {
   logIn = '/signin',
   register = '/users',
   words = '/words',
   token = '/token',
+  statistics = '/statistics',
+  settings = '/settings',
+  aggregatedWords = '/aggregatedWords',
 }
 export interface LoginResponse {
   message: string;
@@ -75,6 +81,7 @@ export interface IWordCard {
 }
 
 export enum AppPages {
+  Main,
   About,
   MiniGames,
   TextBook,
@@ -104,6 +111,42 @@ export enum ShowUserStatus {
   login = 'login',
   registration = 'registration',
   statistics = 'statistics',
+  update = 'update',
+}
+
+export interface UserStatistics {
+  id: string;
+  learnedWords: number;
+}
+
+export interface UserSettings {
+  wordsPerDay: number;
+  optional: {};
+}
+
+export interface UserWords {
+  difficulty: 'string';
+  optional: {};
+}
+
+export interface IWordsData {
+  difficulty: string;
+  optional: {
+    attempts: number;
+    success: number;
+    rightGuessesInRow: number;
+  };
+}
+export enum Difficulty {
+  Hard = 'hard',
+  Easy = 'easy',
+  Learned = 'learned',
+}
+export interface IWord {
+  id: string;
+  difficulty?: string;
+  wordId: string;
+  optional?: {};
 }
 export type LevelColor = {
   id: number;

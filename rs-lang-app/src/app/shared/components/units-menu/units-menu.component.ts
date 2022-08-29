@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TextbookDataService } from 'src/app/core/services/textbook-data.service';
+
 import { UnitsDataService } from 'src/app/core/services/units-data.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
