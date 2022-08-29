@@ -22,9 +22,9 @@ export class AppComponent implements OnInit {
       LOCAL_KEY
     ) as Partial<LoginResponse>;
     if (
-      potentialToken.userId &&
-      potentialToken.token &&
-      potentialToken.refreshToken
+      potentialToken?.userId &&
+      potentialToken?.token &&
+      potentialToken?.refreshToken
     ) {
       this.userDataService.setUser(potentialToken);
       this.userDataService.setUserState(true);

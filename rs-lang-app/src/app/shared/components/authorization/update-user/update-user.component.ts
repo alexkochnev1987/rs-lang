@@ -56,11 +56,9 @@ export class UpdateUserComponent implements OnInit {
     this.auth.editUser(this.form.value).subscribe({
       next: response => {
         this.goToStatistics();
-        console.log(response);
       },
       error: error => {
         this.form.enable();
-        console.log(error);
       },
     });
   }

@@ -64,10 +64,13 @@ export class AuthService {
   }
 
   refreshToken() {
-    console.log('Start refresh');
+    console.log('this.refreshToken');
     return this.http
       .get(
-        `${url + QueryParams.register + SLASH}${
+        `${
+          url +
+          QueryParams.register +
+          SLASH +
           this.userDataService.getUser().userId
         }/tokens`
       )

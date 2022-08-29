@@ -4,9 +4,9 @@ import { DayMonthYear } from 'src/app/constants';
 @Injectable({
   providedIn: 'root',
 })
-export class GetDateService {
+export class DateService {
   constructor() {}
-  getData(): DayMonthYear {
+  getDate(): DayMonthYear {
     const date = new Date();
     return {
       day: date.getDate(),
