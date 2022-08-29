@@ -1,6 +1,8 @@
 export const url = 'https://learnlangapp1.herokuapp.com';
 export const GAME_1 = 'AUDIO CHALLENGE';
 export const GAME_2 = 'SPRINT';
+export const BUTTON_RESTART = 'RESTART';
+export const BUTTON_LEAVE = 'LEAVE';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';

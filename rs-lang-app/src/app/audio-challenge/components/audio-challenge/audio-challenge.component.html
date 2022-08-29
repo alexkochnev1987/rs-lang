@@ -1,7 +1,26 @@
-<h1>{{ currentGame }}</h1>
+<h1 *ngIf="!isGameStart">{{ currentGame }}</h1>
 <app-game-level
   (buttonsActions)="
     currentLevel = $event; loadGame(); isGameStart = !isGameStart
   "
   *ngIf="!isGameStart"></app-game-level>
-<h2>{{ currentLevel }}</h2>
+<div class="wrapper">
+  <app-audio-challenge-statistics
+    *ngIf="isGameEnded"></app-audio-challenge-statistics>
+
+  <div class="game-container" *ngIf="isGameStart && !isGameEnded">
+    <div class="title">{{ currentGame }}</div>
+    <div class="attempts-block"></div>
+    <div class="main-block"></div>
+    <div class="button-block">
+      <app-menu-button
+        class="button-restart"
+        (click)="restartGame()"
+        [gameName]="buttonRestart"></app-menu-button>
+      <app-menu-button
+      [routerLink]="mainPageLink"
+        class="button-leave"
+        [gameName]="buttonLeave"></app-menu-button>
+    </div>
+  </div>
+</div>

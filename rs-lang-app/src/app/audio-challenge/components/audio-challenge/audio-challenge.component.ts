@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AppPages, GAME_1, IWordCard } from 'src/app/constants';
+import {
+  AppPages,
+  BUTTON_LEAVE,
+  BUTTON_RESTART,
+  GAME_1,
+  IWordCard,
+} from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { LoadWordsService } from 'src/app/core/services/load-words.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
@@ -11,9 +17,13 @@ import { PagesDataService } from 'src/app/core/services/pages-data.service';
 })
 export class AudioChallengeComponent implements OnInit {
   isGameStart = false;
+  isGameEnded = false;
   currentGame = GAME_1;
   currentLevel: number = 1;
   wordsArray: IWordCard[] = [];
+  buttonRestart = BUTTON_RESTART;
+  buttonLeave = BUTTON_LEAVE;
+  mainPageLink = '../';
 
   constructor(
     private pageDataService: PagesDataService,
@@ -22,6 +32,9 @@ export class AudioChallengeComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
+  }
+  restartGame() {
+    this.isGameStart = false;
   }
 
   loadGame(page?: number) {
