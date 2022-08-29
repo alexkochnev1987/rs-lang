@@ -29,6 +29,11 @@
   width: 480px;
 }
 
+.heading-1 {
+  @include heading1;
+  margin: 30px 0;
+}
+
 .progress-picture {
   width: 150px;
   height: 120px;
@@ -125,4 +130,8 @@
 
 .transcription-word {
   @include fontTranscription;
+}
+
+.word-translation {
+  @include font14;
 }

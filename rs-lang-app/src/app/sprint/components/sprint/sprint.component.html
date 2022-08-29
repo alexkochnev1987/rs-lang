@@ -1,5 +1,7 @@
 <section class="container">
-  <h1>{{ !isGameEnded ? currentGame : 'GAME STATISTICS' }}</h1>
+  <h1 class="heading-1">
+    {{ !isGameEnded ? currentGame : 'GAME STATISTICS' }}
+  </h1>
   <app-game-level
     class="level-selection"
     (buttonsActions)="
@@ -61,7 +63,7 @@
           <div class="transcription-audio"></div>
           <div class="transcription-word">{{ stat.transcription }}</div>
         </div>
-        <div>{{ stat.wordTranslate }}</div>
+        <div class="word-translation">{{ stat.wordTranslate }}</div>
       </div>
     </div>
   </div>
