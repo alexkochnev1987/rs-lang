@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { forkJoin, map } from 'rxjs';
-import { AppPages, GAME_1, IWordCard } from 'src/app/constants';
+import { forkJoin, map, pipe, tap } from 'rxjs';
+import { AppPages, GAME_2, IWord, IWordCard } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { GameLevelComponent } from '../../../shared/components/game-level/game-level.component';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-sprint',
@@ -13,15 +14,27 @@ import { GameLevelComponent } from '../../../shared/components/game-level/game-l
   providers: [GameLevelComponent],
 })
 export class SprintComponent implements OnInit {
-  isGameStart = false;
-  currentGame = GAME_1;
-  currentLevel: number = 1;
   wordsArray: IWordCard[] = [];
+  isGameStart = false;
+  currentGame = GAME_2;
+  currentLevel = 1;
+  loadingProgress = 0;
+  progress = '';
+  renderGame = false;
+  isAuth = false;
+  wordsCounter = 0;
+  gameScore = 0;
+  currentWord = '';
+  wordTranslation = '';
+  isCorrect = 0;
 
   constructor(
+    private userService: UserDataService = new UserDataService(),
     private pageDataService: PagesDataService,
     private httpService: HttpService
-  ) {}
+  ) {
+    this.isAuth = this.userService.isRegistered();
+  }
 
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
@@ -32,16 +45,91 @@ export class SprintComponent implements OnInit {
       this.httpService,
       this.currentLevel
     );
-    const observable = forkJoin(wordsResponse.createWordsResponse());
-    observable.subscribe({
-      next: (data: any) => {
-        this.startGame(data);
-      },
+    const observables = wordsResponse.createWordsResponse();
+    const len = observables.length;
+    const observable = forkJoin(
+      observables.map(el =>
+        el.pipe(
+          tap(() => {
+            this.loadingProgress++;
+            this.progress = `Loading...${Math.round(
+              (this.loadingProgress / len) * 100
+            )}%`;
+          })
+        )
+      )
+    );
+    observable.subscribe((data: any) => {
+      this.filterWords(data);
     });
   }
 
-  startGame(data: any) {
+  filterWords(data: any) {
+    let userEasyWordsIds: string[] = [];
+    let readyWordArray: IWordCard[] = [];
+    if (this.isAuth) {
+      const id = this.userService.getUser().userId;
+      this.httpService
+        .getData(`/users/${id}/words`)
+        .subscribe((userWords: any) => {
+          userEasyWordsIds = userWords
+            .filter((el: IWord) => el.difficulty === 'easy')
+            .map((el: IWord) => el.wordId);
+          data.forEach((wordsPageArray: IWordCard[]) => {
+            for (let i = 0; i < wordsPageArray.length; i++) {
+              if (!userEasyWordsIds.includes(wordsPageArray[i].id)) {
+                readyWordArray.push(wordsPageArray[i]);
+              }
+            }
+          });
+          this.shuffleWords(readyWordArray);
+        });
+    } else {
+      data.forEach((wordsPageArray: IWordCard[]) => {
+        readyWordArray.push(...wordsPageArray);
+      });
+      this.shuffleWords(readyWordArray);
+    }
+  }
+
+  shuffleWords(data: IWordCard[]) {
+    let currentIndex = data.length,
+      randomIndex;
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [data[currentIndex], data[randomIndex]] = [
+        data[randomIndex],
+        data[currentIndex],
+      ];
+    }
+    this.startGame(data);
+  }
+
+  startGame(data: IWordCard[]) {
     this.wordsArray = data;
+    this.renderGame = true;
     console.log(this.wordsArray);
+    this.getWord();
+  }
+
+  getWord() {
+    this.isCorrect = Math.random();
+    this.currentWord = this.wordsArray[this.wordsCounter].word;
+    if (this.isCorrect > 0.5) {
+      this.wordTranslation = this.wordsArray[this.wordsCounter].wordTranslate;
+    } else {
+      this.wordTranslation =
+        this.wordsArray[
+          Math.floor(Math.random() * this.wordsArray.length)
+        ].wordTranslate;
+    }
+    this.wordsCounter++;
+  }
+
+  checkAnswer(answer: boolean) {
+    console.log(`Answer: ${answer}; isCorrect: ${this.isCorrect}`);
+    if ((answer && this.isCorrect > 0.5) || (!answer && this.isCorrect <= 0.5))
+      this.gameScore += 50;
   }
 }
