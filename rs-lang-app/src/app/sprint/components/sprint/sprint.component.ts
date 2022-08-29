@@ -26,7 +26,7 @@ export class SprintComponent implements OnInit {
   gameScore = 0;
   currentWord = '';
   wordTranslation = '';
-  isCorrect = 0;
+  isCorrect = false;
 
   constructor(
     private userService: UserDataService = new UserDataService(),
@@ -114,22 +114,19 @@ export class SprintComponent implements OnInit {
   }
 
   getWord() {
-    this.isCorrect = Math.random();
+    this.isCorrect = Math.random() > 0.5 ? true : false;
     this.currentWord = this.wordsArray[this.wordsCounter].word;
-    if (this.isCorrect > 0.5) {
-      this.wordTranslation = this.wordsArray[this.wordsCounter].wordTranslate;
-    } else {
-      this.wordTranslation =
-        this.wordsArray[
-          Math.floor(Math.random() * this.wordsArray.length)
-        ].wordTranslate;
-    }
+    this.wordTranslation =
+      this.wordsArray[
+        this.isCorrect
+          ? this.wordsCounter
+          : Math.floor(Math.random() * this.wordsArray.length)
+      ].wordTranslate;
     this.wordsCounter++;
   }
 
   checkAnswer(answer: boolean) {
     console.log(`Answer: ${answer}; isCorrect: ${this.isCorrect}`);
-    if ((answer && this.isCorrect > 0.5) || (!answer && this.isCorrect <= 0.5))
-      this.gameScore += 50;
+    if (answer === this.isCorrect) this.gameScore += 50;
   }
 }
