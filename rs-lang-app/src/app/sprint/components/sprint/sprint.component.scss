@@ -1,0 +1,52 @@
+@import '../../../app.component.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.game-container {
+  @include stroke-container;
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+  width: 375px;
+}
+
+.progress-picture {
+  width: 150px;
+  height: 120px;
+}
+
+.game-elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.game-score {
+  @include heading4;
+}
+
+.green {
+  color: $activePageColor;
+}
+
+.game-word {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

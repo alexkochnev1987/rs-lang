@@ -1,6 +1,6 @@
 <h1 *ngIf="!isGameStart">{{ currentGame }}</h1>
 <app-game-level (buttonsActions)="
-    currentLevel = $event; loadGame(); isGameStart = !isGameStart
+    currentLevel = $event; isGameStart = !isGameStart
   " *ngIf="!isGameStart"></app-game-level>
 <div class="wrapper">
   <app-audio-challenge-statistics *ngIf="isGameEnded"></app-audio-challenge-statistics>

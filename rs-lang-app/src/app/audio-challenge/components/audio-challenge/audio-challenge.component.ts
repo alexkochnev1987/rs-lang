@@ -8,7 +8,7 @@ import {
   IWordCard,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
-import { LoadWordsService } from 'src/app/core/services/load-words.service';
+
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 
 @Component({
@@ -42,13 +42,5 @@ export class AudioChallengeComponent implements OnInit {
   }
 
   sayWord(): void { }
-
-  loadGame(page?: number) {
-    const loadWordsService = new LoadWordsService(
-      this.httpService,
-      this.currentLevel
-    );
-    this.wordsArray = loadWordsService.loadWords();
-    console.log(this.wordsArray);
-  }
+  
 }
