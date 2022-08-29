@@ -1,5 +1,13 @@
 @import '../../../app.component.scss';
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .game-container {
   @include stroke-container;
   display: flex;
