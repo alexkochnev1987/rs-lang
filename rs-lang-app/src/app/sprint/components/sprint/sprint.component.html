@@ -1,6 +1,7 @@
 <section class="container">
-  <h1>{{ currentGame }}</h1>
+  <h1>{{ !isGameEnded ? currentGame : 'GAME STATISTICS' }}</h1>
   <app-game-level
+    class="level-selection"
     (buttonsActions)="
       currentLevel = $event; isLevelSelected = !isLevelSelected; loadWords()
     "
@@ -29,5 +30,39 @@
       </div>
     </div>
   </div>
-  <div *ngIf="isGameEnded">THE END</div>
+  <div class="stats-container" *ngIf="isGameEnded">
+    <div class="game-stats">
+      <div class="success-words">
+        Words stats:
+        <span class="green">
+          {{ successWords }} / {{ totalWords }} ({{ successWordsPersent }}%)
+        </span>
+      </div>
+      <div class="longest-combo">
+        Longest combo: <span class="green">{{ longestCombo }}</span>
+      </div>
+      <div class="total-score">
+        Game score: <span class="green">{{ gameScore }}</span>
+      </div>
+    </div>
+    <div class="words-stats">
+      <div class="stats-header">
+        <div>WORD</div>
+        <div>TRANSCRIPTION</div>
+        <div>TRANSLATION</div>
+      </div>
+      <div *ngFor="let stat of gameStats" class="word-stat">
+        <div>
+          <span class="{{ stat.success ? 'green' : 'red' }}">{{
+            stat.word
+          }}</span>
+        </div>
+        <div class="stats-transcription">
+          <div class="transcription-audio"></div>
+          <div class="transcription-word">{{ stat.transcription }}</div>
+        </div>
+        <div>{{ stat.wordTranslate }}</div>
+      </div>
+    </div>
+  </div>
 </section>

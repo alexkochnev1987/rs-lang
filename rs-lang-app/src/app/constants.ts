@@ -153,3 +153,11 @@ export type LevelColor = {
   id: number;
   color: string;
 };
+export interface ISprintStats {
+  id: string;
+  word: string;
+  audio: string;
+  transcription: string;
+  wordTranslate: string;
+  success: boolean;
+}

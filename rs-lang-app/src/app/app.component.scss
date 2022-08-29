@@ -54,8 +54,6 @@ $paginationArrowDisabled: #b2b3b9;
 $borderTitleBlockColor: #64c6e5;
 $activePageColor: #6cd244;
 $transcriptionColor: #ba6bd6;
-$menuBackgroundColor: #ffffff;
-$cardBackgroundColor: #ffffff;
 $cardBorderColor: #eeeeee;
 $menuTopBorder: #6cd244;
 $currentPageColor: red;
@@ -68,6 +66,9 @@ $containerBackground: #ffffff;
 $exampleTextColor: #757575;
 $borderDifficultColor: #eb4949;
 $borderLearnedColor: #6cd244;
+$tableHeadingTextColor: #ffffff;
+$tableHeadingBgColor: #42BEE5;
+$tableEvenItemBg: #f5f5f5;
 $desktopIndent: 30px;
 
 @mixin fontSize14 {

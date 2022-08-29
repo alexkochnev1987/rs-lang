@@ -3,6 +3,7 @@ import { forkJoin, map, pipe, tap } from 'rxjs';
 import {
   AppPages,
   GAME_2,
+  ISprintStats,
   IWord,
   IWordCard,
   SPRINT_TIMER,
@@ -21,6 +22,7 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 })
 export class SprintComponent implements OnInit {
   wordsArray: IWordCard[] = [];
+  gameStats: ISprintStats[] = [];
   timerID!: ReturnType<typeof setInterval>;
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
@@ -33,6 +35,11 @@ export class SprintComponent implements OnInit {
   loadingProgress = 0;
   wordsCounter = 0;
   gameScore = 0;
+  combo = 0;
+  longestCombo = 0;
+  totalWords = 0;
+  successWords = 0;
+  successWordsPersent = 0;
   progress = '';
   currentWord = '';
   wordTranslation = '';
@@ -129,6 +136,12 @@ export class SprintComponent implements OnInit {
       if (this.timer <= 0) {
         this.isGameEnded = true;
         clearInterval(this.timerID);
+        this.totalWords = this.gameStats.length;
+        this.successWords = this.gameStats.filter(el => el.success).length;
+        this.successWordsPersent =
+          this.totalWords !== 0
+            ? Math.round((this.successWords / this.totalWords) * 100)
+            : 0;
       }
     }, 100);
   }
@@ -149,9 +162,19 @@ export class SprintComponent implements OnInit {
     console.log(`Answer: ${answer}; isCorrect: ${this.isCorrect}`);
     if (answer === this.isCorrect) {
       this.gameScore += 50;
-      console.log(`CORRECT: ${this.wordsArray[this.wordsCounter].word}`);
+      this.combo++;
     } else {
-      console.log(`WRONG: ${this.wordsArray[this.wordsCounter].word}`);
+      this.combo = 0;
     }
+    this.longestCombo =
+      this.combo > this.longestCombo ? this.combo : this.longestCombo;
+    this.gameStats.push({
+      id: this.wordsArray[this.wordsCounter].id,
+      word: this.wordsArray[this.wordsCounter].word,
+      audio: this.wordsArray[this.wordsCounter].audio,
+      transcription: this.wordsArray[this.wordsCounter].transcription,
+      wordTranslate: this.wordsArray[this.wordsCounter].wordTranslate,
+      success: answer === this.isCorrect ? true : false,
+    });
   }
 }
