@@ -86,3 +86,7 @@ p {
   border-bottom: 3px solid $activePageColor;
   padding-bottom: 10px;
 }
+.invisible-link{
+  opacity:0;
+  visibility: hidden;
+}

@@ -4,6 +4,7 @@ import {
   BUTTON_LEAVE,
   BUTTON_RESTART,
   GAME_1,
+  IGuessButton,
   IWordCard,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -21,14 +22,17 @@ export class AudioChallengeComponent implements OnInit {
   currentGame = GAME_1;
   currentLevel: number = 1;
   wordsArray: IWordCard[] = [];
+  wordtoSayId: number = 0;
   buttonRestart = BUTTON_RESTART;
   buttonLeave = BUTTON_LEAVE;
   mainPageLink = '../';
-
+  guessButtons: IGuessButton[] = [{ id: '', word: 'we' }, { id: '', word: 'can' }, { id: '', word: 'do' }, { id: '', word: 'it' }]
+  guessInRow: number[] = [1, 1, 0, 0, 0];
+  attemptsInRow: number[]=[1,1,1,2,0,0,0,0,0,0]
   constructor(
     private pageDataService: PagesDataService,
     private httpService: HttpService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
@@ -36,6 +40,8 @@ export class AudioChallengeComponent implements OnInit {
   restartGame() {
     this.isGameStart = false;
   }
+
+  sayWord(): void { }
 
   loadGame(page?: number) {
     const loadWordsService = new LoadWordsService(

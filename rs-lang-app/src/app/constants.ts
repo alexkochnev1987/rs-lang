@@ -154,3 +154,7 @@ export type LevelColor = {
   id: number;
   color: string;
 };
+export interface IGuessButton{
+  id:string;
+  word: string;
+}
