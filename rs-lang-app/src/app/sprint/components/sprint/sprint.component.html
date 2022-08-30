@@ -1,30 +1,112 @@
 <section class="container">
-  <h1>{{ currentGame }}</h1>
+  <h1 class="heading-1">
+    {{ !isGameEnded ? currentGame : 'GAME STATISTICS' }}
+  </h1>
   <app-game-level
+    class="level-selection"
     (buttonsActions)="
-      currentLevel = $event; isGameStart = !isGameStart; loadWords()
+      currentLevel = $event; isLevelSelected = !isLevelSelected; loadWords()
     "
-    *ngIf="!isGameStart"></app-game-level>
-  <div *ngIf="isGameStart && !renderGame">{{ progress }}</div>
-  <div *ngIf="renderGame">
+    *ngIf="!isLevelSelected"></app-game-level>
+  <div *ngIf="isLevelSelected && !isGameStarted">{{ progress }}</div>
+  <div *ngIf="isGameStarted && !isGameEnded">
+    <div class="timer-container">
+      <h4 class="timer-heading">TIME:</h4>
+      <div class="timer-line">
+        <ng-container *ngFor="let section of timerSections; index as i">
+          <div
+            class="timer-section"
+            *ngIf="
+              (timer / 10) * (timerSections.length / fixSprintTimer) >
+                timerSections.length - i;
+              else time2
+            "
+            [style.filter]="
+              'hue-rotate(-' +
+              i / timerSections.length / 4 +
+              'turn) saturate(' +
+              (1 + ((i - 1) / timerSections.length) * 4) +
+              ')'
+            "></div>
+          <ng-template #time2>
+            <div
+              class="timer-section time-isup"
+              [ngStyle]="{
+                'animation-duration.s': fixSprintTimer / timerSections.length
+              }"></div>
+          </ng-template>
+        </ng-container>
+      </div>
+      <div class="game-timer">{{ (timer / 10).toFixed(1) }}</div>
+    </div>
     <div class="game-container">
       <div class="progress-picture"></div>
       <div class="game-elements">
         <h4 class="game-score">
           SCORE: <span class="green">{{ gameScore }}</span>
         </h4>
+        <h5 class="combo-bonus">
+          Combo bonus: <span class="green">{{ comboBonus }}</span>
+        </h5>
         <div class="game-word">
           <div class="word">{{ currentWord }}</div>
           <div class="word-translation">{{ wordTranslation }}</div>
         </div>
         <div class="game-buttons">
-          <button class="button-orange" (click)="checkAnswer(false); getWord()">
-            false
+          <button
+            #buttonNo
+            class="button-dashed"
+            (click)="checkAnswer(false, buttonNo); getWord()">
+            ← No
           </button>
-          <button class="button-green" (click)="checkAnswer(true); getWord()">
-            true
+          <button
+            #buttonYes
+            class="button-dashed"
+            (click)="checkAnswer(true, buttonYes); getWord()">
+            Yes →
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-container" *ngIf="isGameEnded">
+    <div class="stats-head">
+      <div class="game-stats">
+        <div class="success-words">
+          Words stats:
+          <span class="green">
+            {{ successWords }} / {{ totalWords }} ({{ successWordsPersent }}%)
+          </span>
+        </div>
+        <div class="longest-combo">
+          Longest combo: <span class="green">{{ longestCombo }}</span>
+        </div>
+        <div class="total-score">
+          Game score: <span class="green">{{ gameScore }}</span>
+        </div>
+      </div>
+      <div class="stats-buttons">
+        <button class="button-green">play again</button>
+        <button class="button-orange">leave game</button>
+      </div>
+    </div>
+    <div class="words-stats" *ngIf="gameStats.length > 0">
+      <div class="stats-header">
+        <div>WORD</div>
+        <div>TRANSCRIPTION</div>
+        <div>TRANSLATION</div>
+      </div>
+      <div *ngFor="let stat of gameStats" class="word-stat">
+        <div>
+          <span class="{{ stat.success ? 'green' : 'red' }}">{{
+            stat.word
+          }}</span>
+        </div>
+        <div class="stats-transcription">
+          <div class="transcription-audio"></div>
+          <div class="transcription-word">{{ stat.transcription }}</div>
+        </div>
+        <div class="word-translation">{{ stat.wordTranslate }}</div>
       </div>
     </div>
   </div>

@@ -1,7 +1,17 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { forkJoin, map, pipe, tap } from 'rxjs';
-import { AppPages, GAME_2, IWord, IWordCard } from 'src/app/constants';
+import {
+  AppPages,
+  COMBO_BONUS_GROWTH,
+  CORRECT_ANSWER_POINTS,
+  GAME_2,
+  ISprintStats,
+  IWord,
+  IWordCard,
+  SPRINT_TIMER,
+  TIMER_LINE_SECTIONS,
+} from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
@@ -16,18 +26,33 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 })
 export class SprintComponent implements OnInit {
   wordsArray: IWordCard[] = [];
-  isGameStart = false;
+  gameStats: ISprintStats[] = [];
+  timerID!: ReturnType<typeof setInterval>;
+  timerSections: number[] = [];
   currentGame = GAME_2;
+  timer = SPRINT_TIMER * 10;
+  fixSprintTimer = SPRINT_TIMER;
+  lineSections = TIMER_LINE_SECTIONS;
+  isLevelSelected = false;
+  isGameStarted = false;
+  isGameEnded = false;
+  isAuth = false;
+  isCorrect = false;
   currentLevel = 1;
   loadingProgress = 0;
-  progress = '';
-  renderGame = false;
-  isAuth = false;
   wordsCounter = 0;
   gameScore = 0;
+  comboBonus = 0;
+  combo = 0;
+  longestCombo = 0;
+  totalWords = 0;
+  successWords = 0;
+  successWordsPersent = 0;
+  progress = '';
   currentWord = '';
   wordTranslation = '';
-  isCorrect = false;
+  btnStyleNo = '';
+  btnStyleYes = '';
 
   constructor(
     private userService: UserDataService = new UserDataService(),
@@ -109,9 +134,27 @@ export class SprintComponent implements OnInit {
 
   startGame(data: IWordCard[]) {
     this.wordsArray = data;
-    this.renderGame = true;
+    this.isGameStarted = true;
+    this.timerSections = this.timerSectionsArray();
     console.log(this.wordsArray);
     this.getWord();
+    this.getTimer();
+  }
+
+  getTimer() {
+    this.timerID = setInterval(() => {
+      this.timer--;
+      if (this.timer <= 0) {
+        this.isGameEnded = true;
+        clearInterval(this.timerID);
+        this.totalWords = this.gameStats.length;
+        this.successWords = this.gameStats.filter(el => el.success).length;
+        this.successWordsPersent =
+          this.totalWords !== 0
+            ? Math.round((this.successWords / this.totalWords) * 100)
+            : 0;
+      }
+    }, 100);
   }
 
   getWord() {
@@ -126,8 +169,39 @@ export class SprintComponent implements OnInit {
     this.wordsCounter++;
   }
 
-  checkAnswer(answer: boolean) {
-    console.log(`Answer: ${answer}; isCorrect: ${this.isCorrect}`);
-    if (answer === this.isCorrect) this.gameScore += 50;
+  checkAnswer(answer: boolean, buttonPressed: HTMLElement) {
+    buttonPressed.classList.remove('button-dashed-correct');
+    buttonPressed.classList.remove('button-dashed-wrong');
+    if (answer === this.isCorrect) {
+      this.gameScore += 50 + this.comboBonus;
+      this.combo++;
+      setTimeout(() => buttonPressed.classList.add('button-dashed-correct'), 0);
+    } else {
+      this.combo = 0;
+      setTimeout(() => buttonPressed.classList.add('button-dashed-wrong'), 0);
+    }
+    this.comboBonus = this.combo * CORRECT_ANSWER_POINTS * COMBO_BONUS_GROWTH;
+    this.longestCombo =
+      this.combo > this.longestCombo ? this.combo : this.longestCombo;
+    this.gameStats.push({
+      id: this.wordsArray[this.wordsCounter].id,
+      word: this.wordsArray[this.wordsCounter].word,
+      audio: this.wordsArray[this.wordsCounter].audio,
+      transcription: this.wordsArray[this.wordsCounter].transcription,
+      wordTranslate: this.wordsArray[this.wordsCounter].wordTranslate,
+      success: answer === this.isCorrect ? true : false,
+    });
+  }
+
+  timerSectionsArray() {
+    return Array(this.lineSections)
+      .fill('')
+      .map((el: number, index: number) => {
+        return index + 1;
+      });
+  }
+
+  changeStyle(element: HTMLElement) {
+    return element.classList.add('timer-isup');
   }
 }
