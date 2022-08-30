@@ -208,3 +208,15 @@ h1,h2 {
   background-color: $wrongAnswerButton;
   border:none;
 }
+.progress-scale{
+  width:200px;
+  size: 20px;
+}
+.speaker-disable{
+  opacity:0.3;
+  cursor: auto;
+
+}
+.speaker-disable:hover{
+  transform: scale(1);
+}

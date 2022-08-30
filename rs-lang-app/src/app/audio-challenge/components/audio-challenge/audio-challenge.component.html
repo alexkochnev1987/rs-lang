@@ -21,7 +21,6 @@
       class="title-button-cancel"></app-menu-button>
   </div>
 </div>
-
 <div class="wrapper">
   <app-audio-challenge-statistics
     *ngIf="isGameEnded"></app-audio-challenge-statistics>
@@ -44,7 +43,10 @@
           [class.red-heart]="!!guess"
           *ngFor="let guess of guessInRow"></div>
       </div>
-      <div class="speaker" (onclick)="sayWord()"></div>
+      <div
+        class="speaker"
+        [class.speaker-disable]="isSpeakerDisable"
+        (onclick)="sayWord()"></div>
       <div class="guess-button-container">
         <div
           class="guess-button"
