@@ -171,3 +171,7 @@ export interface ISprintStats {
   wordTranslate: string;
   success: boolean;
 }
+export enum KeyCode {
+  RIGHT_ARROW = 'ArrowRight',
+  LEFT_ARROW = 'ArrowLeft',
+}

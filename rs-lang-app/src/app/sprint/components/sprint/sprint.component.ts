@@ -1,4 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { forkJoin, map, pipe, tap } from 'rxjs';
 import {
   AppPages,
@@ -8,6 +17,7 @@ import {
   ISprintStats,
   IWord,
   IWordCard,
+  KeyCode,
   SPRINT_TIMER,
   TIMER_LINE_SECTIONS,
 } from 'src/app/constants';
@@ -29,6 +39,8 @@ export class SprintComponent implements OnInit {
   gameStats: ISprintStats[] = [];
   timerID!: ReturnType<typeof setInterval>;
   timerSections: number[] = [];
+  buttonYesElement: HTMLElement | undefined;
+  buttonNoElement: HTMLElement | undefined;
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
   fixSprintTimer = SPRINT_TIMER;
@@ -62,6 +74,32 @@ export class SprintComponent implements OnInit {
   ) {
     this.isAuth = this.userService.isRegistered();
   }
+
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (
+      this.buttonNo &&
+      this.isGameStarted &&
+      event.code === KeyCode.LEFT_ARROW
+    ) {
+      this.checkAnswer(false, this.buttonNo.nativeElement);
+      this.getWord();
+    }
+    if (
+      this.buttonYes &&
+      this.isGameStarted &&
+      event.code === KeyCode.RIGHT_ARROW
+    ) {
+      this.checkAnswer(true, this.buttonYes.nativeElement);
+      this.getWord();
+    }
+  }
+
+  @ViewChild('buttonYes')
+  buttonYes: ElementRef | undefined;
+
+  @ViewChild('buttonNo')
+  buttonNo: ElementRef | undefined;
 
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
