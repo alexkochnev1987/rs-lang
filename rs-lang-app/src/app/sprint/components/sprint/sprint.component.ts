@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { forkJoin, map, pipe, tap } from 'rxjs';
 import {
@@ -119,8 +118,8 @@ export class SprintComponent implements OnInit {
   }
 
   shuffleWords(data: IWordCard[]) {
-    let currentIndex = data.length,
-      randomIndex;
+    let currentIndex = data.length;
+    let randomIndex;
     while (currentIndex != 0) {
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
@@ -136,7 +135,6 @@ export class SprintComponent implements OnInit {
     this.wordsArray = data;
     this.isGameStarted = true;
     this.timerSections = this.timerSectionsArray();
-    console.log(this.wordsArray);
     this.getWord();
     this.getTimer();
   }
@@ -203,5 +201,17 @@ export class SprintComponent implements OnInit {
 
   changeStyle(element: HTMLElement) {
     return element.classList.add('timer-isup');
+  }
+
+  resetGame() {
+    if (this.timerID) clearInterval(this.timerID);
+    this.isGameEnded = false;
+    this.isGameStarted = true;
+    this.gameStats = [];
+    this.timer = SPRINT_TIMER * 10;
+    this.gameScore = 0;
+    this.combo = 0;
+    this.comboBonus = 0;
+    this.longestCombo = 0;
   }
 }
