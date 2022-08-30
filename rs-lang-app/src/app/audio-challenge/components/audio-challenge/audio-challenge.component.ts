@@ -52,7 +52,6 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.currentLevel = params['level'];
       this.currentPage = params['page'];
-      alert(`level: ${this.currentLevel}, page; ${this.currentPage}`);
     });
   }
   ngOnInit(): void {

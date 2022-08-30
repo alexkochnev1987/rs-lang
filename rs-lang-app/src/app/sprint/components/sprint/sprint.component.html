@@ -1,7 +1,31 @@
-<h1>{{ currentGame }}</h1>
-<app-game-level
-  (buttonsActions)="
-    currentLevel = $event; loadGame(); isGameStart = !isGameStart
-  "
-  *ngIf="!isGameStart"></app-game-level>
-<h2>{{ currentLevel }}</h2>
+<section class="container">
+  <h1>{{ currentGame }}</h1>
+  <app-game-level
+    (buttonsActions)="
+      currentLevel = $event; isGameStart = !isGameStart; loadWords()
+    "
+    *ngIf="!isGameStart"></app-game-level>
+  <div *ngIf="isGameStart && !renderGame">{{ progress }}</div>
+  <div *ngIf="renderGame">
+    <div class="game-container">
+      <div class="progress-picture"></div>
+      <div class="game-elements">
+        <h4 class="game-score">
+          SCORE: <span class="green">{{ gameScore }}</span>
+        </h4>
+        <div class="game-word">
+          <div class="word">{{ currentWord }}</div>
+          <div class="word-translation">{{ wordTranslation }}</div>
+        </div>
+        <div class="game-buttons">
+          <button class="button-orange" (click)="checkAnswer(false); getWord()">
+            false
+          </button>
+          <button class="button-green" (click)="checkAnswer(true); getWord()">
+            true
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

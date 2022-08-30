@@ -10,9 +10,10 @@ import { MenuButtonComponent } from './components/menu-button/menu-button.compon
 import { RouterModule } from '@angular/router';
 import { RegistrationComponent } from './components/authorization/registration/registration.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
+import { GameLevelComponent } from './components/game-level/game-level.component';
 import { UserStatisticsComponent } from './components/authorization/user-statistics/user-statistics.component';
 import { UpdateUserComponent } from './components/authorization/update-user/update-user.component';
-import { GameLevelComponent } from './components/game-level/game-level.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { GameLevelComponent } from './components/game-level/game-level.component
     RegistrationComponent,
     AuthorizationComponent,
     UserStatisticsComponent,
+    GameLevelComponent,
     UpdateUserComponent,
     GameLevelComponent,
   ],

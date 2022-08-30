@@ -3,7 +3,9 @@
 h1,h2 {
   text-align: center;
 }
-
+ ::ng-deep .level .solid-stroke-container{
+  margin-bottom: 550px;
+}
 .game-container {
   display: flex;
   flex-direction: column;
@@ -15,7 +17,8 @@ h1,h2 {
   margin-left: auto;
   margin-right: auto;
   margin-top: 100px;
- 
+  margin-bottom: 150px;
+
 }
 
 .title {
