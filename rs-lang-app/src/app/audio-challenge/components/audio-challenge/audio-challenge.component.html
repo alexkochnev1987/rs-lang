@@ -46,7 +46,11 @@
       </div>
       <div class="speaker" (onclick)="sayWord()"></div>
       <div class="guess-button-container">
-        <div class="guess-button" *ngFor="let button of guessButtons">
+        <div
+          class="guess-button"
+          *ngFor="let button of guessButtons"
+          [class.right-answer-button]="true"
+          [class.wrong-answer-button]="false">
           {{ button.word }}
         </div>
       </div>

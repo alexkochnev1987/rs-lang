@@ -144,8 +144,10 @@ h1,h2 {
   width: 121px;
   height: 30px;
   padding: 0;
-  border: 1px dashed #000000;
+  border: 1px dashed black;
   border-radius: 10px;
+  color: $fontNormalColor;
+  @include font14;
   cursor: pointer;
 }
 .guess-button:hover{
@@ -197,4 +199,12 @@ h1,h2 {
   display:flex;
   gap:30px;
   margin-top:50px;
+}
+.right-answer-button{
+  background-color: $rightAnswerButton;
+  border:none;
+}
+.wrong-answer-button{
+  background-color: $wrongAnswerButton;
+  border:none;
 }
