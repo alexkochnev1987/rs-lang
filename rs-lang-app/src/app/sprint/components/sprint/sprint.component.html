@@ -17,37 +17,52 @@
         <h4 class="game-score">
           SCORE: <span class="green">{{ gameScore }}</span>
         </h4>
+        <h5 class="combo-bonus">
+          Combo bonus: <span class="green">{{ comboBonus }}</span>
+        </h5>
         <div class="game-word">
           <div class="word">{{ currentWord }}</div>
           <div class="word-translation">{{ wordTranslation }}</div>
         </div>
         <div class="game-buttons">
-          <button class="button-orange" (click)="checkAnswer(false); getWord()">
-            false
+          <button
+            #buttonNo
+            class="button-dashed"
+            (click)="checkAnswer(false, buttonNo); getWord()">
+            ← No
           </button>
-          <button class="button-green" (click)="checkAnswer(true); getWord()">
-            true
+          <button
+            #buttonYes
+            class="button-dashed"
+            (click)="checkAnswer(true, buttonYes); getWord()">
+            Yes →
           </button>
         </div>
       </div>
     </div>
   </div>
   <div class="stats-container" *ngIf="isGameEnded">
-    <div class="game-stats">
-      <div class="success-words">
-        Words stats:
-        <span class="green">
-          {{ successWords }} / {{ totalWords }} ({{ successWordsPersent }}%)
-        </span>
+    <div class="stats-head">
+      <div class="game-stats">
+        <div class="success-words">
+          Words stats:
+          <span class="green">
+            {{ successWords }} / {{ totalWords }} ({{ successWordsPersent }}%)
+          </span>
+        </div>
+        <div class="longest-combo">
+          Longest combo: <span class="green">{{ longestCombo }}</span>
+        </div>
+        <div class="total-score">
+          Game score: <span class="green">{{ gameScore }}</span>
+        </div>
       </div>
-      <div class="longest-combo">
-        Longest combo: <span class="green">{{ longestCombo }}</span>
-      </div>
-      <div class="total-score">
-        Game score: <span class="green">{{ gameScore }}</span>
+      <div class="stats-buttons">
+        <button class="button-green">play again</button>
+        <button class="button-orange">leave game</button>
       </div>
     </div>
-    <div class="words-stats">
+    <div class="words-stats" *ngIf="gameStats.length > 0">
       <div class="stats-header">
         <div>WORD</div>
         <div>TRANSCRIPTION</div>

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { forkJoin, map, pipe, tap } from 'rxjs';
 import {
   AppPages,
+  COMBO_BONUS_GROWTH,
+  CORRECT_ANSWER_POINTS,
   GAME_2,
   ISprintStats,
   IWord,
@@ -35,6 +37,7 @@ export class SprintComponent implements OnInit {
   loadingProgress = 0;
   wordsCounter = 0;
   gameScore = 0;
+  comboBonus = 0;
   combo = 0;
   longestCombo = 0;
   totalWords = 0;
@@ -43,6 +46,8 @@ export class SprintComponent implements OnInit {
   progress = '';
   currentWord = '';
   wordTranslation = '';
+  btnStyleNo = '';
+  btnStyleYes = '';
 
   constructor(
     private userService: UserDataService = new UserDataService(),
@@ -158,14 +163,18 @@ export class SprintComponent implements OnInit {
     this.wordsCounter++;
   }
 
-  checkAnswer(answer: boolean) {
-    console.log(`Answer: ${answer}; isCorrect: ${this.isCorrect}`);
+  checkAnswer(answer: boolean, buttonPressed: HTMLElement) {
+    buttonPressed.classList.remove('button-dashed-correct');
+    buttonPressed.classList.remove('button-dashed-wrong');
     if (answer === this.isCorrect) {
-      this.gameScore += 50;
+      this.gameScore += 50 + this.comboBonus;
       this.combo++;
+      setTimeout(() => buttonPressed.classList.add('button-dashed-correct'), 0);
     } else {
       this.combo = 0;
+      setTimeout(() => buttonPressed.classList.add('button-dashed-wrong'), 0);
     }
+    this.comboBonus = this.combo * CORRECT_ANSWER_POINTS * COMBO_BONUS_GROWTH;
     this.longestCombo =
       this.combo > this.longestCombo ? this.combo : this.longestCombo;
     this.gameStats.push({

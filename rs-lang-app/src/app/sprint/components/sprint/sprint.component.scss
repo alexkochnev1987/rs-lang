@@ -20,6 +20,11 @@
   width: 480px;
 }
 
+.stats-head {
+  display: flex;
+  justify-content: space-between;
+}
+
 .stats-container {
   @include stroke-container;
   display: flex;
@@ -27,6 +32,14 @@
   gap: 30px;
   padding: 30px;
   width: 480px;
+}
+
+.stats-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 10px;
 }
 
 .heading-1 {
@@ -49,6 +62,10 @@
 
 .game-score {
   @include heading4;
+}
+
+.combo-bonus {
+  @include heading5;
 }
 
 .green {
@@ -75,7 +92,9 @@
 
 .game-stats {
   @include heading4;
-  line-height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .word-stats {
