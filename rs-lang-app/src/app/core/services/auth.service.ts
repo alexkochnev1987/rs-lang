@@ -39,6 +39,7 @@ export class AuthService {
           this.userDataService.setUser(response);
           this.localStorage.setItem(LOCAL_KEY, this.userDataService.getUser());
           this.userDataService.setUserState(true);
+          this.router.navigate([PageRoutes.statistics]);
         })
       );
   }
