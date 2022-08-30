@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { AppPages } from 'src/app/constants';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
     this.currentPage = this.pagesDataService.getPage();
   }
   constructor(
-    private router: Router,
+    private userDataService:UserDataService,
     private pagesDataService: PagesDataService
   ) {}
 
@@ -52,4 +52,7 @@ export class HeaderComponent implements OnInit {
     this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
     this.skip = true;
   }
+  isUser() {
+    return this.userDataService.isRegistered()
+}
 }

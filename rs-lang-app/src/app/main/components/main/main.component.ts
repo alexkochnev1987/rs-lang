@@ -10,7 +10,9 @@ import { PageRoutes } from 'src/app/constants';
 })
 export class MainComponent implements OnInit {
   link2 = '../' + PageRoutes.sprint;
-  link1 = '../' + PageRoutes.audioChallenge;
+  link1 = '../audio-challenge';
+  link1Level = -1;
+  link1Page = -1;
   constructor(private pagesDataService: PagesDataService) {}
   ngOnInit(): void {
     this.pagesDataService.setPage(AppPages.Main);

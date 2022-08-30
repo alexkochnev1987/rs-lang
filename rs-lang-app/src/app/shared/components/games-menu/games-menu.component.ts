@@ -10,6 +10,8 @@ export class GamesMenuComponent {
   game1 = GAME_1;
   game2 = GAME_2;
   link2 = '../' + PageRoutes.sprint;
-  link1 = '../' + PageRoutes.audioChallenge;
+  link1 = '../audio-challenge';
+  link1Level = -1;
+  link1Page = -1;
   constructor() {}
 }

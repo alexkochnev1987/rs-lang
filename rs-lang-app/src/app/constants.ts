@@ -1,6 +1,10 @@
 export const url = 'https://learnlangapp1.herokuapp.com';
 export const GAME_1 = 'AUDIO CHALLENGE';
 export const GAME_2 = 'SPRINT';
+export const BUTTON_RESTART = 'RESTART';
+export const BUTTON_START = 'START';
+export const BUTTON_CANCEL = 'CANCEL';
+export const BUTTON_LEAVE = 'LEAVE';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
@@ -18,6 +22,10 @@ export const PAGES_ON_LEVEL = 30;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
+export const SPRINT_TIMER = 30;
+export const CORRECT_ANSWER_POINTS = 50;
+export const COMBO_BONUS_GROWTH = 0.1;
+export const STATISTICS_WORDS_LENGTH = 5;
 
 export enum QueryParams {
   logIn = '/signin',
@@ -58,7 +66,7 @@ export enum PageRoutes {
   authorization = 'authorization',
   about = 'about',
   sprint = 'sprint',
-  audioChallenge = 'audio-challenge',
+  audioChallenge = 'audio-challenge/:level/:page',
   statistics = 'statistics',
   textBook = 'textbook/:id',
 }
@@ -141,6 +149,10 @@ export interface IWordsData {
 export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
 }
 export interface IWord {
   id: string;
@@ -179,4 +191,16 @@ export interface GameStatistics {
   };
 }
 
-export const STATISTICS_WORDS_LENGTH = 5;
+
+export interface IGuessButton{
+  id:string;
+  word: string;
+}
+export interface ISprintStats {
+  id: string;
+  word: string;
+  audio: string;
+  transcription: string;
+  wordTranslate: string;
+  success: boolean;
+}

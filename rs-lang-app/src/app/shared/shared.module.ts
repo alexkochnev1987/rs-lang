@@ -14,6 +14,7 @@ import { GameLevelComponent } from './components/game-level/game-level.component
 import { UserStatisticsComponent } from './components/authorization/user-statistics/user-statistics.component';
 import { UpdateUserComponent } from './components/authorization/update-user/update-user.component';
 
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -27,6 +28,7 @@ import { UpdateUserComponent } from './components/authorization/update-user/upda
     UserStatisticsComponent,
     GameLevelComponent,
     UpdateUserComponent,
+    GameLevelComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   exports: [
