@@ -1,30 +1,63 @@
 <h1 *ngIf="!isGameStart">{{ currentGame }}</h1>
-<app-game-level (buttonsActions)="
-    currentLevel = $event; loadGame(); isGameStart = !isGameStart
-  " *ngIf="!isGameStart"></app-game-level>
+<app-game-level
+  *ngIf="currentPage < 0 && !isGameStart"
+  (buttonsActions)="currentLevel = $event; startGame()"></app-game-level>
+<div
+  class="from-textbook"
+  *ngIf="currentLevel > -1 && currentPage > -1 && !isGameStart">
+  <h2 class="title-from-textbook" [style.color]="getColor(currentLevel)">
+    LEVEL:&nbsp;&nbsp; {{ currentLevel }}&nbsp;&nbsp;&nbsp;PAGE:&nbsp;&nbsp;
+    {{ currentPage }}
+  </h2>
+  <div class="title-buttons-container">
+    <app-menu-button
+      [gameName]="buttonStart"
+      class="title-button-start"
+      (click)="startGame()"></app-menu-button>
+    <app-menu-button
+      [gameName]="buttonCancel"
+      [routerLink]="mainPageLink"
+      class="title-button-cancel"></app-menu-button>
+  </div>
+</div>
 <div class="wrapper">
-  <app-audio-challenge-statistics *ngIf="isGameEnded"></app-audio-challenge-statistics>
+  <app-audio-challenge-statistics
+    *ngIf="isGameEnded"></app-audio-challenge-statistics>
 
   <div class="game-container" *ngIf="isGameStart && !isGameEnded">
     <div class="title">{{ currentGame }}</div>
     <div class="attempts-block">
       <div class="attempts-wrapper">
-        <div class="attempt" [class.attempt-success]='attempt===1' [class.attempt-failed]='attempt===0'
+        <div
+          class="attempt"
+          [class.attempt-success]="attempt === 1"
+          [class.attempt-failed]="attempt === 0"
           *ngFor="let attempt of attemptsInRow"></div>
       </div>
     </div>
     <div class="main-block">
       <div class="hearts-block">
-        <div class="heart" [class.red-heart]="!!guess" *ngFor="let guess of guessInRow"></div>
+        <div
+          class="heart"
+          [class.red-heart]="!!guess"
+          *ngFor="let guess of guessInRow"></div>
       </div>
       <div class="speaker" (onclick)="sayWord()"></div>
       <div class="guess-button-container">
-        <div class="guess-button" *ngFor="let button of guessButtons">{{button.word}}</div>
+        <div class="guess-button" *ngFor="let button of guessButtons">
+          {{ button.word }}
+        </div>
       </div>
     </div>
     <div class="button-block">
-      <app-menu-button class="button-restart" (click)="restartGame()" [gameName]="buttonRestart"></app-menu-button>
-      <app-menu-button [routerLink]="mainPageLink" class="button-leave" [gameName]="buttonLeave"></app-menu-button>
+      <app-menu-button
+        class="button-restart"
+        (click)="restartGame()"
+        [gameName]="buttonRestart"></app-menu-button>
+      <app-menu-button
+        [routerLink]="mainPageLink"
+        class="button-leave"
+        [gameName]="buttonLeave"></app-menu-button>
     </div>
   </div>
 </div>

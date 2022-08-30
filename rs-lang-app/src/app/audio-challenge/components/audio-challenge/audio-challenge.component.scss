@@ -1,6 +1,6 @@
 @import '../../../app.component.scss';
 
-h1 {
+h1,h2 {
   text-align: center;
 }
 
@@ -15,6 +15,7 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   margin-top: 100px;
+ 
 }
 
 .title {
@@ -77,6 +78,24 @@ h1 {
 }
 
 ::ng-deep .button-leave button {
+  width: 136px;
+}
+::ng-deep .title-button-start button {
+  width: 109px;
+  background-image: $loginButtonBackground;
+}
+::ng-deep .title-button-start button {
+  width: 109px;
+  background-image: $loginButtonBackground;
+}
+::ng-deep .title-button-start button:hover {
+  background-image: $loginHoverButtonBackground;
+}
+::ng-deep .title-button-start button:active {
+  background-image: $pressedLoginButton;
+}
+
+::ng-deep .title-button-cancel button {
   width: 136px;
 }
 
@@ -162,4 +181,17 @@ h1 {
   width: 25px;
   height: 25px;
   background-image: url(/assets/img/red-cross.png);
+}
+.from-textbook{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom:450px;
+}
+.title-buttons-container{
+  display:flex;
+  gap:30px;
+  margin-top:50px;
 }

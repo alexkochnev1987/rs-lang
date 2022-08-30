@@ -2,6 +2,8 @@ export const url = 'https://learnlangapp1.herokuapp.com';
 export const GAME_1 = 'AUDIO CHALLENGE';
 export const GAME_2 = 'SPRINT';
 export const BUTTON_RESTART = 'RESTART';
+export const BUTTON_START = 'START';
+export const BUTTON_CANCEL = 'CANCEL';
 export const BUTTON_LEAVE = 'LEAVE';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
@@ -60,7 +62,7 @@ export enum PageRoutes {
   authorization = 'authorization',
   about = 'about',
   sprint = 'sprint',
-  audioChallenge = 'audio-challenge',
+  audioChallenge = 'audio-challenge/:level/:page',
   statistics = 'statistics',
   textBook = 'textbook/:id',
 }
@@ -142,7 +144,7 @@ export interface IWordsData {
 export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
-  Learned = 'learned',
+
 }
 export interface IWord {
   id: string;

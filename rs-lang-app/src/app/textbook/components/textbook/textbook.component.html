@@ -6,7 +6,7 @@
     class="button-1"
     *ngIf="!isLearnedPage(page)"
     [gameName]="game1"
-    [routerLink]="link1"></app-menu-button>
+    [routerLink]="[link1, group, page + 1]"></app-menu-button>
   <app-menu-button
     class="button-2"
     *ngIf="!isLearnedPage(page)"
