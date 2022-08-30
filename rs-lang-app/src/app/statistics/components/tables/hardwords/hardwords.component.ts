@@ -59,4 +59,8 @@ export class HardWordsComponent implements OnInit {
     const audio = new Audio(url + SLASH + endpoint);
     audio.play();
   }
+
+  changePage(page: number) {
+    this.hardWordsPage = page;
+  }
 }

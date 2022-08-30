@@ -59,4 +59,7 @@ export class EasyWordsComponent implements OnInit {
     const audio = new Audio(url + SLASH + endpoint);
     audio.play();
   }
+  changePage(page: number) {
+    this.easyWordsPage = page;
+  }
 }

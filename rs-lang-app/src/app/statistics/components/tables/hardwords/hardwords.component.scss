@@ -136,3 +136,13 @@
   border: 1px dashed $currentPageColor;
 }
 
+.disabled{
+  color:$paginationArrowDisabled;
+  &:hover{
+    color: $paginationArrowDisabled;
+    border: none;
+  }
+  &:active{
+    background: none;
+  }
+}

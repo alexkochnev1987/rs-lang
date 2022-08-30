@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
   title = 'rs-lang-app';
   constructor(
     private localStorage: LocalStorageService,
-    private auth: AuthService,
     private userDataService: UserDataService
   ) {}
 

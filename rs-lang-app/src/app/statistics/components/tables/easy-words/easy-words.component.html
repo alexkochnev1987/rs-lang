@@ -25,13 +25,21 @@
     </div>
   </div>
   <div class="paginator">
-    <div class="page" (click)="prevPage()"><</div>
+    <div class="page" (click)="prevPage()" [class.disabled]="easyWordsPage < 1">
+      <
+    </div>
     <div
       *ngFor="let page of easyWords; index as i"
       class="page"
-      [class.current-page]="i === easyWordsPage">
+      [class.current-page]="i === easyWordsPage"
+      (click)="changePage(i)">
       {{ i + 1 }}
     </div>
-    <div class="page" (click)="nextPage()">></div>
+    <div
+      class="page"
+      (click)="nextPage()"
+      [class.disabled]="easyWordsPage > easyWords.length - 2">
+      >
+    </div>
   </div>
 </div>

@@ -25,7 +25,7 @@ export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
 export const SPRINT_TIMER = 30;
 export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
-export const STATISTICS_WORDS_LENGTH = 10;
+export const STATISTICS_WORDS_LENGTH = 5;
 
 export enum QueryParams {
   logIn = '/signin',

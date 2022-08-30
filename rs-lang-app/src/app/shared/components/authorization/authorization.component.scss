@@ -41,8 +41,10 @@
 }
 
 .input {
+  box-sizing: border-box;
+  padding-left: 10px;
   margin-bottom: 10px;
-  width: 332px;
+  width: 320px;
   height: 34px;
   border-radius: 10px;
   border: none;
