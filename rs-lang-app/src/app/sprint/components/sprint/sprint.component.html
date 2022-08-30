@@ -91,7 +91,9 @@
           (click)="resetGame(); shuffleWords(wordsArray)">
           play again
         </button>
-        <button class="button-orange" (click)="resetGame()">leave game</button>
+        <button class="button-orange" (click)="resetGame(); goBack()">
+          leave game
+        </button>
       </div>
     </div>
     <div class="words-stats" *ngIf="gameStats.length > 0">

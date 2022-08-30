@@ -16,6 +16,7 @@ import { CreateWordsResponseService } from 'src/app/core/services/create-words-r
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { GameLevelComponent } from '../../../shared/components/game-level/game-level.component';
 import { UserDataService } from 'src/app/core/services/user-data.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sprint',
@@ -56,7 +57,8 @@ export class SprintComponent implements OnInit {
   constructor(
     private userService: UserDataService = new UserDataService(),
     private pageDataService: PagesDataService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private _location: Location
   ) {
     this.isAuth = this.userService.isRegistered();
   }
@@ -213,5 +215,9 @@ export class SprintComponent implements OnInit {
     this.combo = 0;
     this.comboBonus = 0;
     this.longestCombo = 0;
+  }
+
+  goBack() {
+    this._location.back();
   }
 }
