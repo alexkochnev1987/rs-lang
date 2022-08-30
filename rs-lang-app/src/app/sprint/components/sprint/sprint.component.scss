@@ -58,6 +58,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  margin: 0 auto;
 }
 
 .game-score {
@@ -153,4 +154,54 @@
 
 .word-translation {
   @include font14;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.timer-line {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  width: 100%;
+}
+
+.timer-heading,
+.game-timer {
+  @include heading4;
+  flex-shrink: 0;
+  padding-top: 5px;
+  margin: 30px;
+}
+
+.game-timer {
+  width: 35px;
+}
+
+.timer-section {
+  border-radius: 5px;
+  height: 14px;
+  width: 100%;
+  background-color: $activePageColor;
+}
+
+.time-isup {
+  animation: reduce-height;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes reduce-height {
+  from {
+    height: 14px;
+    background-color: $borderDifficultColor;
+  }
+  to {
+    height: 5px;
+    background-color: $paginationArrowDisabled;
+  }
 }

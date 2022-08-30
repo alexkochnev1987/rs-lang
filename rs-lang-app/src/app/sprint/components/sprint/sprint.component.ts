@@ -9,6 +9,7 @@ import {
   IWord,
   IWordCard,
   SPRINT_TIMER,
+  TIMER_LINE_SECTIONS,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -26,8 +27,11 @@ export class SprintComponent implements OnInit {
   wordsArray: IWordCard[] = [];
   gameStats: ISprintStats[] = [];
   timerID!: ReturnType<typeof setInterval>;
+  timerSections: number[] = [];
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
+  fixSprintTimer = SPRINT_TIMER;
+  lineSections = TIMER_LINE_SECTIONS;
   isLevelSelected = false;
   isGameStarted = false;
   isGameEnded = false;
@@ -130,6 +134,7 @@ export class SprintComponent implements OnInit {
   startGame(data: IWordCard[]) {
     this.wordsArray = data;
     this.isGameStarted = true;
+    this.timerSections = this.timerSectionsArray();
     console.log(this.wordsArray);
     this.getWord();
     this.getTimer();
@@ -185,5 +190,17 @@ export class SprintComponent implements OnInit {
       wordTranslate: this.wordsArray[this.wordsCounter].wordTranslate,
       success: answer === this.isCorrect ? true : false,
     });
+  }
+
+  timerSectionsArray() {
+    return Array(this.lineSections)
+      .fill('')
+      .map((el: number, index: number) => {
+        return index + 1;
+      });
+  }
+
+  changeStyle(element: HTMLElement) {
+    return element.classList.add('timer-isup');
   }
 }

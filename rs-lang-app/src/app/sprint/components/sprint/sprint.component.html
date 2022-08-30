@@ -10,7 +10,35 @@
     *ngIf="!isLevelSelected"></app-game-level>
   <div *ngIf="isLevelSelected && !isGameStarted">{{ progress }}</div>
   <div *ngIf="isGameStarted && !isGameEnded">
-    <div class="game-timer">{{ (timer / 10).toFixed(1) }}</div>
+    <div class="timer-container">
+      <h4 class="timer-heading">TIME:</h4>
+      <div class="timer-line">
+        <ng-container *ngFor="let section of timerSections; index as i">
+          <div
+            class="timer-section"
+            *ngIf="
+              (timer / 10) * (timerSections.length / fixSprintTimer) >
+                timerSections.length - i;
+              else time2
+            "
+            [style.filter]="
+              'hue-rotate(-' +
+              i / timerSections.length / 4 +
+              'turn) saturate(' +
+              (1 + ((i - 1) / timerSections.length) * 4) +
+              ')'
+            "></div>
+          <ng-template #time2>
+            <div
+              class="timer-section time-isup"
+              [ngStyle]="{
+                'animation-duration.s': fixSprintTimer / timerSections.length
+              }"></div>
+          </ng-template>
+        </ng-container>
+      </div>
+      <div class="game-timer">{{ (timer / 10).toFixed(1) }}</div>
+    </div>
     <div class="game-container">
       <div class="progress-picture"></div>
       <div class="game-elements">
