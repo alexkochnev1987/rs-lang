@@ -66,7 +66,6 @@ export class AuthService {
   }
 
   refreshToken() {
-    console.log('this.refreshToken');
     return this.http
       .get(
         `${
@@ -91,9 +90,5 @@ export class AuthService {
         this.userDataService.getUser().userId
       }`
     );
-  }
-
-  getWordById(id: string) {
-    return this.http.get<IWordCard>(url + QueryParams.words + SLASH + id);
   }
 }

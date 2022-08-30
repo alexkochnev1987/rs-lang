@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  IWordCard,
   QueryParams,
   SLASH,
   url,
@@ -83,5 +84,9 @@ export class QueryService {
       '?difficulty=hard';
     console.log(queryUrl);
     return this.http.get<UserSettings>(queryUrl);
+  }
+
+  getWordById(id: string) {
+    return this.http.get<IWordCard>(url + QueryParams.words + SLASH + id);
   }
 }

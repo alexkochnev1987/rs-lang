@@ -113,9 +113,6 @@ button{
   cursor: pointer;
 }
 .button-ok {
-  grid-area: x;
-  background: url(/assets/img/ok.png);
-  background-repeat: no-repeat;
   background-position: center;
   width: 29px;
   height: 28px;
@@ -128,9 +125,6 @@ button{
   cursor: pointer;
 }
 .button-difficult {
-  grid-area: y;
-  background: url(/assets/img/difficult.png);
-  background-repeat: no-repeat;
   background-position: center;
   width: 29px;
   height: 28px;
@@ -143,10 +137,24 @@ button{
   cursor: pointer;
 }
 
-.rows{
-  height: 35px;
+.button-ok {
+  background-position: center;
+  width: 29px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px dashed $activePageColor;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin:5px;
+  cursor: pointer;
+}
+
+.rows{
+  min-height: 45px;
+  grid-template-rows: 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 45px;
   justify-content: space-between;
   align-items: center;
 }
@@ -169,5 +177,18 @@ button{
   justify-content: space-between;
   gap:30px;
   width: 100%;
-  // flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.first{
+  display: none;
+}
+
+.paginator{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.header-word {
+  padding-left: 40px;
 }

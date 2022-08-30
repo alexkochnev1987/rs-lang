@@ -178,3 +178,5 @@ export interface GameStatistics {
     audioChallenge: GameOptions;
   };
 }
+
+export const STATISTICS_WORDS_LENGTH = 5;

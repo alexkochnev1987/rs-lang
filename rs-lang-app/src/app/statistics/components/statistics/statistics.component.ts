@@ -5,6 +5,7 @@ import {
   PageRoutes,
   QueryParams,
   SLASH,
+  STATISTICS_WORDS_LENGTH,
   url,
   UserWords,
   UserWordsResponse,
@@ -15,6 +16,7 @@ import { QueryService } from 'src/app/core/service/query.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { map, tap } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { StatisticsService } from 'src/app/core/services/statistics.service';
 
 @Component({
   selector: 'app-statistics',
@@ -27,13 +29,14 @@ export class StatisticsComponent implements OnInit {
   wordId = '/5e9f5ee35eb9e72bc21af4db';
   options = { difficulty: 'hard', optional: { option: 'hello' } };
   userWords = { hardWords: 0, easyWords: 0, total: 0 };
-  hardWords: IWordCard[] = [];
+  hardWords: [IWordCard[]] = [[]];
+  hardWordsPage = 0;
 
   constructor(
     private pagesDataService: PagesDataService,
     private queryService: QueryService,
-    private authService: AuthService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private statisticService: StatisticsService
   ) {}
 
   ngOnInit(): void {
@@ -63,22 +66,23 @@ export class StatisticsComponent implements OnInit {
       .getUserWords()
       .pipe(
         tap(response =>
-          response
-            .filter(word => word.difficulty === Difficulty.Hard)
-            .forEach(word =>
-              this.authService.getWordById(word.wordId).subscribe({
-                next: word => {
-                  this.hardWords.push(word);
-                },
-              })
-            )
+          response.filter(this.statisticService.filterHardWords).forEach(word =>
+            this.queryService.getWordById(word.wordId).subscribe({
+              next: word => {
+                this.statisticService.splitArrByChunks(
+                  word,
+                  this.hardWords,
+                  STATISTICS_WORDS_LENGTH
+                );
+              },
+            })
+          )
         )
       )
       .subscribe({
         next: response => {
-          console.log(response);
-          // response.forEach(console.log);
-          console.log(this.hardWords);
+          // console.log(response);
+          // console.log(this.hardWords);
           // this.userWords.total = response.length;
           // this.userWords.easyWords = response.filter(
           //   word => word.difficulty === Difficulty.Easy
@@ -105,5 +109,12 @@ export class StatisticsComponent implements OnInit {
     this.httpService
       .putData(location, body)
       .subscribe({ next: (data: any) => console.log(data) });
+  }
+  nextPage() {
+    if (this.hardWordsPage < this.hardWords.length - 1) this.hardWordsPage++;
+  }
+
+  prevPage() {
+    if (this.hardWordsPage > 0) this.hardWordsPage--;
   }
 }
