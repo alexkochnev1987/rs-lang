@@ -54,8 +54,6 @@ $paginationArrowDisabled: #b2b3b9;
 $borderTitleBlockColor: #64c6e5;
 $activePageColor: #6cd244;
 $transcriptionColor: #ba6bd6;
-$menuBackgroundColor: #ffffff;
-$cardBackgroundColor: #ffffff;
 $cardBorderColor: #eeeeee;
 $menuTopBorder: #6cd244;
 $currentPageColor: red;
@@ -68,6 +66,9 @@ $containerBackground: #ffffff;
 $exampleTextColor: #757575;
 $borderDifficultColor: #eb4949;
 $borderLearnedColor: #6cd244;
+$tableHeadingTextColor: #ffffff;
+$tableHeadingBgColor: #42BEE5;
+$tableEvenItemBg: #f5f5f5;
 $desktopIndent: 30px;
 
 @mixin fontSize14 {
@@ -247,52 +248,100 @@ $desktopIndent: 30px;
   height: 100px;
 }
 .button-orange {
-  position: relative;
   @include font14bold;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 34px;
   text-transform: uppercase;
   text-shadow: 1px 1px 0 rgba($color: #000000, $alpha: 0.15);
   color: white;
-  border: 3px solid #FF7A00;
+  border: 0px;
   border-radius: 10px;
   outline: 1px dashed white;
   outline-offset: -4px;
-  padding: 9px 14px 7px;
-  background-image: linear-gradient(#FF9100, #FF7A00);
+  padding: 0 20px;
+  background: linear-gradient(#FF9100, #FF7A00);
   box-shadow: 0 2px 2px rgba($color: #000000, $alpha: 0.15);
   cursor: pointer;
 }
 .button-orange:hover {
-  border: 3px solid #FF9100;
-  background-image: linear-gradient(#FFB84D, #FF9100);
+  background: linear-gradient(#FFB84D, #FF9100);
 }
 .button-orange:active {
-  border: 3px solid #FF9100;
-  background-image: linear-gradient(#FF9100, #FFB84D);
+  background: linear-gradient(#FF9100, #FFB84D);
   box-shadow: 0 0 0 rgba($color: #000000, $alpha: 0.15);
   top: 2px;
 }
 .button-green {
-  position: relative;
   @include font14bold;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 34px;
   text-transform: uppercase;
   text-shadow: 1px 1px 0 rgba($color: #000000, $alpha: 0.15);
   color: white;
-  border: 3px solid #6CD244;
+  border: 0px;
   border-radius: 10px;
   outline: 1px dashed white;
   outline-offset: -4px;
-  padding: 9px 14px 7px;
-  background-image: linear-gradient(#88E564, #6CD244);
+  padding: 0 20px;
+  background: linear-gradient(#88E564, #6CD244);;
   box-shadow: 0 2px 2px rgba($color: #000000, $alpha: 0.15);
   cursor: pointer;
 }
 .button-green:hover {
-  border: 3px solid #88E564;
   background-image: linear-gradient(#B8FA9F, #88E564);
 }
 .button-green:active {
-  border: 3px solid #88E564;
   background-image: linear-gradient(#88E564, #B8FA9F);
   box-shadow: 0 0 0 rgba($color: #000000, $alpha: 0.15);
   top: 2px;
+}
+.button-dashed {
+  @include font14;
+  font-weight: 500;
+  color: $paginationNumberColor;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 34px;
+  padding: 0 20px;
+  border: 1px dashed $paginationNumberColor;
+  border-radius: 10px;
+  background: transparent;
+  box-sizing: border-box;
+}
+.button-dashed:hover {
+  border: 1px solid;
+}
+.button-dashed-correct {
+  animation-name: correct-answer;
+  animation-duration: 1s;
+}
+.button-dashed-wrong {
+  animation-name: wrong-answer;
+  animation-duration: 1s;
+}
+
+@keyframes correct-answer {
+  from {
+    background-color: rgba($color: $activePageColor, $alpha: 1.0);
+  }
+  to {
+    background-color: rgba($color: $activePageColor, $alpha: 0.0);
+  }
+}
+
+@keyframes wrong-answer {
+  from {
+    background-color: rgba($color: $borderDifficultColor, $alpha: 1.0);
+  }
+  to {
+    background-color: rgba($color: $borderDifficultColor, $alpha: 0.0);
+  }
 }
