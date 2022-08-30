@@ -6,7 +6,7 @@
     class="button-1"
     *ngIf="!isLearnedPage(page)"
     [gameName]="game1"
-    [routerLink]="link1"></app-menu-button>
+    [routerLink]="[link1, group, page + 1]"></app-menu-button>
   <app-menu-button
     class="button-2"
     *ngIf="!isLearnedPage(page)"
@@ -16,6 +16,22 @@
     <div class="check-mark"></div>
     {{ learnedPage }}
   </div>
+</div>
+<div class="pagination-up" *ngIf="group < 7">
+  <span class="back" [class.disabled]="page < 1" (click)="pageDown()"
+    >&lt;</span
+  >
+  <div
+    [class.current-page]="i === page + 1"
+    class="page-number"
+    *ngFor="let i of pagination()"
+    (click)="changePage(i)">
+    {{ i }}
+    <div class="learned-page" *ngIf="isLearnedPage(i)"></div>
+  </div>
+  <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
+    >&gt;</span
+  >
 </div>
 <div class="cards-container">
   <div *ngFor="let card of cards">

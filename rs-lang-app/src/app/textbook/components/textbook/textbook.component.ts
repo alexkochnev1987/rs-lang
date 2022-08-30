@@ -41,7 +41,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   game2 = PLAY_PREFIX + GAME_2;
   learnedPage = LEARNED_PAGE;
   link2 = '../../' + PageRoutes.sprint;
-  link1 = '../../' + PageRoutes.audioChallenge;
+  link1 = '../../audio-challenge';
   userId: string | undefined = undefined;
   userWords: IWord[] = [];
   pageWords: IWord[] = [];
@@ -64,6 +64,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
       this.userId = this.userdataService.getUser().userId;
       if (this.group == 7) {
         this.loadDifficultWords();
+        this.page = 0;
       }
       this.load();
       this.textbookDataService.setCurrentLevel(this.group);

@@ -9,6 +9,8 @@
   height: 341px;
   border: 2px solid $cardBorderColor;
   border-radius: 10px;
+  outline: 1px dashed $dashedStrokeGrey;
+  outline-offset: -4px;
   margin-bottom: 30px;
   padding: 10px;
   background-color: $cardBackgroundColor;
@@ -47,6 +49,8 @@
   border-left: 2px solid $cardBorderColor;
   border-right: 2px solid $cardBorderColor;
   border-radius: 0 0 10px 10px;
+  outline: 1px dashed $dashedStrokeGrey;
+  outline-offset: -4px;
   margin-bottom: 30px;
   padding: 10px;
   transition: margin 0.5s, opacity 1s;
@@ -173,17 +177,25 @@
 }
 .difficult-word{
   border: 6px solid $borderDifficultColor;
+  outline: 1px dashed white;
+  outline-offset: -4px;
 }
 .difficult-word-additional{
   border-bottom: 6px solid $borderDifficultColor;
   border-left: 6px solid $borderDifficultColor;
   border-right: 6px solid $borderDifficultColor;
+  outline: 1px dashed white;
+  outline-offset: -4px;
 }
 .learned-word{
   border: 6px solid $borderLearnedColor;
+  outline: 1px dashed white;
+  outline-offset: -4px;
 }
 .learned-word-additional{
   border-bottom: 6px solid $borderLearnedColor;
   border-left: 6px solid $borderLearnedColor;
   border-right: 6px solid $borderLearnedColor;
+  outline: 1px dashed white;
+  outline-offset: -4px;
 }

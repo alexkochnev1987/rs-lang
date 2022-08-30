@@ -22,7 +22,11 @@ p {
   cursor: pointer;
 }
 .invisible {
-  margin-top: -100vh;
+  margin-top: -440px;
+  transition: 1s;
+}
+.notvisible {
+  margin-top: -150px;
   transition: 1s;
 }
 .menu {
@@ -85,4 +89,8 @@ p {
   color:$activePageColor;
   border-bottom: 3px solid $activePageColor;
   padding-bottom: 10px;
+}
+.invisible-link{
+  opacity:0;
+  visibility: hidden;
 }

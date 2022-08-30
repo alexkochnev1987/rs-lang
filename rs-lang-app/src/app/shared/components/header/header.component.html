@@ -21,7 +21,7 @@
       [class.active]="currentPage === AppPages.TextBook">
       TEXTBOOK
     </div>
-    <div
+    <div [class.invisible-link]="!isUser()"
       routerLink="/statistics"
       [class.active]="currentPage === AppPages.DashBoard">
       DASHBOARD
@@ -43,7 +43,7 @@
 </div>
 <div
   class="game-menu"
-  [ngClass]="{ invisible: isGamesMenuInvisible }"
+  [ngClass]="{notvisible: isGamesMenuInvisible }"
   (click)="showGamesMenu()">
   <app-games-menu></app-games-menu>
 </div>

@@ -1,0 +1,210 @@
+@import '../../../app.component.scss';
+
+h1,h2 {
+  text-align: center;
+}
+ ::ng-deep .level .solid-stroke-container{
+  margin-bottom: 550px;
+}
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  gap: 30px;
+  width: 565px;
+  height: 464.39px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  margin-bottom: 150px;
+
+}
+
+.title {
+  width: 304px;
+  height: 32px;
+  @include fontSize32;
+  color: black;
+}
+
+.attempts-block {
+  display: flex;
+  flex-direction: colmn;
+  align-items: flex-end;
+  padding: 20px 0px 0px;
+  gap: 5px;
+  width: 238px;
+  height: 41px;
+}
+
+.attempts-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 238px;
+  height: 21px;
+}
+
+.main-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 3px;
+  gap: 10px;
+  width: 565px;
+  height: 267.39px;
+  left: 0px;
+  top: 133px;
+  background: #ffffff;
+  border-radius: 10px;
+  outline: 1px dashed $dashedStrokeGrey;
+  outline-offset: -4px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));
+}
+
+.button-block {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 10px;
+  width: 255px;
+  height: 34px;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.15));
+
+}
+
+::ng-deep .button-restart button {
+  width: 109px;
+}
+
+::ng-deep .button-leave button {
+  width: 136px;
+}
+::ng-deep .title-button-start button {
+  width: 109px;
+  background-image: $loginButtonBackground;
+}
+::ng-deep .title-button-start button {
+  width: 109px;
+  background-image: $loginButtonBackground;
+}
+::ng-deep .title-button-start button:hover {
+  background-image: $loginHoverButtonBackground;
+}
+::ng-deep .title-button-start button:active {
+  background-image: $pressedLoginButton;
+}
+
+::ng-deep .title-button-cancel button {
+  width: 136px;
+}
+
+.hearts-block {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 10px;
+  width: 152px;
+  height: 22px;
+
+}
+
+.speaker {
+  width: 56px;
+  height: 56px;
+  background-image: url(/assets/img/speaker.png);
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.speaker:hover{
+  transform: scale(0.98);
+}
+
+.guess-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 5px;
+  width: 499px;
+  height: 34px;
+}
+
+.guess-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  width: 121px;
+  height: 30px;
+  padding: 0;
+  border: 1px dashed black;
+  border-radius: 10px;
+  color: $fontNormalColor;
+  @include font14;
+  cursor: pointer;
+}
+.guess-button:hover{
+  background-image: linear-gradient(#ffffff,#eeeeee);
+  transform: scale(.98);
+}
+
+.heart {
+  width: 30px;
+  height: 22px;
+  background-image: url(/assets/img/white-heart.png);
+  background-repeat: no-repeat;
+}
+
+.red-heart {
+  background-image: url(/assets/img/red-heart.png);
+  background-repeat: no-repeat;
+}
+
+.attempt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  background-image: url(/assets/img/small-grey-circle.png);
+  background-repeat: no-repeat;
+}
+.attempt-success{
+  width: 25px;
+  height: 25px;
+  background-image: url(/assets/img/green-check-mark.png);
+}
+.attempt-failed{
+  width: 25px;
+  height: 25px;
+  background-image: url(/assets/img/red-cross.png);
+}
+.from-textbook{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom:450px;
+}
+.title-buttons-container{
+  display:flex;
+  gap:30px;
+  margin-top:50px;
+}
+.right-answer-button{
+  background-color: $rightAnswerButton;
+  border:none;
+}
+.wrong-answer-button{
+  background-color: $wrongAnswerButton;
+  border:none;
+}
