@@ -98,97 +98,26 @@ button{
   display: flex;
   align-items: center;
   justify-content: space-around;
+  &:first-child{
+    padding-left: 20px;
+  }
 }
 .row1{
   height: 100px;
   background: whitesmoke;
 }
 
-.speaker{
-  background-image: url(/assets/img/speaker.png);
-  background-size: cover;
-  width: 12px;
-  min-height: 12px;
-  max-height: 12px;
-  cursor: pointer;
-}
-.button-ok {
-  background-position: center;
-  width: 29px;
-  height: 28px;
-  border-radius: 10px;
-  border: 1px dashed $activePageColor;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin:5px;
-  cursor: pointer;
-}
-.button-difficult {
-  background-position: center;
-  width: 29px;
-  height: 28px;
-  border-radius: 10px;
-  border: 1px dashed $currentPageColor;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px;
-  cursor: pointer;
-}
-
-.button-ok {
-  background-position: center;
-  width: 29px;
-  height: 28px;
-  border-radius: 10px;
-  border: 1px dashed $activePageColor;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin:5px;
-  cursor: pointer;
-}
-
-.rows{
-  min-height: 45px;
-  grid-template-rows: 1fr;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 45px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.word {
-  width: 150px;
-  padding-left: 20px;
-}
-
-.transcription{
-  width: 150px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
 .wrapper-words{
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap:30px;
   width: 100%;
-  flex-wrap: wrap;
-}
-.first{
-  display: none;
-}
-
-.paginator{
-  display: flex;
-  justify-content: center;
-  gap: 5px;
 }
 
 .header-word {
-  padding-left: 40px;
+  box-sizing: border-box;
 }
+
+
+

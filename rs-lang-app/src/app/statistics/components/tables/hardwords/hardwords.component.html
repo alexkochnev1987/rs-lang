@@ -1,0 +1,37 @@
+<div class="wrapper">
+  <h2>Hard words</h2>
+  <div class="table-words">
+    <div class="header rows">
+      <div><span class="padding">WORD</span></div>
+      <div>TRANSCRIPTION</div>
+      <div>TRANSLATE</div>
+      <div></div>
+    </div>
+    <div
+      class="pages"
+      *ngFor="let page of hardWords; index as i"
+      [class.hide]="i !== hardWordsPage">
+      <div class="rows" *ngFor="let word of page">
+        <div class="word">{{ word.word }}</div>
+        <div class="transcription">
+          <div class="speaker" (click)="playSound(word.audio)"></div>
+          <div>{{ word.transcription }}</div>
+        </div>
+        <div class="translate">{{ word.wordTranslate }}</div>
+        <div class="button-ok">
+          <img src="assets/img/ok.png" alt="ok" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="paginator">
+    <div class="page" (click)="prevPage()"><</div>
+    <div
+      *ngFor="let page of hardWords; index as i"
+      class="page"
+      [class.current-page]="i === hardWordsPage">
+      {{ i + 1 }}
+    </div>
+    <div class="page" (click)="nextPage()">></div>
+  </div>
+</div>

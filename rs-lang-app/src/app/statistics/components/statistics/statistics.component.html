@@ -5,6 +5,8 @@
       <div class="text-wrapper">
         <div class="text">
           <h3>SPRINT MINI-GAME</h3>
+          <p>Games played</p>
+          <p>Last results</p>
           <button [routerLink]="link2">
             <div class="border">Play Game</div>
           </button>
@@ -18,6 +20,8 @@
       <div class="text-wrapper">
         <div class="text">
           <h3>AUDIO CHALLENGE</h3>
+          <p>Games played</p>
+          <p>Last results</p>
           <button [routerLink]="link1">
             <div class="border">Play Game</div>
           </button>
@@ -39,58 +43,10 @@
   </div>
 </div>
 
-<button (click)="getWords()">Get words</button>
 <button (click)="getStatistics()">Get statistics</button>
 <button (click)="getSettings()">Get settings</button>
 
 <div class="wrapper-words">
-  <div class="table">
-    <h2>Words learned</h2>
-    <div class="header rows">
-      <div>WORD</div>
-      <div>TRANSCRIPTION</div>
-      <div>TRANSLATE</div>
-      <div></div>
-    </div>
-    <div class="row1"></div>
-    <div class="button-ok">
-      <img src="assets/img/ok.png" alt="ok" />
-    </div>
-    <button (click)="prevPage()">Prev</button>
-    <button (click)="nextPage()">Next</button>
-  </div>
-  <div class="table">
-    <h2>Hard words</h2>
-    <div class="header rows">
-      <div class="header-word">WORD</div>
-      <div class="header-word">TRANSCRIPTION</div>
-      <div class="header-word">TRANSLATE</div>
-      <div></div>
-    </div>
-    <div
-      class="pages"
-      *ngFor="let page of hardWords; index as i; first as isFirst">
-      <div
-        class="rows"
-        *ngFor="let word of page"
-        [class.first]="i !== hardWordsPage">
-        <div class="word">{{ word.word }}</div>
-        <div class="transcription">
-          <div class="speaker" (click)="playSound(word.audio)"></div>
-          <div>{{ word.transcription }}</div>
-        </div>
-        <div class="translate">{{ word.wordTranslate }}</div>
-        <div class="button-difficult">
-          <img src="assets/img/difficult.png" alt="difficult" />
-        </div>
-      </div>
-    </div>
-    <div class="paginator">
-      <div *ngFor="let page of hardWords; index as i" class="page">
-        {{ i + 1 }}
-      </div>
-    </div>
-    <button (click)="prevPage()">Prev</button>
-    <button (click)="nextPage()">Next</button>
-  </div>
+  <app-easy-words></app-easy-words>
+  <app-hardwords></app-hardwords>
 </div>
