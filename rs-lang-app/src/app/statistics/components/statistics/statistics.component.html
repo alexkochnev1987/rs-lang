@@ -4,9 +4,20 @@
       <img src="assets/img/sprint.png" alt="Sprint" />
       <div class="text-wrapper">
         <div class="text">
-          <h3>SPRINT MINI-GAME</h3>
-          <p>Games played</p>
-          <p>Last results</p>
+          <div class="heading-h3">
+            <div class="border-bottom"></div>
+            <h3>SPRINT MINI-GAME</h3>
+          </div>
+          <div>
+            <div class="statistics">
+              <p>Games played:</p>
+              <p><span>35</span></p>
+            </div>
+            <div class="statistics">
+              <p>Last results:</p>
+              <p><span>35</span></p>
+            </div>
+          </div>
           <button [routerLink]="link2">
             <div class="border">Play Game</div>
           </button>
@@ -19,9 +30,20 @@
       <img src="assets/img/audio.png" alt="Audio Challenge" />
       <div class="text-wrapper">
         <div class="text">
-          <h3>AUDIO CHALLENGE</h3>
-          <p>Games played</p>
-          <p>Last results</p>
+          <div class="heading-h3">
+            <div class="border-bottom"></div>
+            <h3>AUDIO CHALLENGE</h3>
+          </div>
+          <div>
+            <div class="statistics">
+              <p>Games played:</p>
+              <p><span>35</span></p>
+            </div>
+            <div class="statistics">
+              <p>Last results:</p>
+              <p><span>35</span></p>
+            </div>
+          </div>
           <button [routerLink]="link1">
             <div class="border">Play Game</div>
           </button>
@@ -31,18 +53,10 @@
   </div>
   <app-authorization class="width"></app-authorization>
 </div>
-<div>
-  <h2>Your statistics</h2>
-  <div class="table">
-    <div class="header">
-      <div>DATE</div>
-      <div>NEW WORDS LEARNED</div>
-      <div>TOTAL WORDS LEARNED</div>
-    </div>
-    <div class="row1"></div>
-  </div>
-</div>
 
+<h2>Your statistics</h2>
+
+<app-graphs></app-graphs>
 <button (click)="getStatistics()">Get statistics</button>
 <button (click)="getSettings()">Get settings</button>
 

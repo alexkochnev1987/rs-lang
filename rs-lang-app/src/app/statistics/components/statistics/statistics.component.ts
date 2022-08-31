@@ -5,10 +5,6 @@ import {
   PageRoutes,
   QueryParams,
   SLASH,
-  STATISTICS_WORDS_LENGTH,
-  url,
-  UserWords,
-  UserWordsResponse,
 } from 'src/app/constants';
 import { AppPages } from 'src/app/constants';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';

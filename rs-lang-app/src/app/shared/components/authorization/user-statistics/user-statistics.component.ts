@@ -32,7 +32,7 @@ export class UserStatisticsComponent implements OnInit {
       next: response => {
         this.wordsPerDay = response.wordsPerDay;
       },
-      error: error => alert(`Settings not found`),
+      error: error => console.log(error),
     });
   }
 
@@ -41,7 +41,7 @@ export class UserStatisticsComponent implements OnInit {
       next: response => {
         this.learnedWord = response.learnedWords;
       },
-      error: error => alert(`Statistics not found`),
+      error: error => console.log(error),
     });
   }
 

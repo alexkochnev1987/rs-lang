@@ -55,12 +55,12 @@ export class HardWordsComponent implements OnInit {
     if (this.hardWordsPage > 0) this.hardWordsPage--;
   }
 
+  changePage(page: number) {
+    this.hardWordsPage = page;
+  }
+
   playSound(endpoint: string) {
     const audio = new Audio(url + SLASH + endpoint);
     audio.play();
-  }
-
-  changePage(page: number) {
-    this.hardWordsPage = page;
   }
 }

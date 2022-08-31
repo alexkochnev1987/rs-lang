@@ -17,6 +17,7 @@ import { tap } from 'rxjs';
 export class EasyWordsComponent implements OnInit {
   easyWords: [IWordCard[]] = [[]];
   easyWordsPage = 0;
+  totalPages = 0;
   constructor(
     private queryService: QueryService,
     private statisticService: StatisticsService
@@ -44,7 +45,7 @@ export class EasyWordsComponent implements OnInit {
           )
         )
       )
-      .subscribe();
+      .subscribe({ next: () => (this.totalPages = this.easyWords.length) });
   }
 
   nextPage() {
