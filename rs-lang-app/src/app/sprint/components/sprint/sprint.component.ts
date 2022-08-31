@@ -397,9 +397,7 @@ export class SprintComponent implements OnInit {
   }
 
   processStatistics() {
-    console.log(123);
     this.getUserStatistics();
-    console.log('Stats 1:', this.userGamesStats);
     const optionsStat: GameStatistics = {
       learnedWords: 0,
       optional: {
@@ -442,7 +440,6 @@ export class SprintComponent implements OnInit {
         userSprintStats.allTime.rightGuessesInRow >= this.longestCombo
           ? userSprintStats.allTime.rightGuessesInRow
           : this.longestCombo;
-      console.log('DayNow: ', dayNow, '; StatsDay: ', statsDay);
       if (
         dayNow === statsDay &&
         monthNow === statsMonth &&
@@ -472,8 +469,6 @@ export class SprintComponent implements OnInit {
     }
     this.putUserStatistics(optionsStat);
     this.getUserWords();
-    console.log('Stats 2: ', this.userGamesStats);
-    console.log('User words 1: ', this.userWords);
     const userWordIds = this.userWords.map((el: IWord) => el.wordId);
     this.gameStats.forEach((el: ISprintStats) => {
       userWordIds.includes(el.id)
@@ -483,5 +478,7 @@ export class SprintComponent implements OnInit {
           )
         : this.processNotUserWord(el.id, el);
     });
+    console.log('Stats: ', this.userGamesStats);
+    console.log('User words: ', this.userWords);
   }
 }
