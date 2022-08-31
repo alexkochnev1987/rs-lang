@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  IWordsData,
   QueryParams,
   SLASH,
   url,
@@ -35,9 +36,17 @@ export class QueryService {
     );
   }
 
-  postUserWords(wordId: string, options: UserWords) {
+  postUserWords(wordId: string, options: IWordsData) {
     const userId = this.userDataService.getUser().userId;
     return this.http.post(
+      url + QueryParams.register + SLASH + userId + QueryParams.words + wordId,
+      options
+    );
+  }
+
+  updateUserWords(wordId: string, options: IWordsData) {
+    const userId = this.userDataService.getUser().userId;
+    return this.http.put(
       url + QueryParams.register + SLASH + userId + QueryParams.words + wordId,
       options
     );

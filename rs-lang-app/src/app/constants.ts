@@ -133,16 +133,16 @@ export interface UserSettings {
 }
 
 export interface UserWords {
-  difficulty: 'string';
+  difficulty: Difficulty;
   optional: {};
 }
 
 export interface IWordsData {
   difficulty: string;
   optional: {
-    attempts: number;
-    success: number;
     rightGuessesInRow: number;
+    dateEasy?: number;
+    dateFirstTime?: number;
   };
 }
 export enum Difficulty {
@@ -153,12 +153,48 @@ export interface IWord {
   id: string;
   difficulty?: string;
   wordId: string;
-  optional?: {};
+  optional?: {
+    rightGuessesInRow: number;
+    dateEasy?: number;
+    dateFirstTime?: number;
+  };
 }
 export type LevelColor = {
   id: number;
   color: string;
 };
+export interface GameOptions {
+  attempts: number;
+  success: number;
+  rightGuessesInRow: number;
+  date?: number;
+}
+// export interface GameStatistics {
+//   learnedWords: 0;---
+//   optional: {
+//     sprint: {
+//       today: GameOptions; (date)
+//       allTime: GameOptions; (?date)
+//     };
+//     audioChallenge: {
+//       today: GameOptions;
+//       allTime: GameOptions;
+//     };
+//   };
+// }
+export interface GameStatistics {
+  learnedWords: 0;
+  optional: {
+    sprint?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+    audioChallenge?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+  };
+}
 export interface IGuessButton {
   id: string;
   word: string;
