@@ -19,6 +19,7 @@ export const LEVELS_COLORS: LevelColor[] = [
 ];
 export const WORDS_ON_PAGE = 20;
 export const PAGES_ON_LEVEL = 30;
+export const AUDIO_CHALLENGE_ATTEMPTS = 10;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
@@ -95,6 +96,10 @@ export enum AppPages {
   TextBook,
   DashBoard,
   Authorization,
+}
+export enum GameSound {
+  success = '/assets/mp3/success.mp3',
+  failed = '/assets/mp3/failed.mp3',
 }
 
 export interface authorCard {
