@@ -54,14 +54,16 @@ export class TextbookComponent implements OnInit, OnDestroy {
     private httpService: HttpService,
     private textbookDataService: TextbookDataService,
     private pagesDataService: PagesDataService,
-    private userdataService: UserDataService,
+    private userDataService: UserDataService,
     private http: HttpClient,
     private storage: LocalStorageService
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
       this.storage.setItem(LEVEL_KEY, this.group);
-      this.userId = this.userdataService.getUser().userId;
+      if (this.userDataService.isRegistered()) {
+        this.userId = this.userDataService.getUser().userId;
+      }
       if (this.group == 7) {
         this.loadDifficultWords();
         this.page = 0;
