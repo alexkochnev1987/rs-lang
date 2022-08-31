@@ -169,19 +169,6 @@ export interface GameOptions {
   rightGuessesInRow: number;
   date?: number;
 }
-// export interface GameStatistics {
-//   learnedWords: 0;---
-//   optional: {
-//     sprint: {
-//       today: GameOptions; (date)
-//       allTime: GameOptions; (?date)
-//     };
-//     audioChallenge: {
-//       today: GameOptions;
-//       allTime: GameOptions;
-//     };
-//   };
-// }
 export interface GameStatistics {
   learnedWords: 0;
   optional: {

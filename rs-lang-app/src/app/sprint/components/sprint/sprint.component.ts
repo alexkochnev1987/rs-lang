@@ -52,6 +52,7 @@ export class SprintComponent implements OnInit {
   userId: string | undefined = undefined;
   currentPage: number | undefined = undefined;
   userWords: IWord[] = [];
+  userGamesStats: GameStatistics | undefined;
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
   fixSprintTimer = SPRINT_TIMER;
@@ -120,7 +121,10 @@ export class SprintComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
-    if (this.isAuth) this.getUserWords();
+    if (this.isAuth) {
+      this.getUserWords();
+      this.getUserStatistics();
+    }
   }
 
   loadWords(page?: number) {
@@ -294,30 +298,27 @@ export class SprintComponent implements OnInit {
     });
   }
 
+  getUserStatistics() {
+    this.queryService.getUserStatistics().subscribe({
+      next: (data: any) => {
+        this.userGamesStats = data;
+      },
+    });
+  }
+
+  putUserStatistics(options: GameStatistics) {
+    this.queryService.setUserStatistics(options).subscribe({
+      next: (data: any) => {
+        this.userGamesStats = data;
+      },
+    });
+  }
+
   processUserWord(word: IWord, wordGameStats: ISprintStats) {
     const optionsWord: IWordsData = {
       difficulty: ' ',
       optional: {
         rightGuessesInRow: 0,
-      },
-    };
-    const optionsStat: GameStatistics = {
-      learnedWords: 0,
-      optional: {
-        sprint: {
-          today: {
-            attempts: 0,
-            success: 0,
-            rightGuessesInRow: 0,
-            date: 0,
-          },
-          allTime: {
-            attempts: 0,
-            success: 0,
-            rightGuessesInRow: 0,
-            date: 0,
-          },
-        },
       },
     };
     if (wordGameStats.success) {
@@ -375,14 +376,13 @@ export class SprintComponent implements OnInit {
     const locationStat =
       QueryParams.register + SLASH + this.userId + QueryParams.statistics;
     this.httpService.putData(locationWord, optionsWord);
-    this.httpService.putData(locationStat, optionsStat);
   }
 
-  processNotUserWord(wordId: string) {
-    const options: IWordsData = {
+  processNotUserWord(wordId: string, wordGameStats: ISprintStats) {
+    const optionsWord: IWordsData = {
       difficulty: ' ',
       optional: {
-        rightGuessesInRow: 1,
+        rightGuessesInRow: wordGameStats.success ? 1 : 0,
         dateFirstTime: Date.now(),
       },
     };
@@ -393,11 +393,86 @@ export class SprintComponent implements OnInit {
       QueryParams.words +
       SLASH +
       wordId;
-    this.httpService.postData(locationWord, options);
+    this.httpService.postData(locationWord, optionsWord);
   }
 
   processStatistics() {
+    console.log(123);
+    this.getUserStatistics();
+    console.log('Stats 1:', this.userGamesStats);
+    const optionsStat: GameStatistics = {
+      learnedWords: 0,
+      optional: {
+        sprint: {
+          today: {
+            attempts: 0,
+            success: 0,
+            rightGuessesInRow: 0,
+            date: 0,
+          },
+          allTime: {
+            attempts: 0,
+            success: 0,
+            rightGuessesInRow: 0,
+          },
+        },
+      },
+    };
+    const optionsSprintStats = optionsStat.optional.sprint;
+    const userSprintStats = this.userGamesStats?.optional.sprint;
+    const dayNow = new Date().getDate().toString();
+    const monthNow = new Date().getMonth().toString();
+    const yearNow = new Date().getFullYear().toString();
+    if (userSprintStats) {
+      const statsDay = new Date(<number>userSprintStats.today.date)
+        .getDate()
+        .toString();
+      const statsMonth = new Date(<number>userSprintStats.today.date)
+        .getMonth()
+        .toString();
+      const statsYear = new Date(<number>userSprintStats.today.date)
+        .getFullYear()
+        .toString();
+      optionsSprintStats!.allTime.attempts =
+        userSprintStats.allTime.attempts + this.gameStats.length;
+      optionsSprintStats!.allTime.success =
+        userSprintStats.allTime.success +
+        this.gameStats.filter((el: ISprintStats) => el.success).length;
+      optionsSprintStats!.allTime.rightGuessesInRow =
+        userSprintStats.allTime.rightGuessesInRow >= this.longestCombo
+          ? userSprintStats.allTime.rightGuessesInRow
+          : this.longestCombo;
+      console.log('DayNow: ', dayNow, '; StatsDay: ', statsDay);
+      if (
+        dayNow === statsDay &&
+        monthNow === statsMonth &&
+        yearNow === statsYear
+      ) {
+        optionsSprintStats!.today.attempts =
+          userSprintStats.today.attempts + this.gameStats.length;
+        optionsSprintStats!.today.success =
+          userSprintStats.today.success +
+          this.gameStats.filter((el: ISprintStats) => el.success).length;
+        optionsSprintStats!.today.rightGuessesInRow =
+          userSprintStats.today.rightGuessesInRow >= this.longestCombo
+            ? userSprintStats.today.rightGuessesInRow
+            : this.longestCombo;
+        optionsSprintStats!.today.date = userSprintStats.today.date;
+      }
+      if (
+        dayNow !== statsDay ||
+        monthNow !== statsMonth ||
+        yearNow !== statsYear
+      ) {
+        optionsSprintStats!.today.attempts = 0;
+        optionsSprintStats!.today.success = 0;
+        optionsSprintStats!.today.rightGuessesInRow = 0;
+        optionsSprintStats!.today.date = new Date().getTime();
+      }
+    }
+    this.putUserStatistics(optionsStat);
     this.getUserWords();
+    console.log('Stats 2: ', this.userGamesStats);
     console.log('User words 1: ', this.userWords);
     const userWordIds = this.userWords.map((el: IWord) => el.wordId);
     this.gameStats.forEach((el: ISprintStats) => {
@@ -406,7 +481,7 @@ export class SprintComponent implements OnInit {
             <IWord>this.userWords.find((word: IWord) => word.wordId === el.id),
             el
           )
-        : this.processNotUserWord(el.id);
+        : this.processNotUserWord(el.id, el);
     });
   }
 }

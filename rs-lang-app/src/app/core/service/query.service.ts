@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  GameStatistics,
   IWordsData,
   QueryParams,
   SLASH,
@@ -59,9 +60,9 @@ export class QueryService {
     );
   }
 
-  setUserStatistics(options: UserStatistics) {
+  setUserStatistics(options: GameStatistics) {
     const userId = this.userDataService.getUser().userId;
-    return this.http.put<UserStatistics>(
+    return this.http.put<GameStatistics>(
       url + '/users/' + userId + '/statistics',
       options
     );
