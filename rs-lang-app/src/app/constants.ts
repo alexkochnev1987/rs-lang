@@ -8,6 +8,7 @@ export const BUTTON_LEAVE = 'LEAVE';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
+export const GAME_AUDIO_CHALLENGE_INSTRUCTIONS='* USE SPACE OR ENTER TO PLAY WORD';
 export const LEVELS_COLORS: LevelColor[] = [
   { id: 1, color: '#88E564' },
   { id: 2, color: '#45DEC3' },
@@ -175,4 +176,8 @@ export interface ISprintStats {
   transcription: string;
   wordTranslate: string;
   success: boolean;
+}
+export interface IAudioChallengeStatistics{
+  word:IWordCard;
+  success:boolean
 }

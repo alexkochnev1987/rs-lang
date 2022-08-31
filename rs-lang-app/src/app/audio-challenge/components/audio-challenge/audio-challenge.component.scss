@@ -1,10 +1,11 @@
 @import '../../../app.component.scss';
 
-h1,h2 {
+h1,
+h2 {
   text-align: center;
 }
- ::ng-deep .level .solid-stroke-container{
-  margin-bottom: 550px;
+::ng-deep .level .solid-stroke-container {
+  margin-bottom: 400px;
 }
 .game-container {
   display: flex;
@@ -16,9 +17,8 @@ h1,h2 {
   height: 464.39px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 100px;
-  margin-bottom: 150px;
-
+  margin-top: 10px;
+  margin-bottom: 85px;
 }
 
 .title {
@@ -73,7 +73,6 @@ h1,h2 {
   width: 255px;
   height: 34px;
   filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.15));
-
 }
 
 ::ng-deep .button-restart button {
@@ -110,7 +109,6 @@ h1,h2 {
   gap: 10px;
   width: 152px;
   height: 22px;
-
 }
 
 .speaker {
@@ -121,13 +119,12 @@ h1,h2 {
   opacity: 0.9;
   cursor: pointer;
 }
-.speaker:hover{
+.speaker:hover {
   transform: scale(0.95);
 }
-.speaker:active{
+.speaker:active {
   transform: scale(0.9);
   opacity: 1;
-
 }
 
 .guess-button-container {
@@ -145,7 +142,7 @@ h1,h2 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 5px 20px;
   width: 121px;
   height: 30px;
@@ -156,7 +153,7 @@ h1,h2 {
   @include font14;
   cursor: pointer;
 }
-.guess-button:hover{
+.guess-button:hover {
   border: 1px solid black;
 }
 
@@ -182,50 +179,64 @@ h1,h2 {
   background-image: url(/assets/img/small-grey-circle.png);
   background-repeat: no-repeat;
 }
-.attempt-success{
+.attempt-success {
   width: 25px;
   height: 25px;
   background-image: url(/assets/img/green-check-mark.png);
 }
-.attempt-failed{
+.attempt-failed {
   width: 25px;
   height: 25px;
   background-image: url(/assets/img/red-cross.png);
 }
-.from-textbook{
+.from-textbook {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   margin-top: 100px;
-  margin-bottom:450px;
+  margin-bottom: 450px;
 }
-.title-buttons-container{
-  display:flex;
-  gap:30px;
-  margin-top:50px;
+.title-buttons-container {
+  display: flex;
+  gap: 30px;
+  margin-top: 50px;
 }
-.right-answer-button:active{
+.right-answer-button:active {
   background-color: $rightAnswerButton;
-  border:none;
+  border: none;
 }
-.wrong-answer-button:active{
+.wrong-answer-button:active {
   background-color: $wrongAnswerButton;
-  border:none;
+  border: none;
 }
-.progress-scale{
-  width:200px;
-  size: 20px;
+.progress-scale {
+  width: 200px;
 }
 .speaker-disable,
-button-disable{
-  opacity:0.3;
+button-disable {
+  opacity: 0.3;
   cursor: auto;
-
 }
-.speaker-disable:hover{
+.speaker-disable:hover {
   transform: scale(1);
 }
-.button-disable:hover{
+.button-disable:hover {
   border: 1px dashed black;
+}
+.key-number {
+  margin-left: 5px;
+  @include font12;
+  color: $transcriptionColor;
+  width: 5px;
+}
+.key-word {
+  margin-right: 10px;
+  word-wrap: break-word;
+  width: 90px;
+}
+.instructions {
+  color: $transcriptionColor !important;
+  @include font12;
+  margin-top: 50px;
 }

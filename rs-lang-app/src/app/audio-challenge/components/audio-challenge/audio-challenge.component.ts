@@ -1,6 +1,5 @@
-import { NgIfContext } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, forkJoin, tap } from 'rxjs';
 import {
@@ -12,6 +11,8 @@ import {
   BUTTON_START,
   GameSound,
   GAME_1,
+  GAME_AUDIO_CHALLENGE_INSTRUCTIONS,
+  IAudioChallengeStatistics,
   IGuessButton,
   IWord,
   IWordCard,
@@ -36,6 +37,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   isGameEnded = false;
   isFromTextbook = false;
   isInProgress = true;
+  isDenied = false;
   currentGame = GAME_1;
   currentLevel: number = -1;
   currentPage?: number = -1;
@@ -59,7 +61,13 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   rightWord?: IWordCard;
   guessInRow: number[] = [];
   attemptsInRow: number[] = Array(10).fill(-1);
+  timeStart = 0;
+  timeFinish = 0;
+  gameStatistics?: IAudioChallengeStatistics[] = [];
   private subscription: Subscription;
+  duration = 0;
+  keyboardPress = -1;
+  instructions = GAME_AUDIO_CHALLENGE_INSTRUCTIONS;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -72,6 +80,15 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       this.currentLevel = params['level'];
       this.currentPage = params['page'];
     });
+  }
+
+  @HostListener('window:keydown', ['$event']) getkey($event: { key: any }) {
+    this.keyboardPress = Number($event.key) - 1;
+    if (!this.isGameEnded && !this.isDenied) {
+      if (this.keyboardPress < 4 && this.keyboardPress > -1)
+        this.checkAnswer(this.keyboardPress);
+      if ($event.key === 'Enter' || $event.key === ' ') this.sayWord();
+    }
   }
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
@@ -98,6 +115,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
 
   startGame() {
     this.isGameStart = true;
+    this.timeStart = Date.now();
     if (this.currentLevel === 7) {
       this.loadForUser();
     } else {
@@ -106,13 +124,14 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   }
 
   load() {
+    let page:number|undefined=0;
     if (this.currentPage == -1) {
-      this.currentPage = undefined;
-    } else this.currentPage = this.currentPage! - 1;
+      page = undefined;
+    } else page = this.currentPage! - 1;
     const wordsResponse = new CreateWordsResponseService(
       this.httpService,
       this.currentLevel,
-      this.currentPage
+      page
     );
     const observables = wordsResponse.createWordsResponse();
     const len = observables.length;
@@ -162,10 +181,13 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   }
 
   begin() {
-    this.dataLength = this.arrayForGuess.length;
-    this.isInProgress = false;
-    this.getWords();
+    if (!this.isDenied) {
+      this.dataLength = this.arrayForGuess.length;
+      this.isInProgress = false;
+      this.getWords();
+    }
   }
+
   getWords() {
     this.rightButtonNumber = Math.ceil(Math.random() * 3);
     this.guessButtons = this.guessButtons.map((el, index) => {
@@ -176,6 +198,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       }
       return { id: randomWord?.id, word: randomWord?.wordTranslate };
     });
+    alert(JSON.stringify(this.arrayForGuess))
   }
 
   loadForUser() {
@@ -200,29 +223,42 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     this.isInProgress = true;
     this.loadingProgress = 0;
     this.progress = 0;
+    this.attempt = 0;
+    this.attemptsInRow = Array(10).fill(-1);
+    this.gameStatistics = [];
   }
 
   sayWord(): void {
-    const audio = new Audio(this.source + this.rightWord?.audio);
-    audio.play();
+    new Audio(this.source + this.rightWord?.audio).play();
   }
+
   checkAnswer(index: number) {
+    this.isDenied = true;
     let answer = -1;
-    let sounlink = '';
+    let soundlink = '';
     if (index === this.rightButtonNumber) {
       answer = 1;
-      sounlink = GameSound.success;
+      soundlink = GameSound.success;
     } else {
       answer = 0;
-      sounlink = GameSound.failed;
+      soundlink = GameSound.failed;
     }
+    const success = !!answer;
+    this.putStatistics(this.rightWord!, success);
     this.attemptsInRow[this.attempt] = answer;
     this.attempt++;
-    new Audio(sounlink).play();
+    new Audio(soundlink).play();
     if (this.attempt < AUDIO_CHALLENGE_ATTEMPTS) {
-      this.begin();
+      setTimeout(() => {this.begin();
+        this.isDenied = false;
+      }, 1000);
     } else {
+      this.timeFinish = Date.now();
+      this.duration = Math.round((this.timeFinish - this.timeStart) / 1000);
       setTimeout(() => (this.isGameEnded = true), 2000);
-    }
+    }      
+  }
+  putStatistics(word: IWordCard, success: boolean) {
+    this.gameStatistics?.push({ word, success });
   }
 }
