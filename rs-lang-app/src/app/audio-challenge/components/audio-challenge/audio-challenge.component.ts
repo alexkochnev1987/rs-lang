@@ -2,13 +2,15 @@ import { NgIfContext } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, tap } from 'rxjs';
 import {
   AppPages,
+  AUDIO_CHALLENGE_ATTEMPTS,
   BUTTON_CANCEL,
   BUTTON_LEAVE,
   BUTTON_RESTART,
   BUTTON_START,
+  GameSound,
   GAME_1,
   IGuessButton,
   IWord,
@@ -18,6 +20,7 @@ import {
   SLASH,
   url,
 } from 'src/app/constants';
+import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
@@ -28,12 +31,19 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   styleUrls: ['./audio-challenge.component.scss'],
 })
 export class AudioChallengeComponent implements OnInit, OnDestroy {
+  source = url + SLASH;
   isGameStart = false;
   isGameEnded = false;
-  isSpeakerDisable = true;
+  isFromTextbook = false;
+  isInProgress = true;
   currentGame = GAME_1;
-  currentLevel: number | string = -1;
-  currentPage: number = 0;
+  currentLevel: number = -1;
+  currentPage?: number = -1;
+  loadingProgress = 0;
+  progress = 0;
+  dataLength = 0;
+  attempt = 0;
+  arrayForGuess: IWordCard[] = [];
   wordsArray: IWordCard[] = [];
   wordtoSayId: number = 0;
   userId: string | undefined;
@@ -44,12 +54,9 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   buttonStart = BUTTON_START;
   levelsColors = LEVELS_COLORS;
   mainPageLink = '../../../';
-  guessButtons: IGuessButton[] = [
-    { id: '', word: 'we' },
-    { id: '', word: 'can' },
-    { id: '', word: 'do' },
-    { id: '', word: 'it' },
-  ];
+  guessButtons: IGuessButton[] = Array(4).fill({});
+  rightButtonNumber = 0;
+  rightWord?: IWordCard;
   guessInRow: number[] = [];
   attemptsInRow: number[] = Array(10).fill(-1);
   private subscription: Subscription;
@@ -68,10 +75,10 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
+    this.isFromTextbook = this.currentPage != -1 && this.currentLevel > -1;
     this.getGuessInRowArray(0);
     if (this.userDataService.isRegistered()) {
       this.userId = this.userDataService.getUser().userId;
-      alert(this.userId);
     }
   }
   ngOnDestroy(): void {
@@ -88,53 +95,89 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   getColor(level: number | string) {
     return this.levelsColors[+level - 1].color;
   }
-  restartGame() {
-    this.isGameStart = false;
-  }
-
-  sayWord(): void {}
 
   startGame() {
     this.isGameStart = true;
     if (this.currentLevel === 7) {
       this.loadForUser();
+    } else {
+      this.load();
     }
-    this.load();
   }
 
   load() {
-    if (this.currentPage !== -1) {
-      this.httpService
-        .getData(
-          `/words?group=${+this.currentLevel - 1}&page=${this.currentPage}`
+    if (this.currentPage == -1) {
+      this.currentPage = undefined;
+    } else this.currentPage = this.currentPage! - 1;
+    const wordsResponse = new CreateWordsResponseService(
+      this.httpService,
+      this.currentLevel,
+      this.currentPage
+    );
+    const observables = wordsResponse.createWordsResponse();
+    const len = observables.length;
+    const observable = forkJoin(
+      observables.map(el =>
+        el.pipe(
+          tap(() => {
+            this.loadingProgress++;
+            this.progress = (this.loadingProgress / len) * 100;
+          })
         )
-        .subscribe({
-          next: (data: any) => {
-            this.wordsArray = data;
-            this.next();
-          },
+      )
+    );
+    observable.subscribe((data: any) => {
+      this.filterWords(data);
+    });
+  }
+
+  filterWords(data: any) {
+    let userEasyWordsIds: string[] = [];
+    let readyWordArray: IWordCard[] = [];
+    if (this.userDataService.isRegistered()) {
+      const id = this.userDataService.getUser()?.userId;
+      this.httpService
+        .getData(`/users/${id}/words`)
+        .subscribe((userWords: any) => {
+          userEasyWordsIds = userWords
+            .filter((el: IWord) => el.difficulty === 'easy')
+            .map((el: IWord) => el.wordId);
+          data.forEach((wordsPageArray: IWordCard[]) => {
+            for (let i = 0; i < wordsPageArray.length; i++) {
+              if (!userEasyWordsIds.includes(wordsPageArray[i].id)) {
+                readyWordArray.push(wordsPageArray[i]);
+              }
+            }
+          });
+          this.arrayForGuess = readyWordArray;
+          this.begin();
         });
     } else {
-      for (let page = 0; page < 1; page += 1) {
-        this.httpService
-          .getData(
-            `/words?group=${+this.currentLevel - 1}&page=${this.currentPage}`
-          )
-          .subscribe({
-            next: (data: any) => {
-              this.wordsArray += data;
-
-              this.next();
-            },
-          });
-      }
-      this.next();
+      data.forEach((wordsPageArray: IWordCard[]) => {
+        readyWordArray.push(...wordsPageArray);
+      });
+      this.arrayForGuess = readyWordArray;
+      this.begin();
     }
   }
-  next() {
-    console.log(this.wordsArray);
-    this.isSpeakerDisable = false;
+
+  begin() {
+    this.dataLength = this.arrayForGuess.length;
+    this.isInProgress = false;
+    this.getWords();
   }
+  getWords() {
+    this.rightButtonNumber = Math.ceil(Math.random() * 3);
+    this.guessButtons = this.guessButtons.map((el, index) => {
+      const randomIndex = Math.round(Math.random() * (this.dataLength - 1));
+      const randomWord = this.arrayForGuess[randomIndex];
+      if (index === this.rightButtonNumber) {
+        this.rightWord = randomWord;
+      }
+      return { id: randomWord?.id, word: randomWord?.wordTranslate };
+    });
+  }
+
   loadForUser() {
     this.http
       .get(url + QueryParams.register + SLASH + this.userId + QueryParams.words)
@@ -144,13 +187,42 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
           this.userWords.forEach(item => {
             this.httpService.getData(`/words/${item.wordId}`).subscribe({
               next: (data: any) => {
-                this.wordsArray.push(data);
-                console.log(data)
+                this.arrayForGuess.push(data);
+                console.log(data);
               },
             });
           });
-
         },
       });
+  }
+  restartGame() {
+    this.isGameStart = false;
+    this.isInProgress = true;
+    this.loadingProgress = 0;
+    this.progress = 0;
+  }
+
+  sayWord(): void {
+    const audio = new Audio(this.source + this.rightWord?.audio);
+    audio.play();
+  }
+  checkAnswer(index: number) {
+    let answer = -1;
+    let sounlink = '';
+    if (index === this.rightButtonNumber) {
+      answer = 1;
+      sounlink = GameSound.success;
+    } else {
+      answer = 0;
+      sounlink = GameSound.failed;
+    }
+    this.attemptsInRow[this.attempt] = answer;
+    this.attempt++;
+    new Audio(sounlink).play();
+    if (this.attempt < AUDIO_CHALLENGE_ATTEMPTS) {
+      this.begin();
+    } else {
+      setTimeout(() => (this.isGameEnded = true), 2000);
+    }
   }
 }

@@ -118,10 +118,16 @@ h1,h2 {
   height: 56px;
   background-image: url(/assets/img/speaker.png);
   background-repeat: no-repeat;
+  opacity: 0.9;
   cursor: pointer;
 }
 .speaker:hover{
-  transform: scale(0.98);
+  transform: scale(0.95);
+}
+.speaker:active{
+  transform: scale(0.9);
+  opacity: 1;
+
 }
 
 .guess-button-container {
@@ -151,8 +157,7 @@ h1,h2 {
   cursor: pointer;
 }
 .guess-button:hover{
-  background-image: linear-gradient(#ffffff,#eeeeee);
-  transform: scale(.98);
+  border: 1px solid black;
 }
 
 .heart {
@@ -200,11 +205,11 @@ h1,h2 {
   gap:30px;
   margin-top:50px;
 }
-.right-answer-button{
+.right-answer-button:active{
   background-color: $rightAnswerButton;
   border:none;
 }
-.wrong-answer-button{
+.wrong-answer-button:active{
   background-color: $wrongAnswerButton;
   border:none;
 }
@@ -212,11 +217,15 @@ h1,h2 {
   width:200px;
   size: 20px;
 }
-.speaker-disable{
+.speaker-disable,
+button-disable{
   opacity:0.3;
   cursor: auto;
 
 }
 .speaker-disable:hover{
   transform: scale(1);
+}
+.button-disable:hover{
+  border: 1px dashed black;
 }

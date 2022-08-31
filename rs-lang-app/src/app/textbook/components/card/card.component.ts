@@ -28,7 +28,7 @@ class WordCard {
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-  source = url + '/';
+  source = url + SLASH;
   idCard = '';
   isMore = false;
   userWord: IWord = { id: '', wordId: '' };

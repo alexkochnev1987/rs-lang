@@ -1,11 +1,9 @@
 <h1 *ngIf="!isGameStart">{{ currentGame }}</h1>
 <app-game-level
   class="level"
-  *ngIf="currentPage < 0 && !isGameStart"
+  *ngIf="!isFromTextbook && !isGameStart"
   (buttonsActions)="currentLevel = $event; startGame()"></app-game-level>
-<div
-  class="from-textbook"
-  *ngIf="currentLevel > -1 && currentPage > -1 && !isGameStart">
+<div class="from-textbook" *ngIf="isFromTextbook && !isGameStart">
   <h2 class="title-from-textbook" [style.color]="getColor(currentLevel)">
     LEVEL:&nbsp;&nbsp; {{ currentLevel }}&nbsp;&nbsp;&nbsp;PAGE:&nbsp;&nbsp;
     {{ currentPage }}
@@ -26,6 +24,10 @@
     *ngIf="isGameEnded"></app-audio-challenge-statistics>
 
   <div class="game-container" *ngIf="isGameStart && !isGameEnded">
+    <div *ngIf="isInProgress">
+      <span>LOADING ... </span>
+      <progress value="{{ progress }}" max="100"></progress>
+    </div>
     <div class="title">{{ currentGame }}</div>
     <div class="attempts-block">
       <div class="attempts-wrapper">
@@ -45,14 +47,16 @@
       </div>
       <div
         class="speaker"
-        [class.speaker-disable]="isSpeakerDisable"
-        (onclick)="sayWord()"></div>
+        [class.speaker-disable]="isInProgress"
+        (click)="sayWord()"></div>
       <div class="guess-button-container">
         <div
           class="guess-button"
-          *ngFor="let button of guessButtons"
-          [class.right-answer-button]="true"
-          [class.wrong-answer-button]="false">
+          *ngFor="let button of guessButtons; let i = index"
+          [class.speaker-disable]="isInProgress"
+          [class.right-answer-button]="i === rightButtonNumber"
+          [class.wrong-answer-button]="i !== rightButtonNumber"
+          (click)="checkAnswer(i)">
           {{ button.word }}
         </div>
       </div>
