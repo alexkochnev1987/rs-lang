@@ -19,6 +19,7 @@ export const LEVELS_COLORS: LevelColor[] = [
 ];
 export const WORDS_ON_PAGE = 20;
 export const PAGES_ON_LEVEL = 30;
+export const AUDIO_CHALLENGE_ATTEMPTS = 10;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
@@ -96,6 +97,10 @@ export enum AppPages {
   DashBoard,
   Authorization,
 }
+export enum GameSound {
+  success = '/assets/mp3/success.mp3',
+  failed = '/assets/mp3/failed.mp3',
+}
 
 export interface authorCard {
   id: number;
@@ -148,7 +153,6 @@ export interface IWordsData {
 export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
-
 }
 export interface IWord {
   id: string;
@@ -160,8 +164,8 @@ export type LevelColor = {
   id: number;
   color: string;
 };
-export interface IGuessButton{
-  id:string;
+export interface IGuessButton {
+  id: string;
   word: string;
 }
 export interface ISprintStats {
