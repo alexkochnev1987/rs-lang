@@ -1,5 +1,11 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthInterceptor } from 'src/app/auth.interceptor';
@@ -19,6 +25,7 @@ import {
   SLASH,
   url,
 } from 'src/app/constants';
+import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
 
 import { HttpService } from 'src/app/core/services/http.service';
 import { LocalStorageService } from 'src/app/core/services/localstorage.service';
@@ -56,7 +63,8 @@ export class TextbookComponent implements OnInit, OnDestroy {
     private pagesDataService: PagesDataService,
     private userDataService: UserDataService,
     private http: HttpClient,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    public levelPage: GameLevelTransferService
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
@@ -127,5 +135,9 @@ export class TextbookComponent implements OnInit, OnDestroy {
 
   isLearnedPage(page: number) {
     return false;
+  }
+
+  setLevelPage(arr: number[]) {
+    this.levelPage.gamePageLevel = [+arr[0], +arr[1]];
   }
 }

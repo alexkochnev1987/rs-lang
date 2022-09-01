@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Difficulty, IWordCard, UserWordsResponse } from 'src/app/constants';
+import {
+  Difficulty,
+  IWord,
+  IWordCard,
+  UserWordsResponse,
+} from 'src/app/constants';
+import { DateService } from './date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StatisticsService {
-  constructor() {}
+  constructor(private dateService: DateService) {}
 
-  filterHardWords(word: UserWordsResponse) {
+  filterHardWords(word: IWord) {
     return word.difficulty === Difficulty.Hard ? true : false;
   }
 
-  filterEasyWords(word: UserWordsResponse) {
+  filterEasyWords(word: IWord) {
     return word.difficulty === Difficulty.Easy ? true : false;
   }
 
@@ -20,5 +26,22 @@ export class StatisticsService {
       arrOfArr.push([]);
     }
     arrOfArr[arrOfArr.length - 1].push(word);
+  }
+
+  getLearnedTodayWords(words: IWord[]) {
+    return words.filter(word => {
+      const dateNumber = word.optional?.dateFirstTime;
+      if (dateNumber) {
+        const date = this.dateService.numberToDate(dateNumber);
+        if (
+          date.day === new Date().getDate() &&
+          date.month === new Date().getMonth() &&
+          date.year === new Date().getFullYear()
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
   }
 }

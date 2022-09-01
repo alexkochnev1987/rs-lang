@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QueryService } from 'src/app/core/service/query.service';
 
 @Component({
   selector: 'app-all-time',

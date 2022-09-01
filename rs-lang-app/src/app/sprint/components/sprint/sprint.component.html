@@ -5,7 +5,7 @@
   <app-game-level
     class="level-selection"
     (buttonsActions)="
-      currentLevel = $event; isLevelSelected = !isLevelSelected; loadWords(0)
+      currentLevel = $event; isLevelSelected = !isLevelSelected; loadWords()
     "
     *ngIf="!isLevelSelected"></app-game-level>
   <div *ngIf="isLevelSelected && !isGameStarted">{{ progress }}</div>
