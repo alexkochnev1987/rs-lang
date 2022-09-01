@@ -124,7 +124,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    let page:number|undefined=0;
+    let page: number | undefined = 0;
     if (this.currentPage == -1) {
       page = undefined;
     } else page = this.currentPage! - 1;
@@ -198,7 +198,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       }
       return { id: randomWord?.id, word: randomWord?.wordTranslate };
     });
-    alert(JSON.stringify(this.arrayForGuess))
+    alert(JSON.stringify(this.arrayForGuess));
   }
 
   loadForUser() {
@@ -249,14 +249,15 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     this.attempt++;
     new Audio(soundlink).play();
     if (this.attempt < AUDIO_CHALLENGE_ATTEMPTS) {
-      setTimeout(() => {this.begin();
+      setTimeout(() => {
+        this.begin();
         this.isDenied = false;
       }, 1000);
     } else {
       this.timeFinish = Date.now();
       this.duration = Math.round((this.timeFinish - this.timeStart) / 1000);
       setTimeout(() => (this.isGameEnded = true), 2000);
-    }      
+    }
   }
   putStatistics(word: IWordCard, success: boolean) {
     this.gameStatistics?.push({ word, success });

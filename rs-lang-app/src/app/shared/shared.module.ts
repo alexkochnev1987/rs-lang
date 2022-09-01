@@ -13,7 +13,7 @@ import { AuthorizationComponent } from './components/authorization/authorization
 import { GameLevelComponent } from './components/game-level/game-level.component';
 import { UserStatisticsComponent } from './components/authorization/user-statistics/user-statistics.component';
 import { UpdateUserComponent } from './components/authorization/update-user/update-user.component';
-
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +29,7 @@ import { UpdateUserComponent } from './components/authorization/update-user/upda
     GameLevelComponent,
     UpdateUserComponent,
     GameLevelComponent,
+    PaginatorComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   exports: [
@@ -41,6 +42,7 @@ import { UpdateUserComponent } from './components/authorization/update-user/upda
     RegistrationComponent,
     AuthorizationComponent,
     GameLevelComponent,
+    PaginatorComponent,
   ],
 })
 export class SharedModule {}
