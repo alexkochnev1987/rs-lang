@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { forkJoin, map, pipe, tap } from 'rxjs';
+import { filter, forkJoin, map, pipe, Subscription, tap } from 'rxjs';
 import {
   AppPages,
   COMBO_BONUS_GROWTH,
@@ -35,6 +35,8 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 import { Location } from '@angular/common';
 import { QueryService } from 'src/app/core/service/query.service';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
 
 @Component({
   selector: 'app-sprint',
@@ -85,8 +87,8 @@ export class SprintComponent implements OnInit {
     private userdataService: UserDataService,
     private httpService: HttpService,
     private queryService: QueryService,
-    private http: HttpClient,
-    private _location: Location
+    private _location: Location,
+    private LevelPage: GameLevelTransferService
   ) {
     this.isAuth = this.userService.isRegistered();
     this.isAuth
@@ -126,6 +128,11 @@ export class SprintComponent implements OnInit {
       this.getUserWords();
       this.getUserStatistics();
     }
+    if (this.LevelPage.gamePageLevel.length) {
+      this.currentLevel = this.LevelPage.gamePageLevel[0];
+      this.loadWords(this.LevelPage.gamePageLevel[1]);
+      this.isLevelSelected = true;
+    }
   }
 
   loadWords(page?: number) {
@@ -135,6 +142,14 @@ export class SprintComponent implements OnInit {
       this.currentLevel,
       this.currentPage
     );
+    this.currentPage
+      ? console.log(
+          'Playing Level:',
+          this.currentLevel,
+          '; page: ',
+          this.currentPage + 1
+        )
+      : console.log('Playing Level:', this.currentLevel, ' all pages');
     const observables = wordsResponse.createWordsResponse();
     const len = observables.length;
     const observable = forkJoin(
@@ -183,8 +198,15 @@ export class SprintComponent implements OnInit {
 
   shuffleWords(data: IWordCard[]) {
     this.currentPage === undefined
-      ? console.log('All words on level: ', data)
-      : console.log('Words on level and page: ', data);
+      ? console.log('Playing all words on level', this.currentLevel, ': ', data)
+      : console.log(
+          'Words on level: ',
+          this.currentLevel,
+          ' and page: ',
+          this.currentPage + 1,
+          ': ',
+          data
+        );
     let currentIndex = data.length;
     let randomIndex;
     while (currentIndex != 0) {
@@ -227,10 +249,10 @@ export class SprintComponent implements OnInit {
 
   getWord() {
     this.isCorrect = Math.random() > 0.5 ? true : false;
-    console.log('Counter 1: ', this.wordsCounter);
-    this.currentAnswer = this.wordsArray[this.wordsCounter];
-    this.currentWord = this.currentAnswer.word;
-    console.log('CurrentWord: ', this.currentWord);
+    this.wordsArray[this.wordsCounter]
+      ? (this.currentAnswer = this.wordsArray[this.wordsCounter])
+      : (this.timer = 0);
+    if (this.currentAnswer) this.currentWord = this.currentAnswer.word;
     this.wordTranslation =
       this.wordsArray[
         this.isCorrect
@@ -238,7 +260,6 @@ export class SprintComponent implements OnInit {
           : Math.floor(Math.random() * this.wordsArray.length)
       ].wordTranslate;
     this.wordsCounter++;
-    console.log('Counter 2: ', this.wordsCounter);
   }
 
   checkAnswer(answer: boolean, buttonPressed: HTMLElement) {
@@ -289,6 +310,7 @@ export class SprintComponent implements OnInit {
     this.combo = 0;
     this.comboBonus = 0;
     this.longestCombo = 0;
+    this.wordsCounter = 0;
   }
 
   goBack() {
@@ -312,14 +334,17 @@ export class SprintComponent implements OnInit {
   }
 
   putUserStatistics(options: GameStatistics) {
+    console.log('Previous user Statistics: ', this.userGamesStats);
     this.queryService.setUserStatistics(options).subscribe({
       next: (data: any) => {
+        console.log('New user Statistics: ', data);
         this.userGamesStats = data;
       },
     });
   }
 
   processUserWord(word: IWord, wordGameStats: ISprintStats) {
+    console.log('•••USER WORD••• Old data: ', word);
     const optionsWord: IWordsData = {
       difficulty: Difficulty.Learned,
       optional: {
@@ -330,13 +355,15 @@ export class SprintComponent implements OnInit {
       if (
         (word.optional?.rightGuessesInRow === 2 &&
           word.difficulty !== Difficulty.Hard) ||
-        (word.optional?.rightGuessesInRow === 4 &&
+        (word.optional?.rightGuessesInRow &&
+          word.optional?.rightGuessesInRow >= 4 &&
           word.difficulty === Difficulty.Hard) ||
         (word.difficulty === Difficulty.Easy &&
           word.optional?.dateEasy === undefined)
       ) {
         optionsWord.difficulty = Difficulty.Easy;
         optionsWord.optional.dateEasy = Date.now();
+        this.removeWordFromArray(word);
       }
       if (
         (word.optional?.rightGuessesInRow &&
@@ -345,6 +372,7 @@ export class SprintComponent implements OnInit {
         word.difficulty === Difficulty.Easy
       ) {
         optionsWord.difficulty = Difficulty.Easy;
+        this.removeWordFromArray(word);
       }
       if (word.optional?.rightGuessesInRow === undefined) {
         optionsWord.optional.rightGuessesInRow = 1;
@@ -380,10 +408,14 @@ export class SprintComponent implements OnInit {
       word.wordId;
     const locationStat =
       QueryParams.register + SLASH + this.userId + QueryParams.statistics;
-    this.httpService.putData(locationWord, optionsWord);
+    const response = this.httpService.putData(locationWord, optionsWord);
+    response.subscribe({
+      next: data => console.log('•••USER WORD••• New data: ', data),
+    });
   }
 
   processNotUserWord(wordId: string, wordGameStats: ISprintStats) {
+    console.log('>>>NOT USER WORD<<< Old data: ', wordGameStats);
     const optionsWord: IWordsData = {
       difficulty: Difficulty.Learned,
       optional: {
@@ -398,7 +430,10 @@ export class SprintComponent implements OnInit {
       QueryParams.words +
       SLASH +
       wordId;
-    this.httpService.postData(locationWord, optionsWord);
+    const response = this.httpService.postData(locationWord, optionsWord);
+    response.subscribe({
+      next: data => console.log('>>>NOT USER WORD<<< New data: ', data),
+    });
   }
 
   processStatistics() {
@@ -483,5 +518,11 @@ export class SprintComponent implements OnInit {
           )
         : this.processNotUserWord(el.id, el);
     });
+  }
+
+  removeWordFromArray(word: IWord) {
+    this.wordsArray = this.wordsArray.filter(
+      (el: IWordCard) => el.id !== word.wordId
+    );
   }
 }

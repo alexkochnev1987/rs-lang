@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GAME_1, GAME_2, PageRoutes } from 'src/app/constants';
+import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
 
 @Component({
   selector: 'app-games-menu',
@@ -13,5 +14,9 @@ export class GamesMenuComponent {
   link1 = '../audio-challenge';
   link1Level = -1;
   link1Page = -1;
-  constructor() {}
+  constructor(private gameLevelPage: GameLevelTransferService) {}
+
+  resetLevelPage() {
+    this.gameLevelPage.gamePageLevel = [];
+  }
 }
