@@ -406,13 +406,11 @@ export class SprintComponent implements OnInit {
       QueryParams.words +
       SLASH +
       word.wordId;
-    const locationStat =
-      QueryParams.register + SLASH + this.userId + QueryParams.statistics;
-    this.httpService.putData(locationWord, optionsWord);
-    // const response = this.httpService.putData(locationWord, optionsWord);
-    // response.subscribe({
-    //   next: data => console.log('•••USER WORD••• New data: ', data),
-    // });
+    // this.httpService.putData(locationWord, optionsWord);
+    const response = this.httpService.putData(locationWord, optionsWord);
+    response.subscribe({
+      next: data => console.log('•••USER WORD••• New data: ', data),
+    });
   }
 
   processNotUserWord(wordId: string, wordGameStats: ISprintStats) {
@@ -431,11 +429,11 @@ export class SprintComponent implements OnInit {
       QueryParams.words +
       SLASH +
       wordId;
-    this.httpService.postData(locationWord, optionsWord);
-    // const response = this.httpService.postData(locationWord, optionsWord);
-    // response.subscribe({
-    //   next: data => console.log('>>>NOT USER WORD<<< New data: ', data),
-    // });
+    // this.httpService.postData(locationWord, optionsWord);
+    const response = this.httpService.postData(locationWord, optionsWord);
+    response.subscribe({
+      next: data => console.log('>>>NOT USER WORD<<< New data: ', data),
+    });
   }
 
   processStatistics() {
@@ -458,12 +456,16 @@ export class SprintComponent implements OnInit {
         },
       },
     };
+    // console.log('UserGameStats: ', this.userGamesStats);
     const optionsSprintStats = optionsStat.optional.sprint;
-    const userSprintStats = this.userGamesStats?.optional.sprint;
     const dayNow = new Date().getDate().toString();
     const monthNow = new Date().getMonth().toString();
     const yearNow = new Date().getFullYear().toString();
-    if (userSprintStats) {
+    if (
+      this.userGamesStats?.optional !== undefined &&
+      this.userGamesStats?.optional.sprint !== undefined
+    ) {
+      const userSprintStats = this.userGamesStats?.optional.sprint;
       const statsDay = new Date(<number>userSprintStats.today.date)
         .getDate()
         .toString();
@@ -512,6 +514,7 @@ export class SprintComponent implements OnInit {
     this.putUserStatistics(optionsStat);
     this.getUserWords();
     const userWordIds = this.userWords.map((el: IWord) => el.wordId);
+    // console.log(this.userWords);
     this.gameStats.forEach((el: ISprintStats) => {
       userWordIds.includes(el.id)
         ? this.processUserWord(
