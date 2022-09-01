@@ -18,9 +18,7 @@
   </div>
 </div>
 <div class="pagination-up" *ngIf="group < 7">
-  <span class="back" [class.disabled]="page < 1" (click)="pageDown()"
-    >&lt;</span
-  >
+  <div class="back" [class.disabled]="page < 1" (click)="pageDown()">&lt;</div>
   <div
     [class.current-page]="i === page + 1"
     class="page-number"
@@ -43,9 +41,7 @@
   </div>
 </div>
 <div class="pagination" *ngIf="group < 7">
-  <span class="back" [class.disabled]="page < 1" (click)="pageDown()"
-    >&lt;</span
-  >
+  <div class="back" [class.disabled]="page < 1" (click)="pageDown()">&lt;</div>
   <div
     [class.current-page]="i === page + 1"
     class="page-number"
