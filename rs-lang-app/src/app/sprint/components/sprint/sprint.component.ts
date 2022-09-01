@@ -334,17 +334,17 @@ export class SprintComponent implements OnInit {
   }
 
   putUserStatistics(options: GameStatistics) {
-    console.log('Previous user Statistics: ', this.userGamesStats);
+    // console.log('Previous user Statistics: ', this.userGamesStats);
     this.queryService.setUserStatistics(options).subscribe({
       next: (data: any) => {
-        console.log('New user Statistics: ', data);
+        // console.log('New user Statistics: ', data);
         this.userGamesStats = data;
       },
     });
   }
 
   processUserWord(word: IWord, wordGameStats: ISprintStats) {
-    console.log('•••USER WORD••• Old data: ', word);
+    // console.log('•••USER WORD••• Old data: ', word);
     const optionsWord: IWordsData = {
       difficulty: Difficulty.Learned,
       optional: {
@@ -408,14 +408,15 @@ export class SprintComponent implements OnInit {
       word.wordId;
     const locationStat =
       QueryParams.register + SLASH + this.userId + QueryParams.statistics;
-    const response = this.httpService.putData(locationWord, optionsWord);
-    response.subscribe({
-      next: data => console.log('•••USER WORD••• New data: ', data),
-    });
+    this.httpService.putData(locationWord, optionsWord);
+    // const response = this.httpService.putData(locationWord, optionsWord);
+    // response.subscribe({
+    //   next: data => console.log('•••USER WORD••• New data: ', data),
+    // });
   }
 
   processNotUserWord(wordId: string, wordGameStats: ISprintStats) {
-    console.log('>>>NOT USER WORD<<< Old data: ', wordGameStats);
+    // console.log('>>>NOT USER WORD<<< Old data: ', wordGameStats);
     const optionsWord: IWordsData = {
       difficulty: Difficulty.Learned,
       optional: {
@@ -430,10 +431,11 @@ export class SprintComponent implements OnInit {
       QueryParams.words +
       SLASH +
       wordId;
-    const response = this.httpService.postData(locationWord, optionsWord);
-    response.subscribe({
-      next: data => console.log('>>>NOT USER WORD<<< New data: ', data),
-    });
+    this.httpService.postData(locationWord, optionsWord);
+    // const response = this.httpService.postData(locationWord, optionsWord);
+    // response.subscribe({
+    //   next: data => console.log('>>>NOT USER WORD<<< New data: ', data),
+    // });
   }
 
   processStatistics() {
