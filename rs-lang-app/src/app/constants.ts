@@ -231,3 +231,8 @@ export const StatisticsStateObject = {
   sprint: 'sprint',
   audio: 'audio',
 };
+
+export interface IServiceData {
+  gameStats: ISprintStats[];
+  longestCombo: number;
+}
