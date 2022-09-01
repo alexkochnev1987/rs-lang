@@ -44,6 +44,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SprintComponent implements OnInit {
   wordsArray: IWordCard[] = [];
+  currentAnswer: IWordCard | undefined;
   gameStats: ISprintStats[] = [];
   timerID!: ReturnType<typeof setInterval>;
   timerSections: number[] = [];
@@ -226,7 +227,10 @@ export class SprintComponent implements OnInit {
 
   getWord() {
     this.isCorrect = Math.random() > 0.5 ? true : false;
-    this.currentWord = this.wordsArray[this.wordsCounter].word;
+    console.log('Counter 1: ', this.wordsCounter);
+    this.currentAnswer = this.wordsArray[this.wordsCounter];
+    this.currentWord = this.currentAnswer.word;
+    console.log('CurrentWord: ', this.currentWord);
     this.wordTranslation =
       this.wordsArray[
         this.isCorrect
@@ -234,6 +238,7 @@ export class SprintComponent implements OnInit {
           : Math.floor(Math.random() * this.wordsArray.length)
       ].wordTranslate;
     this.wordsCounter++;
+    console.log('Counter 2: ', this.wordsCounter);
   }
 
   checkAnswer(answer: boolean, buttonPressed: HTMLElement) {
@@ -250,16 +255,16 @@ export class SprintComponent implements OnInit {
     this.comboBonus = this.combo * CORRECT_ANSWER_POINTS * COMBO_BONUS_GROWTH;
     this.longestCombo =
       this.combo > this.longestCombo ? this.combo : this.longestCombo;
-    this.gameStats.push({
-      id: this.wordsArray[this.wordsCounter].id,
-      word: this.wordsArray[this.wordsCounter].word,
-      audio: this.wordsArray[this.wordsCounter].audio,
-      transcription: this.wordsArray[this.wordsCounter].transcription,
-      wordTranslate: this.wordsArray[this.wordsCounter].wordTranslate,
-      success: answer === this.isCorrect ? true : false,
-    });
-
-    // this.queryService.postUserWords(this.wordsArray[this.wordsCounter].id, )
+    if (this.currentAnswer) {
+      this.gameStats.push({
+        id: this.currentAnswer.id,
+        word: this.currentAnswer.word,
+        audio: this.currentAnswer.audio,
+        transcription: this.currentAnswer.transcription,
+        wordTranslate: this.currentAnswer.wordTranslate,
+        success: answer === this.isCorrect ? true : false,
+      });
+    }
   }
 
   timerSectionsArray() {
@@ -316,7 +321,7 @@ export class SprintComponent implements OnInit {
 
   processUserWord(word: IWord, wordGameStats: ISprintStats) {
     const optionsWord: IWordsData = {
-      difficulty: ' ',
+      difficulty: Difficulty.Learned,
       optional: {
         rightGuessesInRow: 0,
       },
@@ -330,7 +335,7 @@ export class SprintComponent implements OnInit {
         (word.difficulty === Difficulty.Easy &&
           word.optional?.dateEasy === undefined)
       ) {
-        optionsWord.difficulty = 'easy';
+        optionsWord.difficulty = Difficulty.Easy;
         optionsWord.optional.dateEasy = Date.now();
       }
       if (
@@ -339,7 +344,7 @@ export class SprintComponent implements OnInit {
           word.difficulty !== Difficulty.Hard) ||
         word.difficulty === Difficulty.Easy
       ) {
-        optionsWord.difficulty = 'easy';
+        optionsWord.difficulty = Difficulty.Easy;
       }
       if (word.optional?.rightGuessesInRow === undefined) {
         optionsWord.optional.rightGuessesInRow = 1;
@@ -355,7 +360,7 @@ export class SprintComponent implements OnInit {
     }
     if (!wordGameStats.success) {
       if (word.difficulty === Difficulty.Easy) {
-        optionsWord.difficulty = ' ';
+        optionsWord.difficulty = Difficulty.Learned;
         optionsWord.optional.rightGuessesInRow = 0;
         delete optionsWord.optional.dateEasy;
       }
@@ -380,7 +385,7 @@ export class SprintComponent implements OnInit {
 
   processNotUserWord(wordId: string, wordGameStats: ISprintStats) {
     const optionsWord: IWordsData = {
-      difficulty: ' ',
+      difficulty: Difficulty.Learned,
       optional: {
         rightGuessesInRow: wordGameStats.success ? 1 : 0,
         dateFirstTime: Date.now(),
@@ -478,7 +483,5 @@ export class SprintComponent implements OnInit {
           )
         : this.processNotUserWord(el.id, el);
     });
-    console.log('Stats: ', this.userGamesStats);
-    console.log('User words: ', this.userWords);
   }
 }

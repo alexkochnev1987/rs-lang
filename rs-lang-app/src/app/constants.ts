@@ -154,6 +154,7 @@ export interface IWordsData {
 export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
+  Learned = 'learning',
 }
 
 export interface IWord {
