@@ -8,8 +8,9 @@ export const BUTTON_LEAVE = 'LEAVE';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
+export const TITLE_GAME_STATISTICS = 'GAME STATISTICS';
 export const GAME_AUDIO_CHALLENGE_INSTRUCTIONS =
-  '* USE SPACE OR ENTER TO PLAY WORD';
+  '* USE SPACE OR ENTER TO PLAY WORD AND 1,2,3,4 TO CHOOSE RIGHT WORD';
 export const LEVELS_COLORS: LevelColor[] = [
   { id: 1, color: '#88E564' },
   { id: 2, color: '#45DEC3' },

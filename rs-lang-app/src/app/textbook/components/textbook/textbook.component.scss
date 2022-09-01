@@ -130,7 +130,8 @@ a {
   color: $paginationArrowDisabled;
   cursor: auto;
   &:hover {
-
+    width: 30px;
+    height: 30px;
     border: none;
     color: $paginationArrowDisabled;
 

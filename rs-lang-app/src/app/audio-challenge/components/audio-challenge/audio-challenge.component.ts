@@ -38,6 +38,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   isFromTextbook = false;
   isInProgress = true;
   isDenied = false;
+  isShowInstruction = false;
   currentGame = GAME_1;
   currentLevel: number = -1;
   currentPage?: number = -1;
@@ -68,6 +69,13 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   duration = 0;
   keyboardPress = -1;
   instructions = GAME_AUDIO_CHALLENGE_INSTRUCTIONS;
+  rightAnswersCount = 0;
+  rightAnswersPercent = 0;
+  playAgain(value: any) {
+    if (value) {
+      this.restartGame();
+    }
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -97,6 +105,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     if (this.userDataService.isRegistered()) {
       this.userId = this.userDataService.getUser().userId;
     }
+    setInterval(() => (this.isShowInstruction = !this.isShowInstruction), 5000);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -198,7 +207,6 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       }
       return { id: randomWord?.id, word: randomWord?.wordTranslate };
     });
-    alert(JSON.stringify(this.arrayForGuess));
   }
 
   loadForUser() {
@@ -220,12 +228,14 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   }
   restartGame() {
     this.isGameStart = false;
+    this.isGameEnded = false;
     this.isInProgress = true;
     this.loadingProgress = 0;
     this.progress = 0;
     this.attempt = 0;
     this.attemptsInRow = Array(10).fill(-1);
     this.gameStatistics = [];
+    this.rightAnswersCount = 0;
   }
 
   sayWord(): void {
@@ -239,6 +249,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     if (index === this.rightButtonNumber) {
       answer = 1;
       soundlink = GameSound.success;
+      this.rightAnswersCount++;
     } else {
       answer = 0;
       soundlink = GameSound.failed;
@@ -250,12 +261,15 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     new Audio(soundlink).play();
     if (this.attempt < AUDIO_CHALLENGE_ATTEMPTS) {
       setTimeout(() => {
-        this.begin();
         this.isDenied = false;
+        this.begin();
       }, 1000);
     } else {
       this.timeFinish = Date.now();
       this.duration = Math.round((this.timeFinish - this.timeStart) / 1000);
+      this.rightAnswersPercent = Number(
+        ((this.rightAnswersCount / AUDIO_CHALLENGE_ATTEMPTS) * 100).toFixed(1)
+      );
       setTimeout(() => (this.isGameEnded = true), 2000);
     }
   }

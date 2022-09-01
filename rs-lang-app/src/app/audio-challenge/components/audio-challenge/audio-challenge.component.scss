@@ -53,7 +53,7 @@ h2 {
   justify-content: space-around;
   padding: 3px;
   gap: 10px;
-  width: 565px;
+  width: 665px;
   height: 267.39px;
   left: 0px;
   top: 133px;
@@ -134,7 +134,7 @@ h2 {
   align-items: center;
   padding: 0px;
   gap: 5px;
-  width: 499px;
+  width: 600px;
   height: 34px;
 }
 
@@ -144,7 +144,7 @@ h2 {
   align-items: center;
   justify-content: space-between;
   padding: 5px 20px;
-  width: 121px;
+  width: 146px;
   height: 30px;
   padding: 0;
   border: 1px dashed black;
@@ -152,10 +152,11 @@ h2 {
   color: $fontNormalColor;
   @include font14;
   cursor: pointer;
+  &.guess-button:hover {
+    border: 1px solid black;
+  }
 }
-.guess-button:hover {
-  border: 1px solid black;
-}
+
 
 .heart {
   width: 30px;
@@ -180,11 +181,15 @@ h2 {
   background-repeat: no-repeat;
 }
 .attempt-success {
+  animation-name: attempt-animation;
+  animation-duration: 1s;
   width: 25px;
   height: 25px;
   background-image: url(/assets/img/green-check-mark.png);
 }
 .attempt-failed {
+  animation-name: attempt-animation;
+  animation-duration: 1s;
   width: 25px;
   height: 25px;
   background-image: url(/assets/img/red-cross.png);
@@ -233,10 +238,26 @@ button-disable {
 .key-word {
   margin-right: 10px;
   word-wrap: break-word;
-  width: 90px;
+  width: 110px;
 }
 .instructions {
   color: $transcriptionColor !important;
   @include font12;
   margin-top: 50px;
+  opacity:0;
 }
+@keyframes attempt-animation {
+  from {
+    transform: scale(.1);
+
+  }
+  to {
+    transform: scale(1);
+
+  }
+}
+  .no-show{
+    opacity:1;
+    transition: 1s;
+  }
+

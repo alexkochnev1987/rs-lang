@@ -22,6 +22,11 @@
 </div>
 <div class="wrapper">
   <app-audio-challenge-statistics
+    (playAgain)="playAgain($event)"
+    [gameStatistics]="gameStatistics"
+    [duration]="duration"
+    [rightAnswersCount]="rightAnswersCount"
+    [rightAnswersPercent]="rightAnswersPercent"
     *ngIf="isGameEnded"></app-audio-challenge-statistics>
 
   <div class="game-container" *ngIf="isGameStart && !isGameEnded">
@@ -79,5 +84,10 @@
         [gameName]="buttonLeave"></app-menu-button>
     </div>
   </div>
-  <p class="instructions" *ngIf="isGameStart && !isGameEnded">{{ instructions }}</p>
+  <p
+    [class.no-show]="isShowInstruction"
+    class="instructions"
+    *ngIf="isGameStart && !isGameEnded">
+    {{ instructions }}
+  </p>
 </div>
