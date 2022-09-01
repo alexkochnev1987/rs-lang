@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
     this.currentPage = this.pagesDataService.getPage();
   }
   constructor(
-    private userDataService:UserDataService,
+    private userDataService: UserDataService,
     private pagesDataService: PagesDataService
   ) {}
 
@@ -52,7 +52,8 @@ export class HeaderComponent implements OnInit {
     this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
     this.skip = true;
   }
+
   isUser() {
-    return this.userDataService.isRegistered()
-}
+    return this.userDataService.isRegistered();
+  }
 }

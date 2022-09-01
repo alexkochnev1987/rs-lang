@@ -20,7 +20,13 @@
       Words per day <span>{{ wordsPerDay }}</span>
     </p>
     <p>
-      Learned words <span>{{ learnedWord }} / 3600</span>
+      Learned words <span>{{ userWords.total }} / 3600</span>
+    </p>
+    <p>
+      Hard words <span>{{ userWords.hardWords }} / 3600</span>
+    </p>
+    <p>
+      Easy words <span>{{ userWords.easyWords }} / 3600</span>
     </p>
   </div>
 </div>

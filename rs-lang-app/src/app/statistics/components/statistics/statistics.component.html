@@ -1,2 +1,66 @@
-<h2>It's Statistics Page</h2>
-<button (click)="getWords()">Get words</button>
+<div class="wrapper">
+  <div class="game-wrapper">
+    <div class="black-border">
+      <img src="assets/img/sprint.png" alt="Sprint" />
+      <div class="text-wrapper">
+        <div class="text">
+          <div class="heading-h3">
+            <div class="border-bottom"></div>
+            <h3>SPRINT MINI-GAME</h3>
+          </div>
+          <div>
+            <div class="statistics">
+              <p>Games played:</p>
+              <p><span>35</span></p>
+            </div>
+            <div class="statistics">
+              <p>Last results:</p>
+              <p><span>35</span></p>
+            </div>
+          </div>
+          <button [routerLink]="link2">
+            <div class="border">Play Game</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="game-wrapper">
+    <div class="black-border">
+      <img src="assets/img/audio.png" alt="Audio Challenge" />
+      <div class="text-wrapper">
+        <div class="text">
+          <div class="heading-h3">
+            <div class="border-bottom"></div>
+            <h3>AUDIO CHALLENGE</h3>
+          </div>
+          <div>
+            <div class="statistics">
+              <p>Games played:</p>
+              <p><span>35</span></p>
+            </div>
+            <div class="statistics">
+              <p>Last results:</p>
+              <p><span>35</span></p>
+            </div>
+          </div>
+          <button [routerLink]="link1">
+            <div class="border">Play Game</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-authorization class="width"></app-authorization>
+</div>
+
+<h2>Your statistics</h2>
+
+<app-graphs></app-graphs>
+<button (click)="getStatistics()">Get statistics</button>
+<button (click)="getSettings()">Get settings</button>
+
+<div class="wrapper-words">
+  <app-easy-words></app-easy-words>
+  <app-hardwords></app-hardwords>
+</div>

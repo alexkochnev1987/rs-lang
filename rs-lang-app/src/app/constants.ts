@@ -26,6 +26,7 @@ export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
 export const SPRINT_TIMER = 5;
 export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
+export const STATISTICS_WORDS_LENGTH = 10;
 export const TIMER_LINE_SECTIONS = 40;
 
 export enum QueryParams {
@@ -143,7 +144,7 @@ export interface UserWords {
 }
 
 export interface IWordsData {
-  difficulty: string;
+  difficulty: Difficulty;
   optional: {
     rightGuessesInRow: number;
     dateEasy?: number;
@@ -154,6 +155,7 @@ export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
 }
+
 export interface IWord {
   id: string;
   difficulty?: string;
@@ -163,6 +165,18 @@ export interface IWord {
     dateEasy?: number;
     dateFirstTime?: number;
   };
+}
+export interface UserWordsResponse {
+  id: string;
+  difficulty: string;
+  optional?: {};
+  wordId: string;
+}
+
+export interface DayMonthYear {
+  day: number;
+  month: number;
+  year: number;
 }
 export type LevelColor = {
   id: number;
@@ -203,3 +217,16 @@ export enum KeyCode {
   RIGHT_ARROW = 'ArrowRight',
   LEFT_ARROW = 'ArrowLeft',
 }
+export enum StatisticsState {
+  allTime = 'allTime',
+  today = 'today',
+  sprint = 'sprint',
+  audio = 'audio',
+}
+
+export const StatisticsStateObject = {
+  allTime: 'allTime',
+  today: 'today',
+  sprint: 'sprint',
+  audio: 'audio',
+};
