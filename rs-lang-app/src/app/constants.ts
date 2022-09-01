@@ -25,7 +25,7 @@ export const AUDIO_CHALLENGE_ATTEMPTS = 10;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
-export const SPRINT_TIMER = 30;
+export const SPRINT_TIMER = 5;
 export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
 export const STATISTICS_WORDS_LENGTH = 10;
@@ -141,17 +141,16 @@ export interface UserSettings {
 }
 
 export interface UserWords {
-  difficulty: string;
+  difficulty: Difficulty;
   optional: {};
 }
 
 export interface IWordsData {
-  difficulty: Difficulty;
+  difficulty: string;
   optional: {
-    attempts: number;
-    success: number;
     rightGuessesInRow: number;
-    date: number;
+    dateEasy?: number;
+    dateFirstTime?: number;
   };
 }
 export enum Difficulty {
@@ -163,7 +162,11 @@ export interface IWord {
   id: string;
   difficulty?: string;
   wordId: string;
-  optional?: {};
+  optional?: {
+    rightGuessesInRow: number;
+    dateEasy?: number;
+    dateFirstTime?: number;
+  };
 }
 export interface UserWordsResponse {
   id: string;
@@ -181,21 +184,25 @@ export type LevelColor = {
   id: number;
   color: string;
 };
-
 export interface GameOptions {
   attempts: number;
   success: number;
   rightGuessesInRow: number;
+  date?: number;
 }
-
 export interface GameStatistics {
   learnedWords: 0;
   optional: {
-    sprint: GameOptions;
-    audioChallenge: GameOptions;
+    sprint?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+    audioChallenge?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
   };
 }
-
 export interface IGuessButton {
   id: string;
   word: string;
@@ -208,9 +215,15 @@ export interface ISprintStats {
   wordTranslate: string;
   success: boolean;
 }
+
 export interface IAudioChallengeStatistics {
   word: IWordCard;
   success: boolean;
+}
+
+export enum KeyCode {
+  RIGHT_ARROW = 'ArrowRight',
+  LEFT_ARROW = 'ArrowLeft',
 }
 
 export enum StatisticsState {

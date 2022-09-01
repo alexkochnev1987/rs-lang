@@ -26,10 +26,6 @@
       (click)="buttonsActions.emit(getGameLevel); isGameStart = true">
       START GAME
     </button>
-    <button
-      class="button-orange"
-      (click)="buttonsActions.emit(0); isGameStart = false">
-      CANCEL
-    </button>
+    <button class="button-orange" (click)="goBack()">CANCEL</button>
   </div>
 </div>

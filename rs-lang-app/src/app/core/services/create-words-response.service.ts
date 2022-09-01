@@ -12,11 +12,11 @@ export class CreateWordsResponseService {
   constructor(
     private httpService: HttpService,
     @Inject('group') private group: number,
-    @Inject('page') private page?: number
+    @Inject('page') private page: number | undefined
   ) {}
 
   createWordsResponse(): Observable<object>[] {
-    if (this.page) {
+    if (this.page !== undefined) {
       this.responseArray.push(
         this.httpService.getData(
           `/words?group=${this.group - 1}&page=${this.page}`
