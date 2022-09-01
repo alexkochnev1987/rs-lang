@@ -56,6 +56,7 @@
       </div>
       <div
         class="speaker"
+        [class.speaker-on]="isSpeakerOn"
         [class.speaker-disable]="isInProgress"
         (click)="sayWord()"></div>
       <div class="guess-button-container">
@@ -63,8 +64,12 @@
           class="guess-button"
           *ngFor="let button of guessButtons; let i = index"
           [class.speaker-disable]="isInProgress"
-          [class.right-answer-button]="
-            i === rightButtonNumber || i === keyboardPress
+          [class.right-answer-button]="i === rightButtonNumber"
+          [class.right-answer-keyboard]="
+            i === keyboardPress && i === rightButtonNumber
+          "
+          [class.wrong-answer-keyboard]="
+            i === keyboardPress && i !== rightButtonNumber
           "
           [class.wrong-answer-button]="i !== rightButtonNumber"
           (click)="checkAnswer(i)">

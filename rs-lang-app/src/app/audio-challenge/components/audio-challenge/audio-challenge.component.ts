@@ -40,6 +40,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   isInProgress = true;
   isDenied = false;
   isShowInstruction = false;
+  isSpeakerOn = false;
   currentGame = GAME_1;
   currentLevel: number = -1;
   currentPage?: number = -1;
@@ -100,9 +101,18 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     if (!this.isGameEnded && !this.isDenied) {
       if (this.keyboardPress < 4 && this.keyboardPress > -1)
         this.checkAnswer(this.keyboardPress);
-      if ($event.key === 'Enter' || $event.key === ' ') this.sayWord();
+      if ($event.key === 'Enter' || $event.key === ' ') {
+        this.sayWord();
+        this.isSpeakerOn = true;
+      }
     }
   }
+
+  @HostListener('window:keyup', ['$event']) getkeyUp($event: { key: any }) {
+    this.keyboardPress = -1;
+    this.isSpeakerOn = false;
+  }
+
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
     this.isFromTextbook = this.currentPage != -1 && this.currentLevel > -1;
@@ -211,6 +221,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
         this.rightWord = randomWord;
       }
       //if (this.rightWord) this.checkGuessInRow(this.rightWord!);
+
       return { id: randomWord?.id, word: randomWord?.wordTranslate };
     });
   }
@@ -320,7 +331,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
             body = { optional: { rightGuessesInRow: 0 } };
           } else {
             let rightGuesses = wordData.optional?.rightGuessesInRow;
-            this.getGuessInRowArray(rightGuesses)
+            this.getGuessInRowArray(rightGuesses);
             console.log(`value: ${rightGuesses}`);
             success ? rightGuesses!++ : (rightGuesses! = 0);
             body = { optional: { rightGuessesInRow: rightGuesses } };

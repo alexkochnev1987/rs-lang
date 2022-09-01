@@ -4,6 +4,9 @@ h1,
 h2 {
   text-align: center;
 }
+h1{
+  margin-bottom: 50px;
+}
 ::ng-deep .level .solid-stroke-container {
   margin-bottom: 400px;
 }
@@ -119,7 +122,8 @@ h2 {
   opacity: 0.9;
   cursor: pointer;
 }
-.speaker:hover {
+.speaker:hover,
+.speaker-on {
   transform: scale(0.95);
 }
 .speaker:active {
@@ -166,6 +170,8 @@ h2 {
 }
 
 .red-heart {
+  animation-name: hearts-animation;
+  animation-duration: 3s;
   background-image: url(/assets/img/red-heart.png);
   background-repeat: no-repeat;
 }
@@ -211,7 +217,15 @@ h2 {
   background-color: $rightAnswerButton;
   border: none;
 }
+.right-answer-keyboard {
+  background-color: $rightAnswerButton;
+  border: none;
+}
 .wrong-answer-button:active {
+  background-color: $wrongAnswerButton;
+  border: none;
+}
+.wrong-answer-keyboard {
   background-color: $wrongAnswerButton;
   border: none;
 }
@@ -253,6 +267,32 @@ button-disable {
 
   }
   to {
+    transform: scale(1);
+
+  }
+}
+@keyframes hearts-animation {
+  0% {
+    transform: scale(.1);
+
+  }
+  20% {
+    transform: scale(1);
+
+  }
+  40% {
+    transform: scale(.5);
+
+  }
+  60% {
+    transform: scale(1);
+
+  }
+  80% {
+    transform: scale(.5);
+
+  }
+  100% {
     transform: scale(1);
 
   }
