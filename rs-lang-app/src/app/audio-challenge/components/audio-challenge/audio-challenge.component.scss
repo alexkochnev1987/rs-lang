@@ -215,6 +215,10 @@ h2 {
   background-color: $wrongAnswerButton;
   border: none;
 }
+.wrong-answer-button:active + .right-answer-button{
+  background-color: $rightAnswerButton;
+  border: none;
+}
 .progress-scale {
   width: 200px;
 }
