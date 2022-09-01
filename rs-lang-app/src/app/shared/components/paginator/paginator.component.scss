@@ -1,0 +1,44 @@
+@import '../../../app.component.scss';
+.paginator{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.hide{
+  display: none;
+}
+
+.page {
+  @include font14bold;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 28px;
+  border-radius: 10px;
+  &:hover{
+    color: $currentPageColor;
+    border: 1px dashed $currentPageColor;
+  }
+  &:active{
+    background: $gameMenuButtonPressedBackground;
+  }
+}
+
+.current-page{
+  color: $currentPageColor;
+  border: 1px dashed $currentPageColor;
+}
+
+.disabled{
+  color:$paginationArrowDisabled;
+  &:hover{
+    color: $paginationArrowDisabled;
+    border: none;
+  }
+  &:active{
+    background: none;
+  }
+}

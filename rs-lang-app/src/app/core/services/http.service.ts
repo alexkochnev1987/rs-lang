@@ -1,6 +1,6 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { url } from 'src/app/constants';
+import { IWordCard, url } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root',

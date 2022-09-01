@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import {
   LoginResponse,
@@ -10,6 +11,10 @@ import {
   User,
   SLASH,
   ShowUserStatus,
+  UserWords,
+  IWordCard,
+  PageRoutes,
+  RouterParams,
 } from '../../constants';
 import { LocalStorageService } from './localstorage.service';
 import { ShowRegistrationService } from './show-registration.service';
@@ -23,7 +28,8 @@ export class AuthService {
     private localStorage: LocalStorageService,
     private http: HttpClient,
     private userDataService: UserDataService,
-    private showRegistrationService: ShowRegistrationService
+    private showRegistrationService: ShowRegistrationService,
+    private router: Router
   ) {}
   login(user: User): Observable<LoginResponse> {
     return this.http
@@ -33,6 +39,7 @@ export class AuthService {
           this.userDataService.setUser(response);
           this.localStorage.setItem(LOCAL_KEY, this.userDataService.getUser());
           this.userDataService.setUserState(true);
+          this.router.navigate([PageRoutes.statistics]);
         })
       );
   }
@@ -57,6 +64,7 @@ export class AuthService {
   }
 
   logOut() {
+    this.router.navigate([RouterParams.about]);
     this.userDataService.clearUser();
     this.userDataService.setUserState(false);
     this.localStorage.clear();
@@ -64,10 +72,12 @@ export class AuthService {
   }
 
   refreshToken() {
-    console.log('Start refresh');
     return this.http
       .get(
-        `${url + QueryParams.register + SLASH}${
+        `${
+          url +
+          QueryParams.register +
+          SLASH +
           this.userDataService.getUser().userId
         }/tokens`
       )

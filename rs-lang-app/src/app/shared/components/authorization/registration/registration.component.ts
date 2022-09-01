@@ -41,7 +41,6 @@ export class RegistrationComponent implements OnInit {
       },
       error: error => {
         this.form.enable();
-        console.log(error);
       },
     });
   }

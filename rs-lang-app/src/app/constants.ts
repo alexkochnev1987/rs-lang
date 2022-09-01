@@ -26,6 +26,7 @@ export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
 export const SPRINT_TIMER = 30;
 export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
+export const STATISTICS_WORDS_LENGTH = 10;
 export const TIMER_LINE_SECTIONS = 40;
 
 export enum QueryParams {
@@ -138,32 +139,61 @@ export interface UserSettings {
 }
 
 export interface UserWords {
-  difficulty: 'string';
+  difficulty: string;
   optional: {};
 }
 
 export interface IWordsData {
-  difficulty: string;
+  difficulty: Difficulty;
   optional: {
     attempts: number;
     success: number;
     rightGuessesInRow: number;
+    date: number;
   };
 }
 export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
 }
+
 export interface IWord {
   id: string;
   difficulty?: string;
   wordId: string;
   optional?: {};
 }
+export interface UserWordsResponse {
+  id: string;
+  difficulty: string;
+  optional?: {};
+  wordId: string;
+}
+
+export interface DayMonthYear {
+  day: number;
+  month: number;
+  year: number;
+}
 export type LevelColor = {
   id: number;
   color: string;
 };
+
+export interface GameOptions {
+  attempts: number;
+  success: number;
+  rightGuessesInRow: number;
+}
+
+export interface GameStatistics {
+  learnedWords: 0;
+  optional: {
+    sprint: GameOptions;
+    audioChallenge: GameOptions;
+  };
+}
+
 export interface IGuessButton {
   id: string;
   word: string;
@@ -176,3 +206,17 @@ export interface ISprintStats {
   wordTranslate: string;
   success: boolean;
 }
+
+export enum StatisticsState {
+  allTime = 'allTime',
+  today = 'today',
+  sprint = 'sprint',
+  audio = 'audio',
+}
+
+export const StatisticsStateObject = {
+  allTime: 'allTime',
+  today: 'today',
+  sprint: 'sprint',
+  audio: 'audio',
+};

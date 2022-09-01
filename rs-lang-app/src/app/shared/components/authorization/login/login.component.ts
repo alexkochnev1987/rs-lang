@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.validateFom();
-    this.auth.refreshToken();
     this.isUser = this.userDataService.isRegistered();
     this.userName = this.userDataService.getUserName();
   }
@@ -41,7 +40,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.form.disable();
-    console.log(this.form.value);
     this.auth.login(this.form.value).subscribe({
       next: response => {
         this.isUser = this.userDataService.isRegistered();
@@ -49,7 +47,6 @@ export class LoginComponent implements OnInit {
       },
       error: error => {
         this.form.enable();
-        console.log(error);
       },
     });
   }
