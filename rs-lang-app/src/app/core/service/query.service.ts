@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  GameStatistics,
+  IWordsData,
   IWordCard,
   QueryParams,
   SLASH,
@@ -37,9 +39,17 @@ export class QueryService {
     );
   }
 
-  postUserWords(wordId: string, options: UserWords) {
+  postUserWords(wordId: string, options: IWordsData) {
     const userId = this.userDataService.getUser().userId;
     return this.http.post(
+      url + QueryParams.register + SLASH + userId + QueryParams.words + wordId,
+      options
+    );
+  }
+
+  updateUserWords(wordId: string, options: IWordsData) {
+    const userId = this.userDataService.getUser().userId;
+    return this.http.put(
       url + QueryParams.register + SLASH + userId + QueryParams.words + wordId,
       options
     );
@@ -52,9 +62,9 @@ export class QueryService {
     );
   }
 
-  setUserStatistics(options: UserStatistics) {
+  setUserStatistics(options: GameStatistics) {
     const userId = this.userDataService.getUser().userId;
-    return this.http.put<UserStatistics>(
+    return this.http.put<GameStatistics>(
       url + '/users/' + userId + '/statistics',
       options
     );

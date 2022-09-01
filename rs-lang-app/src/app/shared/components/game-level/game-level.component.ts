@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { gameLevelsAmount, LevelColor, LEVELS_COLORS } from 'src/app/constants';
 import { UserDataService } from 'src/app/core/services/user-data.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-game-level',
   templateUrl: './game-level.component.html',
@@ -23,7 +24,10 @@ export class GameLevelComponent implements AfterViewInit {
   levelsSelectorWidth = 0;
   levelsAmount: number;
 
-  constructor(private userService: UserDataService = new UserDataService()) {
+  constructor(
+    private userService: UserDataService = new UserDataService(),
+    private _location: Location
+  ) {
     this.levelsAmount = this.userService.isRegistered()
       ? gameLevelsAmount.userIsLogged
       : gameLevelsAmount.userNotLogged;
@@ -104,6 +108,10 @@ export class GameLevelComponent implements AfterViewInit {
 
   get getGameLevel() {
     return this.levelSelected;
+  }
+
+  goBack() {
+    this._location.back();
   }
 
   @Output()

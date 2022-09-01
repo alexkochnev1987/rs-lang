@@ -86,8 +86,14 @@
         </div>
       </div>
       <div class="stats-buttons">
-        <button class="button-green">play again</button>
-        <button class="button-orange">leave game</button>
+        <button
+          class="button-green"
+          (click)="resetGame(); shuffleWords(wordsArray)">
+          play again
+        </button>
+        <button class="button-orange" (click)="resetGame(); goBack()">
+          leave game
+        </button>
       </div>
     </div>
     <div class="words-stats" *ngIf="gameStats.length > 0">
