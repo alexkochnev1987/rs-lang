@@ -1,14 +1,11 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
   OnInit,
-  QueryList,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
-import { filter, forkJoin, map, pipe, Subscription, tap } from 'rxjs';
+import { forkJoin, tap } from 'rxjs';
 import {
   AppPages,
   COMBO_BONUS_GROWTH,
@@ -20,12 +17,8 @@ import {
   KeyCode,
   SPRINT_TIMER,
   TIMER_LINE_SECTIONS,
-  url,
-  QueryParams,
-  SLASH,
-  IWordsData,
-  Difficulty,
   GameStatistics,
+  Games,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -34,8 +27,6 @@ import { GameLevelComponent } from '../../../shared/components/game-level/game-l
 import { UserDataService } from 'src/app/core/services/user-data.service';
 import { Location } from '@angular/common';
 import { QueryService } from 'src/app/core/service/query.service';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
 import { ProcessStatisticsService } from 'src/app/core/services/process-statistics.service';
 
@@ -245,6 +236,7 @@ export class SprintComponent implements OnInit {
         if (this.totalWords > 0 && this.isAuth) {
           // this.processStatistics();
           this.processStatisticsService.serviceData = {
+            game: Games.Sprint,
             gameStats: this.gameStats,
             longestCombo: this.longestCombo,
           };
