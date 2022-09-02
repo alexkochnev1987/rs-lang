@@ -1,0 +1,118 @@
+@import '../../../app.component.scss';
+.stats-container {
+  @include stroke-container;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px;
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.heading-1 {
+  @include heading1;
+  width:500px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.green {
+  color: $activePageColor;
+}
+
+.red {
+  color: $borderDifficultColor;
+}
+
+.game-word {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.game-stats {
+  @include heading4;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+.success{
+  margin-top: 10px;
+}
+
+.word-stats {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.stats-header {
+  @include font12;
+  font-weight: 800;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  color: $tableHeadingTextColor;
+  background-color: $tableHeadingBgColor;
+  height: 45px;
+  padding: 0 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.word-stat {
+  @include font14bold;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 35px;
+  padding: 0 10px;
+}
+
+.word-stat:nth-child(2n-1) {
+  background-color: $tableEvenItemBg;
+}
+
+.word-stat:last-child {
+  border-radius: 0 0 10px 10px;
+}
+
+.stats-transcription {
+  display: flex;
+}
+
+.transcription-audio {
+  width: 14px;
+  height: 14px;
+  background-image: url('../../../../assets/img/speaker.png');
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  margin-right: 10px;
+  cursor: pointer;
+  &:hover{
+    transform: scale(0.95);
+  }
+  &:active{
+    transform: scale(0.90);
+  }
+}
+
+.transcription-word {
+  @include fontTranscription;
+}
+
+.word-translation {
+  @include font14;
+}
