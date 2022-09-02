@@ -149,7 +149,9 @@ export interface UserWords {
 export interface IWordsData {
   difficulty: string;
   optional: {
-    rightGuessesInRow: number;
+    attempts?: number;
+    success?: number;
+    rightGuessesInRow?: number;
     dateEasy?: number;
     dateFirstTime?: number;
   };
@@ -165,7 +167,9 @@ export interface IWord {
   difficulty?: string;
   wordId: string;
   optional?: {
-    rightGuessesInRow: number;
+    attempts?: number;
+    success?: number;
+    rightGuessesInRow?: number;
     dateEasy?: number;
     dateFirstTime?: number;
   };

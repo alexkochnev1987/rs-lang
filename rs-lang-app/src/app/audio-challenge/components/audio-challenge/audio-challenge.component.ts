@@ -10,6 +10,7 @@ import {
   BUTTON_LEAVE,
   BUTTON_RESTART,
   BUTTON_START,
+  Difficulty,
   GameSound,
   GAME_1,
   GAME_AUDIO_CHALLENGE_INSTRUCTIONS,
@@ -239,7 +240,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
         next: (data: any) => {
           this.userWords = data;
           this.userWords = this.userWords.filter(
-            (item: IWord) => item.difficulty !== 'easy'
+            (item: IWord) => item.difficulty !== Difficulty.Easy
           );
           this.userWords.forEach(item => {
             this.httpService.getData(`/words/${item.wordId}`).subscribe({

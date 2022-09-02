@@ -4,16 +4,16 @@
   <div class="title-1">PLAY THIS LEVEL:</div>
   <app-menu-button
     class="button-1"
-    *ngIf="!isLearnedPage(page)"
+    *ngIf="!getIsLearnedPage(page)"
     [gameName]="game1"
     [routerLink]="[link1, group, page + 1]"></app-menu-button>
   <app-menu-button
     class="button-2"
-    *ngIf="!isLearnedPage(page)"
+    *ngIf="!getIsLearnedPage(page)"
     [gameName]="game2"
     [routerLink]="link2"
     (click)="setLevelPage([group, page])"></app-menu-button>
-  <div class="learned-title" *ngIf="isLearnedPage(page)">
+  <div class="learned-title" *ngIf="getIsLearnedPage(page)">
     <div class="check-mark"></div>
     {{ learnedPage }}
   </div>
@@ -26,7 +26,7 @@
     *ngFor="let i of pagination()"
     (click)="changePage(i)">
     {{ i }}
-    <div class="learned-page" *ngIf="isLearnedPage(i)"></div>
+    <div class="learned-page" *ngIf="getIsLearnedPage(i)"></div>
   </div>
   <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
     >&gt;</span
@@ -38,7 +38,8 @@
       #appCard
       [card]="card"
       [group]="group"
-      [userId]="userId"></app-card>
+      [userId]="userId"
+      [userWordsNoFilter]="userWordsNoFilter"></app-card>
   </div>
 </div>
 <div class="pagination" *ngIf="group < 7">
@@ -49,7 +50,7 @@
     *ngFor="let i of pagination()"
     (click)="changePage(i)">
     {{ i }}
-    <div class="learned-page" *ngIf="isLearnedPage(i)"></div>
+    <div class="learned-page" *ngIf="getIsLearnedPage(i)"></div>
   </div>
   <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
     >&gt;</span
