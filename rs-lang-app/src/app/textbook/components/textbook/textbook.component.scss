@@ -14,7 +14,25 @@
 
 .page-number {
   margin-left: 20px;
+  @include font14bold;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    height: 30px;
   cursor: pointer;
+  &:hover {
+    border-radius: 10px;
+    border: 1px dashed $currentPageColor;
+    color: $currentPageColor;
+    width: 28px;
+    height: 28px;
+  }
+  &:active{
+    background: $gameMenuButtonPressedBackground;
+  }
 }
 .pagination {
   position: relative;
@@ -25,6 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap:7px;
   margin-left: auto;
   margin-right: auto;
   color: $paginationNumberColor;
@@ -40,6 +59,7 @@
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  gap:7px;
   color: $paginationNumberColor;
 }
 
@@ -49,7 +69,7 @@
 }
 .current-page {
   color: $currentPageColor;
-  @include fontSize14;
+  @include font14bold;
   width: 29px;
   height: 28px;
   border-radius: 10px;
@@ -85,13 +105,42 @@ a {
 }
 .back,
 .forward {
-  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  margin: 0 10px;
   cursor: pointer;
+  @include font14bold;
+  &:hover {
+    border-radius: 10px;
+    border: 1px dashed $currentPageColor;
+    color: $currentPageColor;
+    width: 28px;
+    height: 28px;
+  }
+  &:active{
+    background: $gameMenuButtonPressedBackground;
+  }
 }
 .disabled {
   color: $paginationArrowDisabled;
   cursor: auto;
+  &:hover {
+    width: 30px;
+    height: 30px;
+    border: none;
+    color: $paginationArrowDisabled;
+
+  }
+  &:active{
+    background: none;
+  }
 }
+
 .title-1,
 .title-2 {
   @include fontSize16;
@@ -123,7 +172,7 @@ a {
   background: $borderLearnedColor;
   border-radius: 10px;
   align-self: stretch;
-  color:$cardBackgroundColor;
+  color: $cardBackgroundColor;
   @include font14bold;
 }
 .check-mark {

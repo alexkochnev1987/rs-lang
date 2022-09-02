@@ -8,6 +8,9 @@ export const BUTTON_LEAVE = 'LEAVE';
 export const LOCAL_KEY = 'userObject';
 export const PLAY_PREFIX = 'PLAY ';
 export const SLASH = '/';
+export const TITLE_GAME_STATISTICS = 'GAME STATISTICS';
+export const GAME_AUDIO_CHALLENGE_INSTRUCTIONS =
+  '* USE SPACE OR ENTER TO PLAY WORD AND 1,2,3,4 TO CHOOSE RIGHT WORD';
 export const LEVELS_COLORS: LevelColor[] = [
   { id: 1, color: '#88E564' },
   { id: 2, color: '#45DEC3' },
@@ -177,11 +180,11 @@ export interface UserWords {
 }
 
 export interface IWordsData {
-  difficulty: Difficulty;
+  difficulty: string;
   optional: {
-    attempts: number;
-    success: number;
-    rightGuessesInRow: number;
+    attempts?: number;
+    success?: number;
+    rightGuessesInRow?: number;
     dateEasy?: number;
     dateFirstTime?: number;
   };
@@ -199,7 +202,9 @@ export interface IWord {
   difficulty?: string;
   wordId: string;
   optional?: {
-    rightGuessesInRow: number;
+    attempts?: number;
+    success?: number;
+    rightGuessesInRow?: number;
     dateEasy?: number;
     dateFirstTime?: number;
   };
@@ -251,10 +256,17 @@ export interface ISprintStats {
   wordTranslate: string;
   success: boolean;
 }
+
+export interface IAudioChallengeStatistics {
+  word: IWordCard;
+  success: boolean;
+}
+
 export enum KeyCode {
   RIGHT_ARROW = 'ArrowRight',
   LEFT_ARROW = 'ArrowLeft',
 }
+
 export enum StatisticsState {
   allTime = 'allTime',
   today = 'today',

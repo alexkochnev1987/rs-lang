@@ -97,10 +97,18 @@ export class ProcessStatisticsService {
         rightGuessesInRow: word.optional.rightGuessesInRow,
       },
     };
-    optionsWord.optional.attempts += 1;
+
+    optionsWord.optional.attempts = optionsWord.optional.attempts
+      ? optionsWord.optional.attempts + 1
+      : 1;
     if (wordGameStats.success) {
-      optionsWord.optional.success += 1;
-      optionsWord.optional.rightGuessesInRow += 1;
+      optionsWord.optional.success = optionsWord.optional.success
+        ? optionsWord.optional.success + 1
+        : 1;
+      optionsWord.optional.rightGuessesInRow = optionsWord.optional
+        .rightGuessesInRow
+        ? optionsWord.optional.rightGuessesInRow + 1
+        : 1;
     }
     if (!wordGameStats.success) {
       optionsWord.optional.rightGuessesInRow = 0;
@@ -109,12 +117,14 @@ export class ProcessStatisticsService {
     }
     if (
       optionsWord.difficulty === Difficulty.Hard &&
+      optionsWord.optional.rightGuessesInRow &&
       optionsWord.optional.rightGuessesInRow >= FROM_HARD_TO_EASY_TIMES
     ) {
       optionsWord.difficulty = Difficulty.Easy;
     }
     if (
       optionsWord.difficulty === Difficulty.Learned &&
+      optionsWord.optional.rightGuessesInRow &&
       optionsWord.optional.rightGuessesInRow >= FROM_LEARNED_TO_EASY_TIMES
     ) {
       optionsWord.difficulty = Difficulty.Easy;
