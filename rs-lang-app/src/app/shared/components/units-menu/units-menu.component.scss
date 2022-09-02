@@ -2,7 +2,7 @@
 .navigation {
   box-sizing: border-box;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin-left: 30px;
@@ -26,13 +26,11 @@
   align-items: center;
   padding: 10px;
   gap: 10px;
+  transition: 0.2s;
   cursor: pointer;
-
 }
-.navigation-element:hover{
-  transform: scale(1.05);
-}
-.big-element {
+.big-element,
+.navigation-element:hover {
   width: 50px !important;
   height: 50px !important;
   border-radius: 25px !important;
@@ -94,4 +92,3 @@
   border-radius: 20px;
   z-index: 1;
 }
-

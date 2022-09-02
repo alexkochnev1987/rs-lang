@@ -1,1 +1,46 @@
-<h1>GAME STATISTICS</h1>
+<h1 class="heading-1">{{ title }}</h1>
+<div class="stats-container">
+  <div class="stats-head">
+    <div class="game-stats">
+      <div class="success">
+        PLAY TIME:
+        <span class="green"> {{ duration }}&nbsp;sec. </span>
+      </div>
+      <div class="success">
+        CORRECT:
+        <span class="green">
+          {{ rightAnswersCount }} / {{ totalAttempts }} ({{
+            rightAnswersPercent
+          }}%)
+        </span>
+      </div>
+    </div>
+    <div class="stats-buttons">
+      <button class="button-green" (click)="playGame(true)">play again</button>
+      <button class="button-orange" [routerLink]="mainPageLink">
+        leave game
+      </button>
+    </div>
+  </div>
+  <div class="words-stats" *ngIf="gameStatistics!.length > 0">
+    <div class="stats-header">
+      <div>WORD</div>
+      <div>TRANSCRIPTION</div>
+      <div>TRANSLATION</div>
+    </div>
+    <div *ngFor="let item of gameStatistics" class="word-stat">
+      <div>
+        <span class="{{ item.success ? 'green' : 'red' }}">{{
+          item.word.word
+        }}</span>
+      </div>
+      <div class="stats-transcription">
+        <div
+          class="transcription-audio"
+          (click)="playAudio(item.word.audio)"></div>
+        <div class="transcription-word">{{ item.word.transcription }}</div>
+      </div>
+      <div class="word-translation">{{ item.word.wordTranslate }}</div>
+    </div>
+  </div>
+</div>

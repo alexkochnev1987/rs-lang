@@ -4,31 +4,29 @@
   <div class="title-1">PLAY THIS LEVEL:</div>
   <app-menu-button
     class="button-1"
-    *ngIf="!isLearnedPage(page)"
+    *ngIf="!getIsLearnedPage(page)"
     [gameName]="game1"
     [routerLink]="[link1, group, page + 1]"></app-menu-button>
   <app-menu-button
     class="button-2"
-    *ngIf="!isLearnedPage(page)"
+    *ngIf="!getIsLearnedPage(page)"
     [gameName]="game2"
     [routerLink]="link2"
     (click)="setLevelPage([group, page])"></app-menu-button>
-  <div class="learned-title" *ngIf="isLearnedPage(page)">
+  <div class="learned-title" *ngIf="getIsLearnedPage(page)">
     <div class="check-mark"></div>
     {{ learnedPage }}
   </div>
 </div>
 <div class="pagination-up" *ngIf="group < 7">
-  <span class="back" [class.disabled]="page < 1" (click)="pageDown()"
-    >&lt;</span
-  >
+  <div class="back" [class.disabled]="page < 1" (click)="pageDown()">&lt;</div>
   <div
     [class.current-page]="i === page + 1"
     class="page-number"
     *ngFor="let i of pagination()"
     (click)="changePage(i)">
     {{ i }}
-    <div class="learned-page" *ngIf="isLearnedPage(i)"></div>
+    <div class="learned-page" *ngIf="getIsLearnedPage(i)"></div>
   </div>
   <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
     >&gt;</span
@@ -40,20 +38,19 @@
       #appCard
       [card]="card"
       [group]="group"
-      [userId]="userId"></app-card>
+      [userId]="userId"
+      [userWordsNoFilter]="userWordsNoFilter"></app-card>
   </div>
 </div>
 <div class="pagination" *ngIf="group < 7">
-  <span class="back" [class.disabled]="page < 1" (click)="pageDown()"
-    >&lt;</span
-  >
+  <div class="back" [class.disabled]="page < 1" (click)="pageDown()">&lt;</div>
   <div
     [class.current-page]="i === page + 1"
     class="page-number"
     *ngFor="let i of pagination()"
     (click)="changePage(i)">
     {{ i }}
-    <div class="learned-page" *ngIf="isLearnedPage(i)"></div>
+    <div class="learned-page" *ngIf="getIsLearnedPage(i)"></div>
   </div>
   <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
     >&gt;</span

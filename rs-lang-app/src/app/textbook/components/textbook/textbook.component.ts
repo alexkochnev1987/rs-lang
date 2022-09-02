@@ -51,7 +51,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   link1 = '../../audio-challenge';
   userId: string | undefined = undefined;
   userWords: IWord[] = [];
-  pageWords: IWord[] = [];
+  userWordsNoFilter: IWord[] = [];
 
   learnedPages: number[] = [];
   private subscription: Subscription;
@@ -69,6 +69,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
       this.storage.setItem(LEVEL_KEY, this.group);
+      this.page = Number(this.storage.getItem(PAGE_KEY)) || 0;
       if (this.userDataService.isRegistered()) {
         this.userId = this.userDataService.getUser().userId;
       }
@@ -83,8 +84,10 @@ export class TextbookComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.load();
+    this.getUserWords();
     this.pagesDataService.setPage(AppPages.TextBook);
     this.page = Number(this.storage.getItem(PAGE_KEY)) || 0;
+
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -122,6 +125,9 @@ export class TextbookComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data: any) => {
           this.userWords = data;
+          this.userWords = this.userWords.filter(
+            (item: IWord) => item.difficulty == Difficulty.Hard
+          );
           this.userWords.forEach(item => {
             this.httpService.getData(`/words/${item.wordId}`).subscribe({
               next: (data: any) => {
@@ -132,8 +138,20 @@ export class TextbookComponent implements OnInit, OnDestroy {
         },
       });
   }
-
-  isLearnedPage(page: number) {
+  getUserWords() {
+    if (this.userId) {
+      this.http
+        .get(
+          url + QueryParams.register + SLASH + this.userId + QueryParams.words
+        )
+        .subscribe({
+          next: (data: any) => {
+            this.userWordsNoFilter = data;
+          },
+        });
+    }
+  }
+  getIsLearnedPage(page: number) {
     return false;
   }
 
