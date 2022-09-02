@@ -21,6 +21,12 @@ export class StatisticsService {
     return word.difficulty === Difficulty.Easy ? true : false;
   }
 
+  filterLearnedWords(words: IWord[]) {
+    return words.filter(word =>
+      word.difficulty === Difficulty.Learned ? true : false
+    );
+  }
+
   splitArrByChunks(word: IWordCard, arrOfArr: any, sizeChunk: number) {
     if (arrOfArr[arrOfArr.length - 1].length === sizeChunk) {
       arrOfArr.push([]);

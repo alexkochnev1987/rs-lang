@@ -5,12 +5,14 @@
     <div>TOTAL WORDS LEARNED</div>
   </div>
   <div class="rows">
-    <div>Date</div>
+    <div>{{ today.day }} / {{ today.month + 1 }} / {{ today.year }}</div>
     <div>
       <div class="graphic" [style.width]="width + '%'"></div>
+      <p>{{ easyWords }} / {{ totalWords }}</p>
     </div>
     <div>
       <div class="graphic" [style.width]="width2 + '%'"></div>
+      <p>{{ totalWords }} / 3600</p>
     </div>
   </div>
 </div>

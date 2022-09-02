@@ -38,7 +38,6 @@ export class TodayComponent implements OnInit {
   getStatistics() {
     this.queryService.getUserStatistics().subscribe({
       next: res => {
-        console.log(res);
         if (res.optional.audioChallenge?.today.attempts) {
           this.totalWords += res.optional.audioChallenge?.today.attempts;
         }
@@ -66,7 +65,6 @@ export class TodayComponent implements OnInit {
       next: words => {
         this.wordsLearnedToday =
           this.statisticService.getLearnedTodayWords(words).length;
-        console.log(words, this.statisticService.getLearnedTodayWords(words));
       },
     });
   }
