@@ -26,7 +26,7 @@ export const AUDIO_CHALLENGE_ATTEMPTS = 10;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
-export const SPRINT_TIMER = 5;
+export const SPRINT_TIMER = 15;
 export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
 export const STATISTICS_WORDS_LENGTH = 10;
@@ -157,6 +157,7 @@ export interface IWordsData {
 export enum Difficulty {
   Hard = 'hard',
   Easy = 'easy',
+  Learned = 'learning',
 }
 
 export interface IWord {
