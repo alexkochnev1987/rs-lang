@@ -16,11 +16,11 @@
     <div class="translate">{{ card.wordTranslate }}</div>
     <div class="learn">
       <div class="learn-title">LEARN:</div>
-      <div class="learn-value">{{ getLearnProgress(card.id) }}</div>
+      <div class="learn-value" [class.green-rate]="isGoodLearn">{{ getLearnProgress(card.id) }}</div>
     </div>
     <div class="rate">
       <div class="rate-title">RATE</div>
-      <div class="rate-value">{{ getRateValue(card.id) }}</div>
+      <div class="rate-value" [class.green-rate]="isGoodRate">{{ getRateValue(card.id) }}</div>
     </div>
   </div>
   <div

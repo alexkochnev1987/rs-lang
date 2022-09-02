@@ -12,6 +12,7 @@ import {
   BUTTON_START,
   Difficulty,
   GameSound,
+  GameStatistics,
   GAME_1,
   GAME_AUDIO_CHALLENGE_INSTRUCTIONS,
   IAudioChallengeStatistics,
@@ -74,6 +75,14 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   instructions = GAME_AUDIO_CHALLENGE_INSTRUCTIONS;
   rightAnswersCount = 0;
   rightAnswersPercent = 0;
+  userStatistics: GameStatistics={
+    learnedWords: 0,
+    optional: {
+    }
+  };
+todayGameOptions:GainOptions ={};
+allTimeGameOptions:GainOptions={};
+maxRowInGame=0
   playAgain(value: any) {
     if (value) {
       this.restartGame();
@@ -209,12 +218,14 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     if (!this.isDenied) {
       this.dataLength = this.arrayForGuess.length;
       this.isInProgress = false;
+      this.getGuessInRowArray(0);
       this.getWords();
     }
   }
 
   getWords() {
-    this.rightButtonNumber = Math.ceil(Math.random() * 3);
+    this.guessButtons = Array(4).fill({});
+    this.rightButtonNumber = Math.round(Math.random() * 3);
     this.guessButtons = this.guessButtons.map((el, index) => {
       const randomIndex = Math.round(Math.random() * (this.dataLength - 1));
       const randomWord = this.arrayForGuess[randomIndex];
@@ -225,6 +236,13 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
 
       return { id: randomWord?.id, word: randomWord?.wordTranslate };
     });
+    this.checkDuplicates(this.guessButtons);
+  }
+
+  checkDuplicates(arr: IGuessButton[]) {
+    if (new Set(arr.map(i => i.id)).size < 4) {
+      this.getWords();
+    }
   }
 
   loadForUser() {
@@ -275,21 +293,23 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   checkAnswer(index: number) {
     this.isDenied = true;
     let answer = -1;
-    let soundlink = '';
+    let soundLink = '';
     if (index === this.rightButtonNumber) {
       answer = 1;
-      soundlink = GameSound.success;
+      soundLink = GameSound.success;
+      this.maxRowInGame++
       this.rightAnswersCount++;
     } else {
       answer = 0;
-      soundlink = GameSound.failed;
+      soundLink = GameSound.failed;
+      this.maxRowInGame=0
     }
     const success = !!answer;
-    this.checkGuessInRow(this.rightWord!, success);
+    this.giveWordStatistics(this.rightWord!, success);
     this.putStatistics(this.rightWord!, success);
     this.attemptsInRow[this.attempt] = answer;
     this.attempt++;
-    new Audio(soundlink).play();
+    new Audio(soundLink).play();
     if (this.attempt < AUDIO_CHALLENGE_ATTEMPTS) {
       setTimeout(() => {
         this.isDenied = false;
@@ -301,6 +321,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       this.rightAnswersPercent = Number(
         ((this.rightAnswersCount / AUDIO_CHALLENGE_ATTEMPTS) * 100).toFixed(1)
       );
+      this.updateUserStatistics(this.maxRowInGame,this.rightAnswersCount,)
       setTimeout(() => (this.isGameEnded = true), 2000);
     }
   }
@@ -308,9 +329,9 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     this.gameStatistics?.push({ word, success });
   }
 
-  checkGuessInRow(word: IWordCard, success?: boolean) {
-    let body = {};
-    let value = 0;
+  giveWordStatistics(word: IWordCard, success?: boolean) {
+    let body = { difficulty: Difficulty.Learned, optional: {} };
+    let valueSuccess = 0;
     let wordData: IWord;
     const location =
       url +
@@ -321,26 +342,72 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       SLASH +
       word.id;
     if (!this.userDataService.isRegistered()) return;
-    if (this.isWordInUserWords(word.id)) {
-      const response = this.http.get(location);
-      response.subscribe({
-        next: (data: any) => {
-          wordData = data;
-          console.log(JSON.stringify(wordData.optional?.rightGuessesInRow));
-          if (wordData.optional?.rightGuessesInRow === undefined) {
-            success ? (value = 1) : (value = 0);
-            body = { optional: { rightGuessesInRow: 0 } };
-          } else {
-            let rightGuesses = wordData.optional?.rightGuessesInRow;
-            this.getGuessInRowArray(rightGuesses);
-            console.log(`value: ${rightGuesses}`);
-            success ? rightGuesses!++ : (rightGuesses! = 0);
-            body = { optional: { rightGuessesInRow: rightGuesses } };
-          }
-          this.http.put(location, body).subscribe(i => console.log(i));
-        },
-      });
+    if (!this.isWordInUserWords(word.id)) {
+      this.http.post(location, body).subscribe(i => console.log('new word'));
+      console.log('NEW WORD');
     }
+    let currentDifficulty = Difficulty.Learned;
+    let currentRightGuessesInRow = 0;
+    let currentAttempts = 0;
+    let currentSuccess = 0;
+    let currentDateFirstTime = 0;
+    let currentDateEasy: any;
+    const response = this.http.get(location);
+    response.subscribe({
+      next: (data: any) => {
+        wordData = data;
+        const prevDifficulty = wordData?.difficulty;
+        const prevRightGuessInRow = wordData?.optional?.rightGuessesInRow;
+        let prevAttempts = wordData?.optional?.attempts;
+        let prevSuccess = wordData?.optional?.success;
+        const prevDateFirstTime = wordData?.optional?.dateFirstTime;
+        console.log(JSON.stringify(wordData?.optional));
+        success ? (valueSuccess = 1) : (valueSuccess = 0);
+        if (prevRightGuessInRow === undefined) {
+          currentRightGuessesInRow = valueSuccess;
+          prevAttempts = 0;
+          prevSuccess = 0;
+          currentDateFirstTime = Date.now();
+        } else {
+          success
+            ? (currentRightGuessesInRow = prevRightGuessInRow + 1)
+            : (currentRightGuessesInRow = 0);
+        }
+        this.getGuessInRowArray(currentRightGuessesInRow);
+        if (prevDifficulty === Difficulty.Hard)
+          currentDifficulty = Difficulty.Hard;
+        if (
+          currentRightGuessesInRow > 2 &&
+          prevDifficulty !== Difficulty.Hard
+        ) {
+          currentRightGuessesInRow = 0;
+          currentDifficulty = Difficulty.Easy;
+          currentDateEasy = Date.now();
+        }
+        if (
+          currentRightGuessesInRow > 4 &&
+          prevDifficulty === Difficulty.Hard
+        ) {
+          currentRightGuessesInRow = 0;
+          currentDifficulty = Difficulty.Easy;
+        }
+        currentAttempts = prevAttempts! + 1;
+        currentSuccess = prevSuccess! + valueSuccess;
+        if (!prevDateFirstTime) currentDateFirstTime = Date.now();
+        body = {
+          difficulty: currentDifficulty,
+          optional: {
+            rightGuessesInRow: currentRightGuessesInRow,
+            attempts: currentAttempts,
+            success: currentSuccess,
+            dateFirstTime: currentDateFirstTime,
+            dateEasy: currentDateEasy,
+          },
+        };
+
+        this.http.put(location, body).subscribe(i => console.log(i));
+      },
+    });
   }
 
   isWordInUserWords(wordId: string): boolean {
@@ -354,6 +421,20 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data: any) => {
           this.userWords = data;
+        },
+      });
+  }
+
+  
+
+
+  updateUserStatistics(maxRowLength:number,succsess:number,attempts:number=AUDIO_CHALLENGE_ATTEMPTS){
+    this.http
+      .get(url + QueryParams.register + SLASH + this.userId + QueryParams.statistics)
+      .subscribe({
+        next: (data: any) => {
+          this.userStatistics = data;
+          console.log(this.userStatistics)
         },
       });
   }

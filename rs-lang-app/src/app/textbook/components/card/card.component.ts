@@ -50,6 +50,8 @@ export class CardComponent implements OnInit {
       dateFirstTime: undefined,
     },
   };
+  isGoodLearn = false;
+  isGoodRate=false;
 
   @Input() card!: WordCard;
   @Input() group: number = 0;
@@ -165,6 +167,8 @@ export class CardComponent implements OnInit {
     let attempts = this.responseWordData?.optional?.rightGuessesInRow;
     if (!attempts) attempts = 0;
     this.isDifficultWord(wordId) ? (maxAttempts = 5) : (maxAttempts = 3);
+    maxAttempts-attempts<2 ? (this.isGoodLearn = true) : (this.isGoodLearn = false);
+  
     return `${attempts}/${maxAttempts}`;
   }
   getRateValue(wordId: string): string {
@@ -181,6 +185,7 @@ export class CardComponent implements OnInit {
         ).toFixed(1)
       );
     }
+    (rate>66)? (this.isGoodRate = true) : (this.isGoodRate = false);
     return `${rate}%`;
   }
 
