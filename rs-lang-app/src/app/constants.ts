@@ -31,6 +31,7 @@ export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
 export const STATISTICS_WORDS_LENGTH = 10;
 export const TIMER_LINE_SECTIONS = 40;
+export const STATISTICS_NOT_FOUND = 'Statistics not found';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -134,6 +135,16 @@ export enum ShowUserStatus {
 export interface UserStatistics {
   id: string;
   learnedWords: number;
+  optional: {
+    sprint?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+    audioChallenge?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+  };
 }
 
 export interface UserSettings {
@@ -197,7 +208,7 @@ export interface GameOptions {
   date?: number;
 }
 export interface GameStatistics {
-  learnedWords: 0;
+  learnedWords: number;
   optional: {
     sprint?: {
       today: GameOptions;
@@ -245,3 +256,13 @@ export const StatisticsStateObject = {
   sprint: 'sprint',
   audio: 'audio',
 };
+
+export interface OneGameStatistics {
+  today: GameOptions;
+  allTime: GameOptions;
+}
+
+export interface FilterWordsByDate {
+  date: string;
+  words: IWord[];
+}

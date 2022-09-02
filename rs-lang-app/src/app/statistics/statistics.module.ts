@@ -12,6 +12,7 @@ import { AllTimeComponent } from './components/tables/graphs/all-time/all-time.c
 import { TodayComponent } from './components/tables/graphs/today/today.component';
 import { SprintComponent } from './components/tables/graphs/sprint/sprint.component';
 import { AudioComponent } from './components/tables/graphs/audio/audio.component';
+import { GraphicsComponent } from './components/tables/graphs/all-time/graphics/graphics.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AudioComponent } from './components/tables/graphs/audio/audio.component
     TodayComponent,
     SprintComponent,
     AudioComponent,
+    GraphicsComponent,
   ],
   imports: [CommonModule, StatisticsRoutingModule, SharedModule],
 })

@@ -12,6 +12,7 @@ import {
   UserStatistics,
   UserWords,
   UserWordsResponse,
+  IWord,
 } from 'src/app/constants';
 import { UserDataService } from '../services/user-data.service';
 
@@ -34,7 +35,7 @@ export class QueryService {
 
   getUserWords() {
     const userId = this.userDataService.getUser().userId;
-    return this.http.get<UserWordsResponse[]>(
+    return this.http.get<IWord[]>(
       url + QueryParams.register + SLASH + userId + QueryParams.words
     );
   }
