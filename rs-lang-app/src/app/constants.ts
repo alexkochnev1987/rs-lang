@@ -247,3 +247,8 @@ export interface OneGameStatistics {
   today: GameOptions;
   allTime: GameOptions;
 }
+
+export interface FilterWordsByDate {
+  date: string;
+  words: IWord[];
+}

@@ -55,9 +55,10 @@
     padding-left: 20px;
   }
 }
-.graphic{
-  background: $pressedLoginButton;
-  height: 14px;
+
+.active{
+  color: $currentPageColor;
+  border: 1px dashed $currentPageColor;
 }
 
 .rows{
@@ -72,9 +73,4 @@
   &:nth-child(2n){
     background:#F5F5F5;
   }
-}
-
-.active{
-  color: $currentPageColor;
-  border: 1px dashed $currentPageColor;
 }

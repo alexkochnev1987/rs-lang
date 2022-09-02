@@ -63,6 +63,7 @@ export class TodayComponent implements OnInit {
   getWordsLearnedToday() {
     this.queryService.getUserWords().subscribe({
       next: words => {
+        this.totalWords = words.length;
         this.wordsLearnedToday =
           this.statisticService.getLearnedTodayWords(words).length;
       },

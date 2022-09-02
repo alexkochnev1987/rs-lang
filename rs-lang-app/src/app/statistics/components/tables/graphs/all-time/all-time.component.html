@@ -1,18 +1,9 @@
 <div class="table">
   <div class="header">
     <div>DATE</div>
-    <div>NEW WORDS LEARNED</div>
+    <div>LEARNED / HARD WORDS</div>
     <div>TOTAL WORDS LEARNED</div>
   </div>
-  <div class="rows">
-    <div>{{ today.day }} / {{ today.month + 1 }} / {{ today.year }}</div>
-    <div>
-      <div class="graphic" [style.width]="width + '%'"></div>
-      <p>{{ easyWords }} / {{ totalWords }}</p>
-    </div>
-    <div>
-      <div class="graphic" [style.width]="width2 + '%'"></div>
-      <p>{{ totalWords }} / 3600</p>
-    </div>
-  </div>
+
+  <app-graphics [wordsByDate]="wordsByDate" [total]="totalWords"></app-graphics>
 </div>
