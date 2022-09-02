@@ -64,6 +64,7 @@ export const GAME_STATS_TEMPLATE: GameStatistics = {
 };
 export const FROM_HARD_TO_EASY_TIMES = 5;
 export const FROM_LEARNED_TO_EASY_TIMES = 3;
+export const STATISTICS_NOT_FOUND = 'Statistics not found';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -167,6 +168,16 @@ export enum ShowUserStatus {
 export interface UserStatistics {
   id: string;
   learnedWords: number;
+  optional: {
+    sprint?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+    audioChallenge?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+  };
 }
 
 export interface UserSettings {
@@ -232,7 +243,7 @@ export interface GameOptions {
   date?: number;
 }
 export interface GameStatistics {
-  learnedWords: 0;
+  learnedWords: number;
   optional: {
     sprint?: {
       today: GameOptions;
@@ -289,4 +300,13 @@ export interface IServiceData {
   game: Games;
   gameStats: ISprintStats[];
   longestCombo: number;
+}
+export interface OneGameStatistics {
+  today: GameOptions;
+  allTime: GameOptions;
+}
+
+export interface FilterWordsByDate {
+  date: string;
+  words: IWord[];
 }

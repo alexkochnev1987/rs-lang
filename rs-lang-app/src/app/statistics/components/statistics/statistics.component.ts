@@ -54,18 +54,4 @@ export class StatisticsComponent implements OnInit {
       next: res => console.log(res),
     });
   }
-
-  setWordStatus(wordId: string, difficultyLevel: Difficulty) {
-    const body = { difficulty: Difficulty.Hard };
-    const location =
-      QueryParams.register +
-      SLASH +
-      // this.userId +
-      QueryParams.words +
-      SLASH +
-      wordId;
-    this.httpService
-      .putData(location, body)
-      .subscribe({ next: (data: any) => console.log(data) });
-  }
 }
