@@ -21,7 +21,9 @@ import { StatisticsService } from 'src/app/core/services/statistics.service';
 })
 export class StatisticsComponent implements OnInit {
   link2 = '../' + PageRoutes.sprint;
-  link1 = '../' + PageRoutes.audioChallenge;
+  link1 = '../audio-challenge';
+  link1Level = -1;
+  link1Page = -1;
   wordId = '/5e9f5ee35eb9e72bc21af4db';
   options = { difficulty: 'hard', optional: { option: 'hello' } };
   userWords = { hardWords: 0, easyWords: 0, total: 0 };

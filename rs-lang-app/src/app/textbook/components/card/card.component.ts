@@ -70,6 +70,7 @@ export class CardComponent implements OnInit {
   onMouseOver(id: string) {
     this.isMore = true;
     this.idCard = id;
+    this.getResponse(this.card.id);
   }
 
   onMouseOut() {
@@ -101,7 +102,7 @@ export class CardComponent implements OnInit {
     }
   }
 
-  isLearnedWord(wordId: string): any {
+  isEasyWord(wordId: string): any {
     if (!this.isUser()) {
       return false;
     }
@@ -156,8 +157,9 @@ export class CardComponent implements OnInit {
     } else {
       response = this.httpService.postData(location, body);
     }
-    response.subscribe({ next: (data: any) => console.log(data) });
+    response.subscribe();
     this.getUserWords();
+    this.getResponse(this.card.id);
   }
 
   getLearnProgress(wordId: string): string {
@@ -212,7 +214,6 @@ export class CardComponent implements OnInit {
       response.subscribe({
         next: (data: any) => {
           this.responseWordData = data;
-          console.log(data);
         },
       });
     }

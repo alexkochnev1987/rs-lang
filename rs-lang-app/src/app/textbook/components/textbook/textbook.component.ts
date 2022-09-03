@@ -1,10 +1,8 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {
   Component,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -40,7 +38,7 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   providers: [AuthInterceptor],
 })
 export class TextbookComponent implements OnInit, OnDestroy {
-  source = url + '/';
+  source = url + SLASH;
   group: number = 0;
   page = 0;
   cards: IWordCard[] = [];
@@ -52,7 +50,6 @@ export class TextbookComponent implements OnInit, OnDestroy {
   userId: string | undefined = undefined;
   userWords: IWord[] = [];
   userWordsNoFilter: IWord[] = [];
-
   learnedPages: number[] = [];
   private subscription: Subscription;
 
