@@ -8,7 +8,9 @@
       currentLevel = $event; isLevelSelected = !isLevelSelected; loadWords()
     "
     *ngIf="!isLevelSelected"></app-game-level>
-  <div *ngIf="isLevelSelected && !isGameStarted">{{ progress }}</div>
+  <div *ngIf="isLevelSelected && !isGameStarted && !isAllWordsLearned">
+    {{ progress }}
+  </div>
   <div *ngIf="isGameStarted && !isGameEnded">
     <div class="timer-container">
       <h4 class="timer-heading">TIME:</h4>
@@ -56,13 +58,13 @@
           <button
             #buttonNo
             class="button-dashed"
-            (click)="checkAnswer(false, buttonNo); getWord()">
+            (click)="checkAnswer(false, buttonNo)">
             ← No
           </button>
           <button
             #buttonYes
             class="button-dashed"
-            (click)="checkAnswer(true, buttonYes); getWord()">
+            (click)="checkAnswer(true, buttonYes)">
             Yes →
           </button>
         </div>
@@ -113,5 +115,11 @@
         <div class="word-translation">{{ stat.wordTranslate }}</div>
       </div>
     </div>
+  </div>
+  <div class="no-words" *ngIf="isAllWordsLearned">
+    <h4 class="no-words-heading">ALL WORDS LEARNED</h4>
+    <button class="button-orange" (click)="resetGame(); goBack()">
+      leave game
+    </button>
   </div>
 </section>
