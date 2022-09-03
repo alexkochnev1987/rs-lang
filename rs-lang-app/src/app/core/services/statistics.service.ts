@@ -28,6 +28,10 @@ export class StatisticsService {
     );
   }
 
+  omitHardWords(words: IWord[]) {
+    return words.filter(word => word.difficulty !== Difficulty.Hard);
+  }
+
   splitArrByChunks(
     word: UserWordsWithTranscription,
     arrOfArr: [any],

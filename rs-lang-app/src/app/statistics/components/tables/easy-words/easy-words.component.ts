@@ -32,28 +32,24 @@ export class EasyWordsComponent implements OnInit {
   }
 
   getWords() {
-    this.queryService
-      .getUserWords()
-      .pipe(
-        tap(response =>
-          this.statisticService.filterLearnedWords(response).forEach(userWord =>
-            this.queryService.getWordById(userWord.wordId).subscribe({
-              next: word => {
-                const obj: UserWordsWithTranscription = {
-                  userWord: userWord,
-                  word: word,
-                };
-                this.statisticService.splitArrByChunks(
-                  obj,
-                  this.easyWords,
-                  STATISTICS_WORDS_LENGTH
-                );
-              },
-            })
-          )
-        )
-      )
-      .subscribe();
+    this.queryService.getUserWords().subscribe({
+      next: response =>
+        this.statisticService.omitHardWords(response).forEach(userWord =>
+          this.queryService.getWordById(userWord.wordId).subscribe({
+            next: word => {
+              const obj: UserWordsWithTranscription = {
+                userWord: userWord,
+                word: word,
+              };
+              this.statisticService.splitArrByChunks(
+                obj,
+                this.easyWords,
+                STATISTICS_WORDS_LENGTH
+              );
+            },
+          })
+        ),
+    });
   }
 
   nextPage() {

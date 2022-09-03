@@ -22,14 +22,11 @@
         <div class="translate">{{ word.word.wordTranslate }}</div>
         <div class="counter">
           <p>
-            {{ word.userWord.optional?.rightGuessesInRow }}/{{
+            {{ word.userWord.optional?.rightGuessesInRow || 0 }}/{{
               threeOrFive(word.userWord.difficulty)
             }}
           </p>
-          <div
-            class="button-difficult"
-            (click)="refreshPage(word.word.id)"
-            *ngIf="word.userWord.difficulty !== 'hard'">
+          <div class="button-difficult" (click)="refreshPage(word.word.id)">
             <img src="assets/img/button-x.png" alt="difficult" />
           </div>
         </div>
