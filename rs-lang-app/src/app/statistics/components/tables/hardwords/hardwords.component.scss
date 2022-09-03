@@ -56,12 +56,15 @@
 }
 
 .speaker{
-  background-image: url(/assets/img/speaker.png);
   background-size: cover;
   width: 12px;
   min-height: 12px;
   max-height: 12px;
   cursor: pointer;
+  img{
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .button-difficult {

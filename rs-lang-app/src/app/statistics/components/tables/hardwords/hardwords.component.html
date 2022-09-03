@@ -14,7 +14,9 @@
       <div class="rows" *ngFor="let word of page">
         <div class="word">{{ word.word }}</div>
         <div class="transcription">
-          <div class="speaker" (click)="playSound(word.audio)"></div>
+          <div class="speaker" (click)="playSound(word.audio)">
+            <img src="assets/img/speaker.png" alt="speaker" />
+          </div>
           <div>{{ word.transcription }}</div>
         </div>
         <div class="translate">{{ word.wordTranslate }}</div>
