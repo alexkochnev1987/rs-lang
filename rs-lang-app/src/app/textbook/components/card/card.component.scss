@@ -23,6 +23,7 @@
   justify-content: center;
   align-items: center;
   grid-template-areas:
+    '. . s s . .'
     'a a a a a a'
     'b . . . . c'
     'd e . . .  .'
@@ -54,6 +55,11 @@
   margin-bottom: 30px;
   padding: 10px;
   transition: margin 0.5s, opacity 1s;
+}
+.word-status{
+  grid-template-areas: s;
+  @include font14bold;
+  text-decoration:underline;
 }
 .word-image {
   width: 219px;

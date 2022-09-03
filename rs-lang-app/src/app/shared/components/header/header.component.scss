@@ -83,6 +83,10 @@ p {
 }
 .button-container > div{
   cursor: pointer;
+  &:hover{
+    border-bottom: 3px solid $activePageColor;
+    padding-bottom: 10px;
+  }
 }
 
 .active{

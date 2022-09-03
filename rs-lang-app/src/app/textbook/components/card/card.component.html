@@ -1,11 +1,14 @@
 <div
   class="card"
   [class.difficult-word]="isDifficultWord(card.id)"
-  [class.learned-word]="isLearnedWord(card.id)"
+  [class.learned-word]="isEasyWord(card.id)"
   (mouseenter)="onMouseOver(card.id)"
   (mouseleave)="onMouseOut()"
-  *ngIf="!(group > 6 && isLearnedWord(card.id))">
+  *ngIf="!(group > 6 && isEasyWord(card.id))">
   <div class="main-part">
+    <div class="word-status">
+      {{ responseWordData.difficulty | uppercase }}
+    </div>
     <img
       class="word-image"
       src="{{ source }}{{ card.image }}"
@@ -16,18 +19,22 @@
     <div class="translate">{{ card.wordTranslate }}</div>
     <div class="learn">
       <div class="learn-title">LEARN:</div>
-      <div class="learn-value" [class.green-rate]="isGoodLearn">{{ getLearnProgress(card.id) }}</div>
+      <div class="learn-value">
+        {{ getLearnProgress(card.id) }}
+      </div>
     </div>
     <div class="rate">
       <div class="rate-title">RATE</div>
-      <div class="rate-value" [class.green-rate]="isGoodRate">{{ getRateValue(card.id) }}</div>
+      <div class="rate-value">
+        {{ getRateValue(card.id) }}
+      </div>
     </div>
   </div>
   <div
     class="additional-part"
     [class.visible]="checkIsMore(card.id)"
     [class.difficult-word-additional]="isDifficultWord(card.id)"
-    [class.learned-word-additional]="isLearnedWord(card.id)">
+    [class.learned-word-additional]="isEasyWord(card.id)">
     <div
       class="button-ok"
       *ngIf="isUser() && (isDifficultWord(card.id) || isNotMarkedWord(card.id))"

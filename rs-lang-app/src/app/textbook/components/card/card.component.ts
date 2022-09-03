@@ -50,8 +50,6 @@ export class CardComponent implements OnInit {
       dateFirstTime: undefined,
     },
   };
-  isGoodLearn = false;
-  isGoodRate=false;
 
   @Input() card!: WordCard;
   @Input() group: number = 0;
@@ -72,6 +70,7 @@ export class CardComponent implements OnInit {
   onMouseOver(id: string) {
     this.isMore = true;
     this.idCard = id;
+    this.getResponse(this.card.id);
   }
 
   onMouseOut() {
@@ -103,7 +102,7 @@ export class CardComponent implements OnInit {
     }
   }
 
-  isLearnedWord(wordId: string): any {
+  isEasyWord(wordId: string): any {
     if (!this.isUser()) {
       return false;
     }
@@ -158,8 +157,9 @@ export class CardComponent implements OnInit {
     } else {
       response = this.httpService.postData(location, body);
     }
-    response.subscribe({ next: (data: any) => console.log(data) });
+    response.subscribe();
     this.getUserWords();
+    this.getResponse(this.card.id);
   }
 
   getLearnProgress(wordId: string): string {
@@ -167,8 +167,6 @@ export class CardComponent implements OnInit {
     let attempts = this.responseWordData?.optional?.rightGuessesInRow;
     if (!attempts) attempts = 0;
     this.isDifficultWord(wordId) ? (maxAttempts = 5) : (maxAttempts = 3);
-    maxAttempts-attempts<2 ? (this.isGoodLearn = true) : (this.isGoodLearn = false);
-  
     return `${attempts}/${maxAttempts}`;
   }
   getRateValue(wordId: string): string {
@@ -185,7 +183,6 @@ export class CardComponent implements OnInit {
         ).toFixed(1)
       );
     }
-    (rate>66)? (this.isGoodRate = true) : (this.isGoodRate = false);
     return `${rate}%`;
   }
 
@@ -217,7 +214,6 @@ export class CardComponent implements OnInit {
       response.subscribe({
         next: (data: any) => {
           this.responseWordData = data;
-          console.log(data);
         },
       });
     }
