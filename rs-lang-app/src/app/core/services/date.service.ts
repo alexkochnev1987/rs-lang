@@ -18,4 +18,9 @@ export class DateService {
       year: date.getFullYear(),
     };
   }
+
+  numberToString(numberDate: number) {
+    const obj = this.numberToDate(numberDate);
+    return `${obj.day}/${obj.month}/${obj.year}`;
+  }
 }

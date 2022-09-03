@@ -26,11 +26,45 @@ export const AUDIO_CHALLENGE_ATTEMPTS = 10;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
-export const SPRINT_TIMER = 15;
+export const SPRINT_TIMER = 3;
 export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
 export const STATISTICS_WORDS_LENGTH = 10;
 export const TIMER_LINE_SECTIONS = 40;
+export const GAME_STATS_TEMPLATE: GameStatistics = {
+  learnedWords: 0,
+  optional: {
+    sprint: {
+      today: {
+        attempts: 0,
+        success: 0,
+        rightGuessesInRow: 0,
+        date: 0,
+      },
+      allTime: {
+        attempts: 0,
+        success: 0,
+        rightGuessesInRow: 0,
+      },
+    },
+    audioChallenge: {
+      today: {
+        attempts: 0,
+        success: 0,
+        rightGuessesInRow: 0,
+        date: 0,
+      },
+      allTime: {
+        attempts: 0,
+        success: 0,
+        rightGuessesInRow: 0,
+      },
+    },
+  },
+};
+export const FROM_HARD_TO_EASY_TIMES = 5;
+export const FROM_LEARNED_TO_EASY_TIMES = 3;
+export const STATISTICS_NOT_FOUND = 'Statistics not found';
 
 export enum QueryParams {
   logIn = '/signin',
@@ -134,6 +168,16 @@ export enum ShowUserStatus {
 export interface UserStatistics {
   id: string;
   learnedWords: number;
+  optional: {
+    sprint?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+    audioChallenge?: {
+      today: GameOptions;
+      allTime: GameOptions;
+    };
+  };
 }
 
 export interface UserSettings {
@@ -155,6 +199,8 @@ export interface IWordsData {
     dateEasy?: number;
     dateFirstTime?: number;
   };
+  id?: string;
+  wordId?: string;
 }
 export enum Difficulty {
   Hard = 'hard',
@@ -197,7 +243,7 @@ export interface GameOptions {
   date?: number;
 }
 export interface GameStatistics {
-  learnedWords: 0;
+  learnedWords: number;
   optional: {
     sprint?: {
       today: GameOptions;
@@ -245,3 +291,22 @@ export const StatisticsStateObject = {
   sprint: 'sprint',
   audio: 'audio',
 };
+
+export enum Games {
+  Sprint = 'sprint',
+  AudioChallenge = 'audioChallenge',
+}
+export interface IServiceData {
+  game: Games;
+  gameStats: ISprintStats[];
+  longestCombo: number;
+}
+export interface OneGameStatistics {
+  today: GameOptions;
+  allTime: GameOptions;
+}
+
+export interface FilterWordsByDate {
+  date: string;
+  words: IWord[];
+}

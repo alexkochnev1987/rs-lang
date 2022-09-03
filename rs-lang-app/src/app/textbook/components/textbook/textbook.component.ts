@@ -84,7 +84,6 @@ export class TextbookComponent implements OnInit, OnDestroy {
     this.getUserWords();
     this.pagesDataService.setPage(AppPages.TextBook);
     this.page = Number(this.storage.getItem(PAGE_KEY)) || 0;
-
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
