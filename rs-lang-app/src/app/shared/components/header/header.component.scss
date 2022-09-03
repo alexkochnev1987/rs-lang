@@ -59,6 +59,12 @@ p {
   cursor: pointer;
   position: relative;
   left: 50px;
+  &:hover{
+    transform: scale(0.95)
+  }
+  &:active{
+    transform: scale(0.9)
+  }
 }
 .logo-part1,
 .logo-part3 {
@@ -83,6 +89,10 @@ p {
 }
 .button-container > div{
   cursor: pointer;
+  &:hover{
+    border-bottom: 3px solid $activePageColor;
+    padding-bottom: 10px;
+  }
 }
 
 .active{
