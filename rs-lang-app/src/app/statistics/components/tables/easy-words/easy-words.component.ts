@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  Difficulty,
   IWordCard,
   SLASH,
   STATISTICS_WORDS_LENGTH,
   url,
+  UserWordsWithTranscription,
 } from 'src/app/constants';
 import { QueryService } from 'src/app/core/service/query.service';
 import { StatisticsService } from 'src/app/core/services/statistics.service';
 import { tap } from 'rxjs';
+import { SetWordDifficultService } from 'src/app/core/services/set-word-difficult.service';
 
 @Component({
   selector: 'app-easy-words',
@@ -15,12 +18,13 @@ import { tap } from 'rxjs';
   styleUrls: ['../hardwords/hardwords.component.scss'],
 })
 export class EasyWordsComponent implements OnInit {
-  easyWords: [IWordCard[]] = [[]];
+  easyWords: [UserWordsWithTranscription[]] = [[]];
   easyWordsPage = 0;
   totalPages = 0;
   constructor(
     private queryService: QueryService,
-    private statisticService: StatisticsService
+    private statisticService: StatisticsService,
+    private setWord: SetWordDifficultService
   ) {}
 
   ngOnInit(): void {
@@ -32,11 +36,15 @@ export class EasyWordsComponent implements OnInit {
       .getUserWords()
       .pipe(
         tap(response =>
-          response.filter(this.statisticService.filterEasyWords).forEach(word =>
-            this.queryService.getWordById(word.wordId).subscribe({
+          this.statisticService.filterLearnedWords(response).forEach(userWord =>
+            this.queryService.getWordById(userWord.wordId).subscribe({
               next: word => {
+                const obj: UserWordsWithTranscription = {
+                  userWord: userWord,
+                  word: word,
+                };
                 this.statisticService.splitArrByChunks(
-                  word,
+                  obj,
                   this.easyWords,
                   STATISTICS_WORDS_LENGTH
                 );
@@ -45,7 +53,7 @@ export class EasyWordsComponent implements OnInit {
           )
         )
       )
-      .subscribe({ next: () => (this.totalPages = this.easyWords.length) });
+      .subscribe();
   }
 
   nextPage() {
@@ -62,5 +70,34 @@ export class EasyWordsComponent implements OnInit {
   }
   changePage(page: number) {
     this.easyWordsPage = page;
+  }
+
+  threeOrFive(difficulty: string | undefined) {
+    if (difficulty === Difficulty.Hard) {
+      return 5;
+    }
+    return 3;
+  }
+
+  setWordHard(id: string) {
+    this.setWord.getWord(id).subscribe({
+      next: res => {
+        this.setWord
+          .putWord(res, this.setWord.createHardWord(res))
+          .subscribe({ next: r => console.log(r) });
+      },
+    });
+  }
+
+  refreshPage(id: string) {
+    this.setWordHard(id);
+    const words = this.easyWords
+      .flat()
+      .filter(word => word.userWord.wordId !== id);
+    const arr: [UserWordsWithTranscription[]] = [[]];
+    words.forEach(word =>
+      this.statisticService.splitArrByChunks(word, arr, STATISTICS_WORDS_LENGTH)
+    );
+    this.easyWords = arr;
   }
 }

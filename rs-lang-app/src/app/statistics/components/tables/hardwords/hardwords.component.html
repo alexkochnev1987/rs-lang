@@ -12,16 +12,23 @@
       *ngFor="let page of hardWords; index as i"
       [class.hide]="i !== hardWordsPage">
       <div class="rows" *ngFor="let word of page">
-        <div class="word">{{ word.word }}</div>
+        <div class="word">{{ word.word.word }}</div>
         <div class="transcription">
-          <div class="speaker" (click)="playSound(word.audio)">
+          <div class="speaker" (click)="playSound(word.word.audio)">
             <img src="assets/img/speaker.png" alt="speaker" />
           </div>
-          <div>{{ word.transcription }}</div>
+          <div>{{ word.word.transcription }}</div>
         </div>
-        <div class="translate">{{ word.wordTranslate }}</div>
-        <div class="button-ok">
-          <img src="assets/img/ok.png" alt="ok" />
+        <div class="translate">{{ word.word.wordTranslate }}</div>
+        <div class="counter">
+          <p>
+            {{ word.userWord.optional?.rightGuessesInRow || 0 }}/{{
+              threeOrFive(word.userWord.difficulty)
+            }}
+          </p>
+          <div class="button-ok" (click)="setWordEasy(word.word.id)">
+            <img src="assets/img/ok.png" alt="ok" />
+          </div>
         </div>
       </div>
     </div>

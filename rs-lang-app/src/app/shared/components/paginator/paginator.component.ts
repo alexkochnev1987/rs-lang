@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IWordCard } from 'src/app/constants';
+import { IWordCard, UserWordsWithTranscription } from 'src/app/constants';
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -8,7 +8,7 @@ import { Output, EventEmitter } from '@angular/core';
   styleUrls: ['./paginator.component.scss'],
 })
 export class PaginatorComponent {
-  @Input() pages: [IWordCard[]] = [[]];
+  @Input() pages: [any[]] = [[]];
   @Input() currentPage = 0;
   @Output() newItemEvent = new EventEmitter<number>();
   constructor() {}

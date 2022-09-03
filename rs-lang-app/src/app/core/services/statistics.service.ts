@@ -4,6 +4,7 @@ import {
   IWord,
   IWordCard,
   UserWordsResponse,
+  UserWordsWithTranscription,
 } from 'src/app/constants';
 import { DateService } from './date.service';
 
@@ -27,7 +28,11 @@ export class StatisticsService {
     );
   }
 
-  splitArrByChunks(word: IWordCard, arrOfArr: any, sizeChunk: number) {
+  splitArrByChunks(
+    word: UserWordsWithTranscription,
+    arrOfArr: [any],
+    sizeChunk: number
+  ) {
     if (arrOfArr[arrOfArr.length - 1].length === sizeChunk) {
       arrOfArr.push([]);
     }

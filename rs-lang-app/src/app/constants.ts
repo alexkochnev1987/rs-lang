@@ -310,3 +310,8 @@ export interface FilterWordsByDate {
   date: string;
   words: IWord[];
 }
+
+export interface UserWordsWithTranscription {
+  userWord: IWord;
+  word: IWordCard;
+}

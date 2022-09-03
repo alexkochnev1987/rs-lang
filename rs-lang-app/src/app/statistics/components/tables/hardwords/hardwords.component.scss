@@ -37,7 +37,7 @@
   text-align: left;
   min-height: 40px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 45px;
+  grid-template-columns: 1fr 1fr 1fr 80px;
   justify-content: space-between;
   align-items: center;
   &:nth-child(2n){
@@ -147,4 +147,9 @@
   &:active{
     background: none;
   }
+}
+
+.counter{
+  display: flex;
+  align-items: center;
 }
