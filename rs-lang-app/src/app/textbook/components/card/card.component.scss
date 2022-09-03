@@ -159,6 +159,9 @@
   justify-content: center;
   margin:5px;
   cursor: pointer;
+  &:hover{
+    border: 1px solid $activePageColor;
+  }
 }
 
 .button-difficult {
@@ -175,6 +178,9 @@
   justify-content: center;
   margin: 5px;
   cursor: pointer;
+  &:hover{
+    border: 1px solid $currentPageColor;
+  }
 }
 .visible {
   opacity: 1;
