@@ -73,7 +73,8 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   guessButtons: IGuessButton[] = Array(4).fill({});
   rightButtonNumber = 0;
   rightWord?: IWordCard;
-  guessInRow: number[] = [];
+  lives: number[] = [];
+  livesInGame = 5;
   attemptsInRow: number[] = Array(10).fill(-1);
   timeStart = 0;
   timeFinish = 0;
@@ -143,7 +144,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pageDataService.setPage(AppPages.MiniGames);
     this.isFromTextbook = this.currentPage != -1 && this.currentLevel > -1;
-    this.getGuessInRowArray(0);
+    this.getLives(this.livesInGame);
     if (this.userDataService.isRegistered()) {
       this.userId = this.userDataService.getUser().userId;
       this.getUserWords();
@@ -153,9 +154,9 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  getGuessInRowArray(times: number): void {
+  getLives(times: number): void {
     if (times < 6) {
-      this.guessInRow = Array(5)
+      this.lives = Array(5)
         .fill(0)
         .map((i, index) => (index < times ? 1 : 0));
     }
@@ -167,6 +168,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
 
   startGame() {
     this.isGameStart = true;
+    this.getLives(this.livesInGame);
     this.timeStart = Date.now();
     if (this.currentLevel > 6) {
       this.loadForUser();
@@ -238,7 +240,6 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     if (!this.isDenied) {
       this.dataLength = this.arrayForGuess.length;
       this.isInProgress = false;
-      this.getGuessInRowArray(0);
       this.getWords();
     }
   }
@@ -303,6 +304,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     this.gameStatistics = [];
     this.rightAnswersCount = 0;
     this.arrayForGuess = [];
+    this.livesInGame = 5;
   }
 
   sayWord(): void {
@@ -320,6 +322,8 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       this.rightAnswersCount++;
     } else {
       answer = 0;
+      this.livesInGame--;
+      this.getLives(this.livesInGame);
       soundLink = GameSound.failed;
       this.maxRowInGame = 0;
     }
@@ -329,7 +333,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     this.attemptsInRow[this.attempt] = answer;
     this.attempt++;
     new Audio(soundLink).play();
-    if (this.attempt < AUDIO_CHALLENGE_ATTEMPTS) {
+    if (this.attempt < AUDIO_CHALLENGE_ATTEMPTS && this.livesInGame > 0) {
       setTimeout(() => {
         this.isDenied = false;
         this.begin();
@@ -338,10 +342,14 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       this.timeFinish = Date.now();
       this.duration = Math.round((this.timeFinish - this.timeStart) / 1000);
       this.rightAnswersPercent = Number(
-        ((this.rightAnswersCount / AUDIO_CHALLENGE_ATTEMPTS) * 100).toFixed(1)
+        ((this.rightAnswersCount / this.attempt) * 100).toFixed(1)
       );
-      this.updateUserStatistics(this.maxRowInGame, this.rightAnswersCount);
-      setTimeout(() => (this.isGameEnded = true), 2000);
+      this.updateUserStatistics(
+        this.maxRowInGame,
+        this.rightAnswersCount,
+        this.attempt
+      );
+      setTimeout(() => (this.isGameEnded = true), 1000);
     }
   }
   putStatistics(word: IWordCard, success: boolean) {
@@ -405,7 +413,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
             ? (currentRightGuessesInRow = prevRightGuessInRow + 1)
             : (currentRightGuessesInRow = 0);
         }
-        this.getGuessInRowArray(currentRightGuessesInRow);
+
         if (prevDifficulty === Difficulty.Hard)
           currentDifficulty = Difficulty.Hard;
         if (
@@ -583,7 +591,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
             body
           );
 
-          response.subscribe();
+          response.subscribe((i: any) => console.log(i));
         },
       });
   }
