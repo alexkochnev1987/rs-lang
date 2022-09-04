@@ -44,9 +44,11 @@ export class LoginComponent implements OnInit {
       next: response => {
         this.isUser = this.userDataService.isRegistered();
         this.showRegistration.setUserStatus(ShowUserStatus.statistics);
+        console.log(response);
       },
       error: error => {
         this.form.enable();
+        this.showRegistration.setUserStatus(ShowUserStatus.errorLogin);
       },
     });
   }

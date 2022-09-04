@@ -48,14 +48,14 @@
         Min length 8
       </p>
     </div>
-    <button type="submit" class="login" (click)="goToLogin()">
-      <div class="border-button">Login</div>
-    </button>
     <button
       class="register"
       (click)="onRegistration()"
       [disabled]="form.invalid || form.disabled">
       <div class="border-button">Register</div>
+    </button>
+    <button type="submit" class="login" (click)="goToLogin()">
+      <div class="border-button">Login</div>
     </button>
     <div class="text-image">
       <div class="text-wrapper">

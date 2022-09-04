@@ -43,4 +43,16 @@ export class AuthorizationComponent implements OnInit {
   isUpdate() {
     return this.getState() === ShowUserStatus.update ? true : false;
   }
+
+  isError() {
+    return this.getState() === ShowUserStatus.errorLogin ? true : false;
+  }
+
+  isErrorRegistration() {
+    return this.getState() === ShowUserStatus.errorRegistration ? true : false;
+  }
+
+  isSuccess() {
+    return this.getState() === ShowUserStatus.success ? true : false;
+  }
 }

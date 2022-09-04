@@ -133,6 +133,9 @@ export enum ShowUserStatus {
   registration = 'registration',
   statistics = 'statistics',
   update = 'update',
+  errorLogin = 'error login',
+  errorRegistration = 'registration error',
+  success = 'success',
 }
 
 export interface UserStatistics {
