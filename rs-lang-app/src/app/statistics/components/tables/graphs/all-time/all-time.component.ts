@@ -34,10 +34,6 @@ export class AllTimeComponent implements OnInit {
     this.queryService.getUserWords().subscribe({
       next: words => {
         this.wordsByDate = this.getArrayWordsByDate(words);
-        console.log(this.wordsByDate);
-        // const wordsFirstTime = this.dateFirstTimeArray(words);
-        // const wordsEasy = this.getEasyWordsWithDate(words);
-        // console.log(wordsFirstTime, wordsEasy);
         this.easyWords = words.filter(
           this.statisticService.filterEasyWords
         ).length;
@@ -93,22 +89,34 @@ export class AllTimeComponent implements OnInit {
   }
 
   getArrayWordsByDate(words: IWord[]) {
-    const dateArr = this.getDateArr(words);
-    console.log(dateArr);
-    const filterWordsByDate: FilterWordsByDate[] = [];
-    dateArr.forEach(date => {
-      const newWords = words.filter(word => {
-        if (word.optional?.dateFirstTime) {
-          const stringDate = this.dateService.numberToString(
-            word.optional.dateFirstTime
-          );
-          if (stringDate === date) return true;
-        }
-        return false;
-      });
-      const obj: FilterWordsByDate = { date: date, words: newWords };
-      filterWordsByDate.push(obj);
-    });
-    return filterWordsByDate.reverse();
+    return this.statisticService.getWordsByDate(words);
+    // const filterWordsByDate: FilterWordsByDate[] = [];
+    // this.statisticService.getDates(words).forEach(date => {
+    //   const newWords = words.filter(word => {
+    //     if (word.optional?.dateFirstTime) {
+    //       const stringDate = this.dateService.numberToString(
+    //         word.optional.dateFirstTime
+    //       );
+    //       if (stringDate === date) return true;
+    //     }
+    //     return false;
+    //   });
+    //   const easyWords = words.filter(word => {
+    //     if (word.optional?.dateEasy) {
+    //       const stringDate = this.dateService.numberToString(
+    //         word.optional.dateEasy
+    //       );
+    //       if (stringDate === date) return true;
+    //     }
+    //     return false;
+    //   });
+    //   const obj: FilterWordsByDate = {
+    //     date: date,
+    //     words: newWords,
+    //     easyWords: easyWords,
+    //   };
+    //   filterWordsByDate.push(obj);
+    // });
+    // return filterWordsByDate;
   }
 }

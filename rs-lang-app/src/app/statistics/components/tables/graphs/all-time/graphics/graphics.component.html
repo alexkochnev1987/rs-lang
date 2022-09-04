@@ -1,9 +1,7 @@
-<!-- <div class="rows"> -->
 <div *ngFor="let day of wordsByDate" class="rows">
   <div>{{ day.date }}</div>
   <div>
-    <!-- <div class="graphic" [style.width]="width + '%'"></div> -->
-    <p>{{ findEasyWords(day.words) }}/ {{ findHardWords(day.words) }}</p>
+    <p>{{ day.easyWords.length }}/ {{ findHardWords(day.words) }}</p>
   </div>
   <div>
     <div
@@ -11,5 +9,4 @@
       [style.width]="(day.words.length / total) * 100 + '%'"></div>
     <p>{{ day.words.length }} / {{ total }}</p>
   </div>
-  <!-- </div> -->
 </div>

@@ -280,6 +280,12 @@ export interface OneGameStatistics {
 export interface FilterWordsByDate {
   date: string;
   words: IWord[];
+  easyWords: IWord[];
+}
+
+export interface UserWordsWithTranscription {
+  userWord: IWord;
+  word: IWordCard;
 }
 export interface aggregatedWords {
   _id: string;

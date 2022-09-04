@@ -27,6 +27,7 @@
     [duration]="duration"
     [rightAnswersCount]="rightAnswersCount"
     [rightAnswersPercent]="rightAnswersPercent"
+    [attempts]="attempt"
     *ngIf="isGameEnded"></app-audio-challenge-statistics>
 
   <div class="game-container" *ngIf="isGameStart && !isGameEnded">
@@ -51,8 +52,8 @@
       <div class="hearts-block">
         <div
           class="heart"
-          [class.red-heart]="!!guess"
-          *ngFor="let guess of guessInRow"></div>
+          [class.red-heart]="!!life"
+          *ngFor="let life of lives"></div>
       </div>
       <div
         class="speaker"
