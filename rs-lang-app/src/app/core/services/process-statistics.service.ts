@@ -14,7 +14,6 @@ import {
   SLASH,
   url,
 } from 'src/app/constants';
-import { QueryService } from '../service/query.service';
 import { HttpService } from './http.service';
 import { UserDataService } from './user-data.service';
 
@@ -28,76 +27,103 @@ export class ProcessStatisticsService {
   userId!: string;
 
   constructor(
-    private queryService: QueryService,
     private httpService: HttpService,
     private http: HttpClient,
     private userdataService: UserDataService
   ) {
+    this.userId = this.userdataService.getUser().userId!;
     this.getUserWords();
     this.getUserStatistics();
-    this.userId = this.userdataService.getUser().userId!;
   }
 
   getUserWords() {
-    this.queryService.getUserWords().subscribe({
-      next: (data: any) => {
-        this.userWords = data;
-      },
-    });
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+            '{"$nor":[{"userWord":null}]}'
+          )}`
+      )
+      .subscribe({
+        next: (data: any) => {
+          if (data[0].paginatedResults.length !== 0) {
+            this.getUserStatistics();
+          }
+          if (data[0].paginatedResults.length === 0) {
+            console.log('User had no statistics. Creating user statistics...');
+            const optionsStats: GameStatistics = {
+              learnedWords: 0,
+              optional: {
+                sprint: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+                audioChallenge: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+              },
+            };
+            this.putUserStatistics(optionsStats);
+          }
+          this.userWords = data;
+        },
+      });
   }
 
   getUserStatistics() {
-    this.queryService.getUserStatistics().subscribe({
-      next: (data: any) => {
-        this.userGamesStats = data;
-      },
-      error: error => {
-        console.log('User had no statistics. Creating user statistics...');
-        const optionsStats: GameStatistics = {
-          learnedWords: 0,
-          optional: {
-            sprint: {
-              today: {
-                attempts: 0,
-                success: 0,
-                rightGuessesInRow: 0,
-                date: 0,
-              },
-              allTime: {
-                attempts: 0,
-                success: 0,
-                rightGuessesInRow: 0,
-              },
-            },
-            audioChallenge: {
-              today: {
-                attempts: 0,
-                success: 0,
-                rightGuessesInRow: 0,
-                date: 0,
-              },
-              allTime: {
-                attempts: 0,
-                success: 0,
-                rightGuessesInRow: 0,
-              },
-            },
-          },
-        };
-        this.putUserStatistics(optionsStats);
-      },
-    });
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          QueryParams.statistics
+      )
+      .subscribe({
+        next: (data: any) => {
+          this.userGamesStats = data;
+        },
+      });
   }
 
   putUserStatistics(options: any) {
     if (options.id !== undefined) delete options.id;
-    this.queryService.setUserStatistics(options).subscribe({
-      next: response => {
-        this.userGamesStats = response;
-        console.log('Statistics: ', response);
-      },
-      error: error => console.log('error occured: ', error),
-    });
+    this.http
+      .put<GameStatistics>(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          QueryParams.statistics,
+        options
+      )
+      .subscribe({
+        next: response => {
+          this.userGamesStats = response;
+        },
+      });
   }
 
   postUserWordData(wordId: string, options: any) {
@@ -109,14 +135,7 @@ export class ProcessStatisticsService {
       SLASH +
       wordId;
     const response = this.http.post(url + locationWord, options);
-    response.subscribe({
-      next: data => {
-        console.log('NEW WORD POSTED: ', data);
-      },
-      error: error => {
-        console.log('WORD POST error occured: ', error);
-      },
-    });
+    response.subscribe();
   }
 
   putUserWordData(wordId: string, options: IWordsData) {
@@ -128,18 +147,10 @@ export class ProcessStatisticsService {
       SLASH +
       wordId;
     const response = this.http.put(url + locationWord, options);
-    response.subscribe({
-      next: data => {
-        console.log('USER WORD UPDATED: ', data);
-      },
-      error: error => {
-        console.log('WORD UPDATE error occured: ', error);
-      },
-    });
+    response.subscribe();
   }
 
   processUserWord(word: IWordsData, wordGameStats: ISprintStats) {
-    console.log('USER WORD: ', word);
     const optionsWord: IWordsData = {
       difficulty: word.difficulty,
       optional: word.optional
@@ -183,22 +194,23 @@ export class ProcessStatisticsService {
     ) {
       optionsWord.difficulty = Difficulty.Easy;
     }
-    console.log('PUT ID:', word.wordId!);
     this.putUserWordData(word.wordId!, optionsWord);
   }
 
   processNotUserWord(wordGameStats: ISprintStats) {
-    const optionsWord: IWordsData = {
-      difficulty: Difficulty.Learned,
-      optional: {
-        attempts: 1,
-        success: wordGameStats.success ? 1 : 0,
-        rightGuessesInRow: wordGameStats.success ? 1 : 0,
-        dateFirstTime: Date.now(),
-      },
-    };
-    console.log('POST ID:', wordGameStats.id);
-    this.postUserWordData(wordGameStats.id, optionsWord);
+    let body = { difficulty: Difficulty.Learned, optional: {} };
+    const location =
+      url +
+      QueryParams.register +
+      SLASH +
+      this.userId +
+      QueryParams.words +
+      SLASH +
+      wordGameStats.id;
+    console.log('User ID: ', this.userId);
+    console.log('Not user word. POST.', wordGameStats.id);
+    console.log('Posting data: ', body);
+    this.http.post(location, body).subscribe();
   }
 
   processUserStatistics() {
@@ -327,25 +339,26 @@ export class ProcessStatisticsService {
   }
 
   processWordsStatistics() {
-    this.queryService.getUserWords().subscribe({
-      next: (data: any) => {
-        console.log('USER WORDS: ', data);
-        this.userWords = data;
-        const userWordIds = this.userWords.map((el: IWordsData) => el.wordId);
-        this.serviceData.gameStats.forEach((el: ISprintStats) => {
-          userWordIds.includes(el.id)
-            ? this.processUserWord(
-                <IWordsData>(
-                  this.userWords.find(
-                    (word: IWordsData) => word.wordId === el.id
-                  )
-                ),
-                el
-              )
-            : this.processNotUserWord(el);
-        });
-      },
-    });
+    this.http
+      .get(url + QueryParams.register + SLASH + this.userId + QueryParams.words)
+      .subscribe({
+        next: (data: any) => {
+          this.userWords = data;
+          const userWordIds = this.userWords.map((el: IWordsData) => el.wordId);
+          this.serviceData.gameStats.forEach((el: ISprintStats) => {
+            userWordIds.includes(el.id)
+              ? this.processUserWord(
+                  <IWordsData>(
+                    this.userWords.find(
+                      (word: IWordsData) => word.wordId === el.id
+                    )
+                  ),
+                  el
+                )
+              : this.processNotUserWord(el);
+          });
+        },
+      });
   }
 
   processStatistics() {

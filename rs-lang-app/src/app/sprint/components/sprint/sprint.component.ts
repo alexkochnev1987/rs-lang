@@ -17,9 +17,15 @@ import {
   KeyCode,
   SPRINT_TIMER,
   TIMER_LINE_SECTIONS,
-  GameStatistics,
   Games,
   url,
+  QueryParams,
+  SLASH,
+  GameStatistics,
+  IWordsData,
+  Difficulty,
+  FROM_HARD_TO_EASY_TIMES,
+  FROM_LEARNED_TO_EASY_TIMES,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -27,9 +33,7 @@ import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { GameLevelComponent } from '../../../shared/components/game-level/game-level.component';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 import { Location } from '@angular/common';
-import { QueryService } from 'src/app/core/service/query.service';
 import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
-import { ProcessStatisticsService } from 'src/app/core/services/process-statistics.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -49,8 +53,8 @@ export class SprintComponent implements OnInit {
   userId: string | undefined = undefined;
   currentPage: number | undefined = undefined;
   userWords: IWord[] = [];
-  // userGamesStats: GameStatistics | undefined;
   wordIds: string[] = [];
+  userGamesStats!: GameStatistics;
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
   fixSprintTimer = SPRINT_TIMER;
@@ -84,10 +88,8 @@ export class SprintComponent implements OnInit {
     private pageDataService: PagesDataService,
     private userdataService: UserDataService,
     private httpService: HttpService,
-    private queryService: QueryService,
     private _location: Location,
     private LevelPage: GameLevelTransferService,
-    private processStatisticsService: ProcessStatisticsService,
     private http: HttpClient
   ) {
     this.isAuth = this.userService.isRegistered();
@@ -121,16 +123,69 @@ export class SprintComponent implements OnInit {
   buttonNo: ElementRef | undefined;
 
   ngOnInit(): void {
+    if (this.isAuth) this.getUserStatistics();
     this.pageDataService.setPage(AppPages.MiniGames);
-    if (this.isAuth) {
-      this.getUserWords();
-      // this.getUserStatistics();
-    }
     if (this.LevelPage.gamePageLevel.length) {
       this.currentLevel = this.LevelPage.gamePageLevel[0];
       this.loadWords(this.LevelPage.gamePageLevel[1]);
       this.isLevelSelected = true;
     }
+  }
+
+  getUserWords() {
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+            '{"$nor":[{"userWord":null}]}'
+          )}`
+      )
+      .subscribe({
+        next: (data: any) => {
+          if (data[0].paginatedResults.length !== 0) {
+            this.getUserStatistics();
+          }
+          if (data[0].paginatedResults.length === 0) {
+            console.log('User had no statistics. Creating user statistics...');
+            const optionsStats: GameStatistics = {
+              learnedWords: 0,
+              optional: {
+                sprint: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+                audioChallenge: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+              },
+            };
+            this.putUserStatistics(optionsStats);
+          }
+          this.userWords = data;
+        },
+      });
   }
 
   loadWords(page?: number) {
@@ -170,26 +225,22 @@ export class SprintComponent implements OnInit {
   filterWords(data: any) {
     let userEasyWordsIds: string[] = [];
     let readyWordArray: IWordCard[] = [];
+    data.forEach((wordsPageArray: IWordCard[]) => {
+      readyWordArray.push(...wordsPageArray);
+    });
     if (this.isAuth && this.currentPage !== undefined) {
-      this.http
-        .get(url + `/users/${this.userId}/words`)
-        .subscribe((userWords: any) => {
-          userEasyWordsIds = userWords
-            .filter((el: IWord) => el.difficulty === 'easy')
-            .map((el: IWord) => el.wordId);
-          data.forEach((wordsPageArray: IWordCard[]) => {
-            for (let i = 0; i < wordsPageArray.length; i++) {
-              if (!userEasyWordsIds.includes(wordsPageArray[i].id)) {
-                readyWordArray.push(wordsPageArray[i]);
-              }
-            }
-          });
+      this.getEasyWords().subscribe({
+        next: (data: any) => {
+          data[0].paginatedResults.forEach((el: any) =>
+            userEasyWordsIds.push(el._id)
+          );
+          readyWordArray = readyWordArray.filter(
+            (el: IWordCard) => !userEasyWordsIds.includes(el.id)
+          );
           this.shuffleWords(readyWordArray);
-        });
-    } else {
-      data.forEach((wordsPageArray: IWordCard[]) => {
-        readyWordArray.push(...wordsPageArray);
+        },
       });
+    } else {
       this.shuffleWords(readyWordArray);
     }
   }
@@ -209,7 +260,7 @@ export class SprintComponent implements OnInit {
   }
 
   startGame(data: IWordCard[]) {
-    this.processStatisticsService.getUserStatistics();
+    this.getUserWords();
     this.wordsArray = data;
     this.isGameStarted = true;
     this.timerSections = this.timerSectionsArray();
@@ -230,14 +281,7 @@ export class SprintComponent implements OnInit {
             ? Math.round((this.successWords / this.totalWords) * 100)
             : 0;
         if (this.totalWords > 0 && this.isAuth) {
-          // this.processStatistics();
-          const statsSet = new Set(this.gameStats);
-          this.processStatisticsService.serviceData = {
-            game: Games.Sprint,
-            gameStats: this.gameStats,
-            longestCombo: this.longestCombo,
-          };
-          this.processStatisticsService.processStatistics();
+          this.processStatistics();
         }
       }
     }, 100);
@@ -342,24 +386,269 @@ export class SprintComponent implements OnInit {
     this._location.back();
   }
 
-  getUserWords() {
-    this.queryService.getUserWords().subscribe({
-      next: (data: any) => {
-        this.userWords = data;
-      },
-    });
+  getEasyWords() {
+    return this.http.get(
+      url +
+        QueryParams.register +
+        SLASH +
+        this.userId +
+        `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+          '{"userWord.difficulty":"easy"}'
+        )}`
+    );
   }
-
-  // getUserStatistics() {
-  //   this.queryService.getUserStatistics().subscribe({
-  //     next: (data: any) => {
-  //       this.userGamesStats = data;
-  //     },
-  //   });
-  // }
 
   noWordsToLearn() {
     console.log('ALL WORDS LEARNED');
     this.isAllWordsLearned = true;
+  }
+
+  processStatistics() {
+    this.processUserStatistics();
+    this.processWordsStatistics();
+  }
+
+  processUserStatistics() {
+    this.getUserStatistics().subscribe((data: GameStatistics) => {
+      this.userGamesStats = data;
+      const today = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate()
+      ).valueOf();
+      const optionsStats: GameStatistics = {
+        learnedWords:
+          this.userGamesStats.learnedWords !== undefined
+            ? this.userGamesStats.learnedWords
+            : 0,
+        optional: {
+          sprint: {
+            today: {
+              attempts:
+                this.userGamesStats.optional.sprint?.today.attempts !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.today.attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.sprint?.today.success !== undefined
+                  ? this.userGamesStats.optional.sprint?.today.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.sprint?.today.rightGuessesInRow !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.today.rightGuessesInRow
+                  : 0,
+              date:
+                this.userGamesStats.optional.sprint?.today.date !== undefined
+                  ? this.userGamesStats.optional.sprint?.today.date
+                  : 0,
+            },
+            allTime: {
+              attempts:
+                this.userGamesStats.optional.sprint?.allTime.attempts !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.allTime.attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.sprint?.allTime.success !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.allTime.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.sprint?.allTime
+                  .rightGuessesInRow !== undefined
+                  ? this.userGamesStats.optional.sprint?.allTime
+                      .rightGuessesInRow
+                  : 0,
+            },
+          },
+          audioChallenge: {
+            today: {
+              attempts:
+                this.userGamesStats.optional.audioChallenge?.today.attempts !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today.attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.audioChallenge?.today.success !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.audioChallenge?.today
+                  .rightGuessesInRow !== undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today
+                      .rightGuessesInRow
+                  : 0,
+              date:
+                this.userGamesStats.optional.audioChallenge?.today.date !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today.date
+                  : 0,
+            },
+            allTime: {
+              attempts:
+                this.userGamesStats.optional.audioChallenge?.allTime
+                  .attempts !== undefined
+                  ? this.userGamesStats.optional.audioChallenge?.allTime
+                      .attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.audioChallenge?.allTime.success !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.allTime.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.audioChallenge?.allTime
+                  .rightGuessesInRow !== undefined
+                  ? this.userGamesStats.optional.audioChallenge?.allTime
+                      .rightGuessesInRow
+                  : 0,
+            },
+          },
+        },
+      };
+      (Object.keys(Games) as Array<keyof typeof Games>).map(key => {
+        if (optionsStats.optional[Games[key]]!.today.date! < today) {
+          optionsStats.optional[Games[key]]!.today.attempts = 0;
+          optionsStats.optional[Games[key]]!.today.success = 0;
+          optionsStats.optional[Games[key]]!.today.rightGuessesInRow = 0;
+          optionsStats.optional[Games[key]]!.today.date = today;
+        }
+      });
+      const dataLocation = optionsStats.optional[Games.Sprint];
+      if (dataLocation) {
+        dataLocation.allTime.attempts += this.gameStats.length;
+        dataLocation.allTime.success += this.gameStats.filter(
+          (el: ISprintStats) => el.success
+        ).length;
+        dataLocation.allTime.rightGuessesInRow =
+          dataLocation.allTime.rightGuessesInRow < this.longestCombo
+            ? this.longestCombo
+            : dataLocation.allTime.rightGuessesInRow;
+        dataLocation.today.attempts += this.gameStats.length;
+        dataLocation.today.success += this.gameStats.filter(
+          (el: ISprintStats) => el.success
+        ).length;
+        dataLocation.today.rightGuessesInRow =
+          dataLocation.today.rightGuessesInRow < this.longestCombo
+            ? this.longestCombo
+            : dataLocation.today.rightGuessesInRow;
+      }
+      console.log(optionsStats);
+      this.putUserStatistics(optionsStats);
+    });
+  }
+
+  getUserStatistics() {
+    return this.http.get<GameStatistics>(
+      url + QueryParams.register + SLASH + this.userId + QueryParams.statistics
+    );
+  }
+
+  putUserStatistics(options: any) {
+    this.http
+      .put<GameStatistics>(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          QueryParams.statistics,
+        options
+      )
+      .subscribe();
+  }
+
+  processWordsStatistics() {
+    this.http
+      .get(url + QueryParams.register + SLASH + this.userId + QueryParams.words)
+      .subscribe({
+        next: (data: any) => {
+          this.userWords = data;
+          const userWordIds = this.userWords.map((el: IWord) => el.wordId);
+          this.gameStats.forEach((el: ISprintStats) => {
+            userWordIds.includes(el.id)
+              ? this.processUserWord(
+                  <IWordsData>(
+                    this.userWords.find((word: IWord) => word.wordId === el.id)
+                  ),
+                  el
+                )
+              : this.processNotUserWord(el);
+          });
+        },
+      });
+  }
+
+  processNotUserWord(wordGameStats: ISprintStats) {
+    let body = { difficulty: Difficulty.Learned, optional: {} };
+    const location =
+      url +
+      QueryParams.register +
+      SLASH +
+      this.userId +
+      QueryParams.words +
+      SLASH +
+      wordGameStats.id;
+    this.http.post(location, body).subscribe();
+  }
+
+  processUserWord(word: IWordsData, wordGameStats: ISprintStats) {
+    const optionsWord: IWordsData = {
+      difficulty: word.difficulty,
+      optional: word.optional
+        ? {
+            attempts: word.optional.attempts ? word.optional.attempts : 0,
+            success: word.optional.success ? word.optional.success : 0,
+            rightGuessesInRow: word.optional.rightGuessesInRow
+              ? word.optional.rightGuessesInRow
+              : 0,
+          }
+        : { attempts: 0, success: 0, rightGuessesInRow: 0 },
+    };
+
+    optionsWord.optional.attempts = optionsWord.optional.attempts
+      ? optionsWord.optional.attempts + 1
+      : 1;
+    if (wordGameStats.success) {
+      optionsWord.optional.success = optionsWord.optional.success
+        ? optionsWord.optional.success + 1
+        : 1;
+      optionsWord.optional.rightGuessesInRow = optionsWord.optional
+        .rightGuessesInRow
+        ? optionsWord.optional.rightGuessesInRow + 1
+        : 1;
+    }
+    if (!wordGameStats.success) {
+      optionsWord.optional.rightGuessesInRow = 0;
+      if (optionsWord.difficulty !== Difficulty.Hard)
+        optionsWord.difficulty = Difficulty.Learned;
+    }
+    if (
+      optionsWord.optional.rightGuessesInRow &&
+      optionsWord.optional.rightGuessesInRow >= FROM_HARD_TO_EASY_TIMES
+    ) {
+      optionsWord.difficulty = Difficulty.Easy;
+    }
+    if (
+      optionsWord.difficulty !== Difficulty.Hard &&
+      optionsWord.optional.rightGuessesInRow &&
+      optionsWord.optional.rightGuessesInRow >= FROM_LEARNED_TO_EASY_TIMES
+    ) {
+      optionsWord.difficulty = Difficulty.Easy;
+    }
+    this.putUserWordData(word.wordId!, optionsWord);
+  }
+
+  putUserWordData(wordId: string, options: IWordsData) {
+    const locationWord =
+      QueryParams.register +
+      SLASH +
+      this.userId +
+      QueryParams.words +
+      SLASH +
+      wordId;
+    const response = this.http.put(url + locationWord, options);
+    response.subscribe();
   }
 }
