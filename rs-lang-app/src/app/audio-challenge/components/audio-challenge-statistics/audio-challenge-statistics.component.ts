@@ -20,6 +20,7 @@ export class AudioChallengeStatisticsComponent {
   backlink = '../../';
 
   constructor() {}
+  @Input() attempts: number = 0;
   @Input() gameStatistics?: IAudioChallengeStatistics[];
   @Input() duration: number = 0;
   @Input() rightAnswersCount: number = 0;
