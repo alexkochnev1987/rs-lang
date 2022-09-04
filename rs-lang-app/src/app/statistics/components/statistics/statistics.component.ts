@@ -5,6 +5,8 @@ import {
   PageRoutes,
   QueryParams,
   SLASH,
+  UserStatistics,
+  GameOptions,
 } from 'src/app/constants';
 import { AppPages } from 'src/app/constants';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
@@ -24,9 +26,10 @@ export class StatisticsComponent implements OnInit {
   link1 = '../audio-challenge';
   link1Level = -1;
   link1Page = -1;
-  wordId = '/5e9f5ee35eb9e72bc21af4db';
-  options = { difficulty: 'hard', optional: { option: 'hello' } };
-  userWords = { hardWords: 0, easyWords: 0, total: 0 };
+  statistics: UserStatistics | undefined;
+  // wordId = '/5e9f5ee35eb9e72bc21af4db';
+  // options = { difficulty: 'hard', optional: { option: 'hello' } };
+  // userWords = { hardWords: 0, easyWords: 0, total: 0 };
 
   constructor(
     private pagesDataService: PagesDataService,
@@ -37,11 +40,14 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.pagesDataService.setPage(AppPages.DashBoard);
+    this.getStatistics();
   }
 
   getStatistics() {
     this.queryService.getUserStatistics().subscribe({
-      next: res => console.log(res),
+      next: res => {
+        this.statistics = res;
+      },
     });
   }
 
