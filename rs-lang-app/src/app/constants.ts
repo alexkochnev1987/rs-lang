@@ -309,6 +309,7 @@ export interface OneGameStatistics {
 export interface FilterWordsByDate {
   date: string;
   words: IWord[];
+  easyWords: IWord[];
 }
 
 export interface UserWordsWithTranscription {

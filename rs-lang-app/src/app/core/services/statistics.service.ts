@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Difficulty,
+  FilterWordsByDate,
   IWord,
   IWordCard,
   UserWordsResponse,
@@ -58,5 +59,56 @@ export class StatisticsService {
       }
       return false;
     });
+  }
+
+  getDates(words: IWord[]) {
+    const mapArray: string[] = [];
+    words.forEach(element => {
+      if (element.optional?.dateFirstTime) {
+        const stringDate = this.dateService.numberToString(
+          element.optional.dateFirstTime
+        );
+        if (!mapArray.includes(stringDate)) mapArray.push(stringDate);
+      }
+      if (element.optional?.dateEasy) {
+        const stringDate = this.dateService.numberToString(
+          element.optional.dateEasy
+        );
+        if (!mapArray.includes(stringDate)) mapArray.push(stringDate);
+      }
+    });
+    return mapArray.sort((a, b) => (a > b ? -1 : 1));
+  }
+
+  getWordsByDate(words: IWord[]) {
+    const filterWordsByDate: FilterWordsByDate[] = [];
+    this.getDates(words).forEach(date => {
+      const newWords = words.filter(word => {
+        if (word.optional?.dateFirstTime) {
+          const stringDate = this.dateService.numberToString(
+            word.optional.dateFirstTime
+          );
+          if (stringDate === date) return true;
+        }
+        return false;
+      });
+      const easyWords = words.filter(word => {
+        if (word.optional?.dateEasy) {
+          const stringDate = this.dateService.numberToString(
+            word.optional.dateEasy
+          );
+          if (stringDate === date) return true;
+        }
+        return false;
+      });
+      const obj: FilterWordsByDate = {
+        date: date,
+        words: newWords,
+        easyWords: easyWords,
+      };
+      console.log(easyWords);
+      filterWordsByDate.push(obj);
+    });
+    return filterWordsByDate;
   }
 }

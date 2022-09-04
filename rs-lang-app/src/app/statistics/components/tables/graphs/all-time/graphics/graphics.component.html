@@ -3,7 +3,7 @@
   <div>{{ day.date }}</div>
   <div>
     <!-- <div class="graphic" [style.width]="width + '%'"></div> -->
-    <p>{{ findEasyWords(day.words) }}/ {{ findHardWords(day.words) }}</p>
+    <p>{{ day.easyWords.length }}/ {{ findHardWords(day.words) }}</p>
   </div>
   <div>
     <div
