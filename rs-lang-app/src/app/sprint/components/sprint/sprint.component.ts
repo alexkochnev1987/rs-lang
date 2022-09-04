@@ -26,6 +26,9 @@ import {
   Difficulty,
   FROM_HARD_TO_EASY_TIMES,
   FROM_LEARNED_TO_EASY_TIMES,
+  aggregatedWords,
+  GameSound,
+  ACTIVATE_LOAD_WORDS_LEFT,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -55,6 +58,7 @@ export class SprintComponent implements OnInit {
   userWords: IWord[] = [];
   wordIds: string[] = [];
   userGamesStats!: GameStatistics;
+  soundlink!: GameSound;
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
   fixSprintTimer = SPRINT_TIMER;
@@ -65,6 +69,7 @@ export class SprintComponent implements OnInit {
   isAuth = false;
   isCorrect = false;
   isAllWordsLearned = false;
+  isWordsLoading = false;
   currentLevel = 1;
   loadingProgress = 0;
   wordsCounter = 0;
@@ -75,6 +80,7 @@ export class SprintComponent implements OnInit {
   totalWords = 0;
   successWords = 0;
   successWordsPersent = 0;
+  nextLoadingPage = 0;
   progress = '';
   currentWord = '';
   correctTranslate = '';
@@ -82,6 +88,7 @@ export class SprintComponent implements OnInit {
   wordTranslation = '';
   btnStyleNo = '';
   btnStyleYes = '';
+  wordImage = '';
 
   constructor(
     private userService: UserDataService = new UserDataService(),
@@ -122,6 +129,9 @@ export class SprintComponent implements OnInit {
   @ViewChild('buttonNo')
   buttonNo: ElementRef | undefined;
 
+  // @ViewChild('gamePicture')
+  // gamePicture: ElementRef | undefined;
+
   ngOnInit(): void {
     if (this.isAuth) this.getUserStatistics();
     this.pageDataService.setPage(AppPages.MiniGames);
@@ -132,60 +142,68 @@ export class SprintComponent implements OnInit {
     }
   }
 
+  getWords(filter: 'all' | 'hard' | { level: number; page: number }) {
+    let filterString: string;
+    if (filter === 'all') filterString = '{"$nor":[{"userWord":null}]}';
+    if (filter === 'hard') filterString = '{"userWord.difficulty":"hard"}';
+    if (filter instanceof Object) {
+      filterString = `{"$and":[{"group":${filter.level}},{"page":${filter.page}},{"$nor":[{"userWord.difficulty":"easy"}]}]}`;
+    }
+    return this.http.get(
+      url +
+        QueryParams.register +
+        SLASH +
+        this.userId +
+        `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+          filterString!
+        )}`
+    );
+  }
+
   getUserWords() {
-    this.http
-      .get(
-        url +
-          QueryParams.register +
-          SLASH +
-          this.userId +
-          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
-            '{"$nor":[{"userWord":null}]}'
-          )}`
-      )
-      .subscribe({
-        next: (data: any) => {
-          if (data[0].paginatedResults.length !== 0) {
-            this.getUserStatistics();
-          }
-          if (data[0].paginatedResults.length === 0) {
-            console.log('User had no statistics. Creating user statistics...');
-            const optionsStats: GameStatistics = {
-              learnedWords: 0,
-              optional: {
-                sprint: {
-                  today: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                    date: 0,
-                  },
-                  allTime: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                  },
+    this.getWords('all').subscribe({
+      next: (data: any) => {
+        if (data[0].paginatedResults.length !== 0) {
+          this.getUserStatistics();
+        }
+        if (data[0].paginatedResults.length === 0) {
+          console.log('User had no statistics. Creating user statistics...');
+          const optionsStats: GameStatistics = {
+            learnedWords: 0,
+            optional: {
+              sprint: {
+                today: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
+                  date: 0,
                 },
-                audioChallenge: {
-                  today: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                    date: 0,
-                  },
-                  allTime: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                  },
+                allTime: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
                 },
               },
-            };
-            this.putUserStatistics(optionsStats);
-          }
-          this.userWords = data;
-        },
-      });
+              audioChallenge: {
+                today: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
+                  date: 0,
+                },
+                allTime: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
+                },
+              },
+            },
+          };
+          this.putUserStatistics(optionsStats);
+        }
+        this.userWords = data;
+      },
+    });
   }
 
   loadWords(page?: number) {
@@ -195,39 +213,44 @@ export class SprintComponent implements OnInit {
       this.currentLevel,
       this.currentPage
     );
-    this.currentPage
-      ? console.log(
-          'Playing Level:',
-          this.currentLevel,
-          '; page: ',
-          this.currentPage + 1
+    if (this.currentLevel === 7) {
+      this.getWords('hard').subscribe((data: any) => {
+        this.filterWords(data[0].paginatedResults);
+      });
+    }
+    if (this.currentLevel < 7) {
+      const observables = wordsResponse.createWordsResponse();
+      const len = observables.length;
+      const observable = forkJoin(
+        observables.map(el =>
+          el.pipe(
+            tap(() => {
+              this.loadingProgress++;
+              this.progress = `Loading...${Math.round(
+                (this.loadingProgress / len) * 100
+              )}%`;
+            })
+          )
         )
-      : console.log('Playing Level:', this.currentLevel, ' all pages');
-    const observables = wordsResponse.createWordsResponse();
-    const len = observables.length;
-    const observable = forkJoin(
-      observables.map(el =>
-        el.pipe(
-          tap(() => {
-            this.loadingProgress++;
-            this.progress = `Loading...${Math.round(
-              (this.loadingProgress / len) * 100
-            )}%`;
-          })
-        )
-      )
-    );
-    observable.subscribe((data: any) => {
-      this.filterWords(data);
-    });
+      );
+      observable.subscribe((data: any) => {
+        this.filterWords(data);
+      });
+    }
   }
 
   filterWords(data: any) {
     let userEasyWordsIds: string[] = [];
     let readyWordArray: IWordCard[] = [];
-    data.forEach((wordsPageArray: IWordCard[]) => {
-      readyWordArray.push(...wordsPageArray);
-    });
+    this.currentLevel < 7
+      ? data.forEach((wordsPageArray: IWordCard[]) => {
+          readyWordArray.push(...wordsPageArray);
+        })
+      : (readyWordArray = data.map((el: any) => {
+          el.id = el._id;
+          delete el._id;
+          return el;
+        }));
     if (this.isAuth && this.currentPage !== undefined) {
       this.getEasyWords().subscribe({
         next: (data: any) => {
@@ -290,7 +313,42 @@ export class SprintComponent implements OnInit {
   getWord() {
     this.isCorrect = Math.random() > 0.5 ? true : false;
     this.currentAnswer = this.wordsArray[this.wordsCounter];
+    this.wordImage = url + SLASH + this.wordsArray[this.wordsCounter].image;
     this.currentWord = this.wordsArray[this.wordsCounter].word;
+    if (
+      this.wordsArray.length - this.wordsCounter <= ACTIVATE_LOAD_WORDS_LEFT &&
+      !this.isWordsLoading &&
+      this.wordsArray[this.wordsArray.length - 1].page > 0
+    ) {
+      let loadGroup = this.wordsArray[this.wordsArray.length - 1].group;
+      let loadPage = this.wordsArray[this.wordsArray.length - 1].page - 1;
+      this.isWordsLoading = true;
+      console.log('Word loading activated...');
+      this.getWords({ level: loadGroup, page: loadPage }).subscribe(
+        (data: any) => {
+          let loadedData = data[0].paginatedResults.map((el: any) => {
+            el.id = el._id;
+            delete el._id;
+            return el;
+          });
+          let currentIndex = loadedData.length;
+          let randomIndex;
+          while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [loadedData[currentIndex], loadedData[randomIndex]] = [
+              loadedData[randomIndex],
+              loadedData[currentIndex],
+            ];
+          }
+          this.wordsArray.push(...loadedData);
+          this.isWordsLoading = false;
+        }
+      );
+    }
+    if (this.wordsArray[this.wordsArray.length - 1].page === 0) {
+      console.log('LAST PAGE. WORDS NOT LOADED');
+    }
     this.correctTranslate = this.wordsArray[this.wordsCounter].wordTranslate;
     this.wrongTranslate =
       this.wordsArray[
@@ -309,6 +367,7 @@ export class SprintComponent implements OnInit {
     buttonPressed.classList.remove('button-dashed-correct');
     buttonPressed.classList.remove('button-dashed-wrong');
     if (answer === this.isCorrect) {
+      this.soundlink = GameSound.success;
       this.gameScore += 50 + this.comboBonus;
       this.combo++;
       buttonPressed.setAttribute('disabled', '');
@@ -317,6 +376,7 @@ export class SprintComponent implements OnInit {
         buttonPressed.removeAttribute('disabled');
       }, 0);
     } else {
+      this.soundlink = GameSound.failed;
       this.combo = 0;
       buttonPressed.setAttribute('disabled', '');
       setTimeout(() => {
@@ -324,6 +384,7 @@ export class SprintComponent implements OnInit {
         buttonPressed.removeAttribute('disabled');
       }, 0);
     }
+    new Audio(this.soundlink).play();
     this.comboBonus = this.combo * CORRECT_ANSWER_POINTS * COMBO_BONUS_GROWTH;
     this.longestCombo =
       this.combo > this.longestCombo ? this.combo : this.longestCombo;
@@ -401,6 +462,11 @@ export class SprintComponent implements OnInit {
   noWordsToLearn() {
     console.log('ALL WORDS LEARNED');
     this.isAllWordsLearned = true;
+  }
+
+  playAudio(urlocation: string) {
+    const audio = new Audio(url + SLASH + urlocation);
+    audio.play();
   }
 
   processStatistics() {
@@ -535,7 +601,6 @@ export class SprintComponent implements OnInit {
             ? this.longestCombo
             : dataLocation.today.rightGuessesInRow;
       }
-      console.log(optionsStats);
       this.putUserStatistics(optionsStats);
     });
   }
@@ -581,7 +646,14 @@ export class SprintComponent implements OnInit {
   }
 
   processNotUserWord(wordGameStats: ISprintStats) {
-    let body = { difficulty: Difficulty.Learned, optional: {} };
+    let body = {
+      difficulty: Difficulty.Learned,
+      optional: {
+        attempts: 1,
+        success: wordGameStats.success ? 1 : 0,
+        rightGuessesInRow: wordGameStats.success ? 1 : 0,
+      },
+    };
     const location =
       url +
       QueryParams.register +
@@ -594,7 +666,7 @@ export class SprintComponent implements OnInit {
   }
 
   processUserWord(word: IWordsData, wordGameStats: ISprintStats) {
-    const optionsWord: IWordsData = {
+    let optionsWord: IWordsData = {
       difficulty: word.difficulty,
       optional: word.optional
         ? {
@@ -637,18 +709,14 @@ export class SprintComponent implements OnInit {
     ) {
       optionsWord.difficulty = Difficulty.Easy;
     }
-    this.putUserWordData(word.wordId!, optionsWord);
-  }
-
-  putUserWordData(wordId: string, options: IWordsData) {
     const locationWord =
       QueryParams.register +
       SLASH +
       this.userId +
       QueryParams.words +
       SLASH +
-      wordId;
-    const response = this.http.put(url + locationWord, options);
+      word.wordId!;
+    const response = this.http.put(url + locationWord, optionsWord);
     response.subscribe();
   }
 }

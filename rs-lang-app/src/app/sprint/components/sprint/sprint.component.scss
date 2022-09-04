@@ -15,6 +15,8 @@
 .game-container {
   @include stroke-container;
   display: flex;
+  flex-direction: column;
+  flex-grow: 0;
   gap: 30px;
   padding: 30px;
   width: 480px;
@@ -47,9 +49,17 @@
   margin: 30px 0;
 }
 
-.progress-picture {
-  width: 150px;
-  height: 120px;
+.game-picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.word-picture {
+  width: 100%;
 }
 
 .game-elements {
@@ -146,6 +156,7 @@
   background-size: 100%;
   background-repeat: no-repeat;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .transcription-word {
