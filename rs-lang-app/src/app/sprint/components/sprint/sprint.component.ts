@@ -17,8 +17,15 @@ import {
   KeyCode,
   SPRINT_TIMER,
   TIMER_LINE_SECTIONS,
-  GameStatistics,
   Games,
+  url,
+  QueryParams,
+  SLASH,
+  GameStatistics,
+  IWordsData,
+  Difficulty,
+  FROM_HARD_TO_EASY_TIMES,
+  FROM_LEARNED_TO_EASY_TIMES,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -26,9 +33,8 @@ import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { GameLevelComponent } from '../../../shared/components/game-level/game-level.component';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 import { Location } from '@angular/common';
-import { QueryService } from 'src/app/core/service/query.service';
 import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
-import { ProcessStatisticsService } from 'src/app/core/services/process-statistics.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-sprint',
@@ -47,7 +53,8 @@ export class SprintComponent implements OnInit {
   userId: string | undefined = undefined;
   currentPage: number | undefined = undefined;
   userWords: IWord[] = [];
-  userGamesStats: GameStatistics | undefined;
+  wordIds: string[] = [];
+  userGamesStats!: GameStatistics;
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
   fixSprintTimer = SPRINT_TIMER;
@@ -57,6 +64,7 @@ export class SprintComponent implements OnInit {
   isGameEnded = false;
   isAuth = false;
   isCorrect = false;
+  isAllWordsLearned = false;
   currentLevel = 1;
   loadingProgress = 0;
   wordsCounter = 0;
@@ -69,6 +77,8 @@ export class SprintComponent implements OnInit {
   successWordsPersent = 0;
   progress = '';
   currentWord = '';
+  correctTranslate = '';
+  wrongTranslate = '';
   wordTranslation = '';
   btnStyleNo = '';
   btnStyleYes = '';
@@ -78,10 +88,9 @@ export class SprintComponent implements OnInit {
     private pageDataService: PagesDataService,
     private userdataService: UserDataService,
     private httpService: HttpService,
-    private queryService: QueryService,
     private _location: Location,
     private LevelPage: GameLevelTransferService,
-    private processStatisticsService: ProcessStatisticsService
+    private http: HttpClient
   ) {
     this.isAuth = this.userService.isRegistered();
     this.isAuth
@@ -97,7 +106,6 @@ export class SprintComponent implements OnInit {
       event.code === KeyCode.LEFT_ARROW
     ) {
       this.checkAnswer(false, this.buttonNo.nativeElement);
-      this.getWord();
     }
     if (
       this.buttonYes &&
@@ -105,7 +113,6 @@ export class SprintComponent implements OnInit {
       event.code === KeyCode.RIGHT_ARROW
     ) {
       this.checkAnswer(true, this.buttonYes.nativeElement);
-      this.getWord();
     }
   }
 
@@ -116,16 +123,69 @@ export class SprintComponent implements OnInit {
   buttonNo: ElementRef | undefined;
 
   ngOnInit(): void {
+    if (this.isAuth) this.getUserStatistics();
     this.pageDataService.setPage(AppPages.MiniGames);
-    if (this.isAuth) {
-      this.getUserWords();
-      this.getUserStatistics();
-    }
     if (this.LevelPage.gamePageLevel.length) {
       this.currentLevel = this.LevelPage.gamePageLevel[0];
       this.loadWords(this.LevelPage.gamePageLevel[1]);
       this.isLevelSelected = true;
     }
+  }
+
+  getUserWords() {
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+            '{"$nor":[{"userWord":null}]}'
+          )}`
+      )
+      .subscribe({
+        next: (data: any) => {
+          if (data[0].paginatedResults.length !== 0) {
+            this.getUserStatistics();
+          }
+          if (data[0].paginatedResults.length === 0) {
+            console.log('User had no statistics. Creating user statistics...');
+            const optionsStats: GameStatistics = {
+              learnedWords: 0,
+              optional: {
+                sprint: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+                audioChallenge: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+              },
+            };
+            this.putUserStatistics(optionsStats);
+          }
+          this.userWords = data;
+        },
+      });
   }
 
   loadWords(page?: number) {
@@ -165,41 +225,27 @@ export class SprintComponent implements OnInit {
   filterWords(data: any) {
     let userEasyWordsIds: string[] = [];
     let readyWordArray: IWordCard[] = [];
+    data.forEach((wordsPageArray: IWordCard[]) => {
+      readyWordArray.push(...wordsPageArray);
+    });
     if (this.isAuth && this.currentPage !== undefined) {
-      this.httpService
-        .getData(`/users/${this.userId}/words`)
-        .subscribe((userWords: any) => {
-          userEasyWordsIds = userWords
-            .filter((el: IWord) => el.difficulty === 'easy')
-            .map((el: IWord) => el.wordId);
-          data.forEach((wordsPageArray: IWordCard[]) => {
-            for (let i = 0; i < wordsPageArray.length; i++) {
-              if (!userEasyWordsIds.includes(wordsPageArray[i].id)) {
-                readyWordArray.push(wordsPageArray[i]);
-              }
-            }
-          });
+      this.getEasyWords().subscribe({
+        next: (data: any) => {
+          data[0].paginatedResults.forEach((el: any) =>
+            userEasyWordsIds.push(el._id)
+          );
+          readyWordArray = readyWordArray.filter(
+            (el: IWordCard) => !userEasyWordsIds.includes(el.id)
+          );
           this.shuffleWords(readyWordArray);
-        });
-    } else {
-      data.forEach((wordsPageArray: IWordCard[]) => {
-        readyWordArray.push(...wordsPageArray);
+        },
       });
+    } else {
       this.shuffleWords(readyWordArray);
     }
   }
 
   shuffleWords(data: IWordCard[]) {
-    this.currentPage === undefined
-      ? console.log('Playing all words on level', this.currentLevel, ': ', data)
-      : console.log(
-          'Words on level: ',
-          this.currentLevel,
-          ' and page: ',
-          this.currentPage + 1,
-          ': ',
-          data
-        );
     let currentIndex = data.length;
     let randomIndex;
     while (currentIndex != 0) {
@@ -210,10 +256,11 @@ export class SprintComponent implements OnInit {
         data[currentIndex],
       ];
     }
-    this.startGame(data);
+    data.length === 0 ? this.noWordsToLearn() : this.startGame(data);
   }
 
   startGame(data: IWordCard[]) {
+    this.getUserWords();
     this.wordsArray = data;
     this.isGameStarted = true;
     this.timerSections = this.timerSectionsArray();
@@ -234,13 +281,7 @@ export class SprintComponent implements OnInit {
             ? Math.round((this.successWords / this.totalWords) * 100)
             : 0;
         if (this.totalWords > 0 && this.isAuth) {
-          // this.processStatistics();
-          this.processStatisticsService.serviceData = {
-            game: Games.Sprint,
-            gameStats: this.gameStats,
-            longestCombo: this.longestCombo,
-          };
-          this.processStatisticsService.processStatistics();
+          this.processStatistics();
         }
       }
     }, 100);
@@ -248,17 +289,20 @@ export class SprintComponent implements OnInit {
 
   getWord() {
     this.isCorrect = Math.random() > 0.5 ? true : false;
-    this.wordsArray[this.wordsCounter]
-      ? (this.currentAnswer = this.wordsArray[this.wordsCounter])
-      : (this.timer = 0);
-    if (this.currentAnswer) this.currentWord = this.currentAnswer.word;
-    this.wordTranslation =
+    this.currentAnswer = this.wordsArray[this.wordsCounter];
+    this.currentWord = this.wordsArray[this.wordsCounter].word;
+    this.correctTranslate = this.wordsArray[this.wordsCounter].wordTranslate;
+    this.wrongTranslate =
       this.wordsArray[
-        this.isCorrect
-          ? this.wordsCounter
-          : Math.floor(Math.random() * this.wordsArray.length)
+        Math.floor(Math.random() * this.wordsArray.length)
       ].wordTranslate;
-    this.wordsCounter++;
+    if (this.isCorrect) {
+      this.wordTranslation = this.correctTranslate;
+    } else {
+      this.wordTranslation = this.wrongTranslate;
+      this.isCorrect =
+        this.wordTranslation === this.correctTranslate ? true : false;
+    }
   }
 
   checkAnswer(answer: boolean, buttonPressed: HTMLElement) {
@@ -267,15 +311,24 @@ export class SprintComponent implements OnInit {
     if (answer === this.isCorrect) {
       this.gameScore += 50 + this.comboBonus;
       this.combo++;
-      setTimeout(() => buttonPressed.classList.add('button-dashed-correct'), 0);
+      buttonPressed.setAttribute('disabled', '');
+      setTimeout(() => {
+        buttonPressed.classList.add('button-dashed-correct');
+        buttonPressed.removeAttribute('disabled');
+      }, 0);
     } else {
       this.combo = 0;
-      setTimeout(() => buttonPressed.classList.add('button-dashed-wrong'), 0);
+      buttonPressed.setAttribute('disabled', '');
+      setTimeout(() => {
+        buttonPressed.classList.add('button-dashed-wrong');
+        buttonPressed.removeAttribute('disabled');
+      }, 0);
     }
     this.comboBonus = this.combo * CORRECT_ANSWER_POINTS * COMBO_BONUS_GROWTH;
     this.longestCombo =
       this.combo > this.longestCombo ? this.combo : this.longestCombo;
-    if (this.currentAnswer) {
+    if (this.currentAnswer && !this.wordIds.includes(this.currentAnswer.id)) {
+      this.wordIds.push(this.currentAnswer.id);
       this.gameStats.push({
         id: this.currentAnswer.id,
         word: this.currentAnswer.word,
@@ -285,6 +338,10 @@ export class SprintComponent implements OnInit {
         success: answer === this.isCorrect ? true : false,
       });
     }
+    this.wordsCounter++;
+    this.wordsCounter < this.wordsArray.length
+      ? this.getWord()
+      : (this.timer = 0);
   }
 
   timerSectionsArray() {
@@ -304,6 +361,7 @@ export class SprintComponent implements OnInit {
     this.isGameEnded = false;
     this.isGameStarted = false;
     this.gameStats = [];
+    this.wordIds = [];
     this.timer = SPRINT_TIMER * 10;
     this.gameScore = 0;
     this.combo = 0;
@@ -328,209 +386,269 @@ export class SprintComponent implements OnInit {
     this._location.back();
   }
 
-  getUserWords() {
-    this.queryService.getUserWords().subscribe({
-      next: (data: any) => {
-        this.userWords = data;
-      },
+  getEasyWords() {
+    return this.http.get(
+      url +
+        QueryParams.register +
+        SLASH +
+        this.userId +
+        `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+          '{"userWord.difficulty":"easy"}'
+        )}`
+    );
+  }
+
+  noWordsToLearn() {
+    console.log('ALL WORDS LEARNED');
+    this.isAllWordsLearned = true;
+  }
+
+  processStatistics() {
+    this.processUserStatistics();
+    this.processWordsStatistics();
+  }
+
+  processUserStatistics() {
+    this.getUserStatistics().subscribe((data: GameStatistics) => {
+      this.userGamesStats = data;
+      const today = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate()
+      ).valueOf();
+      const optionsStats: GameStatistics = {
+        learnedWords:
+          this.userGamesStats.learnedWords !== undefined
+            ? this.userGamesStats.learnedWords
+            : 0,
+        optional: {
+          sprint: {
+            today: {
+              attempts:
+                this.userGamesStats.optional.sprint?.today.attempts !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.today.attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.sprint?.today.success !== undefined
+                  ? this.userGamesStats.optional.sprint?.today.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.sprint?.today.rightGuessesInRow !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.today.rightGuessesInRow
+                  : 0,
+              date:
+                this.userGamesStats.optional.sprint?.today.date !== undefined
+                  ? this.userGamesStats.optional.sprint?.today.date
+                  : 0,
+            },
+            allTime: {
+              attempts:
+                this.userGamesStats.optional.sprint?.allTime.attempts !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.allTime.attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.sprint?.allTime.success !==
+                undefined
+                  ? this.userGamesStats.optional.sprint?.allTime.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.sprint?.allTime
+                  .rightGuessesInRow !== undefined
+                  ? this.userGamesStats.optional.sprint?.allTime
+                      .rightGuessesInRow
+                  : 0,
+            },
+          },
+          audioChallenge: {
+            today: {
+              attempts:
+                this.userGamesStats.optional.audioChallenge?.today.attempts !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today.attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.audioChallenge?.today.success !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.audioChallenge?.today
+                  .rightGuessesInRow !== undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today
+                      .rightGuessesInRow
+                  : 0,
+              date:
+                this.userGamesStats.optional.audioChallenge?.today.date !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.today.date
+                  : 0,
+            },
+            allTime: {
+              attempts:
+                this.userGamesStats.optional.audioChallenge?.allTime
+                  .attempts !== undefined
+                  ? this.userGamesStats.optional.audioChallenge?.allTime
+                      .attempts
+                  : 0,
+              success:
+                this.userGamesStats.optional.audioChallenge?.allTime.success !==
+                undefined
+                  ? this.userGamesStats.optional.audioChallenge?.allTime.success
+                  : 0,
+              rightGuessesInRow:
+                this.userGamesStats.optional.audioChallenge?.allTime
+                  .rightGuessesInRow !== undefined
+                  ? this.userGamesStats.optional.audioChallenge?.allTime
+                      .rightGuessesInRow
+                  : 0,
+            },
+          },
+        },
+      };
+      (Object.keys(Games) as Array<keyof typeof Games>).map(key => {
+        if (optionsStats.optional[Games[key]]!.today.date! < today) {
+          optionsStats.optional[Games[key]]!.today.attempts = 0;
+          optionsStats.optional[Games[key]]!.today.success = 0;
+          optionsStats.optional[Games[key]]!.today.rightGuessesInRow = 0;
+          optionsStats.optional[Games[key]]!.today.date = today;
+        }
+      });
+      const dataLocation = optionsStats.optional[Games.Sprint];
+      if (dataLocation) {
+        dataLocation.allTime.attempts += this.gameStats.length;
+        dataLocation.allTime.success += this.gameStats.filter(
+          (el: ISprintStats) => el.success
+        ).length;
+        dataLocation.allTime.rightGuessesInRow =
+          dataLocation.allTime.rightGuessesInRow < this.longestCombo
+            ? this.longestCombo
+            : dataLocation.allTime.rightGuessesInRow;
+        dataLocation.today.attempts += this.gameStats.length;
+        dataLocation.today.success += this.gameStats.filter(
+          (el: ISprintStats) => el.success
+        ).length;
+        dataLocation.today.rightGuessesInRow =
+          dataLocation.today.rightGuessesInRow < this.longestCombo
+            ? this.longestCombo
+            : dataLocation.today.rightGuessesInRow;
+      }
+      console.log(optionsStats);
+      this.putUserStatistics(optionsStats);
     });
   }
 
   getUserStatistics() {
-    this.queryService.getUserStatistics().subscribe({
-      next: (data: any) => {
-        this.userGamesStats = data;
-      },
-    });
+    return this.http.get<GameStatistics>(
+      url + QueryParams.register + SLASH + this.userId + QueryParams.statistics
+    );
   }
 
-  // putUserStatistics(options: GameStatistics) {
-  //   this.queryService.setUserStatistics(options).subscribe({
-  //     next: (data: any) => {
-  //       this.userGamesStats = data;
-  //     },
-  //   });
-  // }
+  putUserStatistics(options: any) {
+    this.http
+      .put<GameStatistics>(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          QueryParams.statistics,
+        options
+      )
+      .subscribe();
+  }
 
-  // processUserWord(word: IWord, wordGameStats: ISprintStats) {
-  //   const optionsWord: IWordsData = {
-  //     difficulty: Difficulty.Learned,
-  //     optional: {
-  //       rightGuessesInRow: 0,
-  //     },
-  //   };
-  //   if (wordGameStats.success) {
-  //     if (
-  //       (word.optional?.rightGuessesInRow === 2 &&
-  //         word.difficulty !== Difficulty.Hard) ||
-  //       (word.optional?.rightGuessesInRow &&
-  //         word.optional?.rightGuessesInRow >= 4 &&
-  //         word.difficulty === Difficulty.Hard) ||
-  //       (word.difficulty === Difficulty.Easy &&
-  //         word.optional?.dateEasy === undefined)
-  //     ) {
-  //       optionsWord.difficulty = Difficulty.Easy;
-  //       optionsWord.optional.dateEasy = Date.now();
-  //       this.removeWordFromArray(word);
-  //     }
-  //     if (
-  //       (word.optional?.rightGuessesInRow &&
-  //         word.optional?.rightGuessesInRow > 2 &&
-  //         word.difficulty !== Difficulty.Hard) ||
-  //       word.difficulty === Difficulty.Easy
-  //     ) {
-  //       optionsWord.difficulty = Difficulty.Easy;
-  //       this.removeWordFromArray(word);
-  //     }
-  //     if (word.optional?.rightGuessesInRow === undefined) {
-  //       optionsWord.optional.rightGuessesInRow = 1;
-  //     }
-  //     if (word.optional?.rightGuessesInRow !== undefined) {
-  //       optionsWord.optional.rightGuessesInRow =
-  //         word.optional.rightGuessesInRow + 1;
-  //     }
-  //     if (word.optional?.dateFirstTime === undefined)
-  //       optionsWord.optional.dateFirstTime = Date.now();
-  //     if (word.optional?.dateFirstTime !== undefined)
-  //       optionsWord.optional.dateFirstTime = word.optional?.dateFirstTime;
-  //   }
-  //   if (!wordGameStats.success) {
-  //     if (word.difficulty === Difficulty.Easy) {
-  //       optionsWord.difficulty = Difficulty.Learned;
-  //       optionsWord.optional.rightGuessesInRow = 0;
-  //       delete optionsWord.optional.dateEasy;
-  //     }
-  //     if (word.optional?.dateFirstTime !== undefined) {
-  //       optionsWord.optional.dateFirstTime = word.optional?.dateFirstTime;
-  //     }
-  //     if (word.optional?.dateFirstTime === undefined) {
-  //       optionsWord.optional.dateFirstTime = Date.now();
-  //     }
-  //   }
-  //   const locationWord =
-  //     QueryParams.register +
-  //     SLASH +
-  //     this.userId +
-  //     QueryParams.words +
-  //     SLASH +
-  //     word.wordId;
-  //   const response = this.httpService.putData(locationWord, optionsWord);
-  //   response.subscribe({
-  //     next: data => console.log('•••USER WORD••• New data: ', data),
-  //   });
-  // }
+  processWordsStatistics() {
+    this.http
+      .get(url + QueryParams.register + SLASH + this.userId + QueryParams.words)
+      .subscribe({
+        next: (data: any) => {
+          this.userWords = data;
+          const userWordIds = this.userWords.map((el: IWord) => el.wordId);
+          this.gameStats.forEach((el: ISprintStats) => {
+            userWordIds.includes(el.id)
+              ? this.processUserWord(
+                  <IWordsData>(
+                    this.userWords.find((word: IWord) => word.wordId === el.id)
+                  ),
+                  el
+                )
+              : this.processNotUserWord(el);
+          });
+        },
+      });
+  }
 
-  // processNotUserWord(wordId: string, wordGameStats: ISprintStats) {
-  //   const optionsWord: IWordsData = {
-  //     difficulty: Difficulty.Learned,
-  //     optional: {
-  //       rightGuessesInRow: wordGameStats.success ? 1 : 0,
-  //       dateFirstTime: Date.now(),
-  //     },
-  //   };
-  //   const locationWord =
-  //     QueryParams.register +
-  //     SLASH +
-  //     this.userId +
-  //     QueryParams.words +
-  //     SLASH +
-  //     wordId;
-  //   const response = this.httpService.postData(locationWord, optionsWord);
-  //   response.subscribe({
-  //     next: data => console.log('>>>NOT USER WORD<<< New data: ', data),
-  //   });
-  // }
+  processNotUserWord(wordGameStats: ISprintStats) {
+    let body = { difficulty: Difficulty.Learned, optional: {} };
+    const location =
+      url +
+      QueryParams.register +
+      SLASH +
+      this.userId +
+      QueryParams.words +
+      SLASH +
+      wordGameStats.id;
+    this.http.post(location, body).subscribe();
+  }
 
-  // processStatistics() {
-  //   this.getUserStatistics();
-  //   const optionsStat: GameStatistics = {
-  //     learnedWords: 0,
-  //     optional: {
-  //       sprint: {
-  //         today: {
-  //           attempts: 0,
-  //           success: 0,
-  //           rightGuessesInRow: 0,
-  //           date: 0,
-  //         },
-  //         allTime: {
-  //           attempts: 0,
-  //           success: 0,
-  //           rightGuessesInRow: 0,
-  //         },
-  //       },
-  //     },
-  //   };
-  //   const optionsSprintStats = optionsStat.optional.sprint;
-  //   const dayNow = new Date().getDate().toString();
-  //   const monthNow = new Date().getMonth().toString();
-  //   const yearNow = new Date().getFullYear().toString();
-  //   if (
-  //     this.userGamesStats?.optional !== undefined &&
-  //     this.userGamesStats?.optional.sprint !== undefined
-  //   ) {
-  //     const userSprintStats = this.userGamesStats?.optional.sprint;
-  //     const statsDay = new Date(<number>userSprintStats.today.date)
-  //       .getDate()
-  //       .toString();
-  //     const statsMonth = new Date(<number>userSprintStats.today.date)
-  //       .getMonth()
-  //       .toString();
-  //     const statsYear = new Date(<number>userSprintStats.today.date)
-  //       .getFullYear()
-  //       .toString();
-  //     optionsSprintStats!.allTime.attempts =
-  //       userSprintStats.allTime.attempts + this.gameStats.length;
-  //     optionsSprintStats!.allTime.success =
-  //       userSprintStats.allTime.success +
-  //       this.gameStats.filter((el: ISprintStats) => el.success).length;
-  //     optionsSprintStats!.allTime.rightGuessesInRow =
-  //       userSprintStats.allTime.rightGuessesInRow >= this.longestCombo
-  //         ? userSprintStats.allTime.rightGuessesInRow
-  //         : this.longestCombo;
-  //     if (
-  //       dayNow === statsDay &&
-  //       monthNow === statsMonth &&
-  //       yearNow === statsYear
-  //     ) {
-  //       optionsSprintStats!.today.attempts =
-  //         userSprintStats.today.attempts + this.gameStats.length;
-  //       optionsSprintStats!.today.success =
-  //         userSprintStats.today.success +
-  //         this.gameStats.filter((el: ISprintStats) => el.success).length;
-  //       optionsSprintStats!.today.rightGuessesInRow =
-  //         userSprintStats.today.rightGuessesInRow >= this.longestCombo
-  //           ? userSprintStats.today.rightGuessesInRow
-  //           : this.longestCombo;
-  //       optionsSprintStats!.today.date = userSprintStats.today.date;
-  //     }
-  //     if (
-  //       dayNow !== statsDay ||
-  //       monthNow !== statsMonth ||
-  //       yearNow !== statsYear
-  //     ) {
-  //       optionsSprintStats!.today.attempts = 0;
-  //       optionsSprintStats!.today.success = 0;
-  //       optionsSprintStats!.today.rightGuessesInRow = 0;
-  //       optionsSprintStats!.today.date = new Date().getTime();
-  //     }
-  //   }
-  //   this.putUserStatistics(optionsStat);
-  //   this.getUserWords();
-  //   const userWordIds = this.userWords.map((el: IWord) => el.wordId);
-  //   this.gameStats.forEach((el: ISprintStats) => {
-  //     userWordIds.includes(el.id)
-  //       ? this.processUserWord(
-  //           <IWord>this.userWords.find((word: IWord) => word.wordId === el.id),
-  //           el
-  //         )
-  //       : this.processNotUserWord(el.id, el);
-  //   });
-  // }
+  processUserWord(word: IWordsData, wordGameStats: ISprintStats) {
+    const optionsWord: IWordsData = {
+      difficulty: word.difficulty,
+      optional: word.optional
+        ? {
+            attempts: word.optional.attempts ? word.optional.attempts : 0,
+            success: word.optional.success ? word.optional.success : 0,
+            rightGuessesInRow: word.optional.rightGuessesInRow
+              ? word.optional.rightGuessesInRow
+              : 0,
+          }
+        : { attempts: 0, success: 0, rightGuessesInRow: 0 },
+    };
 
-  // removeWordFromArray(word: IWord) {
-  //   this.wordsArray = this.wordsArray.filter(
-  //     (el: IWordCard) => el.id !== word.wordId
-  //   );
-  // }
+    optionsWord.optional.attempts = optionsWord.optional.attempts
+      ? optionsWord.optional.attempts + 1
+      : 1;
+    if (wordGameStats.success) {
+      optionsWord.optional.success = optionsWord.optional.success
+        ? optionsWord.optional.success + 1
+        : 1;
+      optionsWord.optional.rightGuessesInRow = optionsWord.optional
+        .rightGuessesInRow
+        ? optionsWord.optional.rightGuessesInRow + 1
+        : 1;
+    }
+    if (!wordGameStats.success) {
+      optionsWord.optional.rightGuessesInRow = 0;
+      if (optionsWord.difficulty !== Difficulty.Hard)
+        optionsWord.difficulty = Difficulty.Learned;
+    }
+    if (
+      optionsWord.optional.rightGuessesInRow &&
+      optionsWord.optional.rightGuessesInRow >= FROM_HARD_TO_EASY_TIMES
+    ) {
+      optionsWord.difficulty = Difficulty.Easy;
+    }
+    if (
+      optionsWord.difficulty !== Difficulty.Hard &&
+      optionsWord.optional.rightGuessesInRow &&
+      optionsWord.optional.rightGuessesInRow >= FROM_LEARNED_TO_EASY_TIMES
+    ) {
+      optionsWord.difficulty = Difficulty.Easy;
+    }
+    this.putUserWordData(word.wordId!, optionsWord);
+  }
+
+  putUserWordData(wordId: string, options: IWordsData) {
+    const locationWord =
+      QueryParams.register +
+      SLASH +
+      this.userId +
+      QueryParams.words +
+      SLASH +
+      wordId;
+    const response = this.http.put(url + locationWord, options);
+    response.subscribe();
+  }
 }

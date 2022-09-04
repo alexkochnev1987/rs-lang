@@ -37,7 +37,6 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.pagesDataService.setPage(AppPages.DashBoard);
-    // this.getUserWords();
   }
 
   getStatistics() {
@@ -46,15 +45,7 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
-  getSettings() {
-    this.queryService.getUserSettings().subscribe({
-      next: res => console.log(res),
-    });
-  }
-
   getUserWords() {
-    this.queryService.getUserWords().subscribe({
-      next: res => console.log(res),
-    });
+    this.queryService.getUserWords().subscribe();
   }
 }

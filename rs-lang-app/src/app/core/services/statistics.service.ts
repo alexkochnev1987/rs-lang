@@ -106,7 +106,6 @@ export class StatisticsService {
         words: newWords,
         easyWords: easyWords,
       };
-      console.log(easyWords);
       filterWordsByDate.push(obj);
     });
     return filterWordsByDate;

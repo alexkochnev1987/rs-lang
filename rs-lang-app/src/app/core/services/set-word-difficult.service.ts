@@ -38,10 +38,8 @@ export class SetWordDifficultService {
         dateFirstTime: Date.now(),
         dateEasy: Date.now(),
       };
-      console.log('HELL');
       return { difficulty: Difficulty.Easy, optional: options };
     }
-    console.log(word.optional);
     const options = word.optional;
     if (options?.rightGuessesInRow || options?.rightGuessesInRow === 0)
       options.rightGuessesInRow = 3;
@@ -60,7 +58,6 @@ export class SetWordDifficultService {
       };
       return { difficulty: Difficulty.Easy, optional: options };
     }
-    console.log(word.optional);
     const options = word.optional;
     if (options?.rightGuessesInRow) options.rightGuessesInRow = 0;
     return { difficulty: Difficulty.Hard, optional: options };

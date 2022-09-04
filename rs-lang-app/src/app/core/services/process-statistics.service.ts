@@ -1,18 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   Difficulty,
   FROM_HARD_TO_EASY_TIMES,
   FROM_LEARNED_TO_EASY_TIMES,
+  GameOptions,
   Games,
   GameStatistics,
-  GAME_STATS_TEMPLATE,
   IServiceData,
   ISprintStats,
   IWordsData,
   QueryParams,
   SLASH,
+  url,
 } from 'src/app/constants';
-import { QueryService } from '../service/query.service';
 import { HttpService } from './http.service';
 import { UserDataService } from './user-data.service';
 
@@ -26,41 +27,106 @@ export class ProcessStatisticsService {
   userId!: string;
 
   constructor(
-    private queryService: QueryService,
     private httpService: HttpService,
+    private http: HttpClient,
     private userdataService: UserDataService
   ) {
+    this.userId = this.userdataService.getUser().userId!;
     this.getUserWords();
     this.getUserStatistics();
-    this.userId = this.userdataService.getUser().userId!;
   }
 
   getUserWords() {
-    this.queryService.getUserWords().subscribe({
-      next: (data: any) => {
-        this.userWords = data;
-      },
-    });
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+            '{"$nor":[{"userWord":null}]}'
+          )}`
+      )
+      .subscribe({
+        next: (data: any) => {
+          if (data[0].paginatedResults.length !== 0) {
+            this.getUserStatistics();
+          }
+          if (data[0].paginatedResults.length === 0) {
+            console.log('User had no statistics. Creating user statistics...');
+            const optionsStats: GameStatistics = {
+              learnedWords: 0,
+              optional: {
+                sprint: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+                audioChallenge: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+              },
+            };
+            this.putUserStatistics(optionsStats);
+          }
+          this.userWords = data;
+        },
+      });
   }
 
   getUserStatistics() {
-    this.queryService.getUserStatistics().subscribe({
-      next: (data: any) => {
-        this.userGamesStats = data;
-      },
-    });
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          QueryParams.statistics
+      )
+      .subscribe({
+        next: (data: any) => {
+          this.userGamesStats = data;
+        },
+      });
   }
 
   putUserStatistics(options: any) {
     if (options.id !== undefined) delete options.id;
-    this.queryService.setUserStatistics(options).subscribe({
-      next: (data: any) => {
-        this.userGamesStats = data;
-      },
-    });
+    this.http
+      .put<GameStatistics>(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          QueryParams.statistics,
+        options
+      )
+      .subscribe({
+        next: response => {
+          this.userGamesStats = response;
+        },
+      });
   }
 
-  postUserWordData(wordId: string, options: IWordsData) {
+  postUserWordData(wordId: string, options: any) {
     const locationWord =
       QueryParams.register +
       SLASH +
@@ -68,10 +134,8 @@ export class ProcessStatisticsService {
       QueryParams.words +
       SLASH +
       wordId;
-    const response = this.httpService.postData(locationWord, options);
-    response.subscribe({
-      next: data => {},
-    });
+    const response = this.http.post(url + locationWord, options);
+    response.subscribe();
   }
 
   putUserWordData(wordId: string, options: IWordsData) {
@@ -82,20 +146,22 @@ export class ProcessStatisticsService {
       QueryParams.words +
       SLASH +
       wordId;
-    const response = this.httpService.putData(locationWord, options);
-    response.subscribe({
-      next: data => {},
-    });
+    const response = this.http.put(url + locationWord, options);
+    response.subscribe();
   }
 
   processUserWord(word: IWordsData, wordGameStats: ISprintStats) {
     const optionsWord: IWordsData = {
       difficulty: word.difficulty,
-      optional: {
-        attempts: word.optional.attempts,
-        success: word.optional.success,
-        rightGuessesInRow: word.optional.rightGuessesInRow,
-      },
+      optional: word.optional
+        ? {
+            attempts: word.optional.attempts ? word.optional.attempts : 0,
+            success: word.optional.success ? word.optional.success : 0,
+            rightGuessesInRow: word.optional.rightGuessesInRow
+              ? word.optional.rightGuessesInRow
+              : 0,
+          }
+        : { attempts: 0, success: 0, rightGuessesInRow: 0 },
     };
 
     optionsWord.optional.attempts = optionsWord.optional.attempts
@@ -112,18 +178,17 @@ export class ProcessStatisticsService {
     }
     if (!wordGameStats.success) {
       optionsWord.optional.rightGuessesInRow = 0;
-      if (optionsWord.difficulty === Difficulty.Easy)
+      if (optionsWord.difficulty !== Difficulty.Hard)
         optionsWord.difficulty = Difficulty.Learned;
     }
     if (
-      optionsWord.difficulty === Difficulty.Hard &&
       optionsWord.optional.rightGuessesInRow &&
       optionsWord.optional.rightGuessesInRow >= FROM_HARD_TO_EASY_TIMES
     ) {
       optionsWord.difficulty = Difficulty.Easy;
     }
     if (
-      optionsWord.difficulty === Difficulty.Learned &&
+      optionsWord.difficulty !== Difficulty.Hard &&
       optionsWord.optional.rightGuessesInRow &&
       optionsWord.optional.rightGuessesInRow >= FROM_LEARNED_TO_EASY_TIMES
     ) {
@@ -132,17 +197,20 @@ export class ProcessStatisticsService {
     this.putUserWordData(word.wordId!, optionsWord);
   }
 
-  processNotUserWord(wordId: string, wordGameStats: ISprintStats) {
-    const optionsWord: IWordsData = {
-      difficulty: Difficulty.Learned,
-      optional: {
-        attempts: 1,
-        success: wordGameStats.success ? 1 : 0,
-        rightGuessesInRow: wordGameStats.success ? 1 : 0,
-        dateFirstTime: Date.now(),
-      },
-    };
-    this.postUserWordData(wordId, optionsWord);
+  processNotUserWord(wordGameStats: ISprintStats) {
+    let body = { difficulty: Difficulty.Learned, optional: {} };
+    const location =
+      url +
+      QueryParams.register +
+      SLASH +
+      this.userId +
+      QueryParams.words +
+      SLASH +
+      wordGameStats.id;
+    console.log('User ID: ', this.userId);
+    console.log('Not user word. POST.', wordGameStats.id);
+    console.log('Posting data: ', body);
+    this.http.post(location, body).subscribe();
   }
 
   processUserStatistics() {
@@ -152,10 +220,94 @@ export class ProcessStatisticsService {
       new Date().getMonth(),
       new Date().getDate()
     ).valueOf();
-    const optionsStats: GameStatistics = Object.assign(
-      GAME_STATS_TEMPLATE,
-      this.userGamesStats
-    );
+    const optionsStats: GameStatistics = {
+      learnedWords:
+        this.userGamesStats.learnedWords !== undefined
+          ? this.userGamesStats.learnedWords
+          : 0,
+      optional: {
+        sprint: {
+          today: {
+            attempts:
+              this.userGamesStats.optional.sprint?.today.attempts !== undefined
+                ? this.userGamesStats.optional.sprint?.today.attempts
+                : 0,
+            success:
+              this.userGamesStats.optional.sprint?.today.success !== undefined
+                ? this.userGamesStats.optional.sprint?.today.success
+                : 0,
+            rightGuessesInRow:
+              this.userGamesStats.optional.sprint?.today.rightGuessesInRow !==
+              undefined
+                ? this.userGamesStats.optional.sprint?.today.rightGuessesInRow
+                : 0,
+            date:
+              this.userGamesStats.optional.sprint?.today.date !== undefined
+                ? this.userGamesStats.optional.sprint?.today.date
+                : 0,
+          },
+          allTime: {
+            attempts:
+              this.userGamesStats.optional.sprint?.allTime.attempts !==
+              undefined
+                ? this.userGamesStats.optional.sprint?.allTime.attempts
+                : 0,
+            success:
+              this.userGamesStats.optional.sprint?.allTime.success !== undefined
+                ? this.userGamesStats.optional.sprint?.allTime.success
+                : 0,
+            rightGuessesInRow:
+              this.userGamesStats.optional.sprint?.allTime.rightGuessesInRow !==
+              undefined
+                ? this.userGamesStats.optional.sprint?.allTime.rightGuessesInRow
+                : 0,
+          },
+        },
+        audioChallenge: {
+          today: {
+            attempts:
+              this.userGamesStats.optional.audioChallenge?.today.attempts !==
+              undefined
+                ? this.userGamesStats.optional.audioChallenge?.today.attempts
+                : 0,
+            success:
+              this.userGamesStats.optional.audioChallenge?.today.success !==
+              undefined
+                ? this.userGamesStats.optional.audioChallenge?.today.success
+                : 0,
+            rightGuessesInRow:
+              this.userGamesStats.optional.audioChallenge?.today
+                .rightGuessesInRow !== undefined
+                ? this.userGamesStats.optional.audioChallenge?.today
+                    .rightGuessesInRow
+                : 0,
+            date:
+              this.userGamesStats.optional.audioChallenge?.today.date !==
+              undefined
+                ? this.userGamesStats.optional.audioChallenge?.today.date
+                : 0,
+          },
+          allTime: {
+            attempts:
+              this.userGamesStats.optional.audioChallenge?.allTime.attempts !==
+              undefined
+                ? this.userGamesStats.optional.audioChallenge?.allTime.attempts
+                : 0,
+            success:
+              this.userGamesStats.optional.audioChallenge?.allTime.success !==
+              undefined
+                ? this.userGamesStats.optional.audioChallenge?.allTime.success
+                : 0,
+            rightGuessesInRow:
+              this.userGamesStats.optional.audioChallenge?.allTime
+                .rightGuessesInRow !== undefined
+                ? this.userGamesStats.optional.audioChallenge?.allTime
+                    .rightGuessesInRow
+                : 0,
+          },
+        },
+      },
+    };
     (Object.keys(Games) as Array<keyof typeof Games>).map(key => {
       if (optionsStats.optional[Games[key]]!.today.date! < today) {
         optionsStats.optional[Games[key]]!.today.attempts = 0;
@@ -187,17 +339,26 @@ export class ProcessStatisticsService {
   }
 
   processWordsStatistics() {
-    const userWordIds = this.userWords.map((el: IWordsData) => el.wordId);
-    this.serviceData.gameStats.forEach((el: ISprintStats) => {
-      userWordIds.includes(el.id)
-        ? this.processUserWord(
-            <IWordsData>(
-              this.userWords.find((word: IWordsData) => word.wordId === el.id)
-            ),
-            el
-          )
-        : this.processNotUserWord(el.id, el);
-    });
+    this.http
+      .get(url + QueryParams.register + SLASH + this.userId + QueryParams.words)
+      .subscribe({
+        next: (data: any) => {
+          this.userWords = data;
+          const userWordIds = this.userWords.map((el: IWordsData) => el.wordId);
+          this.serviceData.gameStats.forEach((el: ISprintStats) => {
+            userWordIds.includes(el.id)
+              ? this.processUserWord(
+                  <IWordsData>(
+                    this.userWords.find(
+                      (word: IWordsData) => word.wordId === el.id
+                    )
+                  ),
+                  el
+                )
+              : this.processNotUserWord(el);
+          });
+        },
+      });
   }
 
   processStatistics() {

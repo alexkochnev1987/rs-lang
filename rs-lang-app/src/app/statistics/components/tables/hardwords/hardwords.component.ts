@@ -84,9 +84,7 @@ export class HardWordsComponent implements OnInit {
   setWordDifficult(id: string) {
     this.setWord.getWord(id).subscribe({
       next: res => {
-        this.setWord
-          .putWord(res, this.setWord.createEasyWord(res))
-          .subscribe({ next: r => console.log(r) });
+        this.setWord.putWord(res, this.setWord.createEasyWord(res)).subscribe();
       },
     });
   }

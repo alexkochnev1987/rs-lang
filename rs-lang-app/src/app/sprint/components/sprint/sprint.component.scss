@@ -205,3 +205,14 @@
     background-color: $paginationArrowDisabled;
   }
 }
+
+.no-words {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.no-words-heading {
+  @include heading4;
+}

@@ -78,9 +78,7 @@ export class EasyWordsComponent implements OnInit {
   setWordHard(id: string) {
     this.setWord.getWord(id).subscribe({
       next: res => {
-        this.setWord
-          .putWord(res, this.setWord.createHardWord(res))
-          .subscribe({ next: r => console.log(r) });
+        this.setWord.putWord(res, this.setWord.createHardWord(res)).subscribe();
       },
     });
   }

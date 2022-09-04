@@ -31,37 +31,6 @@ export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
 export const STATISTICS_WORDS_LENGTH = 10;
 export const TIMER_LINE_SECTIONS = 40;
-export const GAME_STATS_TEMPLATE: GameStatistics = {
-  learnedWords: 0,
-  optional: {
-    sprint: {
-      today: {
-        attempts: 0,
-        success: 0,
-        rightGuessesInRow: 0,
-        date: 0,
-      },
-      allTime: {
-        attempts: 0,
-        success: 0,
-        rightGuessesInRow: 0,
-      },
-    },
-    audioChallenge: {
-      today: {
-        attempts: 0,
-        success: 0,
-        rightGuessesInRow: 0,
-        date: 0,
-      },
-      allTime: {
-        attempts: 0,
-        success: 0,
-        rightGuessesInRow: 0,
-      },
-    },
-  },
-};
 export const FROM_HARD_TO_EASY_TIMES = 5;
 export const FROM_LEARNED_TO_EASY_TIMES = 3;
 export const STATISTICS_NOT_FOUND = 'Statistics not found';
@@ -245,6 +214,7 @@ export interface GameOptions {
 export interface GameStatistics {
   learnedWords: number;
   optional: {
+    [x: string]: any;
     sprint?: {
       today: GameOptions;
       allTime: GameOptions;
