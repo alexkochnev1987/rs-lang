@@ -27,6 +27,7 @@ import {
   FROM_HARD_TO_EASY_TIMES,
   FROM_LEARNED_TO_EASY_TIMES,
   aggregatedWords,
+  GameSound,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -56,6 +57,7 @@ export class SprintComponent implements OnInit {
   userWords: IWord[] = [];
   wordIds: string[] = [];
   userGamesStats!: GameStatistics;
+  soundlink!: GameSound;
   currentGame = GAME_2;
   timer = SPRINT_TIMER * 10;
   fixSprintTimer = SPRINT_TIMER;
@@ -338,6 +340,7 @@ export class SprintComponent implements OnInit {
     buttonPressed.classList.remove('button-dashed-correct');
     buttonPressed.classList.remove('button-dashed-wrong');
     if (answer === this.isCorrect) {
+      this.soundlink = GameSound.success;
       this.gameScore += 50 + this.comboBonus;
       this.combo++;
       buttonPressed.setAttribute('disabled', '');
@@ -346,6 +349,7 @@ export class SprintComponent implements OnInit {
         buttonPressed.removeAttribute('disabled');
       }, 0);
     } else {
+      this.soundlink = GameSound.failed;
       this.combo = 0;
       buttonPressed.setAttribute('disabled', '');
       setTimeout(() => {
@@ -353,6 +357,7 @@ export class SprintComponent implements OnInit {
         buttonPressed.removeAttribute('disabled');
       }, 0);
     }
+    new Audio(this.soundlink).play();
     this.comboBonus = this.combo * CORRECT_ANSWER_POINTS * COMBO_BONUS_GROWTH;
     this.longestCombo =
       this.combo > this.longestCombo ? this.combo : this.longestCombo;
@@ -430,6 +435,11 @@ export class SprintComponent implements OnInit {
   noWordsToLearn() {
     console.log('ALL WORDS LEARNED');
     this.isAllWordsLearned = true;
+  }
+
+  playAudio(urlocation: string) {
+    const audio = new Audio(url + SLASH + urlocation);
+    audio.play();
   }
 
   processStatistics() {

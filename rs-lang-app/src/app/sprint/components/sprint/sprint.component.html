@@ -111,7 +111,9 @@
           }}</span>
         </div>
         <div class="stats-transcription">
-          <div class="transcription-audio"></div>
+          <div
+            class="transcription-audio"
+            (click)="playAudio(stat.audio)"></div>
           <div class="transcription-word">{{ stat.transcription }}</div>
         </div>
         <div class="word-translation">{{ stat.wordTranslate }}</div>
