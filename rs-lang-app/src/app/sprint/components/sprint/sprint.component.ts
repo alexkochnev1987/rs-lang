@@ -28,6 +28,7 @@ import {
   FROM_LEARNED_TO_EASY_TIMES,
   aggregatedWords,
   GameSound,
+  ACTIVATE_LOAD_WORDS_LEFT,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -68,6 +69,7 @@ export class SprintComponent implements OnInit {
   isAuth = false;
   isCorrect = false;
   isAllWordsLearned = false;
+  isWordsLoading = false;
   currentLevel = 1;
   loadingProgress = 0;
   wordsCounter = 0;
@@ -78,6 +80,7 @@ export class SprintComponent implements OnInit {
   totalWords = 0;
   successWords = 0;
   successWordsPersent = 0;
+  nextLoadingPage = 0;
   progress = '';
   currentWord = '';
   correctTranslate = '';
@@ -139,18 +142,20 @@ export class SprintComponent implements OnInit {
     }
   }
 
-  getWords(filter: 'all' | 'hard') {
-    const filterString =
-      filter === 'all'
-        ? '{"$nor":[{"userWord":null}]}'
-        : '{"userWord.difficulty":"hard"}';
+  getWords(filter: 'all' | 'hard' | { level: number; page: number }) {
+    let filterString: string;
+    if (filter === 'all') filterString = '{"$nor":[{"userWord":null}]}';
+    if (filter === 'hard') filterString = '{"userWord.difficulty":"hard"}';
+    if (filter instanceof Object) {
+      filterString = `{"$and":[{"group":${filter.level}},{"page":${filter.page}},{"$nor":[{"userWord.difficulty":"easy"}]}]}`;
+    }
     return this.http.get(
       url +
         QueryParams.register +
         SLASH +
         this.userId +
         `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
-          filterString
+          filterString!
         )}`
     );
   }
@@ -208,14 +213,6 @@ export class SprintComponent implements OnInit {
       this.currentLevel,
       this.currentPage
     );
-    this.currentPage
-      ? console.log(
-          'Playing Level:',
-          this.currentLevel,
-          '; page: ',
-          this.currentPage + 1
-        )
-      : console.log('Playing Level:', this.currentLevel, ' all pages');
     if (this.currentLevel === 7) {
       this.getWords('hard').subscribe((data: any) => {
         this.filterWords(data[0].paginatedResults);
@@ -254,7 +251,6 @@ export class SprintComponent implements OnInit {
           delete el._id;
           return el;
         }));
-    console.log('DATA: ', readyWordArray);
     if (this.isAuth && this.currentPage !== undefined) {
       this.getEasyWords().subscribe({
         next: (data: any) => {
@@ -318,10 +314,41 @@ export class SprintComponent implements OnInit {
     this.isCorrect = Math.random() > 0.5 ? true : false;
     this.currentAnswer = this.wordsArray[this.wordsCounter];
     this.wordImage = url + SLASH + this.wordsArray[this.wordsCounter].image;
-    // if (this.gamePicture)
-    //   this.gamePicture.nativeElement.style = `background-image: url(${this.wordImage})`;
     this.currentWord = this.wordsArray[this.wordsCounter].word;
-    console.log(this.wordsArray[this.wordsCounter]);
+    if (
+      this.wordsArray.length - this.wordsCounter <= ACTIVATE_LOAD_WORDS_LEFT &&
+      !this.isWordsLoading &&
+      this.wordsArray[this.wordsArray.length - 1].page > 0
+    ) {
+      let loadGroup = this.wordsArray[this.wordsArray.length - 1].group;
+      let loadPage = this.wordsArray[this.wordsArray.length - 1].page - 1;
+      this.isWordsLoading = true;
+      console.log('Word loading activated...');
+      this.getWords({ level: loadGroup, page: loadPage }).subscribe(
+        (data: any) => {
+          let loadedData = data[0].paginatedResults.map((el: any) => {
+            el.id = el._id;
+            delete el._id;
+            return el;
+          });
+          let currentIndex = loadedData.length;
+          let randomIndex;
+          while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [loadedData[currentIndex], loadedData[randomIndex]] = [
+              loadedData[randomIndex],
+              loadedData[currentIndex],
+            ];
+          }
+          this.wordsArray.push(...loadedData);
+          this.isWordsLoading = false;
+        }
+      );
+    }
+    if (this.wordsArray[this.wordsArray.length - 1].page === 0) {
+      console.log('LAST PAGE. WORDS NOT LOADED');
+    }
     this.correctTranslate = this.wordsArray[this.wordsCounter].wordTranslate;
     this.wrongTranslate =
       this.wordsArray[
@@ -574,7 +601,6 @@ export class SprintComponent implements OnInit {
             ? this.longestCombo
             : dataLocation.today.rightGuessesInRow;
       }
-      console.log(optionsStats);
       this.putUserStatistics(optionsStats);
     });
   }
@@ -691,8 +717,6 @@ export class SprintComponent implements OnInit {
       SLASH +
       word.wordId!;
     const response = this.http.put(url + locationWord, optionsWord);
-    response.subscribe((data: any) => {
-      console.log('DATA: ', data);
-    });
+    response.subscribe();
   }
 }
