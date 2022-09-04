@@ -113,7 +113,7 @@ export class CardComponent implements OnInit {
       );
     }
   }
-  
+
   isNotMarkedWord(wordId: string): any {
     if (this.userWordsNoFilter) {
       const difficulty = this.userWordsNoFilter.find(
@@ -140,7 +140,7 @@ export class CardComponent implements OnInit {
   setStateOfOfWord(state: string, wordId: string) {
     let response: any;
     let put = false;
-    const body = { difficulty: state };
+    const body = { difficulty: state, optional: { rightGuessesInRow: 0 } };
     const location =
       QueryParams.register +
       SLASH +
