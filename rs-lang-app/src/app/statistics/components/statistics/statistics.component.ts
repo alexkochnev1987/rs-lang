@@ -39,21 +39,13 @@ export class StatisticsComponent implements OnInit {
     this.pagesDataService.setPage(AppPages.DashBoard);
   }
 
-  getAggregatedWords() {
-    this.queryService.getAggregatedWords().subscribe({
-      next: res => console.log(res),
-    });
-  }
-
   getStatistics() {
     this.queryService.getUserStatistics().subscribe({
       next: res => console.log(res),
     });
   }
 
-  getSettings() {
-    this.queryService.getUserSettings().subscribe({
-      next: res => console.log(res),
-    });
+  getUserWords() {
+    this.queryService.getUserWords().subscribe();
   }
 }

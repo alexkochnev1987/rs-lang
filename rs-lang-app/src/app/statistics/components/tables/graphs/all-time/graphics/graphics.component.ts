@@ -14,14 +14,7 @@ export class GraphicsComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    // this.findEasyWords();
-    console.log(this.wordsByDate);
-  }
-
-  findEasyWords(words: IWord[]) {
-    return words.filter(word => word.difficulty === Difficulty.Easy).length;
-  }
+  ngOnInit(): void {}
 
   findHardWords(words: IWord[]) {
     return words.filter(word => word.difficulty === Difficulty.Hard).length;
