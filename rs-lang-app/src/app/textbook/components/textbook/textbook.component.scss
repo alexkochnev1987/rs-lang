@@ -90,15 +90,15 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 30px 30px 10px;
+  padding: 30px;
   gap: 20px;
   position: absolute;
+  min-width: 1100px;
   width: 85vw;
   height: 110px;
   top: 120px;
   left: 7vw;
   background: $cardBackgroundColor;
-  border: 5px solid $borderTitleBlockColor;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   z-index: 1;
@@ -156,7 +156,7 @@ a {
   width: 10px;
   height: 10px;
   position: relative;
-  top: -25px;
+  top: -20px;
   left: 10px;
   background-image: url(/assets/img/learned-page.png);
 }
@@ -166,17 +166,22 @@ a {
   justify-content: center;
   align-items: center;
   padding: 0px;
+  margin-top: -5px;
   gap: 10px;
   width: 516px;
   height: 50px;
   background: $borderLearnedColor;
   border-radius: 10px;
   align-self: stretch;
-  color: $cardBackgroundColor;
   @include font14bold;
+}
+
+.learned-title span{
+  color: $cardBackgroundColor;
 }
 .check-mark {
   background-image: url(/assets/img/check-mark.png);
   width: 24px;
   height: 21px;
+
 }
