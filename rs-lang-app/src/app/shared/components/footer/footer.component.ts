@@ -16,7 +16,7 @@ export class FooterComponent implements OnInit {
 
   getGitIcon(author: authorCard) {
     return {
-      'background-image': `url('../../../assets/img/footer_git_${author.id}.svg')`,
+      'background-image': `url('assets/img/footer_git_${author.id}.svg')`,
     };
   }
 }

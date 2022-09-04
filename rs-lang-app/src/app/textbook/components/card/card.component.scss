@@ -70,7 +70,7 @@
 .speaker,
 .speaker-2,
 .speaker-3 {
-  background-image: url(/assets/img/speaker.png);
+  background-image: url(^assets/img/speaker.png);
   background-size: cover;
   width: 12px;
   min-height: 12px;
@@ -147,7 +147,7 @@
 }
 .button-ok {
   grid-area: x;
-  background: url(/assets/img/ok.png);
+  background: url(^assets/img/ok.png);
   background-repeat: no-repeat;
   background-position: center;
   width: 29px;
@@ -166,7 +166,7 @@
 
 .button-difficult {
   grid-area: y;
-  background: url(/assets/img/difficult.png);
+  background: url(^assets/img/difficult.png);
   background-repeat: no-repeat;
   background-position: center;
   width: 29px;
