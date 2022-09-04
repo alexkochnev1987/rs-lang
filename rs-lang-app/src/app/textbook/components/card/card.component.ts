@@ -113,6 +113,7 @@ export class CardComponent implements OnInit {
       );
     }
   }
+  
   isNotMarkedWord(wordId: string): any {
     if (this.userWordsNoFilter) {
       const difficulty = this.userWordsNoFilter.find(

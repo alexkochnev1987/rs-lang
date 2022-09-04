@@ -10,6 +10,12 @@
   width: 50px;
   height: 18px;
   background-image: url(/assets/img/rs_school-logo.png);
+  &:hover{
+    transform: scale(.95);
+  }
+  &:active{
+    transform: scale(.90);
+  }
 }
 
 .authors-links {
@@ -21,6 +27,12 @@
 .author-link {
   width: 30px;
   height: 30px;
+  &:hover{
+    transform: scale(.95);
+  }
+  &:active{
+    transform: scale(.90);
+  }
 }
 
 .footer-year {

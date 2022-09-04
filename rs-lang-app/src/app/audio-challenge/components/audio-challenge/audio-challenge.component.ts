@@ -32,7 +32,6 @@ import {
   QueryParams,
   SLASH,
   url,
-  UserStatistics,
 } from 'src/app/constants';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -334,7 +333,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.isDenied = false;
         this.begin();
-      }, 1000);
+      });
     } else {
       this.timeFinish = Date.now();
       this.duration = Math.round((this.timeFinish - this.timeStart) / 1000);
@@ -383,7 +382,13 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
         let prevAttempts = wordData?.optional?.attempts;
         let prevSuccess = wordData?.optional?.success;
         const prevDateFirstTime = wordData?.optional?.dateFirstTime;
+        const prevDateEasy = wordData?.optional?.dateFirstTime;
         success ? (valueSuccess = 1) : (valueSuccess = 0);
+        if (prevDateEasy) {
+          currentDateEasy = prevDateEasy;
+        } else {
+          currentDateEasy = 0;
+        }
         if (prevAttempts === undefined || prevAttempts === null) {
           prevAttempts = 0;
           currentDateFirstTime = Date.now();
@@ -480,26 +485,22 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     };
     response = this.http.put(
       url + QueryParams.register + SLASH + this.userId + QueryParams.statistics,
-      {}
+      null
     );
     response.subscribe();
-
-    timer(1000)
-      .pipe(
-        mergeMap(() =>
-          this.http.get(
-            url +
-              QueryParams.register +
-              SLASH +
-              this.userId +
-              QueryParams.statistics
-          )
-        )
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          QueryParams.statistics
       )
+
       .subscribe({
         next: (data: any) => {
           this.userStatistics = data;
-          console.log(this.userStatistics);
+          const sprintContent = this.userStatistics?.optional?.sprint;
           let prevLearnedWords = this.userStatistics?.learnedWords;
           if (!prevLearnedWords) prevLearnedWords = 0;
           let prevTodayAttempts =
@@ -565,6 +566,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
           body = {
             learnedWords: currentLearnedWords,
             optional: {
+              sprint: sprintContent,
               audioChallenge: {
                 today: this.todayGameOptions,
                 allTime: this.allTimeGameOptions,

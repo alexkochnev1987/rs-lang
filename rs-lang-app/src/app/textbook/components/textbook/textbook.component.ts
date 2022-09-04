@@ -1,9 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthInterceptor } from 'src/app/auth.interceptor';
@@ -15,6 +11,8 @@ import {
   IWord,
   IWordCard,
   LEARNED_PAGE,
+  LevelColor,
+  LEVELS_COLORS,
   LEVEL_KEY,
   PageRoutes,
   PAGE_KEY,
@@ -41,6 +39,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   source = url + SLASH;
   group: number = 0;
   page = 0;
+  levels: LevelColor[] = LEVELS_COLORS;
   cards: IWordCard[] = [];
   game1 = PLAY_PREFIX + GAME_1;
   game2 = PLAY_PREFIX + GAME_2;
@@ -52,6 +51,8 @@ export class TextbookComponent implements OnInit, OnDestroy {
   userWordsNoFilter: IWord[] = [];
   learnedPages: number[] = [];
   private subscription: Subscription;
+  easyCount = 0;
+  isLearnedPage = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,16 +66,21 @@ export class TextbookComponent implements OnInit, OnDestroy {
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.group = params['id'];
+      this.isLearnedPage = false;
       this.storage.setItem(LEVEL_KEY, this.group);
       this.page = Number(this.storage.getItem(PAGE_KEY)) || 0;
       if (this.userDataService.isRegistered()) {
         this.userId = this.userDataService.getUser().userId;
+        this.getUserWords();
       }
       if (this.group == 7) {
+        this.cards = [];
         this.loadDifficultWords();
         this.page = 0;
+      } else {
+        this.load();
       }
-      this.load();
+      this.getIsLearnedPage();
       this.textbookDataService.setCurrentLevel(this.group);
     });
   }
@@ -84,6 +90,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
     this.getUserWords();
     this.pagesDataService.setPage(AppPages.TextBook);
     this.page = Number(this.storage.getItem(PAGE_KEY)) || 0;
+    setInterval(() => this.getIsLearnedPage(), 1000);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -100,13 +107,19 @@ export class TextbookComponent implements OnInit, OnDestroy {
   changePage(page: number) {
     this.storage.setItem(PAGE_KEY, page - 1);
     this.page = page - 1;
+    this.isLearnedPage = false;
     this.load();
   }
 
   load() {
     this.httpService
       .getData(`/words?group=${this.group - 1}&page=${this.page}`)
-      .subscribe({ next: (data: any) => (this.cards = data) });
+      .subscribe({
+        next: (data: any) => {
+          this.cards = data;
+          this.getIsLearnedPage();
+        },
+      });
   }
   pageDown() {
     if (this.page > 0) this.changePage(this.page);
@@ -147,8 +160,27 @@ export class TextbookComponent implements OnInit, OnDestroy {
         });
     }
   }
-  getIsLearnedPage(page: number) {
-    return false;
+
+  isEasyWord(wordId: string): any {
+    if (!this.userId) {
+      return false;
+    }
+    if (this.userWordsNoFilter) {
+      return (
+        this.userWordsNoFilter.find(item => item.wordId === wordId)
+          ?.difficulty === Difficulty.Easy
+      );
+    }
+  }
+  getIsLearnedPage() {
+    this.getUserWords;
+    this.cards.forEach(item => {
+      if (this.isEasyWord(item.id)) this.easyCount++;
+    });
+    if (this.easyCount === 20) {
+      this.isLearnedPage = true;
+    }
+    this.easyCount = 0;
   }
 
   setLevelPage(arr: number[]) {
