@@ -26,7 +26,7 @@ export const AUDIO_CHALLENGE_ATTEMPTS = 10;
 export const PAGE_KEY = 'currentTextbookPage';
 export const LEVEL_KEY = 'currentLevel';
 export const LEARNED_PAGE = 'YOU LEARNED ALL WORDS FROM THIS PAGE!';
-export const SPRINT_TIMER = 5;
+export const SPRINT_TIMER = 30;
 export const CORRECT_ANSWER_POINTS = 50;
 export const COMBO_BONUS_GROWTH = 0.1;
 export const STATISTICS_WORDS_LENGTH = 10;
@@ -279,4 +279,28 @@ export interface OneGameStatistics {
 export interface FilterWordsByDate {
   date: string;
   words: IWord[];
+}
+export interface aggregatedWords {
+  _id: 'string';
+  group: 0;
+  page: 0;
+  word: 'string';
+  image: 'string';
+  audio: 'string';
+  audioMeaning: 'string';
+  audioExample: 'string';
+  textMeaning: 'string';
+  textExample: 'string';
+  transcription: 'string';
+  wordTranslate: 'string';
+  textMeaningTranslate: 'string';
+  textExampleTranslate: 'string';
+  userWord: {
+    difficulty: Difficulty;
+    optional?: {
+      attempts: number;
+      success: number;
+      rightGuessesInRow: number;
+    };
+  };
 }

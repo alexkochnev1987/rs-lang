@@ -26,6 +26,7 @@ import {
   Difficulty,
   FROM_HARD_TO_EASY_TIMES,
   FROM_LEARNED_TO_EASY_TIMES,
+  aggregatedWords,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -82,6 +83,7 @@ export class SprintComponent implements OnInit {
   wordTranslation = '';
   btnStyleNo = '';
   btnStyleYes = '';
+  wordImage = '';
 
   constructor(
     private userService: UserDataService = new UserDataService(),
@@ -122,6 +124,9 @@ export class SprintComponent implements OnInit {
   @ViewChild('buttonNo')
   buttonNo: ElementRef | undefined;
 
+  // @ViewChild('gamePicture')
+  // gamePicture: ElementRef | undefined;
+
   ngOnInit(): void {
     if (this.isAuth) this.getUserStatistics();
     this.pageDataService.setPage(AppPages.MiniGames);
@@ -132,60 +137,66 @@ export class SprintComponent implements OnInit {
     }
   }
 
+  getWords(filter: 'all' | 'hard') {
+    const filterString =
+      filter === 'all'
+        ? '{"$nor":[{"userWord":null}]}'
+        : '{"userWord.difficulty":"hard"}';
+    return this.http.get(
+      url +
+        QueryParams.register +
+        SLASH +
+        this.userId +
+        `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+          filterString
+        )}`
+    );
+  }
+
   getUserWords() {
-    this.http
-      .get(
-        url +
-          QueryParams.register +
-          SLASH +
-          this.userId +
-          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
-            '{"$nor":[{"userWord":null}]}'
-          )}`
-      )
-      .subscribe({
-        next: (data: any) => {
-          if (data[0].paginatedResults.length !== 0) {
-            this.getUserStatistics();
-          }
-          if (data[0].paginatedResults.length === 0) {
-            console.log('User had no statistics. Creating user statistics...');
-            const optionsStats: GameStatistics = {
-              learnedWords: 0,
-              optional: {
-                sprint: {
-                  today: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                    date: 0,
-                  },
-                  allTime: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                  },
+    this.getWords('all').subscribe({
+      next: (data: any) => {
+        if (data[0].paginatedResults.length !== 0) {
+          this.getUserStatistics();
+        }
+        if (data[0].paginatedResults.length === 0) {
+          console.log('User had no statistics. Creating user statistics...');
+          const optionsStats: GameStatistics = {
+            learnedWords: 0,
+            optional: {
+              sprint: {
+                today: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
+                  date: 0,
                 },
-                audioChallenge: {
-                  today: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                    date: 0,
-                  },
-                  allTime: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                  },
+                allTime: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
                 },
               },
-            };
-            this.putUserStatistics(optionsStats);
-          }
-          this.userWords = data;
-        },
-      });
+              audioChallenge: {
+                today: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
+                  date: 0,
+                },
+                allTime: {
+                  attempts: 0,
+                  success: 0,
+                  rightGuessesInRow: 0,
+                },
+              },
+            },
+          };
+          this.putUserStatistics(optionsStats);
+        }
+        this.userWords = data;
+      },
+    });
   }
 
   loadWords(page?: number) {
@@ -203,31 +214,45 @@ export class SprintComponent implements OnInit {
           this.currentPage + 1
         )
       : console.log('Playing Level:', this.currentLevel, ' all pages');
-    const observables = wordsResponse.createWordsResponse();
-    const len = observables.length;
-    const observable = forkJoin(
-      observables.map(el =>
-        el.pipe(
-          tap(() => {
-            this.loadingProgress++;
-            this.progress = `Loading...${Math.round(
-              (this.loadingProgress / len) * 100
-            )}%`;
-          })
+    if (this.currentLevel === 7) {
+      this.getWords('hard').subscribe((data: any) => {
+        this.filterWords(data[0].paginatedResults);
+      });
+    }
+    if (this.currentLevel < 7) {
+      const observables = wordsResponse.createWordsResponse();
+      const len = observables.length;
+      const observable = forkJoin(
+        observables.map(el =>
+          el.pipe(
+            tap(() => {
+              this.loadingProgress++;
+              this.progress = `Loading...${Math.round(
+                (this.loadingProgress / len) * 100
+              )}%`;
+            })
+          )
         )
-      )
-    );
-    observable.subscribe((data: any) => {
-      this.filterWords(data);
-    });
+      );
+      observable.subscribe((data: any) => {
+        this.filterWords(data);
+      });
+    }
   }
 
   filterWords(data: any) {
     let userEasyWordsIds: string[] = [];
     let readyWordArray: IWordCard[] = [];
-    data.forEach((wordsPageArray: IWordCard[]) => {
-      readyWordArray.push(...wordsPageArray);
-    });
+    this.currentLevel < 7
+      ? data.forEach((wordsPageArray: IWordCard[]) => {
+          readyWordArray.push(...wordsPageArray);
+        })
+      : (readyWordArray = data.map((el: any) => {
+          el.id = el._id;
+          delete el._id;
+          return el;
+        }));
+    console.log('DATA: ', readyWordArray);
     if (this.isAuth && this.currentPage !== undefined) {
       this.getEasyWords().subscribe({
         next: (data: any) => {
@@ -290,7 +315,11 @@ export class SprintComponent implements OnInit {
   getWord() {
     this.isCorrect = Math.random() > 0.5 ? true : false;
     this.currentAnswer = this.wordsArray[this.wordsCounter];
+    this.wordImage = url + SLASH + this.wordsArray[this.wordsCounter].image;
+    // if (this.gamePicture)
+    //   this.gamePicture.nativeElement.style = `background-image: url(${this.wordImage})`;
     this.currentWord = this.wordsArray[this.wordsCounter].word;
+    console.log(this.wordsArray[this.wordsCounter]);
     this.correctTranslate = this.wordsArray[this.wordsCounter].wordTranslate;
     this.wrongTranslate =
       this.wordsArray[
@@ -581,7 +610,14 @@ export class SprintComponent implements OnInit {
   }
 
   processNotUserWord(wordGameStats: ISprintStats) {
-    let body = { difficulty: Difficulty.Learned, optional: {} };
+    let body = {
+      difficulty: Difficulty.Learned,
+      optional: {
+        attempts: 1,
+        success: wordGameStats.success ? 1 : 0,
+        rightGuessesInRow: wordGameStats.success ? 1 : 0,
+      },
+    };
     const location =
       url +
       QueryParams.register +
@@ -594,7 +630,7 @@ export class SprintComponent implements OnInit {
   }
 
   processUserWord(word: IWordsData, wordGameStats: ISprintStats) {
-    const optionsWord: IWordsData = {
+    let optionsWord: IWordsData = {
       difficulty: word.difficulty,
       optional: word.optional
         ? {
@@ -637,18 +673,16 @@ export class SprintComponent implements OnInit {
     ) {
       optionsWord.difficulty = Difficulty.Easy;
     }
-    this.putUserWordData(word.wordId!, optionsWord);
-  }
-
-  putUserWordData(wordId: string, options: IWordsData) {
     const locationWord =
       QueryParams.register +
       SLASH +
       this.userId +
       QueryParams.words +
       SLASH +
-      wordId;
-    const response = this.http.put(url + locationWord, options);
-    response.subscribe();
+      word.wordId!;
+    const response = this.http.put(url + locationWord, optionsWord);
+    response.subscribe((data: any) => {
+      console.log('DATA: ', data);
+    });
   }
 }

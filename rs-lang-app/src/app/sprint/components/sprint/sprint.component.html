@@ -42,7 +42,9 @@
       <div class="game-timer">{{ (timer / 10).toFixed(1) }}</div>
     </div>
     <div class="game-container">
-      <div class="progress-picture"></div>
+      <div class="game-picture">
+        <img class="word-picture" src="{{ wordImage }}" alt="currentWord" />
+      </div>
       <div class="game-elements">
         <h4 class="game-score">
           SCORE: <span class="green">{{ gameScore }}</span>
