@@ -104,8 +104,6 @@
   height: 16px;
   cursor: pointer;
 }
-.speaker {
-}
 .word {
   @include font20;
   text-transform: capitalize;
@@ -161,10 +159,6 @@
 .example-translate {
   color: $exampleTextColor;
   @include font12;
-}
-.speaker-2 {
-}
-.speaker-3 {
 }
 .button-ok {
   background: url(^assets/img/ok.png);
