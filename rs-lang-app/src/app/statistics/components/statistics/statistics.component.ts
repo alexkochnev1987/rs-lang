@@ -3,8 +3,6 @@ import { PageRoutes, UserStatistics } from 'src/app/constants';
 import { AppPages } from 'src/app/constants';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { QueryService } from 'src/app/core/service/query.service';
-import { HttpService } from 'src/app/core/services/http.service';
-import { StatisticsService } from 'src/app/core/services/statistics.service';
 
 @Component({
   selector: 'app-statistics',
@@ -33,6 +31,11 @@ export class StatisticsComponent implements OnInit {
       next: res => {
         console.log(res);
         this.statistics = res;
+      },
+    });
+    this.queryService.getAggregatedWords().subscribe({
+      next: res => {
+        console.log(res);
       },
     });
   }

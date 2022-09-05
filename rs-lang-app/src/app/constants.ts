@@ -106,8 +106,8 @@ export enum AppPages {
   Authorization,
 }
 export enum GameSound {
-  success = '/assets/mp3/success.mp3',
-  failed = '/assets/mp3/failed.mp3',
+  success = 'assets/mp3/success.mp3',
+  failed = 'assets/mp3/failed.mp3',
 }
 
 export interface authorCard {

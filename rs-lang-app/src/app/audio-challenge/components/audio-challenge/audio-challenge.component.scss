@@ -33,7 +33,7 @@ h1{
 
 .attempts-block {
   display: flex;
-  flex-direction: colmn;
+  flex-direction: column;
   align-items: flex-end;
   padding: 20px 0px 0px;
   gap: 5px;
@@ -165,14 +165,14 @@ h1{
 .heart {
   width: 30px;
   height: 22px;
-  background-image: url(/assets/img/white-heart.png);
+  background-image: url(^assets/img/white-heart.png);
   background-repeat: no-repeat;
 }
 
 .red-heart {
   animation-name: hearts-animation;
   animation-duration: 3s;
-  background-image: url(/assets/img/red-heart.png);
+  background-image: url(^assets/img/red-heart.png);
   background-repeat: no-repeat;
 }
 
@@ -183,7 +183,7 @@ h1{
   justify-content: center;
   width: 15px;
   height: 15px;
-  background-image: url(/assets/img/small-grey-circle.png);
+  background-image: url(^assets/img/small-grey-circle.png);
   background-repeat: no-repeat;
 }
 .attempt-success {
@@ -191,14 +191,14 @@ h1{
   animation-duration: 1s;
   width: 25px;
   height: 25px;
-  background-image: url(/assets/img/green-check-mark.png);
+  background-image: url(^assets/img/green-check-mark.png);
 }
 .attempt-failed {
   animation-name: attempt-animation;
   animation-duration: 1s;
   width: 25px;
   height: 25px;
-  background-image: url(/assets/img/red-cross.png);
+  background-image: url(^assets/img/red-cross.png);
 }
 .from-textbook {
   display: flex;
