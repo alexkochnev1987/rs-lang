@@ -1,12 +1,5 @@
 @import "../../../app.component.scss";
 
-.stroke-container {
-  @include stroke-container;
-  padding: 30px;
-  width: calc((100% - $desktopIndent - 12px) / 2);
-  height: fit-content;
-}
-
 .author {
   display: flex;
   flex-wrap: wrap;
@@ -64,4 +57,9 @@
   background-repeat: no-repeat;
   background-size: 10px;
   padding-right: 25px;
+}
+
+.dashed-container {
+  width: calc((100% - $desktopIndent * 5) / 2);
+  height: fit-content;
 }
