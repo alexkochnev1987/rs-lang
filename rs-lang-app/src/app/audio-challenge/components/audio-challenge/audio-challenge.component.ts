@@ -433,6 +433,9 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
         if (prevDateFirstTime === 0 || prevDateFirstTime === undefined) {
           currentDateFirstTime = Date.now();
         }
+        if (prevDifficulty === Difficulty.Easy && success === false) {
+          currentDifficulty = Difficulty.Learned;
+        }
         body = {
           difficulty: currentDifficulty,
           optional: {
