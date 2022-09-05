@@ -54,7 +54,7 @@
         class="instructions"
         *ngIf="isGameStart && !isGameEnded">
         {{ instructions }}
-    </span>
+      </span>
       <div class="hearts-block">
         <div
           class="heart"
@@ -97,6 +97,7 @@
     </div>
   </div>
   <div class="alert" *ngIf="isAlert">
-    You don't have enough difficult  words, add more or choose another level!
+    You don't have enough difficult words to begin game, add more or choose
+    another level!
   </div>
 </div>
