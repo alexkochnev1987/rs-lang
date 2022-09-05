@@ -5,14 +5,14 @@
     <div>LONGEST SERIES</div>
   </div>
   <div class="rows">
-    <div>{{ statistics?.today?.attempts }}</div>
+    <div>{{ statistics?.today?.attempts || 0 }}</div>
     <div>
       <p>
-        {{ correctAnswers }}
+        {{ correctAnswers || 0 }}
       </p>
     </div>
     <div>
-      <p>{{ statistics?.today?.rightGuessesInRow }}</p>
+      <p>{{ statistics?.today?.rightGuessesInRow || 0 }}</p>
     </div>
   </div>
 </div>

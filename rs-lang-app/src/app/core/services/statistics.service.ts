@@ -74,7 +74,7 @@ export class StatisticsService {
         if (!mapArray.includes(stringDate)) mapArray.push(stringDate);
       }
     });
-    return mapArray.sort((a, b) => (a > b ? -1 : 1));
+    return mapArray.sort((a, b) => (new Date(a) > new Date(b) ? -1 : 1));
   }
 
   getWordsByDate(words: IWord[]) {
