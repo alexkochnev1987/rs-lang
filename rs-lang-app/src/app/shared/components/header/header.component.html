@@ -9,20 +9,28 @@
     </div>
     <div class="button-container">
       <div routerLink="/about" routerLinkActive="active" class="nav-button">
-        ABOUT
+        <div class="nav-text">ABOUT</div>
       </div>
       <div
-        (click)="showGamesMenu()"
+        (mouseover)="showGamesMenu()"
+        (mouseout)="showGamesMenu()"
         [class.active]="currentPage === AppPages.MiniGames"
         class="nav-button">
-        MINI-GAMES
+        <div class="nav-text">MINI-GAMES</div>
+        <div class="game-menu" [ngClass]="{ invisible: isGamesMenuInvisible }">
+          <app-games-menu></app-games-menu>
+        </div>
       </div>
       <div
         class="ebook"
-        (click)="showMenu()"
+        (mouseover)="showMenu()"
+        (mouseout)="showMenu()"
         [class.active]="currentPage === AppPages.TextBook"
         class="nav-button">
-        TEXTBOOK
+        <div class="nav-text">TEXTBOOK</div>
+        <app-units-menu
+          class="menu"
+          [ngClass]="{ invisible: isMenuInvisible }"></app-units-menu>
       </div>
       <div
         *ngIf="isUser()"
@@ -30,22 +38,8 @@
         routerLink="/statistics"
         routerLinkActive="active"
         class="nav-button">
-        DASHBOARD
+        <div class="nav-text">DASHBOARD</div>
       </div>
     </div>
-  </div>
-  <div
-    class="menu"
-    [ngClass]="{ invisible: isMenuInvisible }"
-    (click)="showMenu()">
-    <div class="menu-container">
-      <app-units-menu></app-units-menu>
-    </div>
-  </div>
-  <div
-    class="game-menu"
-    [ngClass]="{ notvisible: isGamesMenuInvisible }"
-    (click)="showGamesMenu()">
-    <app-games-menu></app-games-menu>
   </div>
 </div>

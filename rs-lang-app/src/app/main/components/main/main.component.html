@@ -25,37 +25,33 @@
 </div>
 <div class="games-wrapper">
   <div class="game-wrapper">
-    <div class="text-wrapper">
-      <div class="black-border">
-        <div class="text">
-          <h3>SPRINT MINI-GAME</h3>
-          <p>
-            Here will be the text about audio challenge mini-game and a little
-            more text. Here will be the text about audio challenge mini-game.
-          </p>
-          <button [routerLink]="link2">
-            <div class="border">TRY SPRINT</div>
-          </button>
-        </div>
+    <div class="dashed-container">
+      <div class="text">
+        <h3 class="heading-3">SPRINT MINI-GAME</h3>
+        <p class="inner-text">
+          Here will be the text about audio challenge mini-game and a little
+          more text. Here will be the text about audio challenge mini-game.
+        </p>
+        <button [routerLink]="link2" class="button-orange">TRY SPRINT</button>
       </div>
-      <img src="assets/img/sprint.png" alt="Sprint" />
     </div>
+    <img src="assets/img/sprint.png" alt="Sprint" />
   </div>
   <div class="game-wrapper">
-    <div class="text-wrapper">
-      <div class="black-border">
-        <div class="text">
-          <h3>AUDIO CHALLENGE MINI-GAME</h3>
-          <p>
-            Here will be the text about audio challenge mini-game and a little
-            more text. Here will be the text about audio challenge mini-game.
-          </p>
-          <button [routerLink]="[link1, link1Level, link1Page]">
-            <div class="border">TRY AUDIO CHALLENGE</div>
-          </button>
-        </div>
+    <div class="dashed-container">
+      <div class="text">
+        <h3 class="heading-3">AUDIO CHALLENGE MINI-GAME</h3>
+        <p class="inner-text">
+          Here will be the text about audio challenge mini-game and a little
+          more text. Here will be the text about audio challenge mini-game.
+        </p>
+        <button
+          [routerLink]="[link1, link1Level, link1Page]"
+          class="button-orange">
+          TRY AUDIO CHALLENGE
+        </button>
       </div>
-      <img src="assets/img/audio.png" alt="Audio Challenge" />
     </div>
+    <img src="assets/img/audio.png" alt="Audio Challenge" />
   </div>
 </div>

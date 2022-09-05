@@ -237,6 +237,9 @@ $desktopWidth: 1230px;
   border-radius: 10px;
   box-sizing: border-box;
 }
+@mixin shadow4px {
+  box-shadow: 0 4px 4px rgba($color: #000000, $alpha: 0.15);
+}
 .router-wrapper {
   display: flex;
   flex-direction: column;
@@ -348,4 +351,12 @@ $desktopWidth: 1230px;
   to {
     background-color: rgba($color: $borderDifficultColor, $alpha: 0.0);
   }
+}
+.dashed-container {
+  background-color: $containerBackground;
+  border-radius: 10px;
+  padding: 30px;
+  outline: 1px dashed $dashedStrokeGrey;
+  outline-offset: -4px;
+  @include shadow4px();
 }

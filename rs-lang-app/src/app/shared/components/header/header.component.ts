@@ -1,4 +1,10 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { AppPages } from 'src/app/constants';
 import { UserDataService } from 'src/app/core/services/user-data.service';
@@ -12,7 +18,6 @@ export class HeaderComponent implements OnInit {
   logoParts = ['{', 'RS', '}', 'Lang'];
   isMenuInvisible = true;
   isGamesMenuInvisible = true;
-  isGameMenuActivated = false;
   skip = true;
   currentPage = -1;
   AppPages = AppPages;
@@ -37,6 +42,9 @@ export class HeaderComponent implements OnInit {
     this.currentPage = this.pagesDataService.getPage();
   }
 
+  @ViewChild('gameMenu')
+  gameMenu!: ElementRef;
+
   showMenu() {
     this.isMenuInvisible = !this.isMenuInvisible;
     this.skip = true;
@@ -51,7 +59,6 @@ export class HeaderComponent implements OnInit {
 
   showGamesMenu() {
     this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
-    this.isGameMenuActivated = !this.isGameMenuActivated;
     this.skip = true;
   }
 
