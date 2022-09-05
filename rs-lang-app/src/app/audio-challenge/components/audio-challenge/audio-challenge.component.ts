@@ -243,8 +243,16 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   begin() {
     if (!this.isDenied) {
       this.dataLength = this.arrayForGuess.length;
-      this.isInProgress = false;
-      this.getWords();
+      if (this.dataLength < 4 && this.currentLevel < 7) {
+        this.isAlert = true;
+        this.isGameStart = false;
+        setTimeout(() => {
+          this.isAlert = false;
+        }, 3000);
+      } else {
+        this.isInProgress = false;
+        this.getWords();
+      }
     }
   }
 
