@@ -5,12 +5,12 @@
   <app-level-navigation [currentLevel]="group"></app-level-navigation>
   <div class="title-1">PLAY THIS LEVEL:</div>
   <app-menu-button
-    class="button-1"
+    class="game-button"
     *ngIf="!isLearnedPage"
     [gameName]="game1"
     [routerLink]="[link1, group, page + 1]"></app-menu-button>
   <app-menu-button
-    class="button-2"
+    class="game-button"
     *ngIf="!isLearnedPage"
     [gameName]="game2"
     [routerLink]="link2"

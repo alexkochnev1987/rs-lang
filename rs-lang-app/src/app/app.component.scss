@@ -260,6 +260,7 @@ $desktopWidth: 1230px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
   height: 34px;
   text-transform: uppercase;
   text-shadow: 1px 1px 0 rgba($color: #000000, $alpha: 0.15);

@@ -1,7 +1,7 @@
 <form [formGroup]="form" class="authorization">
   <div class="border">
-    <h3>Edit your name, e-mail, password</h3>
-    <div>
+    <div class="user-form">
+      <h2 class="heading-2">Edit your name, e-mail, password</h2>
       <input
         placeholder="Name"
         type="text"
@@ -47,16 +47,18 @@
         class="error">
         Min length 8
       </p>
+      <div class="user-buttons">
+        <button
+          type="submit"
+          class="edit button-green"
+          (click)="editUser()"
+          [disabled]="form.invalid || form.disabled">
+          Edit
+        </button>
+        <button class="cancel button-orange" (click)="goToStatistics()">
+          Cancel
+        </button>
+      </div>
     </div>
-    <button
-      type="submit"
-      class="edit"
-      (click)="editUser()"
-      [disabled]="form.invalid || form.disabled">
-      <div class="border-button">Edit</div>
-    </button>
-    <button class="cancel" (click)="goToStatistics()">
-      <div class="border-button">Cancel</div>
-    </button>
   </div>
 </form>

@@ -1,97 +1,123 @@
 @import '../../../app.component.scss';
 .card {
   position: relative;
+  width: fit-content;
+  height: 326px;
+}
+.dashed-container {
+  border: 6px solid white;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 27px;
+  transform: scale(1);
+  transition: 0.5s;
+}
+.main-part {
+  width: 220px;
+  background-color: $cardBackgroundColor;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
-  width: 285px;
-  height: 341px;
-  border: 2px solid $cardBorderColor;
+  align-items: center;
+  padding-bottom: 15px;
+  box-sizing: border-box;
+}
+.word-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.translate-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+.word-progress {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.word-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 10px;
+}
+.additional-part {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 15px;
+  gap: 20px;
+  opacity: 0;
+  visibility: hidden;
+  margin-top: -20px;
+  height: 0;
+  transition: margin 0.5s, opacity 1s;
+}
+.state-buttons,
+.meaning-section,
+.example-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}
+.word-status {
+  position: absolute;
+  top: -18px;
+  padding: 10px 15px 7px;
+  background-color: white;
   border-radius: 10px;
   outline: 1px dashed $dashedStrokeGrey;
   outline-offset: -4px;
-  margin-bottom: 30px;
-  padding: 10px;
-  background-color: $cardBackgroundColor;
+  @include fontSize10;
+  font-weight: 800;
 }
-.main-part {
-  width: 285px;
-  height: 300px;
-  background-color: $cardBackgroundColor;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  grid-template-areas:
-    '. . s s . .'
-    'a a a a a a'
-    'b . . . . c'
-    'd e . . .  .'
-    'f . . . . g';
-}
-.additional-part {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  grid-template-areas:
-    'x y . . . .'
-    'i j j j j j'
-    'k l l l l l'
-    'm m m m m m'
-    'n n n n n n';
-  opacity: 0;
-  visibility: hidden;
-  margin-top: -100px;
-  position: relative;
-  width: 285px;
-  min-height: 260px;
-  background-color: $cardBackgroundColor;
-  border-bottom: 2px solid $cardBorderColor;
-  border-left: 2px solid $cardBorderColor;
-  border-right: 2px solid $cardBorderColor;
-  border-radius: 0 0 10px 10px;
-  outline: 1px dashed $dashedStrokeGrey;
+.difficult-status {
+  background-color: $currentPageColor;
+  outline: 1px dashed white;
   outline-offset: -4px;
-  margin-bottom: 30px;
-  padding: 10px;
-  transition: margin 0.5s, opacity 1s;
+  color: white;
 }
-.word-status{
-  grid-template-areas: s;
-  @include font14bold;
-  text-decoration:underline;
+.learned-status {
+  background-color: $borderLearnedColor;
+  outline: 1px dashed white;
+  outline-offset: -4px;
+  color: white;
 }
 .word-image {
   width: 219px;
   height: 165px;
-  grid-area: a;
   margin-bottom: 10px;
 }
 .speaker,
 .speaker-2,
 .speaker-3 {
-  background-image: url(^assets/img/speaker.png);
-  background-size: cover;
-  width: 12px;
-  min-height: 12px;
-  max-height: 12px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
 }
 .speaker {
-  grid-area: d;
 }
 .word {
-  grid-area: b;
+  @include font20;
+  text-transform: capitalize;
 }
 .transcription {
-  grid-area: e;
+  @include fontTranscription;
   color: $transcriptionColor;
 }
 .translate {
-  grid-area: f;
+  @include font14;
 }
 .learn {
-  grid-area: c;
   width: 37px;
   height: 33px;
   display: flex;
@@ -102,7 +128,6 @@
   color: $headerBackgrounColor;
 }
 .rate {
-  grid-area: g;
   width: 30px;
   height: 33px;
   display: flex;
@@ -116,37 +141,32 @@
 .rate-title,
 .learn-title {
   @include fontSize10;
+  font-weight: 800;
 }
 .rate-value,
 .learn-value {
   @include fontSize14;
+  font-weight: 800;
 }
 .meaning {
-  grid-area: j;
   @include font14;
 }
 .example {
-  grid-area: l;
   color: $exampleTextColor;
   @include font12;
 }
 .meaning-translate {
-  grid-area: m;
   @include font14;
 }
 .example-translate {
-  grid-area: n;
   color: $exampleTextColor;
   @include font12;
 }
 .speaker-2 {
-  grid-area: i;
 }
 .speaker-3 {
-  grid-area: k;
 }
 .button-ok {
-  grid-area: x;
   background: url(^assets/img/ok.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -157,15 +177,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin:5px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     border: 1px solid $activePageColor;
   }
 }
 
 .button-difficult {
-  grid-area: y;
   background: url(^assets/img/difficult.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -176,9 +194,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 5px;
   cursor: pointer;
-  &:hover{
+  &:hover {
     border: 1px solid $currentPageColor;
   }
 }
@@ -186,32 +203,39 @@
   opacity: 1;
   visibility: visible;
   margin-top: 0;
+  height: fit-content;
   z-index: 8;
 }
-.difficult-word{
+.on-top {
+  z-index: 8;
+  transform: scale(1.05);
+}
+.difficult-word {
   border: 6px solid $borderDifficultColor;
   outline: 1px dashed white;
   outline-offset: -4px;
+  box-sizing: border-box;
 }
-.difficult-word-additional{
+.difficult-word-additional {
   border-bottom: 6px solid $borderDifficultColor;
   border-left: 6px solid $borderDifficultColor;
   border-right: 6px solid $borderDifficultColor;
   outline: 1px dashed white;
   outline-offset: -4px;
 }
-.learned-word{
+.learned-word {
   border: 6px solid $borderLearnedColor;
   outline: 1px dashed white;
   outline-offset: -4px;
+  box-sizing: content-box;
 }
-.learned-word-additional{
+.learned-word-additional {
   border-bottom: 6px solid $borderLearnedColor;
   border-left: 6px solid $borderLearnedColor;
   border-right: 6px solid $borderLearnedColor;
   outline: 1px dashed white;
   outline-offset: -4px;
 }
-.green-rate{
+.green-rate {
   color: $borderLearnedColor;
 }

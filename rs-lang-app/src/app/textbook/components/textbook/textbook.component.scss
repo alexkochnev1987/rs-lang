@@ -1,15 +1,14 @@
 @import '../../../app.component.scss';
 .cards-container {
   position: relative;
-  margin-bottom: 200px;
-  margin-top: 260px;
+  margin-bottom: 50px;
   margin-left: auto;
   margin-right: auto;
-  width: 85vw;
+  width: $desktopWidth;
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+  gap: $desktopIndent;
 }
 
 .page-number {
@@ -38,14 +37,11 @@
   position: relative;
   height: 50px;
   width: fit-content;
-  left: 0px;
-  bottom: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap:7px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 30px auto;
+  gap: 5px;
   color: $paginationNumberColor;
 }
 
@@ -53,13 +49,11 @@
   position: relative;
   height: 50px;
   width: fit-content;
-  top: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  gap:7px;
+  margin: 30px auto;
+  gap: 5px;
   color: $paginationNumberColor;
 }
 
@@ -92,15 +86,13 @@ a {
   justify-content: center;
   padding: 30px;
   gap: 20px;
-  position: absolute;
-  min-width: 1100px;
-  width: 85vw;
+  position: relative;
+  width: $desktopWidth;
   height: 110px;
-  top: 120px;
-  left: 7vw;
   background: $cardBackgroundColor;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  @include shadow4px;
   border-radius: 10px;
+  margin-top: 20px;
   z-index: 1;
 }
 .back,
@@ -141,10 +133,10 @@ a {
   }
 }
 
-.title-1,
-.title-2 {
+.title-1 {
   @include fontSize16;
   margin-left: -20px;
+  white-space: nowrap;
 }
 ::ng-deep .button-1 button {
   width: 218px;
@@ -184,4 +176,8 @@ a {
   width: 24px;
   height: 21px;
 
+}
+.game-button {
+  width: min-content;
+  white-space: nowrap;
 }

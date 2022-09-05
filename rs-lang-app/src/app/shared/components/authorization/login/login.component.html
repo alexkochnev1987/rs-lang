@@ -1,54 +1,61 @@
 <form [formGroup]="form" class="authorization">
   <div class="border">
-    <h3 *ngIf="!isUser">Log in</h3>
-    <h2 *ngIf="isUser">Hello {{ userName }}</h2>
-    <div *ngIf="!isUser">
-      <input
-        placeholder="Email"
-        formControlName="email"
-        type="email"
-        name="email"
-        class="input"
-        id="email"
-        [ngClass]="{
-          invalid: form.get('email')?.invalid && form.get('email')?.touched
-        }" />
-      <p
-        *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
-        class="error">
-        Enter valid email
-      </p>
-      <input
-        placeholder="Password"
-        formControlName="password"
-        type="password"
-        name="password"
-        class="input"
-        id="password"
-        [ngClass]="{
-          invalid:
-            form.get('password')?.invalid && form.get('password')?.touched
-        }" />
-      <p
-        *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
-        class="error">
-        Min length 8
-      </p>
+    <div class="user-form">
+      <h2 *ngIf="!isUser" class="heading-2">Log in</h2>
+      <h2 *ngIf="isUser" class="heading-2">Hello {{ userName }}</h2>
+      <div *ngIf="!isUser" class="input-fields">
+        <input
+          placeholder="Email"
+          formControlName="email"
+          type="email"
+          name="email"
+          class="input"
+          id="email"
+          [ngClass]="{
+            invalid: form.get('email')?.invalid && form.get('email')?.touched
+          }" />
+        <p
+          *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+          class="error">
+          Enter valid email
+        </p>
+        <input
+          placeholder="Password"
+          formControlName="password"
+          type="password"
+          name="password"
+          class="input"
+          id="password"
+          [ngClass]="{
+            invalid:
+              form.get('password')?.invalid && form.get('password')?.touched
+          }" />
+        <p
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+          class="error">
+          Min length 8
+        </p>
+      </div>
+      <div class="user-buttons">
+        <button
+          *ngIf="!isUser"
+          type="submit"
+          class="login button-green"
+          (click)="onSubmit()"
+          [disabled]="form.invalid || form.disabled">
+          Login
+        </button>
+        <button
+          *ngIf="!isUser"
+          class="register button-orange"
+          (click)="goToRegistration()">
+          Register
+        </button>
+        <button *ngIf="isUser" class="logout button-orange" (click)="logOut()">
+          Logout
+        </button>
+      </div>
     </div>
-    <button
-      *ngIf="!isUser"
-      type="submit"
-      class="login"
-      (click)="onSubmit()"
-      [disabled]="form.invalid || form.disabled">
-      <div class="border-button">Login</div>
-    </button>
-    <button *ngIf="!isUser" class="register" (click)="goToRegistration()">
-      <div class="border-button">Register</div>
-    </button>
-    <button *ngIf="isUser" class="logout" (click)="logOut()">
-      <div class="border-button">Logout</div>
-    </button>
     <div class="text-image">
       <div class="text-wrapper">
         <div class="text-done">

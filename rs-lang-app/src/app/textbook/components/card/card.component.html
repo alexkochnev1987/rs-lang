@@ -1,57 +1,82 @@
 <div
   class="card"
-  [class.difficult-word]="isDifficultWord(card.id)"
-  [class.learned-word]="isEasyWord(card.id)"
   (mouseenter)="onMouseOver(card.id)"
   (mouseleave)="onMouseOut()"
   *ngIf="!(group > 6 && isEasyWord(card.id))">
-  <div class="main-part">
-    <div class="word-status">
-      {{ responseWordData.difficulty | uppercase }}
-    </div>
-    <img
-      class="word-image"
-      src="{{ source }}{{ card.image }}"
-      alt="word-image" />
-    <div class="word">{{ card.word }}</div>
-    <div class="transcription">{{ card.transcription }}</div>
-    <div class="speaker" (click)="playAudio(card.audio)"></div>
-    <div class="translate">{{ card.wordTranslate }}</div>
-    <div class="learn">
-      <div class="learn-title">LEARN:</div>
-      <div class="learn-value">
-        {{ getLearnProgress(card.id) }}
-      </div>
-    </div>
-    <div class="rate">
-      <div class="rate-title">RATE</div>
-      <div class="rate-value">
-        {{ getRateValue(card.id) }}
-      </div>
-    </div>
-  </div>
   <div
-    class="additional-part"
-    [class.visible]="checkIsMore(card.id)"
-    [class.difficult-word-additional]="isDifficultWord(card.id)"
-    [class.learned-word-additional]="isEasyWord(card.id)">
-    <div
-      class="button-ok"
-      *ngIf="isUser() && (isDifficultWord(card.id) || isNotMarkedWord(card.id))"
-      (click)="setEasyWord(card.id)"></div>
-    <div
-      class="button-difficult"
-      *ngIf="isUser() && !isDifficultWord(card.id)"
-      (click)="setDifficultWord(card.id)"></div>
-    <div class="meaning" [innerHTML]="card.textMeaning"></div>
-    <div class="speaker-2" (click)="playAudio(card.audioMeaning)"></div>
-    <div class="example" [innerHTML]="card.textExample"></div>
-    <div class="speaker-3" (click)="playAudio(card.audioExample)"></div>
-    <div
-      class="meaning-translate"
-      [textContent]="card.textMeaningTranslate"></div>
-    <div
-      class="example-translate"
-      [textContent]="card.textExampleTranslate"></div>
+    class="dashed-container"
+    [class.on-top]="checkIsMore(card.id)"
+    [class.difficult-word]="isDifficultWord(card.id)"
+    [class.learned-word]="isEasyWord(card.id)">
+    <div class="main-part">
+      <div
+        class="word-status"
+        [class.difficult-status]="isDifficultWord(card.id)"
+        [class.learned-status]="isEasyWord(card.id)">
+        {{ responseWordData.difficulty | uppercase }}
+      </div>
+      <img
+        class="word-image"
+        src="{{ source }}{{ card.image }}"
+        alt="word-image" />
+      <div class="word-bottom">
+        <div class="word-info">
+          <div class="word">{{ card.word }}</div>
+          <div class="translate-section">
+            <div class="speaker" (click)="playAudio(card.audio)">
+              <img src="../../../../assets/img/speaker.svg" alt="speaker" />
+            </div>
+            <div class="transcription">{{ card.transcription }}</div>
+          </div>
+          <div class="translate">{{ card.wordTranslate }}</div>
+        </div>
+        <div class="word-progress">
+          <div class="learn">
+            <div class="learn-title">LEARN:</div>
+            <div class="learn-value">
+              {{ getLearnProgress(card.id) }}
+            </div>
+          </div>
+          <div class="rate">
+            <div class="rate-title">RATE</div>
+            <div class="rate-value">
+              {{ getRateValue(card.id) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="additional-part" [class.visible]="checkIsMore(card.id)">
+      <div class="state-buttons">
+        <div
+          class="button-ok"
+          *ngIf="
+            isUser() && (isDifficultWord(card.id) || isNotMarkedWord(card.id))
+          "
+          (click)="setEasyWord(card.id)"></div>
+        <div
+          class="button-difficult"
+          *ngIf="isUser() && !isDifficultWord(card.id)"
+          (click)="setDifficultWord(card.id)"></div>
+      </div>
+      <div class="meaning-section">
+        <div class="speaker-2" (click)="playAudio(card.audioMeaning)">
+          <img src="../../../../assets/img/speaker.svg" alt="speaker" />
+        </div>
+        <div class="meaning" [innerHTML]="card.textMeaning"></div>
+      </div>
+      <div class="example-section">
+        <div class="speaker-3" (click)="playAudio(card.audioExample)">
+          <img src="../../../../assets/img/speaker.svg" alt="speaker" />
+        </div>
+        <div class="example" [innerHTML]="card.textExample"></div>
+      </div>
+      <div
+        class="meaning-translate"
+        [textContent]="card.textMeaningTranslate"></div>
+      <div
+        class="example-translate"
+        [textContent]="card.textExampleTranslate"></div>
+    </div>
   </div>
 </div>

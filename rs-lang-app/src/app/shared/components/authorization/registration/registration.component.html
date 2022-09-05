@@ -1,62 +1,66 @@
 <form [formGroup]="form" class="authorization">
   <div class="border">
-    <h3>Registration</h3>
-    <div>
-      <input
-        placeholder="Name"
-        type="text"
-        class="input"
-        formControlName="name"
-        id="name"
-        [ngClass]="{
-          invalid: form.get('name')?.invalid && form.get('name')?.touched
-        }" />
-      <p
-        *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
-        class="error">
-        Enter valid name(min length 8)
-      </p>
-      <input
-        placeholder="Email"
-        formControlName="email"
-        type="email"
-        name="email"
-        class="input"
-        id="email"
-        [ngClass]="{
-          invalid: form.get('email')?.invalid && form.get('email')?.touched
-        }" />
-      <p
-        *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
-        class="error">
-        Enter valid email
-      </p>
-      <input
-        placeholder="Password"
-        formControlName="password"
-        type="password"
-        name="password"
-        class="input"
-        id="password"
-        [ngClass]="{
-          invalid:
-            form.get('password')?.invalid && form.get('password')?.touched
-        }" />
-      <p
-        *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
-        class="error">
-        Min length 8
-      </p>
+    <div class="user-form">
+      <h2 class="heading-2">Registration</h2>
+      <div class="input-fields">
+        <input
+          placeholder="Name"
+          type="text"
+          class="input"
+          formControlName="name"
+          id="name"
+          [ngClass]="{
+            invalid: form.get('name')?.invalid && form.get('name')?.touched
+          }" />
+        <p
+          *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+          class="error">
+          Enter valid name(min length 8)
+        </p>
+        <input
+          placeholder="Email"
+          formControlName="email"
+          type="email"
+          name="email"
+          class="input"
+          id="email"
+          [ngClass]="{
+            invalid: form.get('email')?.invalid && form.get('email')?.touched
+          }" />
+        <p
+          *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+          class="error">
+          Enter valid email
+        </p>
+        <input
+          placeholder="Password"
+          formControlName="password"
+          type="password"
+          name="password"
+          class="input"
+          id="password"
+          [ngClass]="{
+            invalid:
+              form.get('password')?.invalid && form.get('password')?.touched
+          }" />
+        <p
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+          class="error">
+          Min length 8
+        </p>
+      </div>
+      <div class="user-buttons">
+        <button type="submit" class="login button-green" (click)="goToLogin()">
+          Login
+        </button>
+        <button
+          class="register button-orange"
+          (click)="onRegistration()"
+          [disabled]="form.invalid || form.disabled">
+          Register
+        </button>
+      </div>
     </div>
-    <button type="submit" class="login" (click)="goToLogin()">
-      <div class="border-button">Login</div>
-    </button>
-    <button
-      class="register"
-      (click)="onRegistration()"
-      [disabled]="form.invalid || form.disabled">
-      <div class="border-button">Register</div>
-    </button>
     <div class="text-image">
       <div class="text-wrapper">
         <div class="text-done">
