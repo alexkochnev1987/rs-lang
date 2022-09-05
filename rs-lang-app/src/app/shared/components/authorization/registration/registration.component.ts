@@ -37,11 +37,11 @@ export class RegistrationComponent implements OnInit {
     console.log(this.form.value);
     this.auth.register(this.form.value).subscribe({
       next: response => {
-        console.log(response);
-        this.goToLogin();
+        this.showRegistration.setUserStatus(ShowUserStatus.success);
       },
       error: error => {
         this.form.enable();
+        this.showRegistration.setUserStatus(ShowUserStatus.errorRegistration);
       },
     });
   }

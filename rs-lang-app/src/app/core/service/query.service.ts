@@ -13,6 +13,7 @@ import {
   UserWords,
   UserWordsResponse,
   IWord,
+  aggregatedResponse,
 } from 'src/app/constants';
 import { UserDataService } from '../services/user-data.service';
 
@@ -84,20 +85,18 @@ export class QueryService {
       options
     );
   }
-  getAggregatedWords() {
-    const userId = this.userDataService.getUser().userId;
-    const queryUrl =
-      url +
-      QueryParams.register +
-      SLASH +
-      userId +
-      QueryParams.aggregatedWords +
-      '?difficulty=hard';
-    console.log(queryUrl);
-    return this.http.get<UserSettings>(queryUrl);
-  }
 
   getWordById(id: string) {
     return this.http.get<IWordCard>(url + QueryParams.words + SLASH + id);
+  }
+
+  getAggregatedWords() {
+    const userId = this.userDataService.getUser().userId;
+    const component = `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+      '{"$nor":[{"userWord":null}]}'
+    )}`;
+    return this.http.get<aggregatedResponse[]>(
+      url + QueryParams.register + SLASH + userId + component
+    );
   }
 }

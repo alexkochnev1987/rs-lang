@@ -1,7 +1,7 @@
 <div class="footer">
   <a class="logo" href="https://rs.school/js/" target="_blank"></a>
   <div class="authors-links">
-    <a *ngFor="let author of authors" href="{{ author.git }}">
+    <a *ngFor="let author of authors" href="{{ author.git }}" target="_blank">
       <div [style]="getGitIcon(author)" class="author-link"></div>
     </a>
   </div>

@@ -107,8 +107,8 @@ export enum AppPages {
   Authorization,
 }
 export enum GameSound {
-  success = '/assets/mp3/success.mp3',
-  failed = '/assets/mp3/failed.mp3',
+  success = 'assets/mp3/success.mp3',
+  failed = 'assets/mp3/failed.mp3',
 }
 
 export interface authorCard {
@@ -134,6 +134,9 @@ export enum ShowUserStatus {
   registration = 'registration',
   statistics = 'statistics',
   update = 'update',
+  errorLogin = 'error login',
+  errorRegistration = 'registration error',
+  success = 'success',
 }
 
 export interface UserStatistics {
@@ -311,4 +314,9 @@ export interface aggregatedWords {
       rightGuessesInRow: number;
     };
   };
+}
+
+export interface aggregatedResponse {
+  paginatedResults: aggregatedWords[];
+  totalCount: any[];
 }

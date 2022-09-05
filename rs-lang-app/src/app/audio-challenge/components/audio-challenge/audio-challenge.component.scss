@@ -33,7 +33,7 @@ h1{
 
 .attempts-block {
   display: flex;
-  flex-direction: colmn;
+  flex-direction: column;
   align-items: flex-end;
   padding: 20px 0px 0px;
   gap: 5px;
@@ -56,7 +56,7 @@ h1{
   justify-content: space-around;
   padding: 3px;
   gap: 10px;
-  width: 665px;
+  width: 705px;
   height: 267.39px;
   left: 0px;
   top: 133px;
@@ -117,7 +117,9 @@ h1{
 .speaker {
   width: 56px;
   height: 56px;
-  background-image: url(/assets/img/speaker.png);
+  background-image: url(^assets/img/speaker.png);
+  position: relative;
+  margin-top: -50px;
   background-repeat: no-repeat;
   opacity: 0.9;
   cursor: pointer;
@@ -138,7 +140,7 @@ h1{
   align-items: center;
   padding: 0px;
   gap: 5px;
-  width: 600px;
+  width: 660px;
   height: 34px;
 }
 
@@ -148,7 +150,7 @@ h1{
   align-items: center;
   justify-content: space-between;
   padding: 5px 20px;
-  width: 146px;
+  width: 161px;
   height: 30px;
   padding: 0;
   border: 1px dashed black;
@@ -160,19 +162,22 @@ h1{
     border: 1px solid black;
   }
 }
-
+.hearts-block{
+  position: relative;
+  top:-50px;
+}
 
 .heart {
   width: 30px;
   height: 22px;
-  background-image: url(/assets/img/white-heart.png);
+  background-image: url(^assets/img/white-heart.png);
   background-repeat: no-repeat;
 }
 
 .red-heart {
   animation-name: hearts-animation;
   animation-duration: 3s;
-  background-image: url(/assets/img/red-heart.png);
+  background-image: url(^assets/img/red-heart.png);
   background-repeat: no-repeat;
 }
 
@@ -183,7 +188,7 @@ h1{
   justify-content: center;
   width: 15px;
   height: 15px;
-  background-image: url(/assets/img/small-grey-circle.png);
+  background-image: url(^assets/img/small-grey-circle.png);
   background-repeat: no-repeat;
 }
 .attempt-success {
@@ -191,14 +196,14 @@ h1{
   animation-duration: 1s;
   width: 25px;
   height: 25px;
-  background-image: url(/assets/img/green-check-mark.png);
+  background-image: url(^assets/img/green-check-mark.png);
 }
 .attempt-failed {
   animation-name: attempt-animation;
   animation-duration: 1s;
   width: 25px;
   height: 25px;
-  background-image: url(/assets/img/red-cross.png);
+  background-image: url(^assets/img/red-cross.png);
 }
 .from-textbook {
   display: flex;
@@ -253,13 +258,17 @@ button-disable {
 .key-word {
   margin-right: 10px;
   word-wrap: break-word;
-  width: 110px;
+  width: 125px;
 }
 .instructions {
   color: $transcriptionColor !important;
   @include font12;
   margin-top: 50px;
+  margin-bottom: 0;
+  padding:0;
   opacity:0;
+  position: relative;
+  top:-40px
 }
 @keyframes attempt-animation {
   from {
@@ -301,4 +310,9 @@ button-disable {
     opacity:1;
     transition: 2s;
   }
-
+.alert{
+  text-align: center;
+  @include fontSize32;
+  position: relative;
+  top: -300px;
+}
