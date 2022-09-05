@@ -314,3 +314,8 @@ export interface aggregatedWords {
     };
   };
 }
+
+export interface aggregatedResponse {
+  paginatedResults: aggregatedWords[];
+  totalCount: any[];
+}

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  aggregatedWords,
   Difficulty,
   FilterWordsByDate,
   IWord,
@@ -33,11 +34,7 @@ export class StatisticsService {
     return words.filter(word => word.difficulty !== Difficulty.Hard);
   }
 
-  splitArrByChunks(
-    word: UserWordsWithTranscription,
-    arrOfArr: [any],
-    sizeChunk: number
-  ) {
+  splitArrByChunks(word: aggregatedWords, arrOfArr: [any], sizeChunk: number) {
     if (arrOfArr[arrOfArr.length - 1].length === sizeChunk) {
       arrOfArr.push([]);
     }

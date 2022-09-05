@@ -29,18 +29,8 @@ export class StatisticsComponent implements OnInit {
   getStatistics() {
     this.queryService.getUserStatistics().subscribe({
       next: res => {
-        console.log(res);
         this.statistics = res;
       },
     });
-    this.queryService.getAggregatedWords().subscribe({
-      next: res => {
-        console.log(res);
-      },
-    });
-  }
-
-  getUserWords() {
-    this.queryService.getUserWords().subscribe();
   }
 }

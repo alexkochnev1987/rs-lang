@@ -13,6 +13,7 @@ import {
   UserWords,
   UserWordsResponse,
   IWord,
+  aggregatedResponse,
 } from 'src/app/constants';
 import { UserDataService } from '../services/user-data.service';
 
@@ -94,7 +95,7 @@ export class QueryService {
     const component = `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
       '{"$nor":[{"userWord":null}]}'
     )}`;
-    return this.http.get(
+    return this.http.get<aggregatedResponse[]>(
       url + QueryParams.register + SLASH + userId + component
     );
   }
