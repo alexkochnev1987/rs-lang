@@ -99,7 +99,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     }
   }
   learnedWords = 0;
-  userDifficultWords = 5;
+  userDifficultWords = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -143,6 +143,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     if (this.userDataService.isRegistered()) {
       this.userId = this.userDataService.getUser().userId;
       this.getUserWords();
+      this.getNumberOfDifficultWords();
     }
     setInterval(() => (this.isShowInstruction = !this.isShowInstruction), 5000);
   }
@@ -166,7 +167,15 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     this.getLives(this.livesInGame);
     this.timeStart = Date.now();
     if (this.currentLevel > 6) {
-      this.loadForUser();
+      if (this.userDifficultWords > 3) {
+        this.loadForUser();
+      } else {
+        this.isAlert = true;
+        this.isGameStart = false;
+        setTimeout(() => {
+          this.isAlert = false;
+        }, 3000);
+      }
     } else {
       this.load();
     }
@@ -233,17 +242,17 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
 
   begin() {
     if (!this.isDenied) {
-      if (this.userDifficultWords < 4) {
+      this.dataLength = this.arrayForGuess.length;
+      if (this.dataLength < 4 && this.currentLevel < 7) {
         this.isAlert = true;
         this.isGameStart = false;
-        this.userDifficultWords = 5;
         setTimeout(() => {
           this.isAlert = false;
-        }, 2000);
+        }, 3000);
+      } else {
+        this.isInProgress = false;
+        this.getWords();
       }
-      this.dataLength = this.arrayForGuess.length;
-      this.isInProgress = false;
-      this.getWords();
     }
   }
 
@@ -266,6 +275,24 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     if (new Set(arr.map(i => i.id)).size < 4) {
       this.getWords();
     }
+  }
+
+  getNumberOfDifficultWords() {
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userId +
+          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+            '{"userWord.difficulty":"hard"}'
+          )}`
+      )
+      .subscribe({
+        next: (data: any) => {
+          this.userDifficultWords = data[0].paginatedResults.length;
+        },
+      });
   }
 
   loadForUser() {
