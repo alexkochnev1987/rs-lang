@@ -35,6 +35,7 @@ export const FROM_HARD_TO_EASY_TIMES = 5;
 export const FROM_LEARNED_TO_EASY_TIMES = 3;
 export const STATISTICS_NOT_FOUND = 'Statistics not found';
 export const ACTIVATE_LOAD_WORDS_LEFT = 5;
+export const KEYPRESS_TIMEOUT = 200;
 
 export enum QueryParams {
   logIn = '/signin',

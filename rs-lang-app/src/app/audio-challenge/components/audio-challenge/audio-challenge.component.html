@@ -49,6 +49,12 @@
       </div>
     </div>
     <div class="main-block">
+      <span
+        [class.no-show]="isShowInstruction"
+        class="instructions"
+        *ngIf="isGameStart && !isGameEnded">
+        {{ instructions }}
+      </span>
       <div class="hearts-block">
         <div
           class="heart"
@@ -90,10 +96,8 @@
         [gameName]="buttonLeave"></app-menu-button>
     </div>
   </div>
-  <p
-    [class.no-show]="isShowInstruction"
-    class="instructions"
-    *ngIf="isGameStart && !isGameEnded">
-    {{ instructions }}
-  </p>
+  <div class="alert" *ngIf="isAlert">
+    You don't have enough difficult words to begin game, add more or choose
+    another level!
+  </div>
 </div>
