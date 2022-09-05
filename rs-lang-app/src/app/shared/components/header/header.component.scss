@@ -31,7 +31,7 @@ p {
 .menu {
   position: absolute;
   display: flex;
-  top: 34px;
+  top: 40px;
   right: -18px;
   width: 110px;
   height: 430px;
@@ -46,7 +46,7 @@ p {
 .game-menu {
   visibility: visible;
   position: absolute;
-  top: 34px;
+  top: 40px;
   right: -75px;
   transition: 0.3s;
   z-index: 1;
@@ -88,12 +88,12 @@ p {
   align-items: center;
   gap: 50px;
   height: 100%;
+  box-sizing: border-box;
   .nav-button {
     position: relative;
     display: flex;
     align-items: center;
     transition: 0.5s;
-    box-sizing: border-box;
     border-bottom: 3px solid transparent;
     border-top: 3px solid transparent;
     .nav-text {

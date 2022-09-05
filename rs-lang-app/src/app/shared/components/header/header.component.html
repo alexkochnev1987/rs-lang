@@ -8,15 +8,18 @@
       >
     </div>
     <div class="button-container">
-      <div routerLink="/about" routerLinkActive="active" class="nav-button">
-        <div class="nav-text">ABOUT</div>
+      <div routerLink="/about" class="nav-button">
+        <div class="nav-text" routerLinkActive="active">ABOUT</div>
       </div>
       <div
         (mouseover)="showGamesMenu()"
         (mouseout)="showGamesMenu()"
-        [class.active]="currentPage === AppPages.MiniGames"
         class="nav-button">
-        <div class="nav-text">MINI-GAMES</div>
+        <div
+          class="nav-text"
+          [class.active]="currentPage === AppPages.MiniGames">
+          MINI-GAMES
+        </div>
         <div class="game-menu" [ngClass]="{ invisible: isGamesMenuInvisible }">
           <app-games-menu></app-games-menu>
         </div>
@@ -25,9 +28,12 @@
         class="ebook"
         (mouseover)="showMenu()"
         (mouseout)="showMenu()"
-        [class.active]="currentPage === AppPages.TextBook"
         class="nav-button">
-        <div class="nav-text">TEXTBOOK</div>
+        <div
+          class="nav-text"
+          [class.active]="currentPage === AppPages.TextBook">
+          TEXTBOOK
+        </div>
         <app-units-menu
           class="menu"
           [ngClass]="{ invisible: isMenuInvisible }"></app-units-menu>
