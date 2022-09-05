@@ -99,6 +99,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     }
   }
   learnedWords = 0;
+  userDifficultWords = 5;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -232,6 +233,14 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
 
   begin() {
     if (!this.isDenied) {
+      if (this.userDifficultWords < 4) {
+        this.isAlert = true;
+        this.isGameStart = false;
+        this.userDifficultWords = 5;
+        setTimeout(() => {
+          this.isAlert = false;
+        }, 2000);
+      }
       this.dataLength = this.arrayForGuess.length;
       this.isInProgress = false;
       this.getWords();
@@ -274,6 +283,8 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
           this.userWords = this.userWords.filter(
             (item: IWord) => item.difficulty === Difficulty.Hard
           );
+
+          this.userDifficultWords = this.userWords.length;
           this.userWords.forEach(item => {
             this.httpService.getData(`/words/${item.wordId}`).subscribe({
               next: (data: any) => {

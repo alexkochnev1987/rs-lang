@@ -313,4 +313,6 @@ button-disable {
 .alert{
   text-align: center;
   @include fontSize32;
+  position: relative;
+  top: -300px;
 }
