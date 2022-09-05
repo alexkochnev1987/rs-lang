@@ -29,6 +29,7 @@ import {
   aggregatedWords,
   GameSound,
   ACTIVATE_LOAD_WORDS_LEFT,
+  KEYPRESS_TIMEOUT,
 } from 'src/app/constants';
 import { HttpService } from 'src/app/core/services/http.service';
 import { CreateWordsResponseService } from 'src/app/core/services/create-words-response.service';
@@ -70,6 +71,7 @@ export class SprintComponent implements OnInit {
   isCorrect = false;
   isAllWordsLearned = false;
   isWordsLoading = false;
+  isKeyPressed = false;
   currentLevel = 1;
   loadingProgress = 0;
   wordsCounter = 0;
@@ -110,15 +112,19 @@ export class SprintComponent implements OnInit {
     if (
       this.buttonNo &&
       this.isGameStarted &&
+      !this.isKeyPressed &&
       event.code === KeyCode.LEFT_ARROW
     ) {
+      this.isKeyPressed = true;
       this.checkAnswer(false, this.buttonNo.nativeElement);
     }
     if (
       this.buttonYes &&
       this.isGameStarted &&
+      !this.isKeyPressed &&
       event.code === KeyCode.RIGHT_ARROW
     ) {
+      this.isKeyPressed = true;
       this.checkAnswer(true, this.buttonYes.nativeElement);
     }
   }
@@ -283,7 +289,7 @@ export class SprintComponent implements OnInit {
   }
 
   startGame(data: IWordCard[]) {
-    this.getUserWords();
+    if (this.isAuth) this.getUserWords();
     this.wordsArray = data;
     this.isGameStarted = true;
     this.timerSections = this.timerSectionsArray();
@@ -318,7 +324,8 @@ export class SprintComponent implements OnInit {
     if (
       this.wordsArray.length - this.wordsCounter <= ACTIVATE_LOAD_WORDS_LEFT &&
       !this.isWordsLoading &&
-      this.wordsArray[this.wordsArray.length - 1].page > 0
+      this.wordsArray[this.wordsArray.length - 1].page > 0 &&
+      this.currentPage !== undefined
     ) {
       let loadGroup = this.wordsArray[this.wordsArray.length - 1].group;
       let loadPage = this.wordsArray[this.wordsArray.length - 1].page - 1;
@@ -366,6 +373,13 @@ export class SprintComponent implements OnInit {
   checkAnswer(answer: boolean, buttonPressed: HTMLElement) {
     buttonPressed.classList.remove('button-dashed-correct');
     buttonPressed.classList.remove('button-dashed-wrong');
+    this.buttonYes?.nativeElement.setAttribute('disabled', '');
+    this.buttonNo?.nativeElement.setAttribute('disabled', '');
+    setTimeout(() => {
+      this.isKeyPressed = false;
+      this.buttonYes?.nativeElement.removeAttribute('disabled');
+      this.buttonNo?.nativeElement.removeAttribute('disabled');
+    }, KEYPRESS_TIMEOUT);
     if (answer === this.isCorrect) {
       this.soundlink = GameSound.success;
       this.gameScore += 50 + this.comboBonus;
@@ -373,15 +387,12 @@ export class SprintComponent implements OnInit {
       buttonPressed.setAttribute('disabled', '');
       setTimeout(() => {
         buttonPressed.classList.add('button-dashed-correct');
-        buttonPressed.removeAttribute('disabled');
       }, 0);
     } else {
       this.soundlink = GameSound.failed;
       this.combo = 0;
-      buttonPressed.setAttribute('disabled', '');
       setTimeout(() => {
         buttonPressed.classList.add('button-dashed-wrong');
-        buttonPressed.removeAttribute('disabled');
       }, 0);
     }
     new Audio(this.soundlink).play();
@@ -400,9 +411,15 @@ export class SprintComponent implements OnInit {
       });
     }
     this.wordsCounter++;
-    this.wordsCounter < this.wordsArray.length
-      ? this.getWord()
-      : (this.timer = 0);
+    if (this.wordsCounter < this.wordsArray.length) {
+      this.getWord();
+    }
+    if (this.wordsCounter >= this.wordsArray.length && this.isWordsLoading) {
+      setTimeout(() => this.getWord, 1000);
+    }
+    if (this.wordsCounter >= this.wordsArray.length && !this.isWordsLoading) {
+      this.timer = 0;
+    }
   }
 
   timerSectionsArray() {
@@ -460,7 +477,6 @@ export class SprintComponent implements OnInit {
   }
 
   noWordsToLearn() {
-    console.log('ALL WORDS LEARNED');
     this.isAllWordsLearned = true;
   }
 
