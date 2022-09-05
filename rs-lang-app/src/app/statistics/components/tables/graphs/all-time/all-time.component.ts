@@ -90,33 +90,5 @@ export class AllTimeComponent implements OnInit {
 
   getArrayWordsByDate(words: IWord[]) {
     return this.statisticService.getWordsByDate(words);
-    // const filterWordsByDate: FilterWordsByDate[] = [];
-    // this.statisticService.getDates(words).forEach(date => {
-    //   const newWords = words.filter(word => {
-    //     if (word.optional?.dateFirstTime) {
-    //       const stringDate = this.dateService.numberToString(
-    //         word.optional.dateFirstTime
-    //       );
-    //       if (stringDate === date) return true;
-    //     }
-    //     return false;
-    //   });
-    //   const easyWords = words.filter(word => {
-    //     if (word.optional?.dateEasy) {
-    //       const stringDate = this.dateService.numberToString(
-    //         word.optional.dateEasy
-    //       );
-    //       if (stringDate === date) return true;
-    //     }
-    //     return false;
-    //   });
-    //   const obj: FilterWordsByDate = {
-    //     date: date,
-    //     words: newWords,
-    //     easyWords: easyWords,
-    //   };
-    //   filterWordsByDate.push(obj);
-    // });
-    // return filterWordsByDate;
   }
 }

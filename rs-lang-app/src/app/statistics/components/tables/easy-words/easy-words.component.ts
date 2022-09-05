@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  aggregatedWords,
   Difficulty,
   IWordCard,
   SLASH,
@@ -18,7 +19,8 @@ import { SetWordDifficultService } from 'src/app/core/services/set-word-difficul
   styleUrls: ['../hardwords/hardwords.component.scss'],
 })
 export class EasyWordsComponent implements OnInit {
-  easyWords: [UserWordsWithTranscription[]] = [[]];
+  // easyWords: [UserWordsWithTranscription[]] = [[]];
+  easyWords: [aggregatedWords[]] = [[]];
   easyWordsPage = 0;
   totalPages = 0;
   constructor(
@@ -32,23 +34,18 @@ export class EasyWordsComponent implements OnInit {
   }
 
   getWords() {
-    this.queryService.getUserWords().subscribe({
-      next: response =>
-        this.statisticService.omitHardWords(response).forEach(userWord =>
-          this.queryService.getWordById(userWord.wordId).subscribe({
-            next: word => {
-              const obj: UserWordsWithTranscription = {
-                userWord: userWord,
-                word: word,
-              };
-              this.statisticService.splitArrByChunks(
-                obj,
-                this.easyWords,
-                STATISTICS_WORDS_LENGTH
-              );
-            },
-          })
-        ),
+    this.queryService.getAggregatedWords().subscribe({
+      next: res => {
+        res[0].paginatedResults
+          .filter(word => word.userWord.difficulty !== Difficulty.Hard)
+          .forEach(word => {
+            this.statisticService.splitArrByChunks(
+              word,
+              this.easyWords,
+              STATISTICS_WORDS_LENGTH
+            );
+          });
+      },
     });
   }
 
@@ -85,10 +82,8 @@ export class EasyWordsComponent implements OnInit {
 
   refreshPage(id: string) {
     this.setWordHard(id);
-    const words = this.easyWords
-      .flat()
-      .filter(word => word.userWord.wordId !== id);
-    const arr: [UserWordsWithTranscription[]] = [[]];
+    const words = this.easyWords.flat().filter(word => word._id !== id);
+    const arr: [aggregatedWords[]] = [[]];
     words.forEach(word =>
       this.statisticService.splitArrByChunks(word, arr, STATISTICS_WORDS_LENGTH)
     );

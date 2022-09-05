@@ -7,6 +7,8 @@
     <div
       class="graphic"
       [style.width]="(day.words.length / total) * 100 + '%'"></div>
-    <p>{{ day.words.length }} / {{ total }}</p>
+    <p>
+      {{ day.words.length }} / {{ day.words.length + day.easyWords.length }}
+    </p>
   </div>
 </div>

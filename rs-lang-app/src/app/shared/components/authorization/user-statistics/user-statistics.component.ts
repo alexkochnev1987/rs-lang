@@ -14,7 +14,6 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
 export class UserStatisticsComponent implements OnInit {
   userName = '';
   learnedWord = 0;
-  wordsPerDay = 0;
   userWords = { hardWords: 0, easyWords: 0, total: 0 };
   constructor(
     private auth: AuthService,
@@ -25,15 +24,6 @@ export class UserStatisticsComponent implements OnInit {
 
   updateUser() {
     this.showRegistrationService.setUserStatus(ShowUserStatus.update);
-  }
-
-  getSettings() {
-    this.queryService.getUserSettings().subscribe({
-      next: response => {
-        this.wordsPerDay = response.wordsPerDay;
-      },
-      error: error => console.log(error),
-    });
   }
 
   getStatistics() {
@@ -61,7 +51,6 @@ export class UserStatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserName();
-    this.getSettings();
     this.getStatistics();
     this.getWords();
   }

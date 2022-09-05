@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
       },
       error: error => {
         this.form.enable();
+        this.showRegistration.setUserStatus(ShowUserStatus.errorLogin);
       },
     });
   }
