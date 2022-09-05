@@ -1,16 +1,8 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QueryService } from '../../../core/service/query.service';
-import {
-  Subscription,
-  forkJoin,
-  tap,
-  filter,
-  timer,
-  mergeMap,
-  Observable,
-} from 'rxjs';
+import { Subscription, forkJoin, tap, timer, mergeMap } from 'rxjs';
 import {
   AppPages,
   AUDIO_CHALLENGE_ATTEMPTS,
@@ -52,6 +44,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   isDenied = false;
   isShowInstruction = false;
   isSpeakerOn = false;
+  isAlert = false;
   currentGame = GAME_1;
   currentLevel: number = -1;
   currentPage?: number = -1;
@@ -106,6 +99,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     }
   }
   learnedWords = 0;
+  userDifficultWords = 5;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -113,7 +107,8 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private httpService: HttpService,
     private userDataService: UserDataService,
-    private queryService: QueryService
+    private queryService: QueryService,
+    private router: Router
   ) {
     this.subscription = this.activatedRoute.params.subscribe(params => {
       this.currentLevel = params['level'];
@@ -238,6 +233,14 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
 
   begin() {
     if (!this.isDenied) {
+      if (this.userDifficultWords < 4) {
+        this.isAlert = true;
+        this.isGameStart = false;
+        this.userDifficultWords = 5;
+        setTimeout(() => {
+          this.isAlert = false;
+        }, 2000);
+      }
       this.dataLength = this.arrayForGuess.length;
       this.isInProgress = false;
       this.getWords();
@@ -280,6 +283,8 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
           this.userWords = this.userWords.filter(
             (item: IWord) => item.difficulty === Difficulty.Hard
           );
+
+          this.userDifficultWords = this.userWords.length;
           this.userWords.forEach(item => {
             this.httpService.getData(`/words/${item.wordId}`).subscribe({
               next: (data: any) => {
@@ -337,7 +342,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.isDenied = false;
         this.begin();
-      });
+      }, 500);
     } else {
       this.timeFinish = Date.now();
       this.duration = Math.round((this.timeFinish - this.timeStart) / 1000);
@@ -438,6 +443,9 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
         currentSuccess = prevSuccess! + valueSuccess;
         if (prevDateFirstTime === 0 || prevDateFirstTime === undefined) {
           currentDateFirstTime = Date.now();
+        }
+        if (prevDifficulty === Difficulty.Easy && success === false) {
+          currentDifficulty = Difficulty.Learned;
         }
         body = {
           difficulty: currentDifficulty,
@@ -591,7 +599,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
             body
           );
 
-          response.subscribe((i: any) => console.log(i));
+          response.subscribe();
         },
       });
   }
