@@ -1,46 +1,51 @@
-<div class="header">
-  <div class="logo" routerLink="">
-    <span
-      class="logo-part{{ i + 1 }}"
-      *ngFor="let item of logoParts; let i = index"
-      >{{ item }}</span
-    >
+<div class="header-container">
+  <div class="header">
+    <div class="logo" routerLink="">
+      <span
+        class="logo-part{{ i + 1 }}"
+        *ngFor="let item of logoParts; let i = index"
+        >{{ item }}</span
+      >
+    </div>
+    <div class="button-container">
+      <div routerLink="/about" routerLinkActive="active" class="nav-button">
+        ABOUT
+      </div>
+      <div
+        (click)="showGamesMenu()"
+        [class.active]="currentPage === AppPages.MiniGames"
+        class="nav-button">
+        MINI-GAMES
+      </div>
+      <div
+        class="ebook"
+        (click)="showMenu()"
+        [class.active]="currentPage === AppPages.TextBook"
+        class="nav-button">
+        TEXTBOOK
+      </div>
+      <div
+        *ngIf="isUser()"
+        [class.invisible-link]="!isUser()"
+        routerLink="/statistics"
+        routerLinkActive="active"
+        class="nav-button">
+        DASHBOARD
+      </div>
+    </div>
   </div>
-  <div class="button-container">
-    <div routerLink="/about" routerLinkActive="active">ABOUT</div>
-    <div
-      (click)="showGamesMenu()"
-      [class.active]="currentPage === AppPages.MiniGames">
-      MINI-GAMES
-    </div>
-    <div
-      class="ebook"
-      (click)="showMenu()"
-      [class.active]="currentPage === AppPages.TextBook">
-      TEXTBOOK
-    </div>
-    <div
-      [class.invisible-link]="!isUser()"
-      routerLink="/statistics"
-      routerLinkActive="active">
-      DASHBOARD
-    </div>
-    <div routerLink="/authorization" routerLinkActive="active">
-      AUTHORIZATION
+  <div
+    class="menu"
+    [ngClass]="{ invisible: isMenuInvisible }"
+    (click)="showMenu()">
+    <div class="menu-container">
+      <app-units-menu></app-units-menu>
     </div>
   </div>
-</div>
-<div
-  class="menu"
-  [ngClass]="{ invisible: isMenuInvisible }"
-  (click)="showMenu()">
-  <div class="menu-container">
-    <app-units-menu></app-units-menu>
+  <div
+    class="game-menu"
+    [ngClass]="{ notvisible: isGamesMenuInvisible }"
+    (click)="showGamesMenu()">
+    <app-games-menu></app-games-menu>
   </div>
-</div>
-<div
-  class="game-menu"
-  [ngClass]="{ notvisible: isGamesMenuInvisible }"
-  (click)="showGamesMenu()">
-  <app-games-menu></app-games-menu>
 </div>

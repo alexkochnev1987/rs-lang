@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   logoParts = ['{', 'RS', '}', 'Lang'];
   isMenuInvisible = true;
   isGamesMenuInvisible = true;
+  isGameMenuActivated = false;
   skip = true;
   currentPage = -1;
   AppPages = AppPages;
@@ -50,6 +51,7 @@ export class HeaderComponent implements OnInit {
 
   showGamesMenu() {
     this.isGamesMenuInvisible = !this.isGamesMenuInvisible;
+    this.isGameMenuActivated = !this.isGameMenuActivated;
     this.skip = true;
   }
 
