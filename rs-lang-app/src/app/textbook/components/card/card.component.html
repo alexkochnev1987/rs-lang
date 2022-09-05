@@ -11,6 +11,10 @@
     <div class="main-part">
       <div
         class="word-status"
+        *ngIf="
+          responseWordData.difficulty === 'hard' ||
+          responseWordData.difficulty === 'easy'
+        "
         [class.difficult-status]="isDifficultWord(card.id)"
         [class.learned-status]="isEasyWord(card.id)">
         {{ responseWordData.difficulty | uppercase }}

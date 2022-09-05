@@ -7,6 +7,8 @@
   text-align: center;
   background-color:$textInFormColor;
   border-radius: 10px;
+  @include shadow4px;
+  margin-bottom: 30px;
 }
 .statistics-types {
   display: flex;
@@ -16,21 +18,25 @@
 }
 
 .type{
-  padding: 5px;
+  padding: 8px 10px 5px;
   border: 1px dashed $textInFormColor;
   box-sizing: border-box;
   align-items: center;
   border-radius: 10px;
   @include font14bold;
+  text-transform: uppercase;
+  transform: scale(1);
+  transition: 0.2s;
   &:hover{
-    color: $currentPageColor;
-    border: 1px dashed $currentPageColor;
+    color: $accentColor;
+    border: 1px solid $accentColor;
+    cursor: pointer;
   }
   &:active{
-    background: $gameMenuButtonPressedBackground;
-    border: 1px solid $currentPageColor;
+    border: 1px solid $accentColor;
+    color: $accentColor;
+    transform: scale(0.9);
   }
-
 }
 
 .table{
@@ -57,8 +63,9 @@
 }
 
 .active{
-  color: $currentPageColor;
-  border: 1px dashed $currentPageColor;
+  color: $accentColor;
+  border: 1px dashed $accentColor;
+  cursor: default;
 }
 
 .rows{
@@ -73,4 +80,15 @@
   &:nth-child(2n){
     background:#F5F5F5;
   }
+}
+
+.table-heading {
+  @include font12;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: white;
+}
+
+.table-text {
+  @include font14;
 }

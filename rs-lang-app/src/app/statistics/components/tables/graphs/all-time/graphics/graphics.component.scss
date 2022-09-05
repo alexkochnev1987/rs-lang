@@ -5,6 +5,7 @@
   text-align: left;
   min-height: 40px;
   display: grid;
+  padding-top: 2px;
   grid-template-columns: 1fr 2fr 2fr;
   justify-content: space-between;
   align-items: center;
@@ -16,4 +17,23 @@
 .graphic{
   background: $pressedLoginButton;
   height: 14px;
+}
+
+.date {
+  @include font14bold;
+}
+
+.data-text {
+  @include font14;
+}
+
+.data-text-small {
+  @include fontSize10;
+  font-weight: 400;
+}
+
+.graph-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

@@ -19,18 +19,24 @@
   width: 29px;
   height: 28px;
   border-radius: 10px;
+  transform: scale(1);
+  transition: 0.2s;
   &:hover{
-    color: $currentPageColor;
-    border: 1px dashed $currentPageColor;
+    color: $accentColor;
+    border: 1px solid $accentColor;
+    cursor: pointer;
   }
   &:active{
-    background: $gameMenuButtonPressedBackground;
+    color: $accentColor;
+    border: 1px dashed $accentColor;
+    transform: scale(0.9);
   }
 }
 
 .current-page{
-  color: $currentPageColor;
-  border: 1px dashed $currentPageColor;
+  color: $accentColor;
+  border: 1px dashed $accentColor;
+  cursor: default;
 }
 
 .disabled{

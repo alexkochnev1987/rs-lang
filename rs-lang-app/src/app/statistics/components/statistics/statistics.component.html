@@ -1,80 +1,70 @@
 <div class="wrapper">
-  <div class="game-wrapper">
-    <div class="black-border">
-      <img src="assets/img/sprint.png" alt="Sprint" />
-      <div class="text-wrapper">
-        <div class="text">
-          <div class="heading-h3">
-            <div class="border-bottom"></div>
-            <h3>SPRINT MINI-GAME</h3>
+  <div class="dashed-container">
+    <img src="assets/img/sprint.png" alt="Sprint" />
+    <div class="text-wrapper">
+      <div class="text">
+        <h3 class="heading-3 underline">SPRINT GAME</h3>
+        <div>
+          <div class="statistics">
+            <p>Answers:</p>
+            <p>
+              <span>{{
+                statistics?.optional?.sprint?.allTime?.attempts || 0
+              }}</span>
+            </p>
           </div>
-          <div>
-            <div class="statistics">
-              <p>Answers:</p>
-              <p>
-                <span>{{
-                  statistics?.optional?.sprint?.allTime?.attempts || 0
-                }}</span>
-              </p>
-            </div>
-            <div class="statistics">
-              <p>Correct Answers:</p>
-              <p>
-                <span>{{
-                  statistics?.optional?.sprint?.allTime?.success || 0
-                }}</span>
-              </p>
-            </div>
+          <div class="statistics">
+            <p>Correct Answers:</p>
+            <p>
+              <span>{{
+                statistics?.optional?.sprint?.allTime?.success || 0
+              }}</span>
+            </p>
           </div>
-          <button [routerLink]="link2">
-            <div class="border">Play Game</div>
-          </button>
         </div>
+        <button [routerLink]="link2" class="button-orange">Play Game</button>
       </div>
     </div>
   </div>
-  <div class="game-wrapper">
-    <div class="black-border">
-      <img src="assets/img/audio.png" alt="Audio Challenge" />
-      <div class="text-wrapper">
-        <div class="text">
-          <div class="heading-h3">
-            <div class="border-bottom"></div>
-            <h3>AUDIO CHALLENGE</h3>
+  <div class="dashed-container">
+    <img src="assets/img/audio.png" alt="Audio Challenge" />
+    <div class="text-wrapper">
+      <div class="text">
+        <h3 class="heading-3 underline">AUDIO CHALLENGE</h3>
+        <div>
+          <div class="statistics">
+            <p>Answers:</p>
+            <p>
+              <span>{{
+                statistics?.optional?.audioChallenge?.allTime?.attempts || 0
+              }}</span>
+            </p>
           </div>
-          <div>
-            <div class="statistics">
-              <p>Answers:</p>
-              <p>
-                <span>{{
-                  statistics?.optional?.audioChallenge?.allTime?.attempts || 0
-                }}</span>
-              </p>
-            </div>
-            <div class="statistics">
-              <p>Correct Answers:</p>
-              <p>
-                <span>{{
-                  statistics?.optional?.audioChallenge?.allTime?.success || 0
-                }}</span>
-              </p>
-            </div>
+          <div class="statistics">
+            <p>Correct Answers:</p>
+            <p>
+              <span>{{
+                statistics?.optional?.audioChallenge?.allTime?.success || 0
+              }}</span>
+            </p>
           </div>
-          <button [routerLink]="[link1, link1Level, link1Page]">
-            <div class="border">Play Game</div>
-          </button>
         </div>
+        <button
+          [routerLink]="[link1, link1Level, link1Page]"
+          class="button-orange">
+          Play Game
+        </button>
       </div>
     </div>
   </div>
   <app-authorization class="width"></app-authorization>
 </div>
 
-<h2>Your statistics</h2>
+<h1 class="heading-1 underline">Your statistics</h1>
 
 <app-graphs></app-graphs>
 
 <div class="wrapper-words">
-  <app-easy-words></app-easy-words>
-  <app-hardwords></app-hardwords>
+  <app-easy-words class="full-width"></app-easy-words>
+  <app-hardwords class="full-width"></app-hardwords>
 </div>
