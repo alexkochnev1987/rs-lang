@@ -1,0 +1,18 @@
+<div class="table">
+  <div class="header">
+    <div>ANSWERS</div>
+    <div>CORRECT ANSWERS</div>
+    <div>LONGEST SERIES</div>
+  </div>
+  <div class="rows">
+    <div>{{ statistics?.today?.attempts || 0 }}</div>
+    <div>
+      <p>
+        {{ correctAnswers || 0 }}
+      </p>
+    </div>
+    <div>
+      <p>{{ statistics?.today?.rightGuessesInRow || 0 }}</p>
+    </div>
+  </div>
+</div>

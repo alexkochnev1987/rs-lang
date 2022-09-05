@@ -1,0 +1,11 @@
+<div class="navigation">
+  <div
+    class="navigation-element"
+    class="unit-{{ unit.id }}"
+    *ngFor="let unit of units"
+    [class.big-element]="unit.id <= currentLevel"
+    [class.unregistered-user]="!isRegisteredUser(unit.id)"
+    [routerLink]="['../textbook', unit.id]">
+    {{ unit.id }}
+  </div>
+</div>

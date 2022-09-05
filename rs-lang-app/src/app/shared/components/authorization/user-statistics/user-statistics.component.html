@@ -1,0 +1,29 @@
+<div class="authorization">
+  <div class="border">
+    <div class="button-image-wrapper">
+      <div class="image-border">
+        <img src="assets/img/face.png" alt="face" />
+      </div>
+      <div class="text-wrapper">
+        <h2>Hello {{ userName }}!</h2>
+        <div class="button-wrapper">
+          <button class="edit" (click)="updateUser()">
+            <div class="border-button">Edit</div>
+          </button>
+          <button class="logout" (click)="logOut()">
+            <div class="border-button">Logout</div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <p>
+      Learned words <span>{{ userWords.easyWords }} / 3600</span>
+    </p>
+    <p>
+      Hard words <span>{{ userWords.hardWords }} / 3600</span>
+    </p>
+    <p>
+      Words in progress <span>{{ userWords.total }} / 3600</span>
+    </p>
+  </div>
+</div>

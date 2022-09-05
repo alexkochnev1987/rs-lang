@@ -1,0 +1,31 @@
+<div class="solid-stroke-container" #outerContainer>
+  <div class="levels-container">
+    <h4 class="heading-4">choose game level:</h4>
+    <div class="levels" (mouseleave)="hoverActions(levelSelected)">
+      <div class="levels-selection-background" #levelsContainer></div>
+      <div class="levels-background" #levelsBackground></div>
+      <ng-container *ngFor="let level of levels">
+        <div
+          class="level-selector-box"
+          *ngIf="level.id <= levelsAmount"
+          (mouseenter)="hoverActions(level.id)"
+          (click)="setSelectedLevel(level.id); levelSelected = level.id">
+          <div
+            class="level-selector"
+            [style]="getLevelBackgroundColor(level.color)"
+            #levelsSelector>
+            {{ level.id }}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="buttons">
+    <button
+      class="button-green"
+      (click)="buttonsActions.emit(getGameLevel); isGameStart = true">
+      START GAME
+    </button>
+    <button class="button-orange" (click)="goBack()">CANCEL</button>
+  </div>
+</div>

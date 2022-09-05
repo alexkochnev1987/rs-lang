@@ -1,0 +1,40 @@
+<div class="wrapper">
+  <h2>Learned words</h2>
+  <div class="table-words">
+    <div class="header rows">
+      <div><span class="padding">WORD</span></div>
+      <div>TRANSCRIPTION</div>
+      <div>TRANSLATE</div>
+      <div></div>
+    </div>
+    <div
+      class="pages"
+      *ngFor="let page of easyWords; index as i"
+      [class.hide]="i !== easyWordsPage">
+      <div class="rows" *ngFor="let word of page">
+        <div class="word">{{ word.word }}</div>
+        <div class="transcription">
+          <div class="speaker" (click)="playSound(word.audio)">
+            <img src="assets/img/speaker.png" alt="speaker" />
+          </div>
+          <div>{{ word.transcription }}</div>
+        </div>
+        <div class="translate">{{ word.wordTranslate }}</div>
+        <div class="counter">
+          <p>
+            {{ word.userWord.optional?.rightGuessesInRow || 0 }}/{{
+              threeOrFive(word.userWord.difficulty)
+            }}
+          </p>
+          <div class="button-difficult" (click)="refreshPage(word._id)">
+            <img src="assets/img/button-x.png" alt="difficult" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-paginator
+    [currentPage]="easyWordsPage"
+    (newItemEvent)="easyWordsPage = $event"
+    [pages]="easyWords"></app-paginator>
+</div>
