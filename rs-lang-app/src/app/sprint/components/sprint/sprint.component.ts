@@ -153,17 +153,21 @@ export class SprintComponent implements OnInit {
     if (filter === 'all') filterString = '{"$nor":[{"userWord":null}]}';
     if (filter === 'hard') filterString = '{"userWord.difficulty":"hard"}';
     if (filter instanceof Object) {
-      filterString = `{"$and":[{"group":${filter.level}},{"page":${filter.page}},{"$nor":[{"userWord.difficulty":"easy"}]}]}`;
+      this.isAuth
+        ? (filterString = `{"$and":[{"group":${filter.level}},{"page":${filter.page}},{"$nor":[{"userWord.difficulty":"easy"}]}]}`)
+        : (filterString = `?group=${filter.level}&page=${filter.page}`);
     }
-    return this.http.get(
-      url +
-        QueryParams.register +
-        SLASH +
-        this.userId +
-        `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
-          filterString!
-        )}`
-    );
+    return this.isAuth
+      ? this.http.get(
+          url +
+            QueryParams.register +
+            SLASH +
+            this.userId +
+            `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+              filterString!
+            )}`
+        )
+      : this.http.get(url + QueryParams.words + filterString!);
   }
 
   getUserWords() {
@@ -333,11 +337,14 @@ export class SprintComponent implements OnInit {
       console.log('Word loading activated...');
       this.getWords({ level: loadGroup, page: loadPage }).subscribe(
         (data: any) => {
-          let loadedData = data[0].paginatedResults.map((el: any) => {
-            el.id = el._id;
-            delete el._id;
-            return el;
-          });
+          let loadedData = [];
+          this.isAuth
+            ? (loadedData = data[0].paginatedResults.map((el: any) => {
+                el.id = el._id;
+                delete el._id;
+                return el;
+              }))
+            : (loadedData = data);
           let currentIndex = loadedData.length;
           let randomIndex;
           while (currentIndex != 0) {
