@@ -327,7 +327,8 @@ export class SprintComponent implements OnInit {
       this.wordsArray.length - this.wordsCounter <= ACTIVATE_LOAD_WORDS_LEFT &&
       !this.isWordsLoading &&
       this.wordsArray[this.wordsArray.length - 1].page > 0 &&
-      this.currentPage !== undefined
+      this.currentPage !== undefined &&
+      this.LevelPage.gamePageLevel[0] < 7
     ) {
       let loadGroup = this.wordsArray[this.wordsArray.length - 1].group;
       let loadPage = this.wordsArray[this.wordsArray.length - 1].page - 1;
