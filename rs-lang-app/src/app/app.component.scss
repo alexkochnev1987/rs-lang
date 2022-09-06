@@ -247,6 +247,7 @@ $accentColor: #FF9100;
   flex-direction: column;
   top: 130px;
   width: $desktopWidth;
+  min-height: calc(100vh - 200px);
   margin: 100px auto 0;
 }
 .footer-wrapper {

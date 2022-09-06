@@ -15,22 +15,25 @@
   margin-left: 20px;
   @include font14bold;
   display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    width: 30px;
-    height: 30px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
+  transform: scale(1);
+  transition: 0.2s;
+  box-sizing: border-box;
   &:hover {
     border-radius: 10px;
-    border: 1px dashed $currentPageColor;
-    color: $currentPageColor;
+    border: 1px dashed $accentColor;
+    color: $accentColor;
     width: 28px;
     height: 28px;
   }
-  &:active{
-    background: $gameMenuButtonPressedBackground;
+  &:active {
+    transform: scale(0.9);
   }
 }
 .pagination {
@@ -62,16 +65,16 @@
   position: relative;
 }
 .current-page {
-  color: $currentPageColor;
   @include font14bold;
+  color: $accentColor;
   width: 29px;
   height: 28px;
   border-radius: 10px;
-  border: 1px dashed $currentPageColor;
-  color: $currentPageColor;
+  border: 1px dashed $accentColor;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 a {
@@ -107,15 +110,17 @@ a {
   margin: 0 10px;
   cursor: pointer;
   @include font14bold;
+  transition: 0.2s;
+  box-sizing: border-box;
   &:hover {
     border-radius: 10px;
-    border: 1px dashed $currentPageColor;
-    color: $currentPageColor;
+    border: 1px dashed $accentColor;
+    color: $accentColor;
     width: 28px;
     height: 28px;
   }
-  &:active{
-    background: $gameMenuButtonPressedBackground;
+  &:active {
+    transform: scale(0.9);
   }
 }
 .disabled {
@@ -126,9 +131,8 @@ a {
     height: 30px;
     border: none;
     color: $paginationArrowDisabled;
-
   }
-  &:active{
+  &:active {
     background: none;
   }
 }
@@ -168,14 +172,13 @@ a {
   @include font14bold;
 }
 
-.learned-title span{
+.learned-title span {
   color: $cardBackgroundColor;
 }
 .check-mark {
   background-image: url(/assets/img/check-mark.png);
   width: 24px;
   height: 21px;
-
 }
 .game-button {
   width: min-content;

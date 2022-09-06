@@ -94,8 +94,11 @@ button{
   border-radius: 10px;
 }
 .heading-3 {
+  position: relative;
   @include heading3;
   margin-bottom: 30px;
+  width: fit-content;
+  z-index: 1;
 }
 .inner-text {
   @include font14;

@@ -83,7 +83,7 @@ export class SprintComponent implements OnInit {
   successWords = 0;
   successWordsPersent = 0;
   nextLoadingPage = 0;
-  progress = '';
+  progress = 0;
   currentWord = '';
   correctTranslate = '';
   wrongTranslate = '';
@@ -236,9 +236,7 @@ export class SprintComponent implements OnInit {
           el.pipe(
             tap(() => {
               this.loadingProgress++;
-              this.progress = `Loading...${Math.round(
-                (this.loadingProgress / len) * 100
-              )}%`;
+              this.progress = Math.round((this.loadingProgress / len) * 100);
             })
           )
         )
@@ -454,7 +452,7 @@ export class SprintComponent implements OnInit {
     this.longestCombo = 0;
     this.wordsCounter = 0;
     this.loadingProgress = 0;
-    this.progress = '';
+    this.progress = 0;
   }
 
   restartGame() {
