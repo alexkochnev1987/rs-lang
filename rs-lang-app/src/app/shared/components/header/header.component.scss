@@ -1,17 +1,24 @@
 @import '../../../app.component.scss';
-.header {
-  position: fixed;
-  top: 0px;
-  left: 0px;
+.header-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   height: 70px;
   background-color: $headerBackgrounColor;
-  color: $textInFormColor;
-  @include fontSize14;
-  z-index: 10;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 20;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: $desktopWidth;
+    margin: 0 auto;
+    padding: 0 30px;
+    color: $textInFormColor;
+    @include fontSize14;
+  }
 }
 a {
   margin-left: 30px;
@@ -21,49 +28,44 @@ a {
 p {
   cursor: pointer;
 }
-.invisible {
-  margin-top: -440px;
-  transition: 1s;
-}
-.notvisible {
-  margin-top: -150px;
-  transition: 1s;
-}
 .menu {
-  position: fixed;
+  position: absolute;
   display: flex;
-  top: 70px;
-  right: 330px;
+  top: 40px;
+  right: -18px;
   width: 110px;
   height: 430px;
   border-top: 5px solid $menuTopBorder;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   background-color: $menuBackgroundColor;
-  transition: 1s;
-  z-index: 9;
+  transition: 0.3s;
+  opacity: 1;
+  z-index: 1;
 }
 .game-menu {
-  position: fixed;
-  display: flex;
-  top: 70px;
-  right: 450px;
-  width: 250px;
-  height: fit-content;
-  background-color: $menuBackgroundColor;
-  transition: 1s;
-  z-index: 9;
+  visibility: visible;
+  position: absolute;
+  top: 40px;
+  right: -75px;
+  transition: 0.3s;
+  z-index: 1;
+  opacity: 1;
 }
-
+.invisible {
+  visibility: hidden;
+  top: 20px;
+  opacity: 0;
+  z-index: -1;
+}
 .logo {
   cursor: pointer;
   position: relative;
-  left: 50px;
-  &:hover{
-    transform: scale(0.95)
+  &:hover {
+    transform: scale(0.95);
   }
-  &:active{
-    transform: scale(0.9)
+  &:active {
+    transform: scale(0.9);
   }
 }
 .logo-part1,
@@ -84,23 +86,34 @@ p {
   position: relative;
   justify-content: space-between;
   align-items: center;
-  width: 600px;
-  right: 50px;
-}
-.button-container > div{
-  cursor: pointer;
-  &:hover{
-    border-bottom: 3px solid $activePageColor;
-    padding-bottom: 10px;
+  gap: 50px;
+  height: 100%;
+  box-sizing: border-box;
+  .nav-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: 0.5s;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid transparent;
+    .nav-text {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      cursor: pointer;
+    }
+    &:hover {
+      border-bottom: 3px solid $activePageColor;
+      border-top: 3px solid transparent;
+    }
   }
 }
-
-.active{
-  color:$activePageColor;
+.active {
+  color: $activePageColor;
   border-bottom: 3px solid $activePageColor;
-  padding-bottom: 10px;
+  border-top: 3px solid transparent;
 }
-.invisible-link{
-  opacity:0;
+.invisible-link {
+  opacity: 0;
   visibility: hidden;
 }

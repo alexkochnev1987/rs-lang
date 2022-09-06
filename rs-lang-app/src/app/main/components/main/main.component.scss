@@ -10,11 +10,11 @@
   overflow: hidden;
 }
 .main-wrapper{
-  padding-top: 70px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 50px;
+  margin-bottom: 50px;
 }
 
 .learn{
@@ -42,10 +42,9 @@
   }
 }
 .games-wrapper{
-  margin: auto;
   box-sizing: border-box;
   display: flex;
-  justify-content: center ;
+  justify-content: space-between;
   gap:30px;
   width: 100%;
   height: 100%;;
@@ -58,7 +57,6 @@
   .text-wrapper{
     border-radius: 10px;
     padding: 2px;
-    width: 550px;
     height: 225px;
     background: $textInFormColor;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
@@ -69,7 +67,7 @@
   }
 }
 .text{
-  padding: 30px 30px 30px 210px;
+  padding-left: 180px;
 }
 button{
   @include button;
@@ -95,4 +93,15 @@ button{
   border: 1px dashed black;
   border-radius: 10px;
 }
-
+.heading-3 {
+  position: relative;
+  @include heading3;
+  margin-bottom: 30px;
+  width: fit-content;
+  z-index: 1;
+}
+.inner-text {
+  @include font14;
+  margin-bottom: 30px;
+  line-height: 18px;
+}

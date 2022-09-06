@@ -1,18 +1,18 @@
 <div class="table">
   <div class="header">
-    <div>NEW WORDS</div>
-    <div>ANSWERS</div>
-    <div>CORRECT ANSWERS PERCENT</div>
+    <div class="table-heading">NEW WORDS</div>
+    <div class="table-heading">ANSWERS</div>
+    <div class="table-heading">CORRECT ANSWERS PERCENT</div>
   </div>
   <div class="rows">
-    <div>{{ wordsLearnedToday || 0 }}</div>
+    <div class="table-text">{{ wordsLearnedToday || 0 }}</div>
     <div>
-      <p>
+      <p class="table-text">
         {{ totalWords || 0 }}
       </p>
     </div>
     <div>
-      <p>{{ correctAnswersPercent || 0 }}</p>
+      <p class="table-text">{{ correctAnswersPercent || 0 }}</p>
     </div>
   </div>
 </div>

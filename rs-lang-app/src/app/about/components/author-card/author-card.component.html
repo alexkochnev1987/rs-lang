@@ -1,6 +1,6 @@
 <div
   *ngFor="let author of authors"
-  class="stroke-container author id-{{ author.id }}">
+  class="dashed-container author id-{{ author.id }}">
   <div class="author-photo" [style]="setAuthorPhotoStyle(author)"></div>
   <div class="author-info">
     <h5 class="heading-5">{{ author.firstName + ' ' + author.secondName }}</h5>

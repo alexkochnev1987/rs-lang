@@ -1,4 +1,10 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { AppPages } from 'src/app/constants';
 import { UserDataService } from 'src/app/core/services/user-data.service';
@@ -35,6 +41,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.currentPage = this.pagesDataService.getPage();
   }
+
+  @ViewChild('gameMenu')
+  gameMenu!: ElementRef;
 
   showMenu() {
     this.isMenuInvisible = !this.isMenuInvisible;

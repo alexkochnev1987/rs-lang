@@ -1,5 +1,5 @@
 <section class="container">
-  <h1 class="heading-1">
+  <h1 class="heading-1 underline">
     {{ !isGameEnded ? currentGame : 'GAME STATISTICS' }}
   </h1>
   <app-game-level
@@ -9,7 +9,11 @@
     "
     *ngIf="!isLevelSelected"></app-game-level>
   <div *ngIf="isLevelSelected && !isGameStarted && !isAllWordsLearned">
-    {{ progress }}
+    <span class="loading-text">LOADING ... </span>
+    <progress
+      class="progress-scale"
+      value="{{ progress }}"
+      max="100"></progress>
   </div>
   <div *ngIf="isGameStarted && !isGameEnded">
     <div class="timer-container">

@@ -8,12 +8,14 @@
   text-align: center;
   background-color:$textInFormColor;
   border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .table-words{
   background-color: $textInFormColor;
   box-sizing: border-box;
-  min-width: 600px;
+  width: 100%;
   min-height: 445px;
   border-radius: 10px;
   overflow: hidden;
@@ -46,10 +48,13 @@
 }
 
 .word {
+  @include font14bold;
+  text-transform: capitalize;
   padding-left: 20px;
 }
 
 .transcription{
+  @include fontTranscription;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -150,6 +155,26 @@
 }
 
 .counter{
+  @include font14;
   display: flex;
   align-items: center;
+}
+
+.heading-4 {
+  position: relative;
+  @include heading4;
+  width: fit-content;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.table-heading {
+  @include font12;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: white;
+}
+
+.translate {
+  @include font14;
 }

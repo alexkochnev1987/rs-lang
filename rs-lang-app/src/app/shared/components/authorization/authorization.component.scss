@@ -8,10 +8,6 @@
   background-color: $loginFormBackground;
   width: 378px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-  h2 {
-    color: $textInFormColor;
-    text-align: center;
-  }
 }
 
 .text-image {
@@ -25,6 +21,7 @@
   gap: 10px;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .text-done {
@@ -43,21 +40,10 @@
 .input {
   box-sizing: border-box;
   padding-left: 10px;
-  margin-bottom: 10px;
   width: 320px;
   height: 34px;
   border-radius: 10px;
   border: none;
-}
-
-button {
-  padding: 2.5px;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-  color: $textInFormColor;
-  @include boldFontSize14;
-  text-align: center;
 }
 
 .edit {
@@ -70,13 +56,6 @@ button {
   &:active{
     background: $pressedLoginButton;
   }
-}
-
-h3 {
-  @include fontSize16;
-  margin: 0 0 10px 0;
-  text-transform: uppercase;
-  color: $textInFormColor;
 }
 
 .error {
@@ -119,6 +98,11 @@ p{
   display: flex;
   gap: 20px;
 }
+.button-wrapper {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-start;
+}
 .image-border{
   width: 100px;
   height: 100px;
@@ -146,7 +130,6 @@ p{
 }
 
 .register {
-  margin-left: 10px;
   width: 115px;
   height: 34px;
   background: $registrationButtonBackground;
@@ -168,4 +151,30 @@ p{
   &:active{
     background: $pressedLoginButton;
   }
+}
+
+.heading-2 {
+  @include fontSize16;
+  text-transform: uppercase;
+  color: $textInFormColor;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.user-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

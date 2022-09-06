@@ -6,22 +6,12 @@
   overflow: hidden;
 }
 
-.heading-h3{
-  h3{
-    position: relative;
-    z-index: 2;
-    padding: 0 2px 0 2px;
-  }
-  .border-bottom{
-    position: relative;
-    background: #66CEE9;
-    height: 5px;
-    padding: 0 2px 0 2px;
-    border-radius: 10px;
-    transform: translateY(19px);
-  }
+.heading-3 {
+  position: relative;
+  @include heading3;
+  width: fit-content;
+  z-index: 1;
 }
-
 
 .main-wrapper{
   padding-top: 70px;
@@ -57,17 +47,20 @@
 .wrapper{
   box-sizing: border-box;
   display: flex;
-  justify-content: center ;
-  gap:30px;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 30px;
   width: 100%;
   height: 250px;
+  margin-bottom: 50px;
 }
 
 .wrapper-words{
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
-  gap:30px;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 30px;
   width: 100%;
 }
 
@@ -89,16 +82,6 @@
   }
 }
 
-button{
-  @include button;
-  &:hover{
-    background: $gameMenuButtonBackground;
-  }
-  &:active{
-    background: $gameMenuButtonPressedBackground;
-  }
-}
-
 .border{
   @include border;
   border-radius: 8px;;
@@ -112,12 +95,14 @@ button{
   color: $textInFormColor;
 }
 
+.text-wrapper {
+  width: 100%;
+}
 
 .statistics{
   padding: 5px;
   display: flex;
   justify-content: space-between;
-  width: 145px;
 }
 p{
   min-width: 35px;
@@ -131,4 +116,44 @@ p{
   display: flex;
   flex-direction: column;
   gap: 30px;
+  height: 100%;
+  justify-content: center;
+}
+
+.dashed-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.button-orange {
+  width: fit-content;
+}
+
+.heading-1 {
+  position: relative;
+  width: fit-content;
+  @include heading1;
+  line-height: 26px;
+  text-align: center;
+  margin: 0 auto 30px;
+  z-index: 10;
+}
+
+.underline::before {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  border-radius: 2.5px;
+  background-color: $underlineColor;
+  z-index: -1;
+}
+
+.full-width {
+  width: 100%;
+  @include shadow4px;
+  border-radius: 10px;
 }
