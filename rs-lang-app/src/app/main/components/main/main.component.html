@@ -32,7 +32,12 @@
           Here will be the text about audio challenge mini-game and a little
           more text. Here will be the text about audio challenge mini-game.
         </p>
-        <button [routerLink]="link2" class="button-orange">TRY SPRINT</button>
+        <button
+          [routerLink]="link2"
+          class="button-orange"
+          (click)="resetLevelPage()">
+          TRY SPRINT
+        </button>
       </div>
     </div>
     <img src="assets/img/sprint.png" alt="Sprint" />
