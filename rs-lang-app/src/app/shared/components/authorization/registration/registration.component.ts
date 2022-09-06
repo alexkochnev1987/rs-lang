@@ -34,7 +34,6 @@ export class RegistrationComponent implements OnInit {
 
   onRegistration() {
     this.form.disable();
-    console.log(this.form.value);
     this.auth.register(this.form.value).subscribe({
       next: response => {
         this.showRegistration.setUserStatus(ShowUserStatus.success);
