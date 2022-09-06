@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { LevelColor } from 'src/app/constants';
 import { UnitsDataService } from 'src/app/core/services/units-data.service';
 import { UserDataService } from 'src/app/core/services/user-data.service';
 
@@ -8,7 +9,7 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   styleUrls: ['./level-navigation.component.scss'],
 })
 export class LevelNavigationComponent implements OnInit {
-  units: { id: number; name: string }[] = [];
+  units: LevelColor[] = [];
   @Input() currentLevel: number = 1;
 
   constructor(
