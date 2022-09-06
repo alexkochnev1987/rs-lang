@@ -8,6 +8,7 @@ import {
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { AppPages } from 'src/app/constants';
 import { UserDataService } from 'src/app/core/services/user-data.service';
+import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
 
 @Component({
   selector: 'app-header',
@@ -35,7 +36,8 @@ export class HeaderComponent implements OnInit {
   }
   constructor(
     private userDataService: UserDataService,
-    private pagesDataService: PagesDataService
+    private pagesDataService: PagesDataService,
+    private levelService: GameLevelTransferService
   ) {}
 
   ngOnInit(): void {
@@ -64,5 +66,9 @@ export class HeaderComponent implements OnInit {
 
   isUser() {
     return this.userDataService.isRegistered();
+  }
+
+  getLevelPage() {
+    return this.levelService.gamePageLevel[0];
   }
 }

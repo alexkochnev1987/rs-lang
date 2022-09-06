@@ -23,13 +23,14 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   styleUrls: ['./units-menu.component.scss'],
   providers: [],
 })
-export class UnitsMenuComponent implements OnInit, AfterViewInit {
-  currentLevel: number = 1;
+export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
+  // currentLevel: number = 1;
   unitsAuth: LevelColor[] = LEVELS_COLORS;
   unitsNotAuth: LevelColor[] = LEVELS_COLORS.slice(0, 6);
   levelsAmount: number = 0;
   levelsContainerHeight = 0;
   levelsSelectorHeight = 0;
+  currentPage = 0;
 
   constructor(
     private unitsDataService: UnitsDataService,
@@ -39,6 +40,9 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit {
 
   @Input()
   isAuth: boolean = false;
+
+  @Input()
+  currentLevel: number = 1;
 
   @ViewChild('levelsContainer')
   levelsContainer!: ElementRef;
@@ -124,5 +128,17 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit {
       .filter((el, index) => index < this.levelsAmount)
       .map(el => el.color)
       .join(', ')});`;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    for (let change in changes) {
+      if (change === 'isAuth') {
+        setTimeout(() => this.ngAfterViewInit(), 0);
+      }
+      if (change === 'currentLevel') {
+        this.currentLevel = changes[change].currentValue;
+        setTimeout(() => this.hoverActions(this.currentLevel), 0);
+      }
+    }
   }
 }

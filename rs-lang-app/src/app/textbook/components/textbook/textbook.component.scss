@@ -86,7 +86,7 @@ a {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 30px;
   gap: 20px;
   position: relative;
@@ -139,7 +139,6 @@ a {
 
 .title-1 {
   @include fontSize16;
-  margin-left: -20px;
   white-space: nowrap;
 }
 ::ng-deep .button-1 button {
@@ -183,4 +182,25 @@ a {
 .game-button {
   width: min-content;
   white-space: nowrap;
+}
+.select-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.play-game {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  width: fit-content;
+}
+
+.nav-container {
+  width: 100%;
 }

@@ -1,98 +1,90 @@
 @import '../../../app.component.scss';
-.navigation {
-  box-sizing: border-box;
+
+.levels-container {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px;
   gap: 10px;
-  isolation: isolate;
-  width: 472px;
-  height: 50px;
-  background: $levelNavigationOnPageBackground;
-  border: 20px solid $cardBackgroundColor;
-  border-radius: 50px;
-  @include fontSize20;
-  color: $textInFormColor;
+  width: 100%;
+}
 
-}
-.unregistered-user {
-  display: none !important;
-}
-.navigation-element {
-  box-sizing: border-box;
+.buttons {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  cursor: pointer;
   gap: 10px;
-  transition: 200ms;
+  flex-shrink: 0;
 }
 
-.big-element,
-.navigation-element:hover {
-  width: 50px !important;
-  height: 50px !important;
-  border-radius: 25px !important;
-}
-.unit-1 {
-  width: 40px;
-  height: 40px;
-  background: #88e564;
-  border: 3px solid #ffffff;
+.levels {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 10px;
   border-radius: 20px;
-  flex: none;
-  z-index: 7;
+}
 
+.heading-4 {
+  @include heading4;
+  flex-shrink: 0;
 }
-.unit-2 {
-  width: 40px;
-  height: 40px;
-  background: #45dec3;
-  border: 3px solid #ffffff;
-  border-radius: 20px;
-  z-index: 6;
+
+.levels-background {
+  position: absolute;
+  width: calc(100% - 20px);
+  height: 20%;
+  left: 10px;
+  top: 40%;
+  border-radius: 25px;
+  box-sizing: border-box;
 }
-.unit-3 {
-  width: 40px;
-  height: 40px;
-  background: #64c6e5;
-  border: 3px solid #ffffff;
-  border-radius: 20px;
-  z-index: 5;
+
+.levels-selection-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 5px solid $containerBackground;
+  border-radius: 25px;
+  box-sizing: border-box;
+  transition: 0.2s;
 }
-.unit-4 {
-  width: 40px;
-  height: 40px;
-  background: #508be4;
-  border: 3px solid #ffffff;
-  border-radius: 20px;
-  z-index: 4;
-}
-.unit-5 {
-  width: 40px;
-  height: 40px;
-  background: #ac64e5;
-  border: 3px solid #ffffff;
-  border-radius: 20px;
-  z-index: 3;
-}
-.unit-6 {
-  width: 40px;
-  height: 40px;
-  background: #e564b9;
-  border: 3px solid #ffffff;
-  border-radius: 20px;
-  z-index: 2;
-}
-.unit-7 {
-  width: 40px;
-  height: 40px;
-  background: #eb4949;
-  border: 3px solid #ffffff;
-  border-radius: 20px;
+.level-selector-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
   z-index: 1;
+}
+
+.level-selector {
+  @include heading3;
+  color: white;
+  padding-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 3px solid $containerBackground;
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: 0.2s;
+}
+
+.level-selector-box:hover {
+  cursor: pointer;
+  .level-selector {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.selected {
+  width: 50px;
+  height: 50px;
 }
