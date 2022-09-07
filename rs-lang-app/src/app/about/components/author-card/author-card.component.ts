@@ -7,6 +7,9 @@ import { authorCard } from '../../../constants';
   styleUrls: ['./author-card.component.scss'],
 })
 export class AuthorCardComponent implements OnInit {
+  isDesktop = true;
+  isTablet = false;
+  isPhone = false;
   private borderColors = ['#88E564', '#FFB84D', '#D698EC', '#42BEE5'];
 
   @Input()
@@ -14,6 +17,7 @@ export class AuthorCardComponent implements OnInit {
 
   ngOnInit() {
     this.authors = authorData;
+    this.checkScreen();
   }
 
   setAuthorPhotoStyle(author: authorCard) {
@@ -25,5 +29,26 @@ export class AuthorCardComponent implements OnInit {
 
   getAuthorGitName(author: authorCard) {
     return author.git.match(/\w+$/);
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width >= 1280) {
+      this.isDesktop = true;
+      this.isTablet = false;
+      this.isPhone = false;
+    }
+    if (
+      window.visualViewport!.width < 1280 &&
+      window.visualViewport!.width >= 768
+    ) {
+      this.isDesktop = false;
+      this.isTablet = true;
+      this.isPhone = false;
+    }
+    if (window.visualViewport!.width < 768) {
+      this.isDesktop = false;
+      this.isPhone = true;
+      this.isTablet = false;
+    }
   }
 }

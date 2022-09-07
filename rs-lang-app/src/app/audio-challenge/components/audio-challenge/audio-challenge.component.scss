@@ -7,9 +7,6 @@ h2 {
 h1{
   margin-bottom: 50px;
 }
-::ng-deep .level .solid-stroke-container {
-  margin-bottom: 400px;
-}
 .game-container {
   display: flex;
   flex-direction: column;
@@ -346,4 +343,14 @@ button-disable {
 .title-from-textbook {
   @include heading2;
   color: black;
+}
+
+@media (max-width: 767.99px) {
+  .level {
+    display: flex;
+    justify-content: center;
+  }
+  .heading-1 {
+    width: min-content;
+  }
 }
