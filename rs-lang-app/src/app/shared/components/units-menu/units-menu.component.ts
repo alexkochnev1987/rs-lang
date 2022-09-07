@@ -31,6 +31,7 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
   levelsContainerHeight = 0;
   levelsSelectorHeight = 0;
   currentPage = 0;
+  isPhone = false;
 
   constructor(
     private unitsDataService: UnitsDataService,
@@ -60,6 +61,7 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
   unitsContainer!: TemplateRef<ElementRef>;
 
   ngOnInit(): void {
+    this.checkScreen();
     this.currentLevel = this.textbookDataService.getCurrentLevel();
     this.unitsAuth = this.unitsDataService.getUnitsForUser();
   }
@@ -74,14 +76,16 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   hoverActions(selectedLevel: number) {
-    this.levelsContainerHeight =
-      this.levelsContainer.nativeElement.offsetHeight;
-    this.levelsSelectorHeight =
-      this.levelsSelector.get(0)?.nativeElement.offsetHeight;
-    this.setOuterContainer(selectedLevel);
-    this.setLevelsSelectBar(selectedLevel);
-    this.setLevelsBackground();
-    this.setSelectedLevel(this.currentLevel);
+    if (this.isPhone === false) {
+      this.levelsContainerHeight =
+        this.levelsContainer.nativeElement.offsetHeight;
+      this.levelsSelectorHeight =
+        this.levelsSelector.get(0)?.nativeElement.offsetHeight;
+      this.setOuterContainer(selectedLevel);
+      this.setLevelsSelectBar(selectedLevel);
+      this.setLevelsBackground();
+      this.setSelectedLevel(this.currentLevel);
+    }
   }
 
   setOuterContainer(selectedLevel: number) {
@@ -131,6 +135,7 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.checkScreen();
     for (let change in changes) {
       if (change === 'isAuth') {
         setTimeout(() => this.ngAfterViewInit(), 0);
@@ -139,6 +144,15 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
         this.currentLevel = changes[change].currentValue;
         setTimeout(() => this.hoverActions(this.currentLevel), 0);
       }
+    }
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+    }
+    if (window.visualViewport!.width >= 768) {
+      this.isPhone = false;
     }
   }
 }

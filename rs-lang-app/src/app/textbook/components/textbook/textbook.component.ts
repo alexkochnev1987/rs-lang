@@ -53,6 +53,8 @@ export class TextbookComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   easyCount = 0;
   isLearnedPage = false;
+  isTablet = false;
+  isPhone = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -86,6 +88,7 @@ export class TextbookComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.checkScreen();
     this.load();
     this.getUserWords();
     this.pagesDataService.setPage(AppPages.TextBook);
@@ -185,5 +188,23 @@ export class TextbookComponent implements OnInit, OnDestroy {
 
   setLevelPage(arr: number[]) {
     this.levelPage.gamePageLevel = [+arr[0], +arr[1]];
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width >= 1280) {
+      this.isTablet = false;
+      this.isPhone = false;
+    }
+    if (
+      window.visualViewport!.width < 1280 &&
+      window.visualViewport!.width >= 768
+    ) {
+      this.isTablet = true;
+      this.isPhone = false;
+    }
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+      this.isTablet = false;
+    }
   }
 }

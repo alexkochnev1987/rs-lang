@@ -5,10 +5,7 @@ import { AuthorizationComponent } from '../shared/components/authorization/autho
 import { LoginComponent } from '../shared/components/authorization/login/login.component';
 import { RegistrationComponent } from '../shared/components/authorization/registration/registration.component';
 
-const routes: Routes = [
-  { path: '', component: AuthorizationComponent },
-  // { path: PageRoutes.registration, component: RegistrationComponent },
-];
+const routes: Routes = [{ path: '', component: AuthorizationComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -31,7 +31,7 @@
     *ngIf="isGameEnded"></app-audio-challenge-statistics>
 
   <div class="game-container" *ngIf="isGameStart && !isGameEnded">
-    <div *ngIf="isInProgress">
+    <div *ngIf="isInProgress" class="in-progress">
       <span class="loading-text">LOADING ... </span>
       <progress
         class="progress-scale"

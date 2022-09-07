@@ -69,3 +69,9 @@
   width: calc((100% - $desktopIndent) / 2);
   gap: 30px;
 }
+
+@media (min-width: 768px) and (max-width: 1279.99px) {
+  .author {
+    gap: 15px;
+  }
+}

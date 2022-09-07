@@ -7,6 +7,6 @@
       dictionary. Train every day to get best results!
     </p>
   </div>
-  <app-authorization></app-authorization>
+  <app-authorization *ngIf="isDesktop"></app-authorization>
 </div>
 <app-author-card class="about-authors"></app-author-card>

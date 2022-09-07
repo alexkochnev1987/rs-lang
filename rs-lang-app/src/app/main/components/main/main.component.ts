@@ -14,12 +14,14 @@ export class MainComponent implements OnInit {
   link1 = '../audio-challenge';
   link1Level = -1;
   link1Page = -1;
+  isDesktop = true;
   constructor(
     private pagesDataService: PagesDataService,
     private gameLevelPage: GameLevelTransferService
   ) {}
   ngOnInit(): void {
     this.pagesDataService.setPage(AppPages.Main);
+    if (window.visualViewport!.width < 1280) this.isDesktop = false;
   }
   resetLevelPage() {
     this.gameLevelPage.gamePageLevel = [];

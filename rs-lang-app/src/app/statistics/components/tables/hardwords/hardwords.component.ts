@@ -45,30 +45,6 @@ export class HardWordsComponent implements OnInit {
           });
       },
     });
-    // this.queryService
-    //   .getUserWords()
-    //   .pipe(
-    //     tap(response =>
-    //       response
-    //         .filter(this.statisticService.filterHardWords)
-    //         .forEach(userWord =>
-    //           this.queryService.getWordById(userWord.wordId).subscribe({
-    //             next: word => {
-    //               const obj: UserWordsWithTranscription = {
-    //                 userWord: userWord,
-    //                 word: word,
-    //               };
-    //               this.statisticService.splitArrByChunks(
-    //                 obj,
-    //                 this.hardWords,
-    //                 STATISTICS_WORDS_LENGTH
-    //               );
-    //             },
-    //           })
-    //         )
-    //     )
-    //   )
-    //   .subscribe();
   }
 
   nextPage() {

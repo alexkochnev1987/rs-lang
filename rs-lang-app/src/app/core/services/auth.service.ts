@@ -64,7 +64,7 @@ export class AuthService {
   }
 
   logOut() {
-    this.router.navigate([RouterParams.about]);
+    this.router.navigate([RouterParams.main]);
     this.userDataService.clearUser();
     this.userDataService.setUserState(false);
     this.localStorage.clear();

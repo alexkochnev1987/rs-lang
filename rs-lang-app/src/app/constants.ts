@@ -69,6 +69,7 @@ export enum RouterParams {
   registration = '/authorization/registration',
   login = '/authorization',
   about = '/about',
+  main = '/',
 }
 
 export enum PageRoutes {

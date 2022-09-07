@@ -19,13 +19,13 @@
       <img src="assets/img/sun.png" alt="Sun" />
     </div>
   </div>
-  <div class="split-height">
+  <div class="split-height" *ngIf="isDesktop">
     <app-authorization></app-authorization>
   </div>
 </div>
 <div class="games-wrapper">
-  <div class="game-wrapper">
-    <div class="dashed-container">
+  <div class="game-wrapper sprint">
+    <div class="dashed-container game-info">
       <div class="text">
         <h3 class="heading-3 underline">SPRINT MINI-GAME</h3>
         <p class="inner-text">
@@ -40,10 +40,10 @@
         </button>
       </div>
     </div>
-    <img src="assets/img/sprint.png" alt="Sprint" />
+    <img src="assets/img/sprint.png" alt="Sprint" class="boy-img" />
   </div>
-  <div class="game-wrapper">
-    <div class="dashed-container">
+  <div class="game-wrapper audio-challenge">
+    <div class="dashed-container game-info">
       <div class="text">
         <h3 class="heading-3 underline">AUDIO CHALLENGE MINI-GAME</h3>
         <p class="inner-text">
@@ -57,6 +57,6 @@
         </button>
       </div>
     </div>
-    <img src="assets/img/audio.png" alt="Audio Challenge" />
+    <img src="assets/img/audio.png" alt="Audio Challenge" class="girl-img" />
   </div>
 </div>

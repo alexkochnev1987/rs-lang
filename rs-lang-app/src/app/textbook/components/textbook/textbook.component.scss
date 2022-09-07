@@ -202,3 +202,18 @@ a {
 .nav-container {
   width: 100%;
 }
+
+@media (min-width: 768px) and (max-width: 1279.99px) {
+  .title-container {
+    flex-direction: column;
+    width: $tabletWidth;
+    height: fit-content;
+  }
+  .cards-container {
+    width: $tabletWidth;
+    grid-template-rows: repeat(7, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    margin: 30px auto;
+    gap: 20px;
+  }
+}

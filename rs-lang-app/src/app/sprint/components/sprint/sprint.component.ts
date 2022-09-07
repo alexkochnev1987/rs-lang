@@ -135,9 +135,6 @@ export class SprintComponent implements OnInit {
   @ViewChild('buttonNo')
   buttonNo: ElementRef | undefined;
 
-  // @ViewChild('gamePicture')
-  // gamePicture: ElementRef | undefined;
-
   ngOnInit(): void {
     if (this.isAuth) this.getUserStatistics();
     this.pageDataService.setPage(AppPages.MiniGames);

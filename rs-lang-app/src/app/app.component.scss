@@ -74,6 +74,8 @@ $tableEvenItemBg: #f5f5f5;
 $desktopIndent: 30px;
 $statisticsTableHeader:#42BEE5;
 $desktopWidth: 1230px;
+$tabletWidth: 750px;
+$mobileWidth: 300px;
 $underlineColor: #66CEE9;
 $accentColor: #FF9100;
 
@@ -375,4 +377,14 @@ $accentColor: #FF9100;
   border-radius: 2.5px;
   background-color: $underlineColor;
   z-index: -1;
+}
+
+@media (min-width: 768px) and (max-width: 1279.99px) {
+  .router-wrapper {
+    width: $tabletWidth;
+    margin: 100px auto 0;
+  }
+  .dashed-container {
+    padding: 20px;
+  }
 }
