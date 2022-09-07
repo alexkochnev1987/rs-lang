@@ -210,7 +210,7 @@ p {
   gap: 10px;
   flex-wrap: wrap;
   width: 250px;
-  margin-top: 20px;
+  margin: 20px auto 0;
 }
 
 @media (min-width: 768px) and (max-width: 1279.99px) {
@@ -221,7 +221,7 @@ p {
 
 @media (max-width: 767.99px) {
   .header-container .header {
-    width: $mobileWidth;
+    width: 100%;
   }
   .logo {
     order: 2;
@@ -246,5 +246,8 @@ p {
     margin: 0 auto;
     border-bottom: 1px dashed white;
     width: 50vw;
+  }
+  .games.active {
+    border: 0;
   }
 }

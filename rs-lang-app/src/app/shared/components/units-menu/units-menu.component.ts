@@ -76,14 +76,16 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   hoverActions(selectedLevel: number) {
-    this.levelsContainerHeight =
-      this.levelsContainer.nativeElement.offsetHeight;
-    this.levelsSelectorHeight =
-      this.levelsSelector.get(0)?.nativeElement.offsetHeight;
-    this.setOuterContainer(selectedLevel);
-    this.setLevelsSelectBar(selectedLevel);
-    this.setLevelsBackground();
-    this.setSelectedLevel(this.currentLevel);
+    if (this.isPhone === false) {
+      this.levelsContainerHeight =
+        this.levelsContainer.nativeElement.offsetHeight;
+      this.levelsSelectorHeight =
+        this.levelsSelector.get(0)?.nativeElement.offsetHeight;
+      this.setOuterContainer(selectedLevel);
+      this.setLevelsSelectBar(selectedLevel);
+      this.setLevelsBackground();
+      this.setSelectedLevel(this.currentLevel);
+    }
   }
 
   setOuterContainer(selectedLevel: number) {
@@ -133,6 +135,7 @@ export class UnitsMenuComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.checkScreen();
     for (let change in changes) {
       if (change === 'isAuth') {
         setTimeout(() => this.ngAfterViewInit(), 0);
