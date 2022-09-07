@@ -63,3 +63,12 @@
 .button-orange {
   padding-top: 2px;
 }
+
+@media (max-width: 767.99px) {
+  .authorization {
+    width: 300px;
+  }
+  .button-wrapper {
+    flex-direction: column;
+  }
+}

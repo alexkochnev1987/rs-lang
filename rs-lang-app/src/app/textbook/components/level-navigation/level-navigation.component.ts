@@ -33,6 +33,7 @@ export class LevelNavigationComponent
   levelsContainerWidth = 0;
   levelsSelectorWidth = 0;
   isAuth: boolean = false;
+  isPhone = false;
 
   constructor(
     private unitsDataService: UnitsDataService,
@@ -62,6 +63,7 @@ export class LevelNavigationComponent
     this.isAuth = this.userDataService.isRegistered();
     this.currentLevel = this.textbookDataService.getCurrentLevel();
     this.unitsAuth = this.unitsDataService.getUnitsForUser();
+    this.checkScreen();
   }
 
   ngAfterViewInit() {
@@ -135,5 +137,14 @@ export class LevelNavigationComponent
 
   ngOnChanges(currentLevel: SimpleChanges): void {
     setTimeout(() => this.ngAfterViewInit(), 0);
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+    }
+    if (window.visualViewport!.width >= 768) {
+      this.isPhone = false;
+    }
   }
 }

@@ -1,7 +1,7 @@
 <div
   class="levels"
   (mouseleave)="hoverActions(currentLevel)"
-  *ngIf="isAuth"
+  *ngIf="isAuth && !isPhone"
   #outerContainer>
   <div class="levels-selection-background" #levelsContainer></div>
   <div class="levels-background" #levelsBackground></div>
@@ -30,7 +30,7 @@
 <div
   class="levels"
   (mouseleave)="hoverActions(currentLevel)"
-  *ngIf="!isAuth"
+  *ngIf="!isAuth && !isPhone"
   #outerContainer>
   <div class="levels-selection-background" #levelsContainer></div>
   <div class="levels-background" #levelsBackground></div>
@@ -56,3 +56,41 @@
     </div>
   </ng-container>
 </div>
+<ng-container *ngIf="isAuth && isPhone">
+  <ng-container
+    *ngFor="let unit of unitsAuth"
+    class="level-{{ unit.id }}"
+    [class.unregistered-user]="!isRegisteredUser(unit.id)">
+    <div
+      class="level-selector-box"
+      (mouseenter)="hoverActions(unit.id)"
+      (click)="setSelectedLevel(unit.id); currentLevel = unit.id">
+      <div
+        class="level-selector"
+        [style]="getLevelBackgroundColor(unit.color)"
+        [routerLink]="['../textbook', unit.id]"
+        #levelsSelector>
+        {{ unit.id }}
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="!isAuth && isPhone">
+  <ng-container
+    *ngFor="let unit of unitsNotAuth"
+    class="level-{{ unit.id }}"
+    [class.unregistered-user]="!isRegisteredUser(unit.id)">
+    <div
+      class="level-selector-box"
+      (mouseenter)="hoverActions(unit.id)"
+      (click)="setSelectedLevel(unit.id); currentLevel = unit.id">
+      <div
+        class="level-selector"
+        [style]="getLevelBackgroundColor(unit.color)"
+        [routerLink]="['../textbook', unit.id]"
+        #levelsSelector>
+        {{ unit.id }}
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
