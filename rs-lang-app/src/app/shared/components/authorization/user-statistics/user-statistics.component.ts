@@ -146,7 +146,7 @@ export class UserStatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserName();
-    setTimeout(() => this.getStatistics(), 1000);
+    this.getStatistics();
     this.getWords();
   }
 

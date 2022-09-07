@@ -7,7 +7,7 @@
         >{{ item }}</span
       >
     </div>
-    <div class="button-container">
+    <div class="button-container" *ngIf="!isPhone">
       <div routerLink="/about" class="nav-button">
         <div class="nav-text" routerLinkActive="active">ABOUT</div>
       </div>
@@ -48,11 +48,58 @@
         class="nav-button">
         <div class="nav-text">DASHBOARD</div>
       </div>
-      <div class="auth-button" *ngIf="isTablet || isPhone">
-        <div class="auth-icon" (click)="authShow()"></div>
-        <div class="auth-header" *ngIf="isAuthShow" #auth>
-          <app-authorization></app-authorization>
+    </div>
+    <div class="menu-button" *ngIf="isPhone">
+      <div class="menu-icon" (click)="menuShow()" #burger></div>
+      <div class="menu-container" *ngIf="isMenuShow">
+        <div routerLink="/about" class="nav-button" (click)="menuShow()">
+          <div class="nav-text" routerLinkActive="active">ABOUT</div>
         </div>
+        <div class="nav-button">
+          <div
+            class="nav-text"
+            [class.active]="currentPage === AppPages.MiniGames">
+            MINI-GAMES
+            <div class="game-buttons-container">
+              <app-menu-button
+                class="game-button"
+                [gameName]="game1"
+                (click)="menuShow()"
+                [routerLink]="[link1, link1Level, link1Page]"></app-menu-button>
+              <app-menu-button
+                class="game-button"
+                [gameName]="game2"
+                [routerLink]="link2"
+                (click)="menuShow(); resetLevelPage()"></app-menu-button>
+            </div>
+          </div>
+        </div>
+        <div class="ebook" class="nav-button">
+          <div
+            class="nav-text"
+            [class.active]="currentPage === AppPages.TextBook">
+            TEXTBOOK
+          </div>
+          <app-units-menu
+            class="phone-level-menu"
+            [isAuth]="isUser()"
+            [currentLevel]="getLevelPage()"
+            (click)="menuShow()"></app-units-menu>
+        </div>
+        <div
+          *ngIf="isUser()"
+          [class.invisible-link]="!isUser()"
+          class="nav-button"
+          (click)="menuShow()"
+          routerLink="/statistics">
+          <div class="nav-text" routerLinkActive="active">DASHBOARD</div>
+        </div>
+      </div>
+    </div>
+    <div class="auth-button" *ngIf="isTablet || isPhone">
+      <div class="auth-icon" (click)="authShow()"></div>
+      <div class="auth-header" *ngIf="isAuthShow" #auth>
+        <app-authorization></app-authorization>
       </div>
     </div>
   </div>
@@ -62,3 +109,8 @@
   *ngIf="isAuthShow"
   (click)="authShow()"
   #authBackground></div>
+<div
+  class="menu-header-background"
+  *ngIf="isMenuShow"
+  (click)="menuShow()"
+  #menuBackground></div>

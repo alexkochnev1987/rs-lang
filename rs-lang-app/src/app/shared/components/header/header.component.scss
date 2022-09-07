@@ -116,7 +116,8 @@ p {
   opacity: 0;
   visibility: hidden;
 }
-.auth-header-background {
+.auth-header-background,
+.menu-header-background {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -155,12 +156,95 @@ p {
     transition: 0.5s;
   }
   .auth-icon:hover {
-    filter: invert(24%) sepia(13%) saturate(1985%) hue-rotate(55deg) brightness(93%) contrast(92%);
+    filter: invert(24%) sepia(13%) saturate(1985%) hue-rotate(55deg)
+      brightness(93%) contrast(92%);
   }
+}
+.menu-button {
+  position: relative;
+  width: 42px;
+  height: 70px;
+  .menu-icon {
+    width: 22px;
+    height: 22px;
+    margin: 24px auto;
+    background: url(^assets/img/burger.svg);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .menu-icon:hover {
+    filter: invert(24%) sepia(13%) saturate(1985%) hue-rotate(55deg)
+      brightness(93%) contrast(92%);
+  }
+}
+
+.menu-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: -15px;
+  background-color: $tableHeadingBgColor;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: -1;
+  font-weight: 800;
+}
+
+.game-buttons-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 150px;
+  margin-top: 20px;
+}
+
+.phone-level-menu {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 250px;
+  margin-top: 20px;
 }
 
 @media (min-width: 768px) and (max-width: 1279.99px) {
   .header-container .header {
     width: $tabletWidth;
+  }
+}
+
+@media (max-width: 767.99px) {
+  .header-container .header {
+    width: $mobileWidth;
+  }
+  .logo {
+    order: 2;
+  }
+  .button-container {
+    order: 1;
+  }
+  .auth-button {
+    order: 3;
+  }
+  .nav-text {
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  .active {
+    color: white;
+    border-bottom: 3px solid white;
+  }
+  .nav-button {
+    padding: 30px;
+    margin: 0 auto;
+    border-bottom: 1px dashed white;
+    width: 50vw;
   }
 }
