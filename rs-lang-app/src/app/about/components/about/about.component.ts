@@ -9,11 +9,13 @@ import { PagesDataService } from 'src/app/core/services/pages-data.service';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
+  isDesktop = true;
   auth?: AuthorizationModule;
 
   constructor(private pagesDataService: PagesDataService) {}
   ngOnInit(): void {
     this.auth = new AuthorizationModule();
     this.pagesDataService.setPage(AppPages.About);
+    if (window.visualViewport!.width < 1280) this.isDesktop = false;
   }
 }

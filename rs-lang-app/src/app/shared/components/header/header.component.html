@@ -48,6 +48,17 @@
         class="nav-button">
         <div class="nav-text">DASHBOARD</div>
       </div>
+      <div class="auth-button" *ngIf="isTablet || isPhone">
+        <div class="auth-icon" (click)="authShow()"></div>
+        <div class="auth-header" *ngIf="isAuthShow" #auth>
+          <app-authorization></app-authorization>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<div
+  class="auth-header-background"
+  *ngIf="isAuthShow"
+  (click)="authShow()"
+  #authBackground></div>

@@ -28,14 +28,40 @@
 </div>
 <div class="pagination-up" *ngIf="group < 7">
   <div class="back" [class.disabled]="page < 1" (click)="pageDown()">&lt;</div>
-  <div
-    [class.current-page]="i === page + 1"
-    class="page-number"
-    *ngFor="let i of pagination()"
-    (click)="changePage(i)">
-    {{ i }}
-    <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
-  </div>
+  <ng-container *ngIf="!isTablet && !isPhone">
+    <div
+      [class.current-page]="i === page + 1"
+      class="page-number"
+      *ngFor="let i of pagination()"
+      (click)="changePage(i)">
+      {{ i }}
+      <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isTablet">
+    <ng-container *ngFor="let i of pagination(); index as index">
+      <div
+        [class.current-page]="i === page + 1"
+        class="page-number"
+        *ngIf="index > page - 9 && index < page + 9"
+        (click)="changePage(i)">
+        {{ i }}
+        <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="isPhone">
+    <ng-container *ngFor="let i of pagination(); index as index">
+      <div
+        [class.current-page]="i === page + 1"
+        class="page-number"
+        *ngIf="index > page - 4 && index < page + 4"
+        (click)="changePage(i)">
+        {{ i }}
+        <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
+      </div>
+    </ng-container>
+  </ng-container>
   <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
     >&gt;</span
   >
@@ -52,14 +78,40 @@
 </div>
 <div class="pagination" *ngIf="group < 7">
   <div class="back" [class.disabled]="page < 1" (click)="pageDown()">&lt;</div>
-  <div
-    [class.current-page]="i === page + 1"
-    class="page-number"
-    *ngFor="let i of pagination()"
-    (click)="changePage(i)">
-    {{ i }}
-    <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
-  </div>
+  <ng-container *ngIf="!isTablet && !isPhone">
+    <div
+      [class.current-page]="i === page + 1"
+      class="page-number"
+      *ngFor="let i of pagination()"
+      (click)="changePage(i)">
+      {{ i }}
+      <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isTablet">
+    <ng-container *ngFor="let i of pagination(); index as index">
+      <div
+        [class.current-page]="i === page + 1"
+        class="page-number"
+        *ngIf="index > page - 9 && index < page + 9"
+        (click)="changePage(i)">
+        {{ i }}
+        <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="isPhone">
+    <ng-container *ngFor="let i of pagination(); index as index">
+      <div
+        [class.current-page]="i === page + 1"
+        class="page-number"
+        *ngIf="index > page - 4 && index < page + 4"
+        (click)="changePage(i)">
+        {{ i }}
+        <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
+      </div>
+    </ng-container>
+  </ng-container>
   <span class="forward" [class.disabled]="page > 28" (click)="pageUp()"
     >&gt;</span
   >

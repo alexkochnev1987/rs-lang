@@ -157,3 +157,15 @@ p{
   @include shadow4px;
   border-radius: 10px;
 }
+
+@media (min-width: 768px) and (max-width: 1279.99px) {
+  .wrapper-words {
+    flex-wrap: wrap;
+  }
+  .heading-3 {
+    @include heading4;
+  }
+  .dashed-container {
+    gap: 15px;
+  }
+}

@@ -116,3 +116,51 @@ p {
   opacity: 0;
   visibility: hidden;
 }
+.auth-header-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 15;
+  background-color: rgba($color: #000000, $alpha: 0);
+  transition: 0.5s;
+}
+.auth-header {
+  position: absolute;
+  opacity: 0;
+  top: 50px;
+  right: 10px;
+  transition: 0.5s;
+}
+.show {
+  top: 70px;
+  opacity: 1;
+}
+.show-background {
+  background-color: rgba($color: #000000, $alpha: 0.67);
+}
+.auth-button {
+  position: relative;
+  width: 42px;
+  height: 100%;
+  .auth-icon {
+    width: 22px;
+    height: 22px;
+    background: url(^assets/img/auth-icon.svg);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .auth-icon:hover {
+    filter: invert(24%) sepia(13%) saturate(1985%) hue-rotate(55deg) brightness(93%) contrast(92%);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1279.99px) {
+  .header-container .header {
+    width: $tabletWidth;
+  }
+}

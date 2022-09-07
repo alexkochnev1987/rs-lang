@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -19,6 +20,9 @@ export class HeaderComponent implements OnInit {
   logoParts = ['{', 'RS', '}', 'Lang'];
   isMenuInvisible = true;
   isGamesMenuInvisible = true;
+  isAuthShow = false;
+  isTablet = false;
+  isPhone = false;
   skip = true;
   currentPage = -1;
   AppPages = AppPages;
@@ -41,8 +45,15 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkScreen();
     this.currentPage = this.pagesDataService.getPage();
   }
+
+  @ViewChild('auth')
+  auth: ElementRef | undefined;
+
+  @ViewChild('authBackground')
+  authBackground: ElementRef | undefined;
 
   @ViewChild('gameMenu')
   gameMenu!: ElementRef;
@@ -70,5 +81,31 @@ export class HeaderComponent implements OnInit {
 
   getLevelPage() {
     return this.levelService.gamePageLevel[0];
+  }
+
+  authShow() {
+    this.isAuthShow = !this.isAuthShow;
+    setTimeout(() => {
+      this.auth?.nativeElement.classList.toggle('show');
+      this.authBackground?.nativeElement.classList.toggle('show-background');
+    }, 0);
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width >= 1280) {
+      this.isTablet = false;
+      this.isPhone = false;
+    }
+    if (
+      window.visualViewport!.width < 1280 &&
+      window.visualViewport!.width >= 768
+    ) {
+      this.isTablet = true;
+      this.isPhone = false;
+    }
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+      this.isTablet = false;
+    }
   }
 }

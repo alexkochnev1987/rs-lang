@@ -50,21 +50,16 @@
   height: 100%;;
 }
 .game-wrapper{
-  padding-top: 10px;
+  position: relative;
+  display: flex;
   box-sizing: border-box;
-  overflow: hidden;
-  height: 250px;
-  .text-wrapper{
-    border-radius: 10px;
-    padding: 2px;
-    height: 225px;
-    background: $textInFormColor;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    z-index: -1;
-  }
-  img{
-    transform: translate(7%, -95%)
-  }
+  height: fit-content;
+}
+.girl-img,
+.boy-img {
+  position: absolute;
+  left: 20px;
+  top: -5px;
 }
 .text{
   padding-left: 180px;
@@ -104,4 +99,36 @@ button{
   @include font14;
   margin-bottom: 30px;
   line-height: 18px;
+}
+
+@media (min-width: 768px) and (max-width: 1279.99px) {
+  .road-images-wrapper {
+    width: 100%;
+  }
+  .split-height {
+    display: none;
+  }
+  .games-wrapper {
+    flex-direction: column-reverse;
+  }
+  .audio-challenge .dashed-container .text {
+    padding-left: 0;
+    padding-right: 180px;
+  }
+  .game-wrapper {
+    margin-bottom: 50px;
+  }
+  .girl-img {
+    top: -40px;
+    left: 580px;
+  }
+  .boy-img {
+    top: -40px;
+  }
+  .heading-3 {
+    margin-bottom: 20px;
+  }
+  .inner-text {
+    margin-bottom: 20px;
+  }
 }

@@ -24,6 +24,7 @@ export class StatisticsComponent implements OnInit {
   link1Level = -1;
   link1Page = -1;
   statistics: UserStatistics | undefined;
+  isDesktop = true;
 
   constructor(
     private pagesDataService: PagesDataService,
@@ -35,6 +36,7 @@ export class StatisticsComponent implements OnInit {
   ngOnInit(): void {
     this.pagesDataService.setPage(AppPages.DashBoard);
     this.getStatistics();
+    if (window.visualViewport!.width < 1280) this.isDesktop = false;
   }
 
   getStatistics() {
