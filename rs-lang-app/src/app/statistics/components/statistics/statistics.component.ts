@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { PageRoutes, UserStatistics } from 'src/app/constants';
+import {
+  GameStatistics,
+  PageRoutes,
+  QueryParams,
+  SLASH,
+  url,
+  UserStatistics,
+} from 'src/app/constants';
 import { AppPages } from 'src/app/constants';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { QueryService } from 'src/app/core/service/query.service';
+import { HttpClient } from '@angular/common/http';
+import { UserDataService } from 'src/app/core/services/user-data.service';
 
 @Component({
   selector: 'app-statistics',
@@ -18,7 +27,9 @@ export class StatisticsComponent implements OnInit {
 
   constructor(
     private pagesDataService: PagesDataService,
-    private queryService: QueryService
+    private queryService: QueryService,
+    private userDataService: UserDataService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -27,10 +38,74 @@ export class StatisticsComponent implements OnInit {
   }
 
   getStatistics() {
-    this.queryService.getUserStatistics().subscribe({
-      next: res => {
-        this.statistics = res;
-      },
-    });
+    this.http
+      .get(
+        url +
+          QueryParams.register +
+          SLASH +
+          this.userDataService.getUser().userId +
+          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+            '{"$nor":[{"userWord":null}]}'
+          )}`
+      )
+      .subscribe({
+        next: (data: any) => {
+          if (data[0].paginatedResults.length === 0) {
+            const optionsStats: GameStatistics = {
+              learnedWords: 0,
+              optional: {
+                sprint: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+                audioChallenge: {
+                  today: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                    date: 0,
+                  },
+                  allTime: {
+                    attempts: 0,
+                    success: 0,
+                    rightGuessesInRow: 0,
+                  },
+                },
+              },
+            };
+            this.http
+              .put<GameStatistics>(
+                url +
+                  QueryParams.register +
+                  SLASH +
+                  this.userDataService.getUser().userId +
+                  QueryParams.statistics,
+                optionsStats
+              )
+              .subscribe(() => {
+                this.queryService.getUserStatistics().subscribe({
+                  next: res => {
+                    this.statistics = res;
+                  },
+                });
+              });
+          } else {
+            this.queryService.getUserStatistics().subscribe({
+              next: res => {
+                this.statistics = res;
+              },
+            });
+          }
+        },
+      });
   }
 }

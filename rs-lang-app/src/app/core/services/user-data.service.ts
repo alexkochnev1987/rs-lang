@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginResponse } from 'src/app/constants';
+import { LoginResponse, QueryParams, SLASH, url } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,7 @@ export class UserDataService {
   private isUser = false;
   private userName = '';
   private user: Partial<LoginResponse> = {};
+  private http!: HttpClient;
   constructor() {}
 
   isRegistered() {
