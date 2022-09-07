@@ -36,6 +36,9 @@ import { UserDataService } from 'src/app/core/services/user-data.service';
   styleUrls: ['./audio-challenge.component.scss'],
 })
 export class AudioChallengeComponent implements OnInit, OnDestroy {
+  isDesktop = true;
+  isTablet = false;
+  isPhone = false;
   source = url + SLASH;
   isGameStart = false;
   isGameEnded = false;
@@ -137,6 +140,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.checkScreen();
     this.pageDataService.setPage(AppPages.MiniGames);
     this.isFromTextbook = this.currentPage != -1 && this.currentLevel > -1;
     this.getLives(this.livesInGame);
@@ -629,5 +633,26 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
           response.subscribe();
         },
       });
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width >= 1280) {
+      this.isDesktop = true;
+      this.isTablet = false;
+      this.isPhone = false;
+    }
+    if (
+      window.visualViewport!.width < 1280 &&
+      window.visualViewport!.width >= 768
+    ) {
+      this.isDesktop = false;
+      this.isTablet = true;
+      this.isPhone = false;
+    }
+    if (window.visualViewport!.width < 768) {
+      this.isDesktop = false;
+      this.isPhone = true;
+      this.isTablet = false;
+    }
   }
 }

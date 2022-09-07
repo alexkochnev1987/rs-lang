@@ -353,4 +353,33 @@ button-disable {
   .heading-1 {
     width: min-content;
   }
+  .game-container {
+    width: 100%;
+  }
+  .title {
+    width: min-content;
+    text-align: center;
+  }
+  .guess-button-container {
+    flex-direction: column;
+    height: fit-content;
+    gap: 10px;
+  }
+  .guess-button {
+    height: 40px;
+    justify-content: center;
+  }
+  .key-word {
+    margin-right: 0;
+    text-align: center;
+  }
+  .instructions {
+    text-align: center;
+    width: 80%;
+    top: -20px;
+  }
+  .dashed-container {
+    width: 100%;
+    padding: 30px 0;
+  }
 }

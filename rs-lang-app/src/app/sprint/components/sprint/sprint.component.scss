@@ -271,7 +271,8 @@
     width: 100%;
     border: 0;
     outline: 0;
-    padding: 20px 0;
+    padding: 0;
+    gap: 0px;
   }
   .word-translation {
     @include font12;
@@ -283,6 +284,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 20px;
+    padding: 20px 0;
   }
   .stats-buttons {
     flex-direction: row;
