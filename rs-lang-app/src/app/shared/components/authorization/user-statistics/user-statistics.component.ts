@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { QueryParamsHandling } from '@angular/router';
+import { QueryParamsHandling, Router, RouterLink } from '@angular/router';
 import {
   Difficulty,
   GameStatistics,
@@ -30,7 +30,8 @@ export class UserStatisticsComponent implements OnInit {
     private userDataService: UserDataService,
     private showRegistrationService: ShowRegistrationService,
     private queryService: QueryService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   updateUser() {
@@ -47,77 +48,86 @@ export class UserStatisticsComponent implements OnInit {
   }
 
   getStatistics() {
-    this.http
-      .get(
-        url +
-          QueryParams.register +
-          SLASH +
-          this.userDataService.getUser().userId +
-          `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
-            '{"$nor":[{"userWord":null}]}'
-          )}`
-      )
-      .subscribe({
-        next: (data: any) => {
-          if (data[0].paginatedResults.length === 0) {
-            const optionsStats: GameStatistics = {
-              learnedWords: 0,
-              optional: {
-                sprint: {
-                  today: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                    date: 0,
-                  },
-                  allTime: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                  },
-                },
-                audioChallenge: {
-                  today: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                    date: 0,
-                  },
-                  allTime: {
-                    attempts: 0,
-                    success: 0,
-                    rightGuessesInRow: 0,
-                  },
-                },
-              },
-            };
-            this.http
-              .put<GameStatistics>(
-                url +
-                  QueryParams.register +
-                  SLASH +
-                  this.userDataService.getUser().userId +
-                  QueryParams.statistics,
-                optionsStats
-              )
-              .subscribe(() => {
-                this.queryService.getUserStatistics().subscribe({
-                  next: response => {
-                    this.learnedWord = response.learnedWords;
-                  },
-                  error: error => console.log(error),
-                });
-              });
-          } else {
-            this.queryService.getUserStatistics().subscribe({
-              next: response => {
-                this.learnedWord = response.learnedWords;
-              },
-              error: error => console.log(error),
-            });
-          }
+    if (this.router.url === '/about') {
+      this.queryService.getUserStatistics().subscribe({
+        next: response => {
+          this.learnedWord = response.learnedWords;
         },
+        error: error => console.log(error),
       });
+    } else {
+      this.http
+        .get(
+          url +
+            QueryParams.register +
+            SLASH +
+            this.userDataService.getUser().userId +
+            `/aggregatedWords?wordsPerPage=4000&filter=${encodeURIComponent(
+              '{"$nor":[{"userWord":null}]}'
+            )}`
+        )
+        .subscribe({
+          next: (data: any) => {
+            if (data[0].paginatedResults.length === 0) {
+              const optionsStats: GameStatistics = {
+                learnedWords: 0,
+                optional: {
+                  sprint: {
+                    today: {
+                      attempts: 0,
+                      success: 0,
+                      rightGuessesInRow: 0,
+                      date: 0,
+                    },
+                    allTime: {
+                      attempts: 0,
+                      success: 0,
+                      rightGuessesInRow: 0,
+                    },
+                  },
+                  audioChallenge: {
+                    today: {
+                      attempts: 0,
+                      success: 0,
+                      rightGuessesInRow: 0,
+                      date: 0,
+                    },
+                    allTime: {
+                      attempts: 0,
+                      success: 0,
+                      rightGuessesInRow: 0,
+                    },
+                  },
+                },
+              };
+              this.http
+                .put<GameStatistics>(
+                  url +
+                    QueryParams.register +
+                    SLASH +
+                    this.userDataService.getUser().userId +
+                    QueryParams.statistics,
+                  optionsStats
+                )
+                .subscribe(() => {
+                  this.queryService.getUserStatistics().subscribe({
+                    next: response => {
+                      this.learnedWord = response.learnedWords;
+                    },
+                    error: error => console.log(error),
+                  });
+                });
+            } else {
+              this.queryService.getUserStatistics().subscribe({
+                next: response => {
+                  this.learnedWord = response.learnedWords;
+                },
+                error: error => console.log(error),
+              });
+            }
+          },
+        });
+    }
   }
 
   getWords() {
@@ -136,7 +146,7 @@ export class UserStatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserName();
-    this.getStatistics();
+    setTimeout(() => this.getStatistics(), 1000);
     this.getWords();
   }
 
