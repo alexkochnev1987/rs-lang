@@ -75,7 +75,7 @@ $desktopIndent: 30px;
 $statisticsTableHeader:#42BEE5;
 $desktopWidth: 1230px;
 $tabletWidth: 750px;
-$mobileWidth: 300px;
+$mobileWidth: calc(100% - 20px);
 $underlineColor: #66CEE9;
 $accentColor: #FF9100;
 
@@ -386,5 +386,18 @@ $accentColor: #FF9100;
   }
   .dashed-container {
     padding: 20px;
+  }
+}
+
+@media (max-width: 767.99px) {
+  .router-wrapper {
+    width: $mobileWidth;
+    margin: 100px auto 0;
+  }
+  .dashed-container {
+    padding: 10px;
+  }
+  .button-orange {
+    padding: 0 10px;
   }
 }
