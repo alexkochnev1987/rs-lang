@@ -342,3 +342,8 @@ button-disable {
   background-color: $activePageColor;
   border-radius: 10px;
 }
+
+.title-from-textbook {
+  @include heading2;
+  color: black;
+}

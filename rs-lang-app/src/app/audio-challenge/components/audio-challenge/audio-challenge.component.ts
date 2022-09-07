@@ -485,7 +485,7 @@ export class AudioChallengeComponent implements OnInit, OnDestroy {
           },
         };
 
-        this.http.put(location, body).subscribe(i => console.log(i));
+        this.http.put(location, body).subscribe();
       },
     });
   }

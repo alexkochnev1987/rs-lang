@@ -1,23 +1,29 @@
 <div
   class="title-container"
   [style.border]="'5px solid ' + levels[group - 1].color">
-  <div class="title-1">TEXTBOOK LEVEL:</div>
-  <app-level-navigation [currentLevel]="group"></app-level-navigation>
-  <div class="title-1">PLAY THIS LEVEL:</div>
-  <app-menu-button
-    class="game-button"
-    *ngIf="!isLearnedPage"
-    [gameName]="game1"
-    [routerLink]="[link1, group, page + 1]"></app-menu-button>
-  <app-menu-button
-    class="game-button"
-    *ngIf="!isLearnedPage"
-    [gameName]="game2"
-    [routerLink]="link2"
-    (click)="setLevelPage([group, page])"></app-menu-button>
-  <div class="learned-title" *ngIf="isLearnedPage">
-    <div class="check-mark"></div>
-    <span>{{ learnedPage }}</span>
+  <div class="select-level">
+    <div class="title-1">TEXTBOOK LEVEL:</div>
+    <app-level-navigation
+      [currentLevel]="group"
+      class="nav-container"></app-level-navigation>
+  </div>
+  <div class="play-game">
+    <div class="title-1" *ngIf="!isLearnedPage">PLAY THIS LEVEL:</div>
+    <app-menu-button
+      class="game-button"
+      *ngIf="!isLearnedPage"
+      [gameName]="game1"
+      [routerLink]="[link1, group, page + 1]"></app-menu-button>
+    <app-menu-button
+      class="game-button"
+      *ngIf="!isLearnedPage"
+      [gameName]="game2"
+      [routerLink]="link2"
+      (click)="setLevelPage([group, page])"></app-menu-button>
+    <div class="learned-title" *ngIf="isLearnedPage">
+      <div class="check-mark"></div>
+      <span>{{ learnedPage }}</span>
+    </div>
   </div>
 </div>
 <div class="pagination-up" *ngIf="group < 7">

@@ -60,6 +60,12 @@
 }
 
 .dashed-container {
-  width: calc((100% - $desktopIndent * 5) / 2);
   height: fit-content;
+}
+
+.authors-column {
+  display: flex;
+  flex-direction: column;
+  width: calc((100% - $desktopIndent) / 2);
+  gap: 30px;
 }

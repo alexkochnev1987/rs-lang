@@ -177,7 +177,6 @@ export class SprintComponent implements OnInit {
           this.getUserStatistics();
         }
         if (data[0].paginatedResults.length === 0) {
-          console.log('User had no statistics. Creating user statistics...');
           const optionsStats: GameStatistics = {
             learnedWords: 0,
             optional: {
@@ -327,12 +326,12 @@ export class SprintComponent implements OnInit {
       this.wordsArray.length - this.wordsCounter <= ACTIVATE_LOAD_WORDS_LEFT &&
       !this.isWordsLoading &&
       this.wordsArray[this.wordsArray.length - 1].page > 0 &&
-      this.currentPage !== undefined
+      this.currentPage !== undefined &&
+      this.LevelPage.gamePageLevel[0] < 7
     ) {
       let loadGroup = this.wordsArray[this.wordsArray.length - 1].group;
       let loadPage = this.wordsArray[this.wordsArray.length - 1].page - 1;
       this.isWordsLoading = true;
-      console.log('Word loading activated...');
       this.getWords({ level: loadGroup, page: loadPage }).subscribe(
         (data: any) => {
           let loadedData = [];
@@ -357,9 +356,6 @@ export class SprintComponent implements OnInit {
           this.isWordsLoading = false;
         }
       );
-    }
-    if (this.wordsArray[this.wordsArray.length - 1].page === 0) {
-      console.log('LAST PAGE. WORDS NOT LOADED');
     }
     this.correctTranslate = this.wordsArray[this.wordsCounter].wordTranslate;
     this.wrongTranslate =

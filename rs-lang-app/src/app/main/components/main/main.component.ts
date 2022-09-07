@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppPages } from 'src/app/constants';
 import { PagesDataService } from 'src/app/core/services/pages-data.service';
 import { PageRoutes } from 'src/app/constants';
+import { GameLevelTransferService } from 'src/app/core/services/game-level-transfer.service';
 
 @Component({
   selector: 'app-main',
@@ -13,8 +14,14 @@ export class MainComponent implements OnInit {
   link1 = '../audio-challenge';
   link1Level = -1;
   link1Page = -1;
-  constructor(private pagesDataService: PagesDataService) {}
+  constructor(
+    private pagesDataService: PagesDataService,
+    private gameLevelPage: GameLevelTransferService
+  ) {}
   ngOnInit(): void {
     this.pagesDataService.setPage(AppPages.Main);
+  }
+  resetLevelPage() {
+    this.gameLevelPage.gamePageLevel = [];
   }
 }

@@ -36,7 +36,9 @@
         </div>
         <app-units-menu
           class="menu"
-          [ngClass]="{ invisible: isMenuInvisible }"></app-units-menu>
+          [ngClass]="{ invisible: isMenuInvisible }"
+          [isAuth]="isUser()"
+          [currentLevel]="getLevelPage()"></app-units-menu>
       </div>
       <div
         *ngIf="isUser()"

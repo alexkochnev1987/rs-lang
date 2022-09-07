@@ -1,17 +1,42 @@
-<div
-  *ngFor="let author of authors"
-  class="dashed-container author id-{{ author.id }}">
-  <div class="author-photo" [style]="setAuthorPhotoStyle(author)"></div>
-  <div class="author-info">
-    <h5 class="heading-5">{{ author.firstName + ' ' + author.secondName }}</h5>
-    <div class="author-git">
-      <a href="{{ author.git }}">{{ getAuthorGitName(author) }}</a>
+<div class="authors-column">
+  <ng-container *ngFor="let author of authors; index as i">
+    <div class="dashed-container author id-{{ author.id }}" *ngIf="!(i % 2)">
+      <div class="author-photo" [style]="setAuthorPhotoStyle(author)"></div>
+      <div class="author-info">
+        <h5 class="heading-5">
+          {{ author.firstName + ' ' + author.secondName }}
+        </h5>
+        <div class="author-git">
+          <a href="{{ author.git }}">{{ getAuthorGitName(author) }}</a>
+        </div>
+        <ul class="author-features-list">
+          <li class="feature-item" *ngFor="let feature of author.features">
+            {{ feature }}
+          </li>
+        </ul>
+      </div>
+      <div class="author-about">{{ author.aboutAuthor }}</div>
     </div>
-    <ul class="author-features-list">
-      <li class="feature-item" *ngFor="let feature of author.features">
-        {{ feature }}
-      </li>
-    </ul>
-  </div>
-  <div class="author-about">{{ author.aboutAuthor }}</div>
+  </ng-container>
+</div>
+<div class="authors-column">
+  <ng-container *ngFor="let author of authors; index as i">
+    <div class="dashed-container author id-{{ author.id }}" *ngIf="i % 2">
+      <div class="author-photo" [style]="setAuthorPhotoStyle(author)"></div>
+      <div class="author-info">
+        <h5 class="heading-5">
+          {{ author.firstName + ' ' + author.secondName }}
+        </h5>
+        <div class="author-git">
+          <a href="{{ author.git }}">{{ getAuthorGitName(author) }}</a>
+        </div>
+        <ul class="author-features-list">
+          <li class="feature-item" *ngFor="let feature of author.features">
+            {{ feature }}
+          </li>
+        </ul>
+      </div>
+      <div class="author-about">{{ author.aboutAuthor }}</div>
+    </div>
+  </ng-container>
 </div>
