@@ -9,8 +9,9 @@
   position: absolute;
   box-sizing: border-box;
   padding: 27px;
-  transform: scale(1);
-  transition: 0.5s;
+  transition-duration: 0.5s;
+  transform-origin: center;
+  transform-box: fill-box;
 }
 .main-part {
   width: 220px;
@@ -102,7 +103,15 @@
 .speaker-3 {
   width: 16px;
   height: 16px;
+  background-image: url(^assets/img/speaker.svg);
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
   cursor: pointer;
+}
+.speaker-container {
+  width: 15px;
+  height: 15px;
 }
 .word {
   @include font20;

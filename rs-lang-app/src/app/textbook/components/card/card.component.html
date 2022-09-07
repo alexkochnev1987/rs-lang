@@ -27,8 +27,8 @@
         <div class="word-info">
           <div class="word">{{ card.word }}</div>
           <div class="translate-section">
-            <div class="speaker" (click)="playAudio(card.audio)">
-              <img src="../../../../assets/img/speaker.svg" alt="speaker" />
+            <div class="speaker-container">
+              <div class="speaker" (click)="playAudio(card.audio)"></div>
             </div>
             <div class="transcription">{{ card.transcription }}</div>
           </div>
@@ -64,14 +64,14 @@
           (click)="setDifficultWord(card.id)"></div>
       </div>
       <div class="meaning-section">
-        <div class="speaker-2" (click)="playAudio(card.audioMeaning)">
-          <img src="../../../../assets/img/speaker.svg" alt="speaker" />
+        <div class="speaker-container">
+          <div class="speaker-2" (click)="playAudio(card.audioMeaning)"></div>
         </div>
         <div class="meaning" [innerHTML]="card.textMeaning"></div>
       </div>
       <div class="example-section">
-        <div class="speaker-3" (click)="playAudio(card.audioExample)">
-          <img src="../../../../assets/img/speaker.svg" alt="speaker" />
+        <div class="speaker-container">
+          <div class="speaker-3" (click)="playAudio(card.audioExample)"></div>
         </div>
         <div class="example" [innerHTML]="card.textExample"></div>
       </div>
