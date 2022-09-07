@@ -261,4 +261,47 @@
     display: flex;
     justify-content: center;
   }
+  .game-container {
+    width: 100%;
+  }
+  .game-picture {
+    height: fit-content;
+  }
+  .stats-container {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    padding: 20px 0;
+  }
+  .word-translation {
+    @include font12;
+  }
+  .transcription-word {
+    font-size: 12px;
+  }
+  .stats-head {
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  .stats-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .game-stats {
+    @include heading5;
+    align-items: center;
+    gap: 10px;
+  }
+  .stats-header {
+    font-size: 10px;
+    border-radius: 0;
+  }
+  .word-stat:last-child {
+    border-radius: 0;
+  }
+  .heading-1 {
+    width: min-content;
+    text-align: center;
+  }
 }
