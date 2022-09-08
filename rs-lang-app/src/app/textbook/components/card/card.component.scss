@@ -261,3 +261,20 @@
     height: 295px;
   }
 }
+
+@media (max-width: 767.99px) {
+  .dashed-container {
+    padding: 20px;
+    width: 280px;
+    left: 10px;
+  }
+  .card {
+    width: 300px;
+  }
+  .word-image {
+    width: 230px;
+  }
+  .main-part {
+    width: max-content;
+  }
+}

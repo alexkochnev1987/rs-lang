@@ -1,5 +1,5 @@
 <div class="main-wrapper">
-  <div class="road-images-wrapper">
+  <div class="road-images-wrapper" *ngIf="!isPhone">
     <div class="road">
       <img src="assets/img/Ellipse 2.png" alt="Ellipse" class="ellipse1" />
       <img src="assets/img/Ellipse 2.png" alt="Ellipse" class="ellipse2" />
@@ -22,12 +22,17 @@
   <div class="split-height" *ngIf="isDesktop">
     <app-authorization></app-authorization>
   </div>
+  <div class="road-images-wrapper" *ngIf="isPhone">
+    <img src="assets/img/mobile-top-pic.png" alt="top-picture" />
+  </div>
 </div>
 <div class="games-wrapper">
   <div class="game-wrapper sprint">
     <div class="dashed-container game-info">
       <div class="text">
-        <h3 class="heading-3 underline">SPRINT MINI-GAME</h3>
+        <h3 class="heading-3" [ngClass]="{ underline: !isPhone }">
+          {{ !isPhone ? 'SPRINT MINI-GAME' : 'SPRINT GAME' }}
+        </h3>
         <p class="inner-text">
           Here will be the text about audio challenge mini-game and a little
           more text. Here will be the text about audio challenge mini-game.
@@ -36,7 +41,7 @@
           [routerLink]="link2"
           class="button-orange"
           (click)="resetLevelPage()">
-          TRY SPRINT
+          {{ !isPhone ? 'TRY SPRINT' : 'PLAY GAME' }}
         </button>
       </div>
     </div>
@@ -45,7 +50,9 @@
   <div class="game-wrapper audio-challenge">
     <div class="dashed-container game-info">
       <div class="text">
-        <h3 class="heading-3 underline">AUDIO CHALLENGE MINI-GAME</h3>
+        <h3 class="heading-3" [ngClass]="{ underline: !isPhone }">
+          {{ !isPhone ? 'AUDIO CHALLENGE MINI-GAME' : 'AUDIO CHALLENGE' }}
+        </h3>
         <p class="inner-text">
           Here will be the text about audio challenge mini-game and a little
           more text. Here will be the text about audio challenge mini-game.
@@ -53,7 +60,7 @@
         <button
           [routerLink]="[link1, link1Level, link1Page]"
           class="button-orange">
-          TRY AUDIO CHALLENGE
+          {{ !isPhone ? 'TRY AUDIO CHALLENGE' : 'PLAY GAME' }}
         </button>
       </div>
     </div>

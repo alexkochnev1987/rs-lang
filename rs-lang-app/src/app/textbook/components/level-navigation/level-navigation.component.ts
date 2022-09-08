@@ -33,6 +33,7 @@ export class LevelNavigationComponent
   levelsContainerWidth = 0;
   levelsSelectorWidth = 0;
   isAuth: boolean = false;
+  isPhone = false;
 
   constructor(
     private unitsDataService: UnitsDataService,
@@ -62,10 +63,11 @@ export class LevelNavigationComponent
     this.isAuth = this.userDataService.isRegistered();
     this.currentLevel = this.textbookDataService.getCurrentLevel();
     this.unitsAuth = this.unitsDataService.getUnitsForUser();
+    this.checkScreen();
   }
 
   ngAfterViewInit() {
-    this.hoverActions(this.currentLevel);
+    if (!this.isPhone) this.hoverActions(this.currentLevel);
   }
 
   isRegisteredUser(i: number) {
@@ -74,13 +76,16 @@ export class LevelNavigationComponent
   }
 
   hoverActions(selectedLevel: number) {
-    this.levelsContainerWidth = this.levelsContainer.nativeElement.offsetWidth;
-    this.levelsSelectorWidth =
-      this.levelsSelector.get(0)?.nativeElement.offsetWidth;
-    this.setOuterContainer(selectedLevel);
-    this.setLevelsSelectBar(selectedLevel);
-    this.setLevelsBackground();
-    this.setSelectedLevel(this.currentLevel);
+    if (!this.isPhone) {
+      this.levelsContainerWidth =
+        this.levelsContainer.nativeElement.offsetWidth;
+      this.levelsSelectorWidth =
+        this.levelsSelector.get(0)?.nativeElement.offsetWidth;
+      this.setOuterContainer(selectedLevel);
+      this.setLevelsSelectBar(selectedLevel);
+      this.setLevelsBackground();
+      this.setSelectedLevel(this.currentLevel);
+    }
   }
 
   setOuterContainer(selectedLevel: number) {
@@ -135,5 +140,14 @@ export class LevelNavigationComponent
 
   ngOnChanges(currentLevel: SimpleChanges): void {
     setTimeout(() => this.ngAfterViewInit(), 0);
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+    }
+    if (window.visualViewport!.width >= 768) {
+      this.isPhone = false;
+    }
   }
 }

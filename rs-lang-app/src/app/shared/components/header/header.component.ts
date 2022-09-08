@@ -112,7 +112,7 @@ export class HeaderComponent implements OnInit {
     this.isMenuShow = !this.isMenuShow;
     setTimeout(() => {
       this.menuButtons?.nativeElement.classList.toggle('show');
-      this.menuBackground?.nativeElement.classList.toggle('show-background');
+      this.menuBackground?.nativeElement.classList.toggle('show-menu');
     }, 0);
   }
 

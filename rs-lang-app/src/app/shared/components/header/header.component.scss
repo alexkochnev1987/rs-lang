@@ -138,9 +138,6 @@ p {
   top: 70px;
   opacity: 1;
 }
-.show-background {
-  background-color: rgba($color: #000000, $alpha: 0.67);
-}
 .auth-button {
   position: relative;
   width: 42px;
@@ -180,19 +177,31 @@ p {
       brightness(93%) contrast(92%);
   }
 }
-
 .menu-container {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  left: -15px;
   background-color: $tableHeadingBgColor;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: -1;
   font-weight: 800;
+  opacity: 0;
+  transition: 0.5s;
+  top: 60px;
+  z-index: 15;
+  @include fontSize14;
+  font-weight: 800;
+  color: white;
+}
+.show-background {
+  background-color: rgba($color: #000000, $alpha: 0.67);
+  top: 70px;
+}
+.show-menu {
+  opacity: 1;
+  top: 70px;
 }
 
 .game-buttons-container {
@@ -209,7 +218,7 @@ p {
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  width: 250px;
+  width: 100%;
   margin: 20px auto 0;
 }
 
@@ -242,12 +251,15 @@ p {
     border-bottom: 3px solid white;
   }
   .nav-button {
-    padding: 30px;
+    padding: 30px 10px;
     margin: 0 auto;
     border-bottom: 1px dashed white;
-    width: 50vw;
+    width: 72vw;
   }
   .games.active {
     border: 0;
+  }
+  .auth-header {
+    right: -20px;
   }
 }

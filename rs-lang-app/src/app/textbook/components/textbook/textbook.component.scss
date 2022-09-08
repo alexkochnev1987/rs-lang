@@ -217,3 +217,41 @@ a {
     gap: 20px;
   }
 }
+
+@media (max-width: 767.99px) {
+  .nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    justify-content: center;
+  }
+  .select-level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    width: 100%;
+  }
+  .title-container {
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    padding: 20px;
+  }
+  .play-game {
+    flex-direction: column;
+    align-items: center;
+  }
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+  .card-width {
+    width: 300px;
+  }
+}

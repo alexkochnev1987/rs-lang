@@ -80,7 +80,7 @@
           "
           [class.wrong-answer-button]="i !== rightButtonNumber"
           (click)="checkAnswer(i)">
-          <span class="key-number">{{ i + 1 }}</span>
+          <span class="key-number" *ngIf="!isPhone">{{ i + 1 }}</span>
           <span class="key-word">{{ button.word }}</span>
         </div>
       </div>

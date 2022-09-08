@@ -15,15 +15,37 @@ export class MainComponent implements OnInit {
   link1Level = -1;
   link1Page = -1;
   isDesktop = true;
+  isTablet = false;
+  isPhone = false;
   constructor(
     private pagesDataService: PagesDataService,
     private gameLevelPage: GameLevelTransferService
   ) {}
   ngOnInit(): void {
     this.pagesDataService.setPage(AppPages.Main);
-    if (window.visualViewport!.width < 1280) this.isDesktop = false;
+    this.checkScreen();
   }
   resetLevelPage() {
     this.gameLevelPage.gamePageLevel = [];
+  }
+  checkScreen() {
+    if (window.visualViewport!.width >= 1280) {
+      this.isDesktop = true;
+      this.isTablet = false;
+      this.isPhone = false;
+    }
+    if (
+      window.visualViewport!.width < 1280 &&
+      window.visualViewport!.width >= 768
+    ) {
+      this.isDesktop = false;
+      this.isTablet = true;
+      this.isPhone = false;
+    }
+    if (window.visualViewport!.width < 768) {
+      this.isDesktop = false;
+      this.isPhone = true;
+      this.isTablet = false;
+    }
   }
 }

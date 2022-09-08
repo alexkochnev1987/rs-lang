@@ -23,6 +23,7 @@ export class EasyWordsComponent implements OnInit {
   easyWords: [aggregatedWords[]] = [[]];
   easyWordsPage = 0;
   totalPages = 0;
+  isPhone = false;
   constructor(
     private queryService: QueryService,
     private statisticService: StatisticsService,
@@ -30,6 +31,7 @@ export class EasyWordsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkScreen();
     this.getWords();
   }
 
@@ -88,5 +90,14 @@ export class EasyWordsComponent implements OnInit {
       this.statisticService.splitArrByChunks(word, arr, STATISTICS_WORDS_LENGTH)
     );
     this.easyWords = arr;
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+    }
+    if (window.visualViewport!.width >= 768) {
+      this.isPhone = false;
+    }
   }
 }

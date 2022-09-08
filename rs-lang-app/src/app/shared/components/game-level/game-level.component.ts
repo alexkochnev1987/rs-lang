@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  OnInit,
   Output,
   QueryList,
   ViewChild,
@@ -16,13 +17,16 @@ import { Location } from '@angular/common';
   templateUrl: './game-level.component.html',
   styleUrls: ['./game-level.component.scss'],
 })
-export class GameLevelComponent implements AfterViewInit {
+export class GameLevelComponent implements OnInit, AfterViewInit {
   isGameStart: boolean = false;
   levels: LevelColor[] = LEVELS_COLORS;
   levelSelected = 1;
-  levelsContainerWidth = 0;
-  levelsSelectorWidth = 0;
+  levelsContainerSize = 0;
+  levelsSelectorSize = 0;
   levelsAmount: number;
+  isDesktop = true;
+  isTablet = false;
+  isPhone = false;
 
   constructor(
     private userService: UserDataService = new UserDataService(),
@@ -45,10 +49,22 @@ export class GameLevelComponent implements AfterViewInit {
   @ViewChild('levelsBackground')
   levelsBackground!: ElementRef;
 
+  ngOnInit() {
+    this.checkScreen();
+  }
+
   ngAfterViewInit(): void {
-    this.levelsContainerWidth = this.levelsContainer.nativeElement.offsetWidth;
-    this.levelsSelectorWidth =
-      this.levelsSelector.get(0)?.nativeElement.offsetWidth;
+    if (!this.isPhone) {
+      this.levelsContainerSize = this.levelsContainer.nativeElement.offsetWidth;
+      this.levelsSelectorSize =
+        this.levelsSelector.get(0)?.nativeElement.offsetWidth;
+    }
+    if (this.isPhone) {
+      this.levelsContainerSize =
+        this.levelsContainer.nativeElement.offsetHeight;
+      this.levelsSelectorSize =
+        this.levelsSelector.get(0)?.nativeElement.offsetHeight;
+    }
     this.hoverActions(1);
   }
 
@@ -64,23 +80,27 @@ export class GameLevelComponent implements AfterViewInit {
   }
 
   setLevelsSelectBar(selectedLevel: number) {
-    this.levelsContainer.nativeElement.style = `background: linear-gradient(0.25turn, ${this.levels
+    this.levelsContainer.nativeElement.style = `background: linear-gradient(${
+      !this.isPhone ? 0.25 : 0.5
+    }turn, ${this.levels
       .filter((el, index) => index < this.levelsAmount)
       .map(el => el.color)
       .join(', ')});
-      box-shadow: inset ${
-        selectedLevel
-          ? this.levelsSelectorWidth +
-            ((this.levelsContainerWidth - this.levelsSelectorWidth) /
-              (this.levelsAmount - 1)) *
-              (selectedLevel - 1) -
-            this.levelsContainerWidth
-          : this.levelsSelectorWidth - this.levelsContainerWidth
-      }px 0 0 white`;
+      box-shadow: inset ${this.isPhone ? '0' : ''} ${
+      selectedLevel
+        ? this.levelsSelectorSize +
+          ((this.levelsContainerSize - this.levelsSelectorSize) /
+            (this.levelsAmount - 1)) *
+            (selectedLevel - 1) -
+          this.levelsContainerSize
+        : this.levelsSelectorSize - this.levelsContainerSize
+    }px ${this.isPhone ? '' : '0'} 0 white`;
   }
 
   setLevelsBackground() {
-    this.levelsBackground.nativeElement.style = `background: linear-gradient(0.25turn, ${this.levels
+    this.levelsBackground.nativeElement.style = `background: linear-gradient(${
+      !this.isPhone ? 0.25 : 0.5
+    }turn, ${this.levels
       .filter((el, index) => index < this.levelsAmount)
       .map(el => el.color)
       .join(', ')});`;
@@ -112,6 +132,27 @@ export class GameLevelComponent implements AfterViewInit {
 
   goBack() {
     this._location.back();
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width >= 1280) {
+      this.isDesktop = true;
+      this.isTablet = false;
+      this.isPhone = false;
+    }
+    if (
+      window.visualViewport!.width < 1280 &&
+      window.visualViewport!.width >= 768
+    ) {
+      this.isDesktop = false;
+      this.isTablet = true;
+      this.isPhone = false;
+    }
+    if (window.visualViewport!.width < 768) {
+      this.isDesktop = false;
+      this.isPhone = true;
+      this.isTablet = false;
+    }
   }
 
   @Output()

@@ -55,7 +55,7 @@
       <div
         [class.current-page]="i === page + 1"
         class="page-number"
-        *ngIf="index > page - 4 && index < page + 4"
+        *ngIf="index > page - 3 && index < page + 3"
         (click)="changePage(i)">
         {{ i }}
         <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>
@@ -67,7 +67,7 @@
   >
 </div>
 <div class="cards-container">
-  <div *ngFor="let card of cards">
+  <div *ngFor="let card of cards" class="card-width">
     <app-card
       #appCard
       [card]="card"
@@ -105,7 +105,7 @@
       <div
         [class.current-page]="i === page + 1"
         class="page-number"
-        *ngIf="index > page - 4 && index < page + 4"
+        *ngIf="index > page - 3 && index < page + 3"
         (click)="changePage(i)">
         {{ i }}
         <div class="learned-page" *ngIf="isLearnedPage && page === i - 1"></div>

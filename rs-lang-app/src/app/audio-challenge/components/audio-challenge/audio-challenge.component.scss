@@ -7,9 +7,6 @@ h2 {
 h1{
   margin-bottom: 50px;
 }
-::ng-deep .level .solid-stroke-container {
-  margin-bottom: 400px;
-}
 .game-container {
   display: flex;
   flex-direction: column;
@@ -346,4 +343,43 @@ button-disable {
 .title-from-textbook {
   @include heading2;
   color: black;
+}
+
+@media (max-width: 767.99px) {
+  .level {
+    display: flex;
+    justify-content: center;
+  }
+  .heading-1 {
+    width: min-content;
+  }
+  .game-container {
+    width: 100%;
+  }
+  .title {
+    width: min-content;
+    text-align: center;
+  }
+  .guess-button-container {
+    flex-direction: column;
+    height: fit-content;
+    gap: 10px;
+  }
+  .guess-button {
+    height: 40px;
+    justify-content: center;
+  }
+  .key-word {
+    margin-right: 0;
+    text-align: center;
+  }
+  .instructions {
+    text-align: center;
+    width: 80%;
+    top: -20px;
+  }
+  .dashed-container {
+    width: 100%;
+    padding: 30px 0;
+  }
 }

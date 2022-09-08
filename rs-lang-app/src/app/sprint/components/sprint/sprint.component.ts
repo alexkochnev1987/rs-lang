@@ -136,6 +136,9 @@ export class SprintComponent implements OnInit {
   buttonNo: ElementRef | undefined;
 
   ngOnInit(): void {
+    if (window.visualViewport!.width < 768) {
+      this.lineSections = Math.floor(TIMER_LINE_SECTIONS / 2);
+    }
     if (this.isAuth) this.getUserStatistics();
     this.pageDataService.setPage(AppPages.MiniGames);
     if (this.LevelPage.gamePageLevel.length) {

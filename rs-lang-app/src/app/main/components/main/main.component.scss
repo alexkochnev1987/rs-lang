@@ -9,7 +9,7 @@
   height: 454px;
   overflow: hidden;
 }
-.main-wrapper{
+.main-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,39 +17,39 @@
   margin-bottom: 50px;
 }
 
-.learn{
+.learn {
   transform: translate(0%, -141%);
 }
-.play{
+.play {
   transform: translate(46%, -206%);
 }
-.get{
+.get {
   transform: translate(17%, -223%);
 }
-.sun{
-  transform: translate(51%,-743%);
+.sun {
+  transform: translate(51%, -743%);
 }
-.road{
+.road {
   transform: translate(29%, 20%);
-  .ellipse1{
-    transform:translate(175%, -1866%);
+  .ellipse1 {
+    transform: translate(175%, -1866%);
   }
-  .ellipse2{
+  .ellipse2 {
     transform: translate(1076%, -1276%);
   }
-  .ellipse3{
+  .ellipse3 {
     transform: translate(-239.2%, 31%);
   }
 }
-.games-wrapper{
+.games-wrapper {
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  gap:30px;
+  gap: 30px;
   width: 100%;
-  height: 100%;;
+  height: 100%;
 }
-.game-wrapper{
+.game-wrapper {
   position: relative;
   display: flex;
   box-sizing: border-box;
@@ -58,32 +58,32 @@
 .girl-img,
 .boy-img {
   position: absolute;
-  left: 20px;
+  margin-left: 20px;
   top: -5px;
 }
-.text{
+.text {
   padding-left: 180px;
 }
-button{
+button {
   @include button;
-  &:hover{
+  &:hover {
     background: $gameMenuButtonBackground;
   }
-  &:active{
+  &:active {
     background: $gameMenuButtonPressedBackground;
   }
 }
-.border{
+.border {
   @include border;
-  border-radius: 8px;;
+  border-radius: 8px;
   margin: auto;
-  margin:auto;
+  margin: auto;
   display: flex;
   align-items: center;
   padding-left: 10px;
   padding-right: 10px;
 }
-.black-border{
+.black-border {
   @include border;
   border: 1px dashed black;
   border-radius: 10px;
@@ -120,7 +120,7 @@ button{
   }
   .girl-img {
     top: -40px;
-    left: 580px;
+    margin-left: 580px;
   }
   .boy-img {
     top: -40px;
@@ -130,5 +130,64 @@ button{
   }
   .inner-text {
     margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 767.99px) {
+  .road-images-wrapper {
+    width: calc(100vw - 20px);
+    height: fit-content;
+    img {
+      width: 100%;
+    }
+  }
+  .audio-challenge .dashed-container .text {
+    padding-left: 0;
+    padding-right: 130px;
+  }
+  .dashed-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+  }
+  .games-wrapper {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: 10px;
+  }
+  .text {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-left: 120px;
+  }
+  .game-wrapper {
+    margin-bottom: 50px;
+  }
+  .girl-img {
+    width: 110px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 20px;
+  }
+  .boy-img {
+    top: 0;
+    bottom: 0;
+    width: 110px;
+    margin: auto;
+  }
+  .heading-3 {
+    @include heading4;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  .inner-text {
+    display: none;
   }
 }

@@ -129,3 +129,44 @@
   display: flex;
   justify-content: space-between;
 }
+
+@media (max-width: 767.99px) {
+  .heading-1 {
+    text-align: center;
+    width: min-content;
+  }
+  .stats-container {
+    padding: 0;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    gap: 0px;
+  }
+  .word-translation {
+    @include font12;
+  }
+  .transcription-word {
+    font-size: 12px;
+  }
+  .stats-header {
+    @include fontSize10;
+    border-radius: 0;
+  }
+  .word-stat:last-child {
+    border-radius: 0;
+  }
+  .game-stats {
+    @include heading5;
+    align-items: center;
+  }
+  .stats-head {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+  }
+  .stats-buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+}

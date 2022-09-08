@@ -34,7 +34,7 @@
   line-height: 20px;
 }
 
-.top-auth{
+.top-auth {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,4 +53,32 @@
   gap: 30px;
   flex-wrap: wrap;
   margin-top: 50px;
+}
+
+@media (max-width: 767.99px) {
+  .about-top {
+    height: fit-content;
+  }
+  .about-img {
+    width: 100%;
+  }
+  .top-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 0px;
+    width: 100%;
+    height: fit-content;
+    padding: 0;
+    background-image: none;
+  }
+  .heading-1 {
+    @include heading3;
+    margin-top: -15%;
+  }
+  .about-authors {
+    margin-top: 30px;
+  }
 }

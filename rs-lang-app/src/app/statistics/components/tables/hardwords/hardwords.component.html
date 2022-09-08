@@ -21,7 +21,7 @@
         </div>
         <div class="translate">{{ word.wordTranslate }}</div>
         <div class="counter">
-          <p>
+          <p *ngIf="!isPhone">
             {{ word.userWord.optional?.rightGuessesInRow || 0 }}/{{
               threeOrFive(word.userWord.difficulty)
             }}
