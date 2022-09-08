@@ -21,6 +21,7 @@ import { SetWordDifficultService } from 'src/app/core/services/set-word-difficul
 export class HardWordsComponent implements OnInit {
   hardWords: [aggregatedWords[]] = [[]];
   hardWordsPage = 0;
+  isPhone = false;
   constructor(
     private queryService: QueryService,
     private statisticService: StatisticsService,
@@ -28,6 +29,7 @@ export class HardWordsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkScreen();
     this.getWords();
   }
 
@@ -87,5 +89,14 @@ export class HardWordsComponent implements OnInit {
       this.statisticService.splitArrByChunks(word, arr, STATISTICS_WORDS_LENGTH)
     );
     this.hardWords = arr;
+  }
+
+  checkScreen() {
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+    }
+    if (window.visualViewport!.width >= 768) {
+      this.isPhone = false;
+    }
   }
 }

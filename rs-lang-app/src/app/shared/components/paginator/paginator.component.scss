@@ -49,3 +49,9 @@
     background: none;
   }
 }
+
+@media (max-width: 767.99px) {
+  .paginator {
+    margin-bottom: 10px;
+  }
+}

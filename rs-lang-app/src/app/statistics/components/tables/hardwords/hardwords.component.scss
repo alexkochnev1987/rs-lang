@@ -178,3 +178,54 @@
 .translate {
   @include font14;
 }
+
+@media (max-width: 767.99px) {
+  .wrapper{
+    padding: 0;
+    gap: 10px;
+  }
+  .heading-4 {
+    margin: 20px auto 0;
+  }
+  .table-words {
+    border-radius: 0;
+  }
+  .word {
+    @include font12;
+    font-weight: 800;
+    padding-left: 0;
+    width: 74px;
+  }
+  .padding {
+    padding-left: 10px;
+  }
+  .transcription {
+    font-size: 12px;
+    gap: 5px;
+    width: 74px;
+  }
+  .translate {
+    @include font12;
+    width: 74px;
+  }
+  .button-difficult {
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+  }
+  .rows {
+    width: auto;
+    padding: 0 10px;
+    grid-template-columns: 1fr 1fr auto 32px;
+  }
+  .button-ok {
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+  }
+  .speaker {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+}

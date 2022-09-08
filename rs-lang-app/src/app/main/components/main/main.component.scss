@@ -185,6 +185,7 @@ button {
   .heading-3 {
     @include heading4;
     margin-bottom: 0;
+    text-align: center;
   }
   .inner-text {
     display: none;

@@ -67,7 +67,7 @@ export class LevelNavigationComponent
   }
 
   ngAfterViewInit() {
-    this.hoverActions(this.currentLevel);
+    if (!this.isPhone) this.hoverActions(this.currentLevel);
   }
 
   isRegisteredUser(i: number) {
@@ -76,13 +76,16 @@ export class LevelNavigationComponent
   }
 
   hoverActions(selectedLevel: number) {
-    this.levelsContainerWidth = this.levelsContainer.nativeElement.offsetWidth;
-    this.levelsSelectorWidth =
-      this.levelsSelector.get(0)?.nativeElement.offsetWidth;
-    this.setOuterContainer(selectedLevel);
-    this.setLevelsSelectBar(selectedLevel);
-    this.setLevelsBackground();
-    this.setSelectedLevel(this.currentLevel);
+    if (!this.isPhone) {
+      this.levelsContainerWidth =
+        this.levelsContainer.nativeElement.offsetWidth;
+      this.levelsSelectorWidth =
+        this.levelsSelector.get(0)?.nativeElement.offsetWidth;
+      this.setOuterContainer(selectedLevel);
+      this.setLevelsSelectBar(selectedLevel);
+      this.setLevelsBackground();
+      this.setSelectedLevel(this.currentLevel);
+    }
   }
 
   setOuterContainer(selectedLevel: number) {

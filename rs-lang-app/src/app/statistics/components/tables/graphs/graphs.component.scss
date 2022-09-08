@@ -92,3 +92,26 @@
 .table-text {
   @include font14;
 }
+
+@media (max-width: 767.99px) {
+  .statistics-types {
+    flex-direction: column;
+   }
+  .wrapper {
+    padding: 0;
+    gap: 10px;
+  }
+  .statistics-types {
+    margin: 10px;
+    gap: 5px;
+  }
+  .type {
+    line-height: 40px;
+  }
+  .table-heading {
+    padding-right: 10px;
+  }
+  .table {
+    border-radius: 0;
+  }
+}

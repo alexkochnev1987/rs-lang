@@ -2,14 +2,27 @@
   <div class="page" (click)="prevPage()" [class.disabled]="currentPage < 1">
     <
   </div>
-  <ng-container *ngFor="let page of pages; index as i">
-    <div
-      *ngIf="i <= currentPage + 3 && i >= currentPage - 3"
-      class="page"
-      [class.current-page]="i === currentPage"
-      (click)="changePage(i)">
-      {{ i + 1 }}
-    </div>
+  <ng-container *ngIf="!isPhone">
+    <ng-container *ngFor="let page of pages; index as i">
+      <div
+        *ngIf="i <= currentPage + 3 && i >= currentPage - 3"
+        class="page"
+        [class.current-page]="i === currentPage"
+        (click)="changePage(i)">
+        {{ i + 1 }}
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="isPhone">
+    <ng-container *ngFor="let page of pages; index as i">
+      <div
+        *ngIf="i <= currentPage + 2 && i >= currentPage - 2"
+        class="page"
+        [class.current-page]="i === currentPage"
+        (click)="changePage(i)">
+        {{ i + 1 }}
+      </div>
+    </ng-container>
   </ng-container>
   <div
     class="page"

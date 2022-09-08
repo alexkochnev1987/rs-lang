@@ -7,11 +7,17 @@ import { Output, EventEmitter } from '@angular/core';
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss'],
 })
-export class PaginatorComponent {
+export class PaginatorComponent implements OnInit {
+  isPhone = false;
+
   @Input() pages: [any[]] = [[]];
   @Input() currentPage = 0;
   @Output() newItemEvent = new EventEmitter<number>();
   constructor() {}
+
+  ngOnInit(): void {
+    this.checkScreen();
+  }
 
   nextPage() {
     if (this.currentPage < this.pages.length - 1) this.currentPage++;
@@ -30,5 +36,13 @@ export class PaginatorComponent {
 
   addNewItem(value: number) {
     this.newItemEvent.emit(value);
+  }
+  checkScreen() {
+    if (window.visualViewport!.width < 768) {
+      this.isPhone = true;
+    }
+    if (window.visualViewport!.width >= 768) {
+      this.isPhone = false;
+    }
   }
 }
